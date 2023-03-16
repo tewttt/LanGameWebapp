@@ -1,0 +1,177 @@
+.playerGeneral {
+    background-color: green;
+    border: 1px solid gray;
+    box-sizing: border-box;
+    color: red;
+    margin: 10px;
+    padding: 5px;
+    width: 90px;
+    height: 90px;
+    display: flex;
+    flex-flow: column;
+}
+.body {
+    display: flex;
+    flex-flow: column;
+    width: 500px;
+    height: 900px;
+    background-image: linear-gradient(to right, pink, orange);
+    justify-content: center;
+    align-content: center;
+  
+}
+.button {
+    margin: 20px
+}
+
+.field {
+    top: 5px;
+    width: 400px;
+    height: 800px;
+    box-sizing: border-box;
+    border: 1px solid red;
+    color: red;
+    margin: 0px 40px auto;
+    position: absolute;
+}
+.left {
+    display: flex;
+    flex-flow: column;
+    background-color: white;
+    width: 100px;
+    height: 500px;
+    margin: 0px;
+    position: absolute;
+
+
+}
+.right {
+    background-color: white;
+    display: flex;
+    flex-flow: column;
+    position: absolute;
+    right: 0px;
+   
+   
+
+  
+}
+.footer {
+    margin: 5px 30px auto;
+    background-color: green;
+    box-sizing: border-box;
+   
+    width: 400px;
+    height: 100px;
+    top: 750px;
+    position: absolute;
+ 
+    display: flex;
+    color: white
+}
+
+
+.text {
+    color: white;
+}
+.tools {
+    color: red;
+}
+.chat {
+  margin: 10px
+}
+.wallet {
+    margin: 10px
+}
+
+
+@media (min-width: 500px) {
+    .playerGeneral {
+        background-color: green;
+        border: 1px solid gray;
+        box-sizing: border-box;
+        color: red;
+        margin: 10px;
+        padding: 5px;
+        width: 90px;
+        height: 90px;
+        display: flex;
+        flex-flow: column;
+    }
+    .body {
+        display: flex;
+        flex-flow: column;
+        width: 1000px;
+        height: 1000px;
+        background-image: linear-gradient(to right, pink, orange);
+       justify-content: center;
+       align-items: center;
+      
+    }
+    
+    
+    .field {
+       
+        top: 5px;
+        width: 400px;
+        height: 800px;
+        box-sizing: border-box;
+        border: 1px solid red;
+        color: red;
+        margin: 20px 20px auto;
+        position:absolute;
+        
+    }
+    .left {
+        display: flex;
+        flex-flow: column;
+        background-color: white;
+        width: 100px;
+        height: 500px;
+        margin: 0px;
+        position: absolute;
+        left: 30px;
+    
+    
+    }
+    .right {
+        background-color: white;
+        display: flex;
+        flex-flow: column;
+        position: absolute;
+        right: 20px;
+        
+       
+       
+    
+      
+    }
+    .footer {
+        margin: 50px 30px auto;
+        background-color: green;
+        box-sizing: border-box;
+       
+        width: 400px;
+        height: 100px;
+        top: 750px;
+        position: absolute;
+        
+     
+        display: flex;
+        color: white
+    }
+    
+    
+    .text {
+        color: white;
+    }
+    .tools {
+        color: red;
+    }
+    .chat {
+      margin: 10px
+    }
+    .wallet {
+        margin: 10px
+    }
+}

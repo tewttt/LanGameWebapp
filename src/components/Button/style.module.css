@@ -1,0 +1,42 @@
+.Button {
+    background-color: red;
+    border: 1px solid red;
+    
+    outline: none;
+    cursor: pointer;
+    font: inherit;
+    padding: 10px;
+    margin: 10px;
+   transition: color 0.5s;
+  }
+  
+  .Button:first-of-type {
+    margin-left: 0;
+    padding-left: 0;
+  }
+  
+  .Button:disabled {
+    color: #ccc;
+    cursor: not-allowed;
+  }
+  
+  .Success {
+    color: #5c9210;
+  }
+  
+  .Danger {
+    color: #944317;
+  }
+  .Cont {
+    color: blue;
+  }
+  
+  
+  .Button:hover {
+    background-color: #5c9210;
+  }
+  .Button:active,
+  .Button.active {
+    color: #00b4fc;
+    font-weight: bold; 
+  }
