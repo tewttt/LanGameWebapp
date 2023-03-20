@@ -1,31 +1,57 @@
-import React, {useState, useEffect, useContext} from "react";
+import React, { useContext, useState} from "react";
 import css from "./style.module.css";
 import Button from "../../components/Button";
 import FetchLesssonContext  from "../../context/FetchLessonContext";
-import Lesson from "../../components/Lesson";
+
+import LessonList from "../../components/LessonList";
+import Search from "../../components/Search";
 
 
 const LessonPage = (props) => {
     const ctx = useContext(FetchLesssonContext);
+    const [searchField, setSearchField] = useState();
+   
+    const onsearchChanged = (event) => {
+        setSearchField ( event.target.value);
+    };
+   
+    
+   
     
     const game = () => {
         props.history.push("/");
-
-   
    };
-//    console.log(ctx.state.lesson[1])
+   const addlesson = () => {
+    props.history.push("/addlesson");
+}; 
+console.log(searchField)
+console.log(ctx.state.lesson);
+
+
+
+
+const filteredLesson = ctx.state.lesson.filter( el => el.name.includes(searchField));
+// const filteredLesson = lesson.filter( el => el.name().includes(searchField));
     return (
 
-        <div className={css.text}>
-            { ctx.state.lesson.map(el => <Lesson key={el[0]} Lesson={el[1]}/>)}
+        <div className={css.lessonPage}>
+            hailtiin utga : {searchField}
 
-            {/* hicheel{state.lesson} */}
-            {/* {state.lesson.map((el) => (
-                <Lesson key={el[0]} lesson={el[1]}/>
-            ))} */}
+            <div>
+                <Button daragdsan={game} text="Тоглох"/>
+                <Button daragdsan={addlesson} text="Хичээл нэмэх"/>
+                Lesson
+            </div>
+            <Search 
+            onSearch={onsearchChanged}
+            />
+            <LessonList lessons={ctx.state.lesson}/>
+            {/* <LessonList lessons={filteredLesson}/> */}
 
-             <Button daragdsan={game} text="Тоглох"/>
-            Lesson
+             {/* { ctx.state.lesson.map(el => <Lesson key={el[0]} Lesson={el[1]}/>)} */}
+
+           
+            
         </div>
     )
 }

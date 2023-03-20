@@ -1,14 +1,15 @@
 import React from "react";
+import css from "./style.module.css";
 
 const Lesson = props => {
     return (
-        <div>
+        <div className={css.lesson}>
             <p><strong>хичээл</strong></p>
             <p>
-                <strong>exam : </strong>{props.Lesson.exam} , 
-                <strong>grammar : </strong> {props.Lesson.grammar},
-                <strong>image </strong> {props.Lesson.image},
-                <strong>language</strong> {props.Lesson.language},
+                <strong>exam : </strong>{props.lesson.exam} , 
+                <strong>grammar : </strong> {props.lesson.grammar},
+                {/* <strong>image </strong> {props.lesson.image}, */}
+                <strong>language</strong> {props.lesson.language},
             </p>
         </div>
     )

@@ -1,6 +1,6 @@
 import React from "react";
 import css from "./style.module.css";
-import Lesson from '../LessonPage';
+
 
 
 import Button from "../../components/Button"
@@ -10,6 +10,13 @@ const Game = (props) => {
    const lesson = () => {
         props.history.push("/lesson");
    };
+   const addlesson = () => {
+    props.history.push("/addlesson");
+    };
+    const quiz = () => {
+        props.history.push("/quiz");
+    };
+
 //    console.log(props)
     return (
         <div className={css.body}>
@@ -59,7 +66,8 @@ const Game = (props) => {
                 <div className={css.footer}>
                     <div className={css.tools}>tools</div>
                     <Button daragdsan={lesson} text="Хичээл үзэх"/>
-                    
+                    <Button daragdsan={addlesson} text="Хичээл нэмэх"/>
+                    <Button daragdsan={quiz} text="Quiz"/>
 
                     
                     <div className={css.chat}>chat</div>

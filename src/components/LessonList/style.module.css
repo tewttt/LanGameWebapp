@@ -1,0 +1,21 @@
+.LessonList {
+   
+    margin: 30px ;
+    padding: 0px;
+    display: flex;
+   flex-direction: column;
+}
+
+@media (min-width: 500px) {
+    .LessonList {
+   
+      
+        width: 80%;
+        justify-content: center;
+        margin: 10px auto ;
+        padding: 20px;
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-gap: 20px
+    }
+}
