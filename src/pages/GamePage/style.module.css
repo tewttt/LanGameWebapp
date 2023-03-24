@@ -1,5 +1,5 @@
 .playerGeneral {
-    background-color: green;
+   
     border: 1px solid gray;
     box-sizing: border-box;
     color: red;
@@ -12,12 +12,12 @@
 }
 .body {
     display: flex;
-    flex-flow: column;
-    width: 500px;
-    height: 900px;
+    flex-flow: row;
+   
     background-image: linear-gradient(to right, pink, orange);
     justify-content: center;
     align-content: center;
+    margin: auto;
   
 }
 .button {
@@ -37,7 +37,7 @@
 .left {
     display: flex;
     flex-flow: column;
-    background-color: white;
+   
     width: 100px;
     height: 500px;
     margin: 0px;
@@ -46,19 +46,16 @@
 
 }
 .right {
-    background-color: white;
+   
     display: flex;
     flex-flow: column;
     position: absolute;
     right: 0px;
-   
-   
-
   
 }
 .footer {
     margin: 5px 30px auto;
-    background-color: green;
+   
     box-sizing: border-box;
    
     width: 400px;
@@ -87,86 +84,140 @@
 
 @media (min-width: 500px) {
     .playerGeneral {
-        background-color: green;
-        border: 1px solid gray;
+        background-color: pink;
+        border-radius: 60px;
+        border: 1px solid pink;
         box-sizing: border-box;
         color: red;
-        margin: 10px;
-        padding: 5px;
-        width: 90px;
-        height: 90px;
+        margin: 10px 0px auto;
+        padding: 0px;
+        width: 100px;
+        height: 100px;
         display: flex;
-        flex-flow: column;
+        flex-flow: row;
+        justify-content: center;
+        align-items: center;
     }
+    .playerInner{
+      
+        
+    }
+    .playerText {
+        color: white;
+        background-color: blue;
+        margin: 10px;
+        top: 0px
+       
+    }
+    .photo {
+        width: 50px;
+        height: 50px;
+        background-color: white;
+    }
+    
     .body {
         display: flex;
-        flex-flow: column;
+        flex-flow: row;
         width: 1000px;
-        height: 1000px;
+        height: 900px;
+        box-sizing: border-box;
+        margin: 5px auto;
+        border: 3px solid white;
         background-image: linear-gradient(to right, pink, orange);
-       justify-content: center;
-       align-items: center;
+      
       
     }
     
     
     .field {
-       
-        top: 5px;
         width: 400px;
-        height: 800px;
+        height: 650px;
         box-sizing: border-box;
         border: 1px solid red;
         color: red;
-        margin: 20px 20px auto;
-        position:absolute;
+        margin:  0;
+        padding: 10px;
+        position: relative;
         
     }
     .left {
         display: flex;
         flex-flow: column;
-        background-color: white;
+       
         width: 100px;
         height: 500px;
         margin: 0px;
         position: absolute;
-        left: 30px;
-    
-    
+
+       
+        left: 450px;
     }
     .right {
-        background-color: white;
         display: flex;
         flex-flow: column;
-        position: absolute;
-        right: 20px;
+       
+        width: 120px;
+        height: 500px;
+        margin: 0px;
+        position: absolute; 
         
+       right: 450px;
        
-       
-    
+      
       
     }
-    .footer {
-        margin: 50px 30px auto;
-        background-color: green;
-        box-sizing: border-box;
-       
-        width: 400px;
-        height: 100px;
-        top: 750px;
-        position: absolute;
-        
-     
+    .footer1 {
         display: flex;
-        color: white
+        flex-flow: row;
+        position: absolute;
+        box-sizing: border-box;
+        border: 1px solid red;
+        bottom: 110px;
+        width: 800px;
+        justify-content:space-between;
+        align-items: center;
+        
+    }
+    .f1 {
+        display: flex;
+        flex-flow: row;
+        justify-content: center;
+        align-items: center;
     }
     
-    
+    .footer2 {
+        display: flex;
+        flex-flow: row;
+        position: absolute;
+        box-sizing: border-box;
+        border: 1px solid red;
+        bottom: 20px;
+        height: 70px;
+        width: 800px;
+        justify-content: space-between;
+    }
     .text {
         color: white;
     }
+    .buttons{
+        display: flex;
+        flex-flow: row;
+    }
+    .baseTools{
+        display: flex;
+        flex-flow: row;
+        justify-content:space-between;
+        align-items: center;
+        padding: 10px;
+        margin: 10px;
+    }
     .tools {
         color: red;
+        width: 50px;
+        height: 50px;
+        background-color: white;
+        margin: 10px;
+        
     }
     .chat {
       margin: 10px
