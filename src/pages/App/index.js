@@ -4,22 +4,33 @@ import {Switch , Route} from "react-router-dom";
 import LessonPage from "../LessonPage";
 import AddLesson from "../AddLessonPage";
 import Game from "../GamePage"
-import { LesssonStore } from "../../context/FetchLessonContext";
+import { FetchLesssonStore } from "../../context/FetchLessonContext";
 import Quiz from "../quiz";
+import LudoGame from "../LudoGame";
 
+import {SendLessonStore} from "../../context/sendLessonContext";
 
 const App = () => {
     return (
         <div className={css.body}>
-          <LesssonStore>
+        <FetchLesssonStore>
+            <SendLessonStore>           
+         
             <Switch>
+            <Route path="/ludogame" component={LudoGame} />
                     <Route path="/lesson" component={LessonPage}/>
+                  
                     <Route path="/addlesson" component={AddLesson}/>
+               
                     <Route path="/quiz" component={Quiz}/>
 
                     <Route path="/" component={Game}/>
+                   
             </Switch>
-          </LesssonStore>
+            </SendLessonStore>
+            </FetchLesssonStore>
+         
+         
         </div>
     )
 }

@@ -29,6 +29,9 @@ const clickDice = () => {
     const quiz = () => {
         props.history.push("/quiz");
     };
+    const ludogame = () => {
+        props.history.push("/ludogame");
+    };
 
 //    console.log(props)
     return (
@@ -128,6 +131,7 @@ const clickDice = () => {
                         <Button daragdsan={lesson} text="Хичээл үзэх"/>
                         <Button daragdsan={addlesson} text="Хичээл нэмэх"/>
                         <Button daragdsan={quiz} text="Quiz"/>
+                        <Button daragdsan={ludogame} text="Ludogame"/>
                     </div>
                 </div>
            

@@ -13,16 +13,16 @@ import MuiAutoComplete from "../../components/test/autocomplete";
 import Saytan from "../../components/test/saytanQuiz";
 import Form from "../../components/test/form";
 import License from "../../components/test/licenceCheck";
-import AddQuestion from "../../components/addQuestion";
+
 const Quiz = () => {
     
 
     return (
        <div >
-        <AddQuestion/>
+       
         {/* <License/> */}
         {/* <Form/> */}
-        {/* <Saytan/> */}
+        <Saytan/>
         {/* <MuiAutoComplete/> */}
        {/* <MuiRating/> */}
         {/* <MuiSwitch/>  */}

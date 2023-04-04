@@ -10,7 +10,7 @@ const initialState = {
    
 };
 
-export const LesssonStore = (props) => {
+export const FetchLesssonStore = (props) => {
     const [state, setState] = useState(initialState);
 
     const onsearchChanged = event => {

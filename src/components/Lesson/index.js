@@ -2,12 +2,13 @@ import React from "react";
 import css from "./style.module.css";
 
 const Lesson = props => {
+    console.log(props.lesson)
     return (
         <div className={css.lesson}>
-            <p><strong>хичээлийн нэр {props.lesson.name}</strong></p>
+            <p><strong>хичээлийн нэр {props.lesson.base.name}</strong></p>
             <p>
                 {/* <img src={url}/> */}
-                <strong>language : </strong>{props.lesson.language} <br/> ,
+                <strong>language : </strong> <br/> ,
                 
                 <strong>level : </strong>{props.lesson.level}  <br/>,
                 <strong>lessonNumber : </strong>{props.lesson.lessonNumber}  <br/>,

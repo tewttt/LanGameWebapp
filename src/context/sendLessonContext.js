@@ -1,31 +1,57 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import axios from "../axios";
 
-const SendLessonContext = React.createContext();
+const SendLessonContext = React.createContext("kjjkj");
 
-export const LessonStore = (props) => {
-    const sendLesson = (NewLesson) => {
+export const SendLessonStore = (props) => {
+    const [state, setState] = useState({
+        base: [],
+        translate: [],
+        exam: []
+    });
+   
 
-        axios
-            .post("addLesson.json", NewLesson)
-          
-            .then(result => {
-                alert("Амжилттай илгээлээ"); 
-                console.log(result.data);
-                
+    const saveBase = (base) => {
+        setState({ ... state, base: base});
+        // console.log(state.base)
+    };
+    const saveTranslate = (addtranslate) => {
+        setState({ ... state, translate: addtranslate});
+        // console.log(state.translate)
+    };
+    const saveExam = (addQuestions) => {
+        setState({ ... state, exam: addQuestions}); 
+       // console.log(state.exam)
+    };
+    
+
+   
+    const sendLesson = () => {
+            axios
+                .post("addLesson.json", state)
               
-            })
-            .catch(err => {
-                alert("Илгээхэд алдаа гарлаа");
-                console.log(err.response.data)  //серверээс ирж байгаа алдаа
-            });
-         
+                .then(result => {
+                    alert("Амжилттай илгээлээ"); 
+                    // console.log(result.data); 
+                    
+                  
+                })
+                .catch(err => {
+                    alert("Илгээхэд алдаа гарлаа");
+                    console.log(err.response.data)  //серверээс ирж байгаа алдаа
+                })
+           
     }
+   
 
     return (
         <SendLessonContext.Provider 
             value={{
-                sendLesson
+                sendLesson,
+                state,
+                saveBase,
+                saveTranslate,
+                saveExam
             }}>
             {props.children}
         </SendLessonContext.Provider>

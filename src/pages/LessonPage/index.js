@@ -6,11 +6,12 @@ import Choice from "../../components/Choice";
 import LessonList from "../../components/LessonList";
 import Search from "../../components/Search";
 
-
+// https://www.youtube.com/watch?v=50vgpBDhEkY&list=PLEVTJcDnFDm9lpEEHTftRa9JSRV4jY_p9&index=12  
+// Quiz app ийн заавар
 const LessonPage = (props) => {
     const ctx = useContext(FetchLesssonContext);
     const [searchField, setSearchField] = useState();
-   
+   console.log(ctx.state)
     const onsearchChanged = (event) => {
         setSearchField ( event.target.value);
     };
@@ -25,7 +26,7 @@ const LessonPage = (props) => {
     props.history.push("/addlesson");
 }; 
 // console.log(searchField)
-console.log(ctx.state.lesson);
+// console.log(ctx.state.lesson);
 
 
 
