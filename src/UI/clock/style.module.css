@@ -1,0 +1,21 @@
+.body {
+    color: white;
+    display: flex;
+    flex-direction: row;
+    width: 200px;
+}
+.data {
+    display: flex;
+    flex-direction: row;
+    background-color: pink;
+    
+}
+.text {
+    background-color: red;
+    display: flex;
+    flex-direction: column;
+   
+  
+   
+
+}

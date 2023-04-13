@@ -1,0 +1,14 @@
+.body{
+    display: flex;
+    flex-direction: column;
+}
+.answer{
+    margin:10px;
+    display: flex;
+    flex-direction: row;
+    background-color: pink;
+}
+.answers {
+    display: flex;
+    flex-direction: column;
+}

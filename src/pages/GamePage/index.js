@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import css from "./style.module.css";
-
+import Toolbar from "../../components/Toolbar";
 
 
 import Button from "../../components/Button"
@@ -20,22 +20,24 @@ const clickDice = () => {
 // console.log("shoo" + dice)
 
 
-   const lesson = () => {
-        props.history.push("/lesson");
-   };
-   const addlesson = () => {
-    props.history.push("/addlesson");
-    };
+ 
+
     const quiz = () => {
         props.history.push("/quiz");
     };
     const ludogame = () => {
         props.history.push("/ludogame");
     };
+    const wallet = () => {
+        props.history.push("/wallet");
+    };
 
 //    console.log(props)
     return (
+        <div style={{color: "white"}}>
+            <Toolbar/>
         <div className={css.body}>
+            
             <div className={css.left}>
                 <div className={css.playerGeneral}>
                    <div>
@@ -59,7 +61,6 @@ const clickDice = () => {
 
                 
             </div>
-
 
             <div className={css.right}>
                 
@@ -89,16 +90,11 @@ const clickDice = () => {
                     <Button text="Шоо хаях" btn="Danger"/>
                 </div>
             </div>
-           
-        
-
-          
+                    
             <div>
                 <div className={css.field}>талбар</div>
             </div>
-
-          
-                
+     
                 <div className={css.footer1}>
                     <div className={css.f1}>
                         <div className={css.playerGeneral}>
@@ -128,14 +124,14 @@ const clickDice = () => {
                         <div className={css.wallet}>wallet</div>
                     </div>
                     <div className={css.buttons}>
-                        <Button daragdsan={lesson} text="Хичээл үзэх"/>
-                        <Button daragdsan={addlesson} text="Хичээл нэмэх"/>
+                       
+                      
                         <Button daragdsan={quiz} text="Quiz"/>
                         <Button daragdsan={ludogame} text="Ludogame"/>
+                        <Button daragdsan={wallet} text="Хэтэвч"/>
                     </div>
-                </div>
-           
-           
+                </div>           
+        </div>
         </div>
 
     )

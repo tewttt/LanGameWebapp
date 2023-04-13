@@ -16,11 +16,29 @@
     background-color: #580E0E;
 }
 img {
-    width: 100px;
-    height: 100px;
+    width: 30px;
+    height: 30px;
 }
 
 @media (min-width: 500px) {
+    .star {
+        color: rgb(241, 161, 12);
+    }
+    .jump {
+        background-color: rgb(87, 190, 242);
+        border-radius: 10px;
+        width: 180px;
+        height: 40px;
+       
+       
+    }
+    .link {
+        font-size: 30px;
+        border: none;
+        outline: none;
+        color: white;
+       
+    }
     .lesson {
         display: flex;
         flex-direction: column;
@@ -28,10 +46,12 @@ img {
         border: 1px solid gray;
         margin: 20px;
         border-radius: 5px;
-        width: 400px;
+       
         text-align: center;
-        
-        height: 400px;
+        justify-content: space-between;
+        align-items: center;
+        height: 250px;
+        width: 250px;
         padding: 10px;
         cursor: pointer;
         transition: transform 0.25s ease-out;

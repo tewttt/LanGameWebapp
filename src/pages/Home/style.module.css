@@ -1,0 +1,20 @@
+.body {
+    color: white;
+    display: flex;
+    flex-direction: column;
+   justify-content: center;
+   align-items: center;
+   
+  
+  
+}
+.login {
+    background-color: #383030; 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 800px;
+}
+input{
+    width: 400px;
+}

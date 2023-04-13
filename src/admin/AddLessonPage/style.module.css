@@ -1,0 +1,39 @@
+
+.body {
+   
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    
+    margin: auto;
+   
+}
+.content {
+  
+   
+    
+}
+.right {
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    right: 50px;
+}
+
+Button {  
+    text-transform: none;
+     color: #4285f4;
+      font-size: 18px;
+       margin: 12px;
+        font-weight: 600
+}
+Button:active{
+    font-weight: 600;
+    color:red !important
+}
+
+

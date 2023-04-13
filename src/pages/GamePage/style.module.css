@@ -12,12 +12,12 @@
 }
 .body {
     display: flex;
-    flex-flow: row;
+    flex-flow: column;
    
-    background-image: linear-gradient(to right, pink, orange);
+    background-image: linear-gradient(to right, #6ab04c, orange);
     justify-content: center;
     align-content: center;
-    margin: auto;
+   
   
 }
 .button {
@@ -122,8 +122,8 @@
         height: 900px;
         box-sizing: border-box;
         margin: 5px auto;
-        border: 3px solid white;
-        background-image: linear-gradient(to right, pink, orange);
+      
+        background-image: linear-gradient(to right,#166461, #6ab04c, #badc58,#6ab04c, #166461);
       
       
     }

@@ -1,0 +1,39 @@
+
+.body {
+   
+  
+  
+    display: flex;
+   flex-direction: row;
+   
+    
+}
+.box {
+    margin: 10px;
+font-size: 26px;
+    background-color: red;
+    width: 200px;
+    height: 70px;
+    border-radius: 5px;
+  
+    text-align: center;
+}
+.box:hover,
+.box:active {
+    background-color: green;
+}
+.head {
+    display: flex;
+    flex-direction: column;
+   
+}
+.adminMenuItem{
+    display: flex;
+    flex-direction: column;
+    margin: auto
+}
+li {
+    border: none;
+    color: white;
+    background-color: none;
+}
