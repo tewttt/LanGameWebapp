@@ -7,9 +7,10 @@ export const SendLessonStore = (props) => {
     const [state, setState] = useState({
         base: [],
         translate: [],
-        exam: []
+        exam: [],
+        loading: false
     });
-   
+    
 
     const saveBase = (base) => {
         setState({ ... state, base: base});
@@ -27,18 +28,28 @@ export const SendLessonStore = (props) => {
 
    
     const sendLesson = () => {
+        const lesson = {
+            base: state.base,
+            translate: state.translate,
+            exam: state.exam
+        }
+        setState({ ...state, loading: true})
             axios
-                .post("addLesson.json", state)
+                .post("addLesson.json", lesson)
               
                 .then(result => {
                     alert("Амжилттай илгээлээ"); 
-                    // console.log(result.data); 
+                    console.log("amjilttai"); 
+                    
                     
                   
                 })
                 .catch(err => {
                     alert("Илгээхэд алдаа гарлаа");
                     console.log(err.response.data)  //серверээс ирж байгаа алдаа
+                })
+                .finally(() => {
+                    setState({...state, loading: false})
                 })
            
     }

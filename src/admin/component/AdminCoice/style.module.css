@@ -1,0 +1,54 @@
+
+.tab {
+    color:rgb(16, 151, 214);
+    font-size: 30px;
+    padding: 5px;
+    transition: transform ;
+    cursor: pointer;
+    transition: transform 0.25s ease-out;
+    border: 1px solid blue;
+    margin: 10px
+}
+
+
+.tab:hover {
+transform: scale(1.05);
+color: red;
+}
+
+.activeTab {
+    color:red
+}
+.language {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.levelbody {
+    display: flex;
+}
+.level {
+ display: flex;
+ flex-direction: column;
+ align-items: center;
+ justify-content: center;
+}
+.box{
+    color:rgb(16, 151, 214);
+    font-size: 30px;
+    padding: 5px;
+    transition: transform ;
+    cursor: pointer;
+    transition: transform 0.25s ease-out;
+    border: 1px solid blue;
+    margin: 10px
+}
+.body {
+    width: 90%;
+margin: 10px 10px auto;
+
+padding: 5px;
+
+}

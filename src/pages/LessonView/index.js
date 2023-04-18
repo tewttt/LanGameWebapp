@@ -5,12 +5,15 @@ import FetchLessonContext from "../../context/FetchLessonContext";
 import photo from "../../../src/assets/img/1.jpg";
 import introVideo from "../../../src/assets/video/1.mp4";
 import "react-html5video/dist/styles.css";
-import ReactVideoPlayer from "../../components/ReactVideoPlayer";
+
 import { useParams } from "react-router-dom";
-import Toolbar from "../../components/Toolbar";
+
 import StarIcon from '@mui/icons-material/Star';
 import TranslateView from "../../components/view/translateView";
 import ExamView from "../../components/view/examView";
+import ToolSidebar from "../../components/ToolSidebar";
+
+
 
 
 const LessonView = (props) => {
@@ -20,21 +23,13 @@ const LessonView = (props) => {
     const ctx = useContext(FetchLessonContext)
     const {id} = useParams()
     const lessonId = ctx.state.lesson.find(item => item[0] ===id );
-    // const view= lessonId.find(item => item[1])
-    // console.log(lessonId)
-    // console.log(lessonId[1])
-    // console.log(lessonId[1].base.video)
-    // console.log(lessonId[1].translate)
-
-    // {props.lessons.map(el => (
-    //     <Lesson key={el[0]} lesson={el}/>
-    // ))}
+  
     
   
  
     return (
         <div className={css.body}> 
-            <Toolbar/>
+            <ToolSidebar/>
             <div className={css.head}>
                 <div className={css.text}>{}</div>
                 <div className={css.text}>Түвшин: {lessonId[1].base.level}</div>
@@ -50,7 +45,7 @@ const LessonView = (props) => {
                     on>
                         <source
                         //  src={lessonId[1].base.video}
-                        // src={introVideo}
+                        src={introVideo}
 
                         type="video/webm"
                         />

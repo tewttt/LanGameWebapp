@@ -1,0 +1,40 @@
+.Sidebar {
+    background-color:  #383030;
+    color: white;
+    width: 280px;
+    position: fixed;
+  
+    top:0;
+    right: 0;
+    height: 100%;
+    z-index: 200;
+    padding: 32px 16px;
+    transition: transform 0.3s ease-out;
+}
+.logo {
+    height: 15%;
+}
+.Open {
+    transform: translateX(0);
+  }
+  
+  .Close {
+    transform: translateX(100%);
+  }
+
+@media (min-width: 500px) {  
+    .Sidebar {
+        background-color:  #383030;
+        color: white;
+        width: 180px;
+        position: fixed;
+        
+        top:0;
+        right: 0;
+        height: 20%;
+        z-index: 200;
+        padding: 32px 16px;
+        transition: transform 0.3s ease-out;
+       
+        }
+}

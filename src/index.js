@@ -6,11 +6,13 @@ import App from './pages/App';
 import reportWebVitals from './reportWebVitals';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import {UserStore} from './context/UserContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <BrowserRouter>
+    <UserStore>
       <ToastContainer
         position='top-right'
         autoClose={3000}
@@ -21,6 +23,7 @@ root.render(
 
       </ToastContainer>
     <App />
+    </UserStore>
     </BrowserRouter>
   </React.StrictMode>
 );

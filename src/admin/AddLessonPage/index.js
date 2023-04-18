@@ -4,12 +4,12 @@ import { Switch, Route, Link} from "react-router-dom";
 import {Button} from "@mui/material";
 import ButtonCmp from "../../components/Button";
 import axios from "../../axios"
-import LessonBase from "../../components/add/LessonBase";
-import Exam from "../../components/add/Exam";
-import Translate from "../../components/add/Translate";
+import LessonBase from "../../admin/component/LessonBase";
+import Exam from "../../admin/component/Exam";
+import Translate from "../component/Translate";
 import SendLessonContext from "../../context/sendLessonContext";
 import { useHistory } from "react-router-dom";
-// import LessonBase from "../../components/LessonBase"
+
 
 const AddLesson = (props) => {
     const history = useHistory();
@@ -55,12 +55,11 @@ const AddLesson = (props) => {
 
                
             </div>
-            <div className={css.right}>
+            {/* <div className={css.right}>
             
-            <ButtonCmp daragdsan={lesson} text="Хичээл үзэх"/>
-            <ButtonCmp daragdsan={game} text="Тоглох"/>
+        
             <ButtonCmp text="ИЛГЭЭХ" daragdsan={SendLessonCtx.sendLesson}/> 
-             </div>
+             </div> */}
         </div>
     )
 }

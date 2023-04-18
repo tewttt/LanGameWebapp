@@ -1,11 +1,14 @@
 import React, {useState} from "react";
 import css from "./style.module.css";
-import Toolbar from "../../components/Toolbar";
-
-
 import Button from "../../components/Button"
+import ToolSidebar from "../../components/ToolSidebar";
 
 const Game = (props) => {
+    const [showSidebar, setShowSidebar] = useState(false);
+    const toggleSidebar = () => {
+        setShowSidebar(!showSidebar)
+    }
+   
     // Тоглогчын ээлжийг хадгалах хувьсагч
 
     var activePlayer = 1;
@@ -35,7 +38,8 @@ const clickDice = () => {
 //    console.log(props)
     return (
         <div style={{color: "white"}}>
-            <Toolbar/>
+            <ToolSidebar/>
+      
         <div className={css.body}>
             
             <div className={css.left}>

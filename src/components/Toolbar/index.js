@@ -1,9 +1,12 @@
-import React , {useRef} from "react";
+import React , {useRef, useState} from "react";
 import css from "./style.module.css";
 import { useHistory } from "react-router-dom";
 import logo from "../../assets/img/1.jpg";
 import { NavLink, Link} from "react-router-dom";
 import { useEffect } from "react";
+import Logo from "../General/Logo";
+import Menu from "../Menu";
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 
 // const nav_Link = [
@@ -18,6 +21,8 @@ import { useEffect } from "react";
 
 // ]
 const Toolbar = (props) => {
+ 
+  
     const headerRef = useRef(null)
     const stickyHeaderFunc = () => {
         window.addEventListener("scroll", () => {
@@ -44,37 +49,15 @@ const Toolbar = (props) => {
     return (
        
             <div className={css.body} ref={headerRef}> 
-                <div className={css.logo}>
-                    <img src={logo} alt="logo"/>
-                    <div>Language Race</div>
-                </div>
-
+             <Logo/>
                 <div className={css.meduim}>
-                    {/* {
-                        nav_Link.map((item,index )=> (
-                            <li className={css.nav} key={index}>
-                                <NavLink to={item.path} className={(nav) => nav.isActive ? "nav_active": ""}>{item.display}</NavLink>
-                            </li>
-                        ))
-                    } */}
 
-                <div className={css.btn} onClick={game}>
-                    Тоглох
-                </div>
-                <div className={css.btn} onClick={view}>
-                    Хичээл
-                </div>
+                    <div className={css.btn} onClick={game}>Тоглох </div>
+                    <div className={css.btn} onClick={view}>Хичээл</div>
 
                 </div>
 
-               <div className={css.account}>
-                    {/* {
-                        currentUser ? (
-                            <div><Link to="/">Гарах</Link></div>
-                        ) : ""
-                    } */}
-                    <img src={logo} alt="account"/>
-               </div>
+               <AccountCircleIcon onClick={props.toggleSidebar}/>
             </div>
        
     )

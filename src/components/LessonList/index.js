@@ -13,7 +13,6 @@ const LessonList = (props) => {
             ))}
 
             {/* {props.lessons.map(el => (
-                <Lesson key={el[0]} lesson={el[1]}/>
                
             ))} */}
         </div>

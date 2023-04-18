@@ -1,6 +1,6 @@
 .Button {
     background-color: red;
-    border: 1px solid red;
+  
     position: relative;
     outline: none;
     cursor: pointer;
@@ -23,14 +23,14 @@
   }
   
   .Success {
-    color: #5c9210;
+    background-color: #5c9210;
   }
   
   .Danger {
     color: #944317;
   }
   .Cont {
-    color: blue;
+    background-color: rgb(62, 176, 242);
   }
   
   
