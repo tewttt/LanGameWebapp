@@ -84,9 +84,9 @@ const Choice = () => {
                     <div className={css.tab} onClick={() => setChLevel("A1")}> A1</div>
                     <div className={css.tab} onClick={() => setChLevel("A2")}> A2</div>
                     <div className={css.tab} onClick={() => setChLevel("B1")}> B1</div>
-                    <div className={css.box} onClick={() => setChLevel("B1add")}> B1+</div>
-                    <div className={css.box} onClick={() => setChLevel("B2")}> B2</div>
-                    <div className={css.box} onClick={() => setChLevel("B2add")}> B2+</div>
+                    <div className={css.tab} onClick={() => setChLevel("B1add")}> B1+</div>
+                    <div className={css.tab} onClick={() => setChLevel("B2")}> B2</div>
+                    <div className={css.tab} onClick={() => setChLevel("B2add")}> B2+</div>
                 </div>
             </div >
             

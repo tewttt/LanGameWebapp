@@ -2,6 +2,7 @@ import React, {useState} from "react";
 import css from "./style.module.css";
 import Button from "../../components/Button"
 import ToolSidebar from "../../components/ToolSidebar";
+import AddLesson from "../../admin/AddLessonPage";
 
 const Game = (props) => {
     const [showSidebar, setShowSidebar] = useState(false);
@@ -33,6 +34,9 @@ const clickDice = () => {
     };
     const wallet = () => {
         props.history.push("/wallet");
+    };
+    const addlesson = () => {
+        props.history.push("/addlesson");
     };
 
 //    console.log(props)
@@ -133,6 +137,7 @@ const clickDice = () => {
                         <Button daragdsan={quiz} text="Quiz"/>
                         <Button daragdsan={ludogame} text="Ludogame"/>
                         <Button daragdsan={wallet} text="Хэтэвч"/>
+                        <Button daragdsan={addlesson} text="hicheel nem"/>
                     </div>
                 </div>           
         </div>

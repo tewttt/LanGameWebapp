@@ -8,7 +8,7 @@ import AdminChoice from "../component/AdminCoice";
 
 const AllLesson = () => {
     const ctx = useContext(FetchLessonContext);
-    console.log(ctx.state.lesson)
+    // console.log(ctx.state.lesson)
     return (
         <div style={{color: "white"}}>
         <AdminChoice/>

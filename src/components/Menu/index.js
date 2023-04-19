@@ -13,13 +13,21 @@ const Menu = () => {
                 {ctx.state.userId ? 
                 (
                 <Fragment>
-               
+                <Menuitem link="/dashboard">Admin</Menuitem> 
                
                 <Menuitem link="/">Гарах</Menuitem> 
+               
+               
                 </Fragment>
-                )
-                 : ( <Menuitem active link="/">Нэвтрэх</Menuitem>)}
-           
+                ) : ( 
+                <Fragment>
+                <Menuitem active link="/">Нэвтрэх</Menuitem>
+                <Menuitem active link="/signup">Бүртгүүлэх</Menuitem>
+                </Fragment>
+                )}
+
+
+              
                 
            
             </ul>

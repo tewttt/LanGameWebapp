@@ -12,7 +12,9 @@ import Button from "../../../components/Button";
 const AdminLesson = props => {
     
     const history = useHistory();
-  
+    const remove = () => {
+        console.log("delete")
+    }
 
     
     const view = () => {
@@ -40,7 +42,7 @@ const AdminLesson = props => {
             
          
             <div className={css.jump} onClick={view}>Үзэх</div>
-            <Button btn="Danger" text="Устгах"/>
+            <Button daragdsan={remove} btn="Danger" text="Устгах"/>
             <Button btn="Success" text="Засах"/>
           
            

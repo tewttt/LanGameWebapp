@@ -7,7 +7,7 @@ import Game from "../GamePage"
 import { FetchLesssonStore } from "../../context/FetchLessonContext";
 import Quiz from "../quiz";
 import LudoGame from "../LudoGame";
-import Admin from "../../admin/AdminNav";
+
 import {SendLessonStore} from "../../context/sendLessonContext";
 import Payment from "../Payment";
 import LessonView from "../LessonView";
@@ -17,11 +17,12 @@ import Dashboard from "../../admin/Dashboard";
 import UserContext from "../../context/UserContext";
 import { useContext, useEffect } from "react";
 import Logout from "../../components/Logout";
+import AddLesson from "../../admin/AddLessonPage";
 
 const App = () => {
     
 const ctx = useContext(UserContext);
-console.log(ctx.logout)
+// console.log(ctx.logout)
 
 // useEffect(() => {
 //     const token = localStorage.getItem("token");
@@ -35,37 +36,27 @@ console.log(ctx.logout)
 //         ctx.loginUserSucces(token, userId, expireDate, refreshToken);
     
 //         // Token huchingui bolohod uldej baigaa hugatsaag tootsoolj
-//         // Ter hugatsaanii daraa avtomataar logout hiine
-//         ctx.autoRenewTokenAfterMillisec(
-//           expireDate.getTime() - new Date().getTime()
-//         );
-//       } else {
-//         // Token hugatsaa n duussan bainaa, logout hiine
-//         ctx.logout();
-//         ctx.autoRenewTokenAfterMillisec(3600000);
-//       }
-//     }
-//   }, []);
-    return (
-        <div className={css.body}>
-            userid: {ctx.state.userId }
+//         // Ter hugatsaanii daraa avtomataar logout hinpm 
+return (
+<div style={{color: "red"}}>
+           
         
         <FetchLesssonStore>
             <SendLessonStore> 
+            userid: {ctx.state.userId }
             {ctx.state.userId ? (
             <Switch>
-                <Route path="/logout" component={Logout}/>
-                 <Route path="/ludogame" component={LudoGame} />
-                    
+                    <Route path="/dashboard" component={Dashboard}/>
                     <Route path="/lesson/:id" component={LessonView}/>
                     <Route path="/lesson" component={LessonPage}/>
                     <Route path="/wallet" component={Payment}/>
-                    <Route path="/quiz" component={Quiz}/>
                     
-                    <Route path="/admin" component={Admin}/>
+                    <Route path="/addlesson" component={AddLesson}/>
                     <Route path="/game" component={Game}/>
-
-                    <Route path="/dashboard" component={Dashboard}/>
+                    <Route path="/logout" component={Logout}/>
+                    
+                    <Route path="/ludogame" component={LudoGame} />
+                    <Route path="/quiz" component={Quiz}/>
                    
                    
             </Switch>
@@ -78,22 +69,6 @@ console.log(ctx.logout)
                 </Switch>
             )}
          
-            {/* <Switch>
-            <Route path="/ludogame" component={LudoGame} />
-                    
-                    <Route path="/lesson/:id" component={LessonView}/>
-                    <Route path="/lesson" component={LessonPage}/>
-                    <Route path="/wallet" component={Payment}/>
-                    <Route path="/quiz" component={Quiz}/>
-                 
-                    <Route path="/admin" component={Admin}/>
-                    <Route path="/game" component={Game}/>
-
-                    <Route path="/dashboard" component={Dashboard}/>
-                    <Route path="/signup" component={SignUp}/>
-                    <Route path="/" exact component={Login}/>
-                   
-            </Switch> */}
          
             </SendLessonStore>
             </FetchLesssonStore>

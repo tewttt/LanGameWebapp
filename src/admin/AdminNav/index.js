@@ -2,7 +2,7 @@ import React from "react";
 import css from "./style.module.css";
 import AddLesson from "../AddLessonPage";
 import AllLesson from "../AllLesson";
-import Dashboard from "../Dashboard";
+
 import Users from "../Users";
 import Button from "../../components/Button";
 import { NavLink, Switch , Route, useHistory } from "react-router-dom";

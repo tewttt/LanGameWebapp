@@ -45,7 +45,7 @@ const AddLesson = (props) => {
         setAddLesson({ ...addlesson, video: e.target.value});
     };
     const changePhoto = (e) => {
-        setAddLesson({ ...addlesson, photo: e.target.value});
+        setAddLesson({ ...addlesson, photo: e.target.files[0]});
     };
    
     const changeGrammar = (e) => {
@@ -120,32 +120,32 @@ const AddLesson = (props) => {
 
             <div className={css.row}>
             lessonNumber: {addlesson.lessonNumber} <br/>
-            <input onChange={changeLessonNumber} type="text" name="Хичээлийн дугаар" placeholder="Хичээлийн дугаар"/>
+            <input onChange={changeLessonNumber} required type="text" name="Хичээлийн дугаар" placeholder="Хичээлийн дугаар"/>
             </div>
-
+ 
             <div className={css.row}>
             name: {addlesson.name} <br/>
-            <input onChange={changeName} type="text" name="Хичээлийн нэр" placeholder="Хичээлийн нэр"/>
+            <input onChange={changeName} required type="text" name="Хичээлийн нэр" placeholder="Хичээлийн нэр"/>
             </div>
             
             <div className={css.row}> 
             video: {addlesson.video} <br/>
-            <input onChange={changeVideo} type="file" name="video" />
+            <input onChange={changeVideo} required type="file" name="video" />
             </div>
            
            <div className={css.row}>
             photo: {addlesson.photo} <br/>
-            <input onChange={changePhoto} type="file" name="file" />
+            <input onChange={changePhoto} required type="file" name="file" />
             </div>
          
             <div className={css.row}>
             grammar: {addlesson.grammar} <br/>
-            <input onChange={changeGrammar} type="file" name="Дүрэм" placeholder="Дүрэм сонгох"/>
+            <input onChange={changeGrammar} required type="file" name="Дүрэм" placeholder="Дүрэм сонгох"/>
             </div>
 
             <div className={css.row}>
             newWord: {addlesson.newWord} <br/>
-            <input onChange={changeNewWord} type="file" name="Шинэ үг" placeholder="Шинэ үг сонгох"/>
+            <input onChange={changeNewWord} required type="file" name="Шинэ үг" placeholder="Шинэ үг сонгох"/>
             </div>
 
           

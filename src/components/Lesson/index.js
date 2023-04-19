@@ -29,7 +29,7 @@ const Lesson = props => {
             </div>
           
             <div className={css.jump} onClick={view}>Үзэх </div>
-            <div className={css.jump} onClick={view}>Төлөх </div>
+            <div className={css.jump} onClick={view}>2000₮ Төлөх </div>
             {/* <Link to={`/lesson/${props.lesson[0]}`} className={css.link}>Үзэх</Link> */}
            
            
