@@ -107,6 +107,7 @@ export const UserStore = (props) => {
             // setState({ ...state, logginIn: false, error: null, errorCode: null, token, userId});
             // console.log( result.data);
             loginUserSucces(token, userId, expireDate, refreshToken);
+            // setState({ ...state, error:null })
         })
         .catch((err) => {
             // console.log(err.response.data.error.message)
@@ -161,6 +162,14 @@ export const UserStore = (props) => {
             });
     };
 
+  const uploadImage = (formData) => {
+  axios.post("/user/image", formData)
+  .then(res => {
+    console.log("amjillta")
+  })
+  .catch(err => console.log(err))
+
+ }
     
 
     return (
@@ -172,6 +181,7 @@ export const UserStore = (props) => {
             logout,
             loginUserSucces,
             autoRenewTokenAfterMillisec,
+            uploadImage
             }}
         >
             {props.children}

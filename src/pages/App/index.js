@@ -19,6 +19,7 @@ import { useContext, useEffect } from "react";
 import Logout from "../../components/Logout";
 import AddLesson from "../../admin/AddLessonPage";
 
+
 const App = () => {
     
 const ctx = useContext(UserContext);
@@ -39,11 +40,12 @@ const ctx = useContext(UserContext);
 //         // Ter hugatsaanii daraa avtomataar logout hinpm 
 return (
 <div style={{color: "red"}}>
-           
+
         
         <FetchLesssonStore>
+           
             <SendLessonStore> 
-            userid: {ctx.state.userId }
+            {/* userid: {ctx.state.userId } */}
             {ctx.state.userId ? (
             <Switch>
                     <Route path="/dashboard" component={Dashboard}/>
@@ -71,6 +73,7 @@ return (
          
          
             </SendLessonStore>
+           
             </FetchLesssonStore>
         </div>
     )

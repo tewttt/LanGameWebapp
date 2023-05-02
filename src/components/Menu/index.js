@@ -21,8 +21,8 @@ const Menu = () => {
                 </Fragment>
                 ) : ( 
                 <Fragment>
-                <Menuitem active link="/">Нэвтрэх</Menuitem>
-                <Menuitem active link="/signup">Бүртгүүлэх</Menuitem>
+                {/* <Menuitem  link="/">Нэвтрэх</Menuitem>
+                <Menuitem active link="/signup">Бүртгүүлэх</Menuitem> */}
                 </Fragment>
                 )}
 

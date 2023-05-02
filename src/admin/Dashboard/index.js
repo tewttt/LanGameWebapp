@@ -2,13 +2,14 @@ import React from "react";
 import css from "./style.module.css";
 
 import AdminNav from "../AdminNav";
-import Toolbar from "../../components/Toolbar";
+
+import ToolSidebar from "../../components/ToolSidebar";
 
 
 const Dashboard = () => {
     return (
-        <div style={{color: "white"}}> 
-        <Toolbar/>
+        <div style={{color: "white", margin:"60px" }}> 
+        <ToolSidebar/>
         <AdminNav/>
           
            

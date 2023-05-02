@@ -41,7 +41,7 @@ const clickDice = () => {
 
 //    console.log(props)
     return (
-        <div style={{color: "white"}}>
+        <div style={{color: "white", margin: "60px" }}>
             <ToolSidebar/>
       
         <div className={css.body}>

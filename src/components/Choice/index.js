@@ -5,9 +5,12 @@ import LessonList from "../LessonList";
 import FetchLessonContext from "../../context/FetchLessonContext";
 import Spinner from "../General/Spinner";
 
+
 const Choice = () => {
     const ctx = useContext(FetchLessonContext);
+  
     // console.log(ctx.state.lesson)
+  
 
     const [chLan, setChLan] = useState("");
     const [chLevel, setChLevel] = useState("");

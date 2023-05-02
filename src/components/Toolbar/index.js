@@ -9,35 +9,25 @@ import Menu from "../Menu";
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 
-// const nav_Link = [
-//     {
-//         path: "/lesson",
-//         display: "Lesson"
-//     },
-//     {
-//         path: "/game",
-//         display: "Game"
-//     }
 
-// ]
 const Toolbar = (props) => {
  
   
-    const headerRef = useRef(null)
-    const stickyHeaderFunc = () => {
-        window.addEventListener("scroll", () => {
-            // if(document.body.scrollTop > 80 || document.documentElement.scrollTop > 80){
-            //     headerRef.current.classList.add("sticky_header")
+    // const headerRef = useRef(null)
+    // const stickyHeaderFunc = () => {
+    //     window.addEventListener("scroll", () => {
+    //         // if(document.body.scrollTop > 80 || document.documentElement.scrollTop > 80){
+    //         //     headerRef.current.classList.add("sticky_header")
               
-            // } else {
-            //     headerRef.current.classList.remove("sticky_header")
-            // }
-        })
-    }
-    useEffect(() => {
-        stickyHeaderFunc()
-        return () => window.removeEventListener("scroll", stickyHeaderFunc);
-    })
+    //         // } else {
+    //         //     headerRef.current.classList.remove("sticky_header")
+    //         // }
+    //     })
+    // }
+    // useEffect(() => {
+    //     stickyHeaderFunc()
+    //     return () => window.removeEventListener("scroll", stickyHeaderFunc);
+    // })
 
     const history = useHistory();
     const game = () => {
@@ -48,7 +38,7 @@ const Toolbar = (props) => {
 }; 
     return (
        
-            <div className={css.body} ref={headerRef}> 
+            <header className={css.body} > 
              <Logo/>
                 <div className={css.meduim}>
 
@@ -57,8 +47,8 @@ const Toolbar = (props) => {
 
                 </div>
 
-               <AccountCircleIcon onClick={props.toggleSidebar}/>
-            </div>
+               <AccountCircleIcon onClick={props.toggleSidebar} className={css.icon}/>
+            </header>
        
     )
 }

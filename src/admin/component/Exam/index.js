@@ -278,7 +278,10 @@ const Exam = (props) => {
                                     
                                             </div> ):""}                                                                                           
                                     </div>   
-                                    {SendLessonCtx.state.loading ? <Spinner/> : <ButtonCmp text="ИЛГЭЭХ" daragdsan={SendLessonCtx.sendLesson}/> }
+                                    <ButtonCmp text="ИЛГЭЭХ" daragdsan={SendLessonCtx.sendLesson}/>
+                                    <ButtonCmp text="ЗАСАХ" daragdsan={SendLessonCtx.editLesson}/>
+                                    <ButtonCmp text="УСТГАХ" daragdsan={SendLessonCtx.deleteLesson}/>
+                                    {/* {SendLessonCtx.state.loading ? <Spinner/> : <ButtonCmp text="ИЛГЭЭХ" daragdsan={SendLessonCtx.sendLesson}/> } */}
                                     
                                                                        
     </div>
