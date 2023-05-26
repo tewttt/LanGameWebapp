@@ -4,11 +4,10 @@ import {Switch , Route, Redirect} from "react-router-dom";
 import LessonPage from "../LessonPage";
 import { Fragment } from "react";
 import Game from "../GamePage"
-import { FetchLesssonStore } from "../../context/FetchLessonContext";
+
 import Quiz from "../quiz";
 import LudoGame from "../LudoGame";
 
-import {SendLessonStore} from "../../context/sendLessonContext";
 import Payment from "../Payment";
 import LessonView from "../LessonView";
 import Login from "../Login";
@@ -19,11 +18,15 @@ import { useContext, useEffect } from "react";
 import Logout from "../../components/Logout";
 import AddLesson from "../../admin/AddLessonPage";
 
+import {getAuth} from "firebase/auth";
+import ProfilePage from "../ProfilePage";
+import AdminLogin from "../../admin/AdminLogin";
+import EditLesson from "../../admin/Edit/EditLessonPage";
+const auth = getAuth();
 
 const App = () => {
-    
+
 const ctx = useContext(UserContext);
-// console.log(ctx.logout)
 
 // useEffect(() => {
 //     const token = localStorage.getItem("token");
@@ -40,14 +43,7 @@ const ctx = useContext(UserContext);
 //         // Ter hugatsaanii daraa avtomataar logout hinpm 
 return (
 <div style={{color: "red"}}>
-
-        
-        <FetchLesssonStore>
-           
-            <SendLessonStore> 
-            {/* userid: {ctx.state.userId } */}
-            {ctx.state.userId ? (
-            <Switch>
+    {/* <Switch>
                     <Route path="/dashboard" component={Dashboard}/>
                     <Route path="/lesson/:id" component={LessonView}/>
                     <Route path="/lesson" component={LessonPage}/>
@@ -59,22 +55,51 @@ return (
                     
                     <Route path="/ludogame" component={LudoGame} />
                     <Route path="/quiz" component={Quiz}/>
+                    <Route path="/signup" component={SignUp}/>
+                     <Route path="/" component={Login}/>
+                     <Redirect to="/"/>
                    
+            </Switch> */}
+        
+           
+            <Switch>
+               
+                    
+            </Switch>
+             
+            {auth.currentUser?.uid ? (
+            <Switch>
+                    
+                    <Route path="/lesson/:id" component={LessonView}/>
+                    <Route path="/lesson" component={LessonPage}/>
+                    <Route path="/wallet" component={Payment}/>
+
+                   
+                    <Route path="/dashboard" component={Dashboard}/>
+                    <Route path="/addlesson" component={AddLesson}/>
+                   <Route path="/edit/:id" component={EditLesson}/>
+                    <Route path="/game" component={Game}/>
+                    <Route path="/logout" component={Logout}/>
+                    
+                    <Route path="/ludogame" component={LudoGame} />
+                    <Route path="/quiz" component={Quiz}/>
+                   <Route path="/user" component={ProfilePage}/>
                    
             </Switch>
 
-            ): (
+         ): (
                 <Switch>
+                     <Route path="/admin" component={AdminLogin}/> 
                      <Route path="/signup" component={SignUp}/>
                      <Route path="/" component={Login}/>
                      <Redirect to="/"/>
                 </Switch>
-            )}
+             )} 
          
          
-            </SendLessonStore>
+          
            
-            </FetchLesssonStore>
+          
         </div>
     )
 }

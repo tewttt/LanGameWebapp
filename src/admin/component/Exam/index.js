@@ -12,15 +12,17 @@ import FilterNoneIcon from '@mui/icons-material/FilterNone';
 import RestoreFromTrashIcon from '@mui/icons-material/RestoreFromTrash';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import {useParams } from "react-router-dom";
-import SendLessonContext from "../../../context/sendLessonContext";
+
 import ButtonCmp from "../../../components/Button"
 import Spinner from "../../../components/General/Spinner";
+import LessonContext from "../../../context/LessonContext";
 
 
 
 
 const Exam = (props) => {
-    const SendLessonCtx = useContext(SendLessonContext);
+   const ctx = useContext(LessonContext);
+//    console.log(ctx.createLessonDB)
     const {id} = useParams();
     const [ questions, setQuestions] = useState(
         [{questionText: "",
@@ -132,12 +134,9 @@ const Exam = (props) => {
         //     questions: questions
         // };
         alert("Шалгалтын хэсгийг амжилттай хадгаллаа"); 
-        SendLessonCtx.saveExam(questions);
-        
-      
-
-            
+        ctx.saveExam(questions);
     }
+
     return  questions.map((ques, i) => (
     <div style={{width: "100%",  margin: "auto" }}> 
   
@@ -278,9 +277,9 @@ const Exam = (props) => {
                                     
                                             </div> ):""}                                                                                           
                                     </div>   
-                                    <ButtonCmp text="ИЛГЭЭХ" daragdsan={SendLessonCtx.sendLesson}/>
-                                    <ButtonCmp text="ЗАСАХ" daragdsan={SendLessonCtx.editLesson}/>
-                                    <ButtonCmp text="УСТГАХ" daragdsan={SendLessonCtx.deleteLesson}/>
+                                    <ButtonCmp text="ИЛГЭЭХ" daragdsan={ctx.createLessonDB}/>
+                                    <ButtonCmp text="ЗАСАХ" />
+                                    <ButtonCmp text="УСТГАХ" />
                                     {/* {SendLessonCtx.state.loading ? <Spinner/> : <ButtonCmp text="ИЛГЭЭХ" daragdsan={SendLessonCtx.sendLesson}/> } */}
                                     
                                                                        

@@ -6,26 +6,27 @@ import 'react-toastify/dist/ReactToastify.css';
 
 
 const Lesson = props => {
- 
+    // console.log(props.lesson.state.base.language)
     const history = useHistory();
     const view = () => {
-        history.push(`/lesson/${props.lesson[0]}`)
+        history.push(`/lesson/${props.lesson.id}`)
+        // history.push(`/lesson/${props.lesson[0]}`)
     }
    
 
     return (
         <div className={css.lesson} >  
            
-            <div style={{display: "flex", flexDirection: "row", padding: "3px"}}>
-                    <div style={{margin: "0px 10px"}}> {props.lesson[1].base.language}</div> <br/> 
-                    <div style={{margin: "0px 10px"}}>{props.lesson[1].base.level}</div>  <br/>
+            <div style={{display: "flex", flexDirection: "row", padding: "3px"}}> 
+                    <div style={{margin: "0px 10px"}}> {props.lesson.state.base.language}</div> <br/> 
+                    {/* <div style={{margin: "0px 10px"}}>{props.lesson[1].base.level}</div>  <br/>
                     <div style={{margin: "0px 10px"}}>№:</div>{props.lesson[1].base.lessonNumber}  <br/>
-                   
+                    */}
                 
             </div>
 
             <div>
-            <p><strong style={{fontSize: "30px"}}> {props.lesson[1].base.name}</strong></p>
+            <p><strong style={{fontSize: "30px"}}> {}</strong></p>
             </div>
           
             <div className={css.jump} onClick={view}>Үзэх </div>

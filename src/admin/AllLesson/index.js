@@ -1,36 +1,29 @@
 import React, {useContext, useState} from "react";
 import css from "./style.module.css";
-import FetchLessonContext from "../../context/FetchLessonContext"
+import { Switch, Route, Link} from "react-router-dom";
 import Choice from "../../components/Choice";
 import AdminLessonList from "../component/AdminLessonList";
 import AdminChoice from "../component/AdminCoice";
 import {db} from "../../firebase"
 import { useEffect } from "react";
+import LessonContext from "../../context/LessonContext";
 
 
 const AllLesson = () => {
-    const ctx = useContext(FetchLessonContext);
-    const [lessons, setLesson] = useState([])
-
-    //   useEffect(() => {
-      
-    //         db.collection("addlesson").onSnapshot(snapshot => {
-    //             setLesson (snapshot.docs.map(doc => ({
-    //                 id:doc.id,
-    //                 lesson:doc.data().lesson
-    //             })))
-    //         })
-    //     }, []);
+    const ctx= useContext(LessonContext)
+    const [lessons, setLesson] = useState([]);
   
-
     return (
-        <div style={{color: "white"}}>
-        <AdminChoice/>
-           {/* <AdminLessonList lessons={ctx.state.lesson}/> */}
+        <div style={{color: "white"}}>Бүх хичээл
+        {/* <AdminChoice/> */}
+           <AdminLessonList lessons={ctx.lessonList}/>
 
-           {/* {lessons.map(lesson => {
-            <div> {lesson}</div>
+           {/* {ctx.lessonList.map(el => {
+            // console.log(el.userId)
+            <div style={{color: "red"}}>fff {el.userId}</div>
            })} */}
+
+     
         
         </div>
     )

@@ -2,7 +2,8 @@ import React from "react";
 import css from "./style.module.css";
 import Logo from "../General/Logo";
 import Menu from "../Menu";
-import Shadow from "../General/Shadow"
+import Shadow from "../General/Shadow";
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 const Sidebar = (props) => {
     let classes = [css.Sidebar, css.Close];
@@ -17,8 +18,8 @@ const Sidebar = (props) => {
             <div  className={classes.join(" ")}>
 
                 <div className={css.logo}>
-                <Logo/>
-                
+                {/* <Logo/> */}
+                {/* <AccountCircleIcon/> */}
                 </div>
                 <Menu/>
             

@@ -7,35 +7,46 @@ import {Button } from "@mui/material"
 import { Link, useHistory,Redirect } from "react-router-dom";
 import UserContext from "../../context/UserContext";
 
+import {getAuth} from "firebase/auth"
+
+const auth = getAuth();
 const Home = () => {
     const ctx = useContext(UserContext)
     const history = useHistory();
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    
-
-    // console.log(ctx.state)
+    const [email, setEmail] = useState("admin@gmail.com");
+    const [password, setPassword] = useState("123456");
 
     const signup = () => {
         history.push("/signup")
     }
+   
     const year = new Date().getFullYear()
 
     const login = () => {
-        ctx.loginUser(email, password);
-     
+        if (email.length === 0) {
+            alert("Та имэйл хаягаа бичнэ үү");
+            return;
+        }
+        if (password.length === 0) {
+            alert("Та нууц үгээ оруулна уу");
+            return;
+        }
+        ctx.loginUser(email,password);
         history.push("/lesson")
         
     };
+
+   
+
     return (
         <div className={css.body}>
-            <div className={css.text}>Мэдлэг</div>
+            <div className={css.text}>Мэдлэг {auth.currentUser?.uid}</div>
             <div className={css.login} >
            
            
            {ctx.state.error && <div style={{ color : "red"}}>{ctx.state.error}</div>}
            {ctx.state.logginIn && <Spinner/>}
-           {/* {ctx.state.userId && <Redirect to="/lesson"/>} */}
+           {/* {ctx.currentUser && <Redirect to="/lesson"/>} */}
            
             <input type="email " placeholder="Email" value={email} onChange={e=> setEmail(e.target.value)}/> 
             <input type="password" placeholder="Password" value={password} onChange={e=>setPassword(e.target.value)}/>

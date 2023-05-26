@@ -1,53 +1,94 @@
-import React from "react";
+import React, {useContext, useState} from "react";
 import css from "./style.module.css";
-import { useHistory, Link } from "react-router-dom";
+import Modal from "../../../components/General/Modal";
+import Button  from "../../../components/Button"
+import { useHistory} from "react-router-dom";
 
-
-import { useState } from "react";
-
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
+import { IconButton } from "@mui/material";
 import 'react-toastify/dist/ReactToastify.css';
-import StarIcon from '@mui/icons-material/Star';
-import Button from "../../../components/Button";
+
+import LessonContext from "../../../context/LessonContext";
+
 
 const AdminLesson = props => {
-    
+    const [confirm , setConfirm] = useState(false);
+    const ctx = useContext(LessonContext)
     const history = useHistory();
-    const remove = () => {
-        console.log("delete")
-    }
-
     
-    const view = () => {
-        history.push(`/lesson/${props.lesson[0]}`)
+   
+   
+    const showConfirm = () => {
+        setConfirm(true)
+       };
+       const closeConfirm = () => {
+        setConfirm(false)
+       };
+   
+
+    const deleteLesson = async () => {
+        const id = props.lesson.id;
+        ctx.deleteDB(id)
+      
     }
    
+
+    const view = () => {
+        history.push(`/lesson/${props.lesson.id}`)
+    }
+
+   const edit = () => {
+    history.push(`/edit/${props.lesson.id}` )
+   }
   
-    return (
-        <div className={css.lesson} >  
-           
+return (
+    <div className={css.lesson} >  
+  
 
-
-
+        {/* <Modal closeConfirm={closeConfirm} show={confirm} >
+            <div style={{display: "flex", flexDirection: "column"}}>
+            Устгахдаа итгэлтэй байна уу
+                <div >
+                    <Button btn="Cont" text="Тийм" daragdsan={deleteLesson}/>
+                    <Button  text="Үгүй" daragdsan={closeConfirm}/>
+                </div>
+          
+            </div>
+        </Modal> */}
+        
             <div style={{display: "flex", flexDirection: "row", padding: "3px"}}>
-                    <div style={{margin: "0px 10px"}}> {props.lesson[1].base.language}</div> <br/> 
-                    <div style={{margin: "0px 10px"}}>{props.lesson[1].base.level}</div>  <br/>
-                    <div style={{margin: "0px 10px"}}>№:</div>{props.lesson[1].base.lessonNumber}  <br/>
-                  
-                
+                    <div style={{margin: "0px 10px"}}> {props.lesson.state.base.language}</div> <br/> 
+                    <div style={{margin: "0px 10px"}}>{props.lesson.state.base.level}</div>  <br/>
+                    <div style={{margin: "0px 10px"}}>№:</div>{props.lesson.state.base.lessonNumber}  <br/>
+                    <div style={{margin: "0px 10px"}}></div>{props.lesson.state.base.name}  <br/>
             </div>
 
             <div>
-            <p><strong style={{fontSize: "15px"}}> {props.lesson[1].base.name}</strong></p>
+            <p><strong style={{fontSize: "15px"}}> </strong></p>
             </div>
-            
-         
+
+        <div className={css.icon}>
             <div className={css.jump} onClick={view}>Үзэх</div>
-            <Button daragdsan={remove} btn="Danger" text="Устгах"/>
-            <Button btn="Success" text="Засах"/>
-          
            
+                <IconButton onClick={edit} >
+                    <EditIcon color="primary"/>
+                </IconButton>
+                <IconButton 
+                // onClick={showConfirm}
+                onClick={() => deleteLesson()}
+                 >
+                    <DeleteIcon color="primary"/>
+                </IconButton>
+
+               
+             
+               
+        </div>      
+   
+       
            
-        </div>
+    </div>
     )
 };
 

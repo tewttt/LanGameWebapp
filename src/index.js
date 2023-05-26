@@ -7,23 +7,27 @@ import reportWebVitals from './reportWebVitals';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {UserStore} from './context/UserContext';
+import { LessonStore } from './context/LessonContext';
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <BrowserRouter>
-    <UserStore>
-      <ToastContainer
-        position='top-right'
-        autoClose={3000}
-        closeOnClick
-        pauseOnHover={false}
-        theme="dark"
-      >
+    <LessonStore>
+      <UserStore>
+        <ToastContainer
+          position='top-right'
+          autoClose={3000}
+          closeOnClick
+          pauseOnHover={false}
+          theme="dark"
+        >
 
-      </ToastContainer>
-    <App />
-    </UserStore>
+        </ToastContainer>
+          <App />
+      </UserStore>
+      </LessonStore>
     </BrowserRouter>
   </React.StrictMode>
 );

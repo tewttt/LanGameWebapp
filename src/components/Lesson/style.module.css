@@ -1,5 +1,6 @@
 .lesson {
     display: flex;
+    color: "red";
     flex-direction: column;
     background: #383030;
     border: 1px solid gray;

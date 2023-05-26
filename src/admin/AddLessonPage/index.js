@@ -3,18 +3,17 @@ import css from "./style.module.css";
 import { Switch, Route, Link} from "react-router-dom";
 import {Button} from "@mui/material";
 import ButtonCmp from "../../components/Button";
-import axios from "../../axios"
+
 import LessonBase from "../../admin/component/LessonBase";
 import Exam from "../../admin/component/Exam";
 import Translate from "../component/Translate";
-import SendLessonContext from "../../context/sendLessonContext";
+
 import { useHistory } from "react-router-dom";
 
 
 const AddLesson = (props) => {
     const history = useHistory();
    
-    const SendLessonCtx = useContext(SendLessonContext);
    
     const baseInfo = () => {
         history.push("/dashboard/addlesson");
@@ -27,7 +26,7 @@ const AddLesson = (props) => {
     };
    
 
-    const game = () => {
+    const game = () => {  
         history.push("/");
    };
    const lesson = () => {

@@ -12,15 +12,15 @@ import FilterNoneIcon from '@mui/icons-material/FilterNone';
 import RestoreFromTrashIcon from '@mui/icons-material/RestoreFromTrash';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import {useParams } from "react-router-dom";
-import SendLessonContext from "../../../context/sendLessonContext";
-import { useHistory } from "react-router-dom";
 
+import { useHistory } from "react-router-dom";
+import LessonContext from "../../../context/LessonContext";
 
 
 
 const Translate = (props) => {
     const history = useHistory()
-    const SendLessonCtx = useContext(SendLessonContext);
+    const ctx = useContext(LessonContext)
     const {id} = useParams();
     const [ questions, setQuestions] = useState(
         [{  questionText: "",
@@ -32,7 +32,7 @@ const Translate = (props) => {
     )
     const save = () => {
         alert("Орчуулгын хэсгийг амжилттай хадгаллаа"); 
-        SendLessonCtx.saveTranslate(questions);
+        ctx.saveTranslate(questions);
         history.push("/dashboard/addlesson/exam");
 
             

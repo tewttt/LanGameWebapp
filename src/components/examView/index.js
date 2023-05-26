@@ -15,7 +15,7 @@ const ExamView = (props) => {
     // console.log(props.exam)
    
     return (
-        <div className={css.body}>
+        <div className={css.body}> Exam
             
             {props.exam.map(el => (
                 <div className={css.answers}>{el.answer}

@@ -5,12 +5,13 @@ import AdminLesson from "../AdminLesson";
 
 
 const AdminLessonList = (props) => {
-    // console.log(props)
+    // console.log(props.lessons)
     
     return (
         <div className={css.LessonList}>
             {props.lessons.map(el => (
-                <AdminLesson key={el[0]} lesson={el}/>
+                // console.log(el.id)
+                <AdminLesson key={el.id} lesson={el}/>
             ))}
 
             {/* {props.lessons.map(el => (

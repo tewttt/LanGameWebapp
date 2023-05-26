@@ -2,11 +2,11 @@ import React, {useState, useEffect, useContext} from "react";
 import css from "./style.module.css";
 
 import AdminLessonList from "../AdminLessonList";
-import FetchLessonContext from "../../../context/FetchLessonContext";
+
 import Spinner from "../../../components/General/Spinner";
 
 const AdminChoice = () => {
-    const ctx = useContext(FetchLessonContext);
+
     // console.log(ctx.state.lesson)
 
     const [chLan, setChLan] = useState("");
@@ -23,48 +23,48 @@ const AdminChoice = () => {
     const [lessonB2add, setLessonB2add] = useState([]);
  
 
-    useEffect(() => {
-        const filteredLanEng = ctx.state.lesson.filter(
-            (item) => item[1].base.language === "Англи хэл"
+    // useEffect(() => {
+    //     const filteredLanEng = ctx.state.lesson.filter(
+    //         (item) => item[1].base.language === "Англи хэл"
             
-        );
+    //     );
         
-        const filteredLanOth = ctx.state.lesson.filter(
-            (item) => item[1].base.language === "Бусад"
-        );
+    //     const filteredLanOth = ctx.state.lesson.filter(
+    //         (item) => item[1].base.language === "Бусад"
+    //     );
        
-        const filteredLessonA1 = ctx.state.lesson.filter(
-            (item) => item[1].base.level === "A1"
-        );
-        const filteredLessonA2 = ctx.state.lesson.filter(
-            (item) => item[1].base.level === "A2"
-        );
-        const filteredLessonB1 = ctx.state.lesson.filter(
-            (item) => item[1].base.level === "B1"
-        );
-        const filteredLessonB1add= ctx.state.lesson.filter(
-            (item) => item[1].base.level === "B1+"
-        );
-        const filteredLessonB2 = ctx.state.lesson.filter(
-            (item) => item[1].base.level === "B2"
-        );
-        const filteredLessonB2add = ctx.state.lesson.filter(
-            (item) => item[1].base.level === "B2+"
-        );
-        setLanEng(filteredLanEng);
-        setLanOth(filteredLanOth);
+    //     const filteredLessonA1 = ctx.state.lesson.filter(
+    //         (item) => item[1].base.level === "A1"
+    //     );
+    //     const filteredLessonA2 = ctx.state.lesson.filter(
+    //         (item) => item[1].base.level === "A2"
+    //     );
+    //     const filteredLessonB1 = ctx.state.lesson.filter(
+    //         (item) => item[1].base.level === "B1"
+    //     );
+    //     const filteredLessonB1add= ctx.state.lesson.filter(
+    //         (item) => item[1].base.level === "B1+"
+    //     );
+    //     const filteredLessonB2 = ctx.state.lesson.filter(
+    //         (item) => item[1].base.level === "B2"
+    //     );
+    //     const filteredLessonB2add = ctx.state.lesson.filter(
+    //         (item) => item[1].base.level === "B2+"
+    //     );
+    //     setLanEng(filteredLanEng);
+    //     setLanOth(filteredLanOth);
 
-       setLessonA1(filteredLessonA1);
-       setLessonA2(filteredLessonA2);
-       setLessonB1(filteredLessonB1);
-       setLessonB1add(filteredLessonB1add);
-       setLessonB2(filteredLessonB1);
-       setLessonB2add(filteredLessonB2add);
-    }, [chLan, chLevel])
+    //    setLessonA1(filteredLessonA1);
+    //    setLessonA2(filteredLessonA2);
+    //    setLessonB1(filteredLessonB1);
+    //    setLessonB1add(filteredLessonB1add);
+    //    setLessonB2(filteredLessonB1);
+    //    setLessonB2add(filteredLessonB2add);
+    // }, [chLan, chLevel])
     
     return (
         <div className={css.body}>
-            {ctx.state.loading &&  <Spinner/>}
+            {/* {ctx.state.loading &&  <Spinner/>} */}
            
                 {/* <div>Хэл сонгох</div> */}
                 <div className={css.language}> 

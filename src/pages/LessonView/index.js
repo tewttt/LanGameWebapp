@@ -1,28 +1,30 @@
 import React , {useContext, useState} from "react";
 import css from "./style.module.css";
 import {DefaultPlayer as Video} from "react-html5video"
-import FetchLessonContext from "../../context/FetchLessonContext";
+
 import photo from "../../../src/assets/img/1.jpg";
 import introVideo from "../../../src/assets/video/1.mp4";
 import "react-html5video/dist/styles.css";
-
 import { useParams } from "react-router-dom";
-
 import StarIcon from '@mui/icons-material/Star';
-import TranslateView from "../../components/view/translateView";
-import ExamView from "../../components/view/examView";
+import TranslateView from "../../components/translateView";
+import ExamView from "../../components/examView";
 import ToolSidebar from "../../components/ToolSidebar";
-
+import LessonContext from "../../context/LessonContext"
 
 
 
 const LessonView = (props) => {
     const [rating, setRating] = useState(null);
-
-    
-    const ctx = useContext(FetchLessonContext)
+    const ctx = useContext(LessonContext)
+     
+  
     const {id} = useParams()
-    const lessonId = ctx.state.lesson.find(item => item[0] ===id );
+    const lessonId = ctx.lessonList.find(
+        // item => console.log(item)
+         item =>  item.id === id
+        );
+        // console.log(lessonId.state.translate)
   
     
   
@@ -30,22 +32,24 @@ const LessonView = (props) => {
     return (
         <div className={css.body}> 
             <ToolSidebar/>
-            <div className={css.head}>
+            <div className={css.head}>sss
                 <div className={css.text}>{}</div>
-                <div className={css.text}>Түвшин: {lessonId[1].base.level}</div>
+                <div className={css.text}>Түвшин: {lessonId.state.base.level}</div>
                
-                <div className={css.text}>Хичээлийн дугаар: {lessonId[1].base.lessonNumber}</div>
-                <div className={css.text}>хичээлийн нэр: {lessonId[1].base.name}</div>
+                <div className={css.text}>Хичээлийн дугаар: {}</div>
+                <div className={css.text}>хичээлийн нэр: {}</div>
             </div>              
             
             <div className={css.lesson}>
+               
+
                  <div className={css.left}>
                     <Video autoPlay loop 
                     // poster={photo} 
                     on>
                         <source
-                        //  src={lessonId[1].base.video}
-                        src={introVideo}
+                         src={lessonId.state.video}
+                        // src={introVideo}
 
                         type="video/webm"
                         />
@@ -54,15 +58,24 @@ const LessonView = (props) => {
                 <div className={css.right}>
                        
                         <div className={css.grammar}>
+                        <img src={lessonId.state.image} className={css.sh}/>
                             {/* <img src={lessonId[1].base.grammar} /> */}
                         </div>
-                        <div className={css.new}>{lessonId[1].base.newWord}</div>
+                        <div className={css.new}>{}</div>
                 </div>
             </div>
 
             <div className={css.footer}> 
-                <div className={css.translate}><TranslateView translate={lessonId[1].translate}/></div>
-                <div className={css.exam}><ExamView exam={lessonId[1].exam}/></div>
+                <div className={css.translate}>
+                    <TranslateView 
+                translate={lessonId.state.translate}
+                />
+                </div>
+                <div className={css.exam}>
+                    <ExamView 
+                    exam={lessonId.state.exam}
+                    />
+                </div>
             </div>
             <div>
                <StarIcon onClick= {() => setRating(1)} className={css.star}/>
