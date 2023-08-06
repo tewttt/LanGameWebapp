@@ -12,74 +12,30 @@ import { getAuth } from "firebase/auth";
 import LessonContext from "../../../context/LessonContext";
 const auth = getAuth();
 
-const initialState= {
-    imageLink: "",
-    imageName: ""
-,}
+
 const ImageUpload = (props) => {
     // console.log(props.lessonId)
     const ctx = useContext(LessonContext)
-    const [confirm , setConfirm] = useState(false);
-    const [stateImage , setState] = useState(initialState);
-  
-
-
-//    useEffect (() => {
-//     const uploadFile = () => {
-//         const name = new Date().getTime() + photo.name
-//         const storageRef = ref(storage, photo.name)
-//         const uploadTask = uploadBytesResumable(storageRef, photo);
-
-//         uploadTask.on('state_changed', 
-//         (snapshot) => {
-           
-//             const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-//             console.log('Upload is ' + progress + '% done');
-//             switch (snapshot.state) {
-//             case 'paused':
-//                 console.log('Upload is paused');
-//                 break;
-//             case 'running':
-//                 console.log('Upload is running');
-//                 break;
-//             }
-//         }, 
-//         (error) => {
-//            console.log(error)
-//         }, 
-//         () => {
-           
-//             getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-//                 // setPhoto(downloadURL)
-//           setPhoto((prev) => [{...prev, photo: downloadURL}])
-//             });
-//         }
-//         );
-//     };
-//     photo && uploadFile();
-//    }, [photo]);
-       
+    const [photo , setPhoto] = useState("");
 
 const editPicture = () => {
     const fileInput = document.getElementById("imageInput");
     fileInput.click();
 }
 const changePhoto = (e) => {
-    setState({...stateImage, imageLink: e.target.files[0]})
+    setPhoto(e.target.files[0])
+    // uploadImage();
   
 };
-const changeImageName = (e) => {
-    setState({...stateImage, videoName: e.target.value})
-}
 
         const uploadImage = () =>{
-            if (stateImage.imageLink == null) return;
+            if (photo == null) return;
             // const imageRef = ref(storage, `images/${photo.name + v4()}`);
-            const imageRef = ref(storage, `images/${stateImage.imageLink.name}`);
-            uploadBytes(imageRef, stateImage.imageLink).then((snapshot) => {
-                getDownloadURL(snapshot.ref).then((url) => {
-                    setState({...stateImage, imageLink: url})
-                    ctx.saveImage(stateImage)
+            const imageRef = ref(storage, `images/${photo.name}`);
+            uploadBytes(imageRef, photo).then((snapshot) => {
+                getDownloadURL(snapshot.ref).then((downloadURL) => {
+                    setPhoto(downloadURL)
+                    ctx.saveImage(downloadURL)
                     
                 })
                
@@ -87,33 +43,28 @@ const changeImageName = (e) => {
             alert("photo amjilttai") 
         }
     return (
-    <div className={css.body}>
-       
-           
-           <div className={css.photo}>
-               
-                <img src={stateImage.imageLink} className={css.image}/>
-                <input placeholder="video name" type="text" onChange={changeImageName} required/>
+    <div>
+         <img src={photo} className="w-[300px] h-[300px] m-auto"/>
+           <div className="flex items-center">
                 <input onChange={changePhoto} 
+                    className="w-[180px] h-[30px] text-[12px]"
                     required type="file" 
                     // hidden="hidden"  
                     id="imageInput" />
-
-               <Tooltip title="Edit" placement="top">
-                <IconButton onClick={editPicture} >
-                        <EditIcon color="primary"/>
-                    </IconButton>
-               </Tooltip>
-
-              
+                 <button className="w-[150px] h-[20px] bg-blue-500 flex text-[12px] justify-center items-center" onClick={uploadImage}>Image upload</button>
+                    {/* <Tooltip title="Edit" placement="top">
+                    <IconButton onClick={editPicture} >
+                            <EditIcon color="primary"/>
+                        </IconButton>
+                    </Tooltip> */}
             </div>
-        <div style={{display: "flex", flexDirection: "row" , justifyContent:"center", alignItems: "center"}}>
-            {/* <div className={css.bar}>
-                <div className={css.progress}></div>
+            <div style={{display: "flex", flexDirection: "row" , justifyContent:"center", alignItems: "center"}}>
+                {/* <div className={css.bar}>
+                    <div className={css.progress}></div>
+                </div>
+                <div className={css.uploadPercentage}>0%</div> */}
+               
             </div>
-            <div className={css.uploadPercentage}>0%</div> */}
-            <Button text="Image Upload" daragdsan={uploadImage}></Button>
-        </div>
     </div>
       
     )

@@ -13,6 +13,7 @@ import MuiAutoComplete from "../../components/test/autocomplete";
 import Saytan from "../../components/test/saytanQuiz";
 import Form from "../../components/test/form";
 import License from "../../components/test/licenceCheck";
+import QuizTime from "../../components/QuizTime";
 
 const Quiz = () => {
     
@@ -22,7 +23,7 @@ const Quiz = () => {
        
         {/* <License/> */}
         {/* <Form/> */}
-        <Saytan/>
+        {/* <Saytan/> */}
         {/* <MuiAutoComplete/> */}
        {/* <MuiRating/> */}
         {/* <MuiSwitch/>  */}
@@ -33,6 +34,7 @@ const Quiz = () => {
         {/* <Muibutton/> */}
          {/* <MuiTypography/> */}
         {/* <QuizTest/>  */}
+        <QuizTime/>
        </div>
     )
 };

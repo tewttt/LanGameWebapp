@@ -1,0 +1,19 @@
+.progress {
+    background: linear-gradient(12deg, red, blue);
+    height: 100%;
+    width: 0%;
+   
+}
+.uploadPercentage{
+    font-size: 25px;
+}
+.bar {
+    height: 50px;
+    width: 500px;
+    background: gray;
+    margin-bottom: 10px;
+}
+.image {
+    width: 300px;
+    height: 300px;
+}

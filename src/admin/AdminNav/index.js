@@ -37,7 +37,7 @@ const AdminNav = () => {
         history.push("/dashboard/users");
     };
     return (
-        <div className={css.body}>
+        <div className="flex flex-col md:flex md:flex-row ">
         {/* {
             admin_nav.map((item,index )=> (
                 <li className={css.adminMenuItem} key={index}>
@@ -45,13 +45,18 @@ const AdminNav = () => {
                 </li>
             ))
         } */}
-        <div className={css.head}>
-            <div className={css.box} onClick={addlesson}>Хичээл нэмэх</div>
-            <div className={css.box} onClick={alllesson}>Бүх хичээл</div>
-            <div className={css.box} onClick={users}>Хэрэглэгчид</div>
-           
-        </div>
-         {/* <Button daragdsan={addlesson} text="Хичээл нэмэх " /> */}
+            <div className="flex m-2 justify-center md:justify-start md:ml-0 md:flex-col md:border-r ">
+                <div className="md:m-2 mx-1 flex justify-center items-center w-[100px] h-[30px]  bg-gray-200 p-1 rounded-[5px] text-[12px] hover:bg-blue-500  " 
+                    onClick={addlesson}>Хичээл нэмэх</div>
+                <div 
+                    className="md:m-2 mx-1 flex justify-center items-center w-[100px] h-[30px]  bg-gray-200 p-1 rounded-[5px] text-[12px] hover:bg-blue-500  "
+                    onClick={alllesson}>Бүх хичээл</div>
+                <div 
+                    className="md:m-2 mx-1 flex justify-center items-center w-[100px] h-[30px]  bg-gray-200 p-1 rounded-[5px] text-[12px] hover:bg-blue-500  " 
+                    onClick={users}>Хэрэглэгчид</div>
+            
+            </div>
+       
              <Switch>
                    
                    <Route path="/dashboard/addlesson"  component={AddLesson}/>

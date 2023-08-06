@@ -6,7 +6,7 @@ import Lesson from "../Lesson";
 const LessonList = (props) => {
     
     return (
-        <div className={css.LessonList}>
+        <div className={css.LessonList}> 
             {props.lessons.map(el => (
                
                 <Lesson key={el[0]} lesson={el}/>

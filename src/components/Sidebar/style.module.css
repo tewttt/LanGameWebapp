@@ -26,12 +26,12 @@
     .Sidebar {
         background-color:  #383030;
         color: white;
-        width: 180px;
+        width: 280px;
         position: fixed;
         
         top:0;
         right: 0;
-        height: 20%;
+        height: 60%;
         z-index: 200;
         padding: 32px 16px;
         transition: transform 0.3s ease-out;

@@ -19,11 +19,12 @@ const auth = getAuth();
 const initialState = {
     name: "",
     phone:"",
-    photo: ""
+    // photo: ""
 }
 
 const ProfilePage = () => {
     const [state, setState] = useState(initialState)
+    const [photo, setPhoto] = useState("");
 
     const ctx = useContext(UserContext)
     
@@ -33,19 +34,20 @@ const ProfilePage = () => {
         // item => console.log(item.authId)
         item => item.authId === authId
     )
-    const id= profile.id
-   console.log(profile)
     
+    const id = profile.id
+    // console.log(id)
+    // console.log(profile.id)
    
 
     const editPicture = () => {
         const fileInput = document.getElementById("imageInput");
         fileInput.click();
-        
+        // uploadImage();
     }
     const changePhoto = (e) => {
-        setState({...state, photo: e.target.files[0]})
-      
+        // setState({...state, photo: e.target.files[0]})
+      setPhoto(e.target.files[0])
     };
     const changeName = (e) => {
         setState({...state, name: e.target.value})
@@ -53,37 +55,41 @@ const ProfilePage = () => {
     const changePhone = (e) => {
         setState({...state, phone: e.target.value})
     }
+    const edit = () =>{
+        ctx.updateProfile(id)
+    }
   const save = () => {
     ctx.setProfile(state, id)
   }
     
             const uploadImage = () =>{
-                if (state.photo == null) return;
+                if (photo == null) return;
                 // const imageRef = ref(storage, `images/${photo.name + v4()}`);
-                const imageRef = ref(storage, `profiles/${state.photo.name}`);
-                uploadBytes(imageRef, state.photo).then((snapshot) => {
+                const imageRef = ref(storage, `profiles/${photo.name}`);
+                uploadBytes(imageRef, photo).then((snapshot) => {
                     getDownloadURL(snapshot.ref).then((url) => {
-                        setState({...state, photo: url})
-                     
-                        // ctx.profilePhoto(url)
+                        // setState({...state, photo: url})
+                        setPhoto(url)
+                        ctx.profilePhoto(url)
                         
                     })
-                   
+                    
                 })
                 alert("photo amjilttai") 
             }
     return (
-        <div className={css.head}>
+        <div>
             <ToolSidebar/>
-            <div className={css.body}>
-                <div className={css.profile}>
-                    <img src={profile.photo} className={css.zur}/>
-                    <div style={{display: "flex"}}>
-                        <input onChange={changePhoto} 
+            <div className="flex flex-col text-white justify-center items-center ">
+                <div className="flex flex-col ">
+                    <img src={profile.photo} className="w-[150px] h-[150px] rounded-[18px]"/>
+                    <input onChange={changePhoto} 
+                    className="w-[100px] h-[40px] text-[10px]"
                             required type="file" 
                             // hidden="hidden"  
                             id="imageInput" />
-                    
+                            
+                    <div >
                         <Tooltip title="Edit" placement="bottom">
                             <IconButton onClick={editPicture} >
                                 <EditIcon color="primary"/>
@@ -97,20 +103,32 @@ const ProfilePage = () => {
                         </Tooltip>
                     </div>
                 </div>
-            </div>
-            <div className={css.text}>
-                <p>Хэрэглэгчийн ID: {profile.id}</p>
-                <p>AUTH ID: {profile.authId}</p>
-                <div >
-                    <div className={css.t1}>Нэр:<input placeholder={profile.name}  onChange={changeName}/></div>
-                   <div className={css.t1}>Дугаар: <input placeholder={profile.phone} onChange={changePhone}></input></div>
-                   
-                 </div>
-                 <Button onClick={save}>Хадгалах</Button>
+           
+                <div className="bg-[#383030] text-gray-300 text-[12px] w-[300px] h-[300px] flex flex-col justify-center items-center mt-10" >
+                    <div className="flex flex-col justify-start mb-5">
+                        <p>Хэрэглэгчийн ID: {profile.id}</p>
+                        <p>AUTH ID: {profile.authId}</p>
+                        <p>Email: {profile.email}</p>
+                    </div>
+                    
+                    <div className="flex m-2 justify-between">
+                        <div>Нэр:</div>
+                        <input className="w-[150px] h-[20px] text-[12px]" placeholder="hjhj" value={profile.name} onChange={changeName}/>
+                    </div>
+                    <div className="flex m-2 justify-between w-[250px] ">
+                        <div>Дугаар:</div>
+                        <input className="w-[150px] h-[20px] text-[12px]" placeholder={profile.phone} onChange={changePhone}></input>
+                    </div>
+
+                    <div className="flex">
+                    <button className="w-[100px] h-[30px] flex justify-center items-center text-[12px] bg-red-500" onClick={edit}>ЗАСАХ</button>
+                    <button className="w-[100px] h-[30px] flex justify-center items-center text-[12px] bg-blue-500" onClick={save}>ХАДГАЛАХ</button>
+                    </div>
+                    
                 
-               
-               
                 
+                    
+                </div>
             </div>
         </div>
     )

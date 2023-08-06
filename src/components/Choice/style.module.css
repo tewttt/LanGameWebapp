@@ -1,54 +1,194 @@
-
+.body {
+    margin: auto;
+     width: 90%;
+     margin-top: 70px ;
+     padding: 5px;
+    
+ }
+ .language {
+    
+    display: flex;
+    justify-content:space-evenly;
+}
 .tab {
     color:rgb(16, 151, 214);
-    font-size: 30px;
+    font-size: 25px;
     padding: 5px;
+    width: 400px;
     transition: transform ;
     cursor: pointer;
     transition: transform 0.25s ease-out;
     border: 1px solid blue;
+    border-radius: 10px;
     margin: 10px
 }
-
-
 .tab:hover {
 transform: scale(1.05);
-color: red;
+color: pink;
 }
-
-.activeTab {
-    color:red
+.tab:active {
+    color: green
 }
-.language {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-}
-
 .levelbody {
     display: flex;
 }
 .level {
- display: flex;
- flex-direction: column;
- align-items: center;
- justify-content: center;
-}
-.box{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    
+   }
+.tabLevel {
     color:rgb(16, 151, 214);
-    font-size: 30px;
+    font-size: 25px;
     padding: 5px;
+    width: 50px;
     transition: transform ;
     cursor: pointer;
     transition: transform 0.25s ease-out;
     border: 1px solid blue;
+    border-radius: 10px;
     margin: 10px
 }
-.body {
-    width: 90%;
-margin: 60px 10px auto;
-
-padding: 5px;
-
+.tabLevel:hover {
+    transform: scale(1.05);
+    color: red;
 }
+.tabLevel:active{
+    color: green
+}
+@media  (max-width: 900px) {
+    .body {
+         margin: auto;
+         width: 90%;
+         margin-top: 70px ;
+         padding: 5px;
+        
+     }
+     .language {
+      
+    
+        justify-content:space-evenly;
+        align-items: center;
+    }
+    .tab {
+        color:rgb(16, 151, 214);
+        font-size: 20px;
+        padding: 5px;
+        width: 300px;
+        transition: transform ;
+        cursor: pointer;
+        transition: transform 0.25s ease-out;
+        border: 1px solid blue;
+        border-radius: 10px;
+        margin: 10px
+    }
+    .tab:hover {
+    transform: scale(1.05);
+    color: red;
+    }
+    .tab:active {
+        color: green
+    }
+    .levelbody {
+        display: flex;
+    }
+    .level {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        
+       }
+    .tabLevel {
+        color:rgb(16, 151, 214);
+        font-size: 25px;
+        padding: 5px;
+        width: 50px;
+        transition: transform ;
+        cursor: pointer;
+        transition: transform 0.25s ease-out;
+        border: 1px solid blue;
+        border-radius: 10px;
+        margin: 10px
+    }
+    .tabLevel:hover {
+        transform: scale(1.05);
+        color: red;
+    }
+    .tabLevel:active{
+        color: green
+    }
+}
+
+@media  (max-width: 500px) {
+    .body {
+        margin: auto;
+        width: 90%;
+        margin-top: 70px ;
+        padding: 5px;
+       
+    }
+    .language {
+   
+       justify-content:space-evenly;
+       align-items: center;
+   }
+   .tab {
+       color:rgb(16, 151, 214);
+       font-size: 15px;
+       padding: 5px;
+       width: 200px;
+       transition: transform ;
+       cursor: pointer;
+       transition: transform 0.25s ease-out;
+       border: 1px solid blue;
+       border-radius: 10px;
+       margin: 10px
+   }
+   .tab:hover {
+    transform: scale(1.8);
+    border: 1px solid pink;
+    color: pink;
+  
+ 
+   }
+   .tab:active {
+       color: green;
+       background-color: white;
+   }
+   .levelbody {
+       display: flex;
+   }
+   .level {
+       display: flex;
+       flex-direction: column;
+       align-items: center;
+       justify-content: center;
+       
+      }
+   .tabLevel {
+       color:rgb(16, 151, 214);
+       font-size: 15px;
+       padding: 5px;
+       width: 40px;
+       transition: transform ;
+       cursor: pointer;
+       transition: transform 0.25s ease-out;
+       border: 1px solid blue;
+       border-radius: 10px;
+       margin: 10px;
+     
+   }
+   .tabLevel:hover {
+    transition: transform 0.25s ease-out;
+       
+    
+   }
+   .tabLevel:active{
+       color: green
+   }
+}
+
+

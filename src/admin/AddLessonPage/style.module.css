@@ -5,25 +5,21 @@
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    width: 100%;
-    
     margin: auto;
+   
    
 }
 .content {
-  
+    display: flex;
+    justify-content: center;
    
     
 }
-.right {
-    
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    right: 50px;
+.box {
+    color: #4285f4;
+    font-size: 18px;
+     margin: 12px;
 }
-
 Button {  
     text-transform: none;
      color: #4285f4;
@@ -35,5 +31,68 @@ Button:active{
     font-weight: 600;
     color:red !important
 }
+@media (max-width: 900px) {
+    .body {
+   
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        margin: auto;
+       
+    }
+    .box {
+        color: #4285f4;
+        font-size: 12px;
+         margin: 12px;
+    }
+    .content {
+      
+       margin-top: 10px;
+       display: flex;
+justify-content: center;
+    
+    }
+    Button {  
+        text-transform: none;
+         color: #4285f4;
+          font-size: 12px;
+           margin: 12px;
+            font-weight: 600
+    }
+    Button:active{
+        font-weight: 600;
+        color:red !important
+    }
+}
 
+@media (max-width: 500px) {
+    
+.body {
+   
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+  
+    
+}
+.content {
+display: flex;
+justify-content: center;
+  
+}
+.box {
+    color: #4285f4;
+    font-size: 12px;
+     margin: 12px;
+}
+Button {  
+   
+    
+        
+}
+Button:active{
+    color:red !important
+}
+}
 

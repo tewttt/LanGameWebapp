@@ -1,0 +1,57 @@
+.body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin: auto;
+    padding: 10;
+    }
+.uploadPercentage{
+    font-size: 20px;
+    color: "black"
+  
+}
+.bar {
+    height: 50px;
+    width: 400px;
+    background: "#e2ddd9";
+    margin-bottom: 10px;
+    border-radius: 12;
+}
+
+@media (max-width: 500px) { 
+    .body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin: auto;
+    padding: 10;
+    }
+    .uploadPercentage{
+        font-size: 25px;
+        color: "black"
+      
+    }
+    .bich{
+
+       
+        display: flex;
+    }
+    .footer{
+        display: flex;
+        flex-direction: row;
+        background-color: green;
+    }
+    .bar {
+       
+        height: 50px;
+        width: 400px;
+        background: gray;
+        margin-bottom: 10px;
+       
+        border-radius: 12;
+    }
+}

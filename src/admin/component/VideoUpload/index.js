@@ -10,55 +10,13 @@ import { storage, db } from "../../../firebase";
 import { getAuth } from "firebase/auth";
 import LessonContext from "../../../context/LessonContext";
 import { useContext } from "react";
+import { Gradient } from "@mui/icons-material";
 const auth = getAuth();
 // https://www.youtube.com/watch?v=wuArhMaD5Hc&t=26s
 // upload video lesson
 
-const initialState= {
-    videoLink: "",
-    videoName: ""
-}
+
 const VideoUpload = () => {
-    // const [video, setVideo] = useState("")
-    // const [stateVideo , setState] = useState(initialState);
-    // const [prog, setProg] = useState("")
-    // const ctx =useContext(LessonContext)
-    // // console.log(video)
-    // const changeVideoName = (e) => {
-    //     setState({...stateVideo, videoName: e.target.value})
-    // }
-    // const changeVideo = (e) => {
-    //     setState({...stateVideo, videoLink: e.target.files[0]})
-       
-    // }
-    //       const uploadVideo = () => {
-    //         if (stateVideo.videoLink === null) return;
-    //         const videoRef = ref(storage, `videos/${stateVideo.videoLink.name}`)
-    //         const uploadTask = uploadBytesResumable(videoRef, stateVideo.videoLink)
-
-    //         uploadTask.on("state_changed" , (snapshot) => {
-    //             let progress = (snapshot.bytesTransferred/ snapshot.totalBytes) * 100
-
-    //             progress = Math.trunc(progress)
-    //             setProg(progress)
-    //             // progress.style.width=progress+"%"
-    //             // console.log(progress)
-    //         }, (error) => {
-    //             console.log("error : " + error)
-    //         }, () => {
-               
-    //             console.log("success")
-    //             getDownloadURL(uploadTask.snapshot.ref).then(downloadURL => {
-    //                 setState({...stateVideo, videoLink: downloadURL})
-    //                 // setVideo(downloadURL)
-    //                 // console.log(downloadURL)
-    //                 ctx.saveVideo(stateVideo)
-    //             })
-    //             alert("video upload success")
-    //         })
-    //     }
-
-
 
     const [video , setVideo] = useState("");
     const [prog, setProg] = useState("")
@@ -66,7 +24,8 @@ const VideoUpload = () => {
     // console.log(video)
    
     const changeVideo = (e) => {
-        setVideo(e.target.files[0])
+        setVideo(e.target.files[0]);
+        // uploadVideo();
        
     }
           const uploadVideo = () => {
@@ -96,36 +55,52 @@ const VideoUpload = () => {
             })
         }
 
-      
+       
 
-    return (
+return (
+    <div className="flex flex-col">
         <div>
-            <div style={{ width: "200", height: "50"}}>
-            <Video autoPlay loop 
+                <Video autoPlay loop 
                     // poster={photo} 
                     on>
                         <source
-                        //  src={video}
+                         src={video}
                         type="video/webm"
                         />
-                    </Video>
-              
-            </div>
-            {/* <input placeholder="video name" type="text" onChange={changeVideoName} required/> */}
-          
-            <input onChange={changeVideo} 
+                </Video>
+        </div>
+        <div className="flex items-center">
+            <input 
+                className="w-[180px] h-[30px] text-[12px]"
+                onChange={changeVideo} 
                     required type="file" 
                     name="video" 
                     id="videoInput" 
                     // hidden="hidden"
                     />
-    <div style={{display:"flex", flexDirection: "row", justifyContent: "center", alignItems: "center"}}>
-            <div className={css.bar}>
-                <div className={css.progress}></div>
-            </div>
-            <div className={css.uploadPercentage}>{prog}%</div>
-            <Button text="Video Upload" daragdsan={uploadVideo}></Button>
+            <button className="w-[150px] h-[20px] bg-blue-500 flex text-[12px] justify-center items-center" onClick={uploadVideo}>Video upload</button>
         </div>
+              
+        <div style={{
+                backgroundColor: "gray",
+                borderRadius: 0,
+            //  position: "absolute",
+               
+                height: "100%",
+              
+                width: `${prog}%`,
+                display: "flex",
+                flexDirection: 'row',
+                justifyContent: "center",
+                alignItems: "center",
+                marginRight: 5,
+                marginLeft:5
+            
+            
+        }}>
+                <div className={css.uploadPercentage}>{prog}%</div>
+        </div>
+                     
     </div>
     )
 }

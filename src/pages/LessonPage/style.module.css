@@ -1,44 +1,26 @@
-.body {
-    justify-content: center;
-    background-color: #383030;
-    align-items: center;
-}
-
 .lessonPage {
     color: white;
-    margin: 10px auto;
-   
-   
-  
-}
-.auth {
-    color: red;
-}
-.vid {
-    display: flex;
-    flex-direction: column;
-    width: 500px;
-    height:300px;
-   
-    margin: 10px;
-     
- }
-@media only screen and (max-width: 999px) {
-
-}
-@media only screen and (max-width: 768px) {
+    font-size: 18px;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+} 
+@media  (max-width: 900px) {
     .lessonPage {
         color: white;
-      
+        font-size: 15px;
         justify-content: center;
         align-items: center;
         text-align: center;
-        margin: auto;
     }
-    .body {
-        display: flex;
-        flex-direction: row;
-        margin: auto;
+}
+@media  (max-width: 500px) {
+    .lessonPage {
+        color: white;
+        font-size: 12px;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
     }
 }
 

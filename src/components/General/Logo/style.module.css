@@ -1,9 +1,15 @@
-.Logo {
+img {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: 100%;
+    width: 30px;
+    height: 30px;
+    border-radius: 5px;
 }
-.Logo img {
-   
-}
+
+
+
+
+
+
+

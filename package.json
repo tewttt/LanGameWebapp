@@ -17,6 +17,8 @@
     "react-bootstrap": "^2.7.2",
     "react-dom": "^18.2.0",
     "react-html5video": "^2.5.1",
+    "react-icons": "^4.10.1",
+    "react-native-check-box": "^2.1.7",
     "react-router-dom": "^5.3.4",
     "react-scripts": "5.0.1",
     "react-toastify": "^9.1.2",
@@ -47,5 +49,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.3.3"
   }
 }

@@ -1,26 +1,34 @@
-
-
 .body {
    
     color: white;
     justify-content: center;
- 
     display: flex;
     flex-direction: column;
-   
-    background-color: pink;
-   
+  
 }
 .head{
-    background-color: green;
-  
     display: flex;
     padding: 10px;
     margin: 50px;
     justify-content:center ;
    
 }
-.sh {
+.text {
+    margin: 10px;
+}
+.lesson {
+    display: flex;
+    justify-content: space-evenly;
+    margin: 10px
+}
+.right {
+    left: 10px;
+    width: 500px;
+    margin:10px;
+    display: flex;
+    justify-content: center;
+}
+.zurag {
     width:220px;
     height: 220px;
 }
@@ -33,28 +41,11 @@
    margin: 10px;
     
 }
-.lesson {
-    display: flex;
+.grammar {
    
-    justify-content: space-evenly;
-    margin: 10px
+ justify-content: center;
+  
 }
-.content {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    color: white;
-}
-.translate {
-    color: white;
-   
-}
-
 .footer {
     
     margin: 10px;
@@ -63,21 +54,14 @@
    
     display: flex;
 }
-.text {
-    margin: 10px;
-}
-.right {
-    left: 10px;
-  
-  
-    width: 500px;
-    margin:10px
-}
-.grammar {
-    background-color: red;
+
+.translate {
+    color: white;
    
-   align-items: center;
-  
+}
+.bodyStar {
+    display: flex;
+    justify-content: center;
 }
 img{
     width: 30px;
@@ -86,10 +70,7 @@ img{
     padding: 5px;
     transition: transform 0.5s ease-out;
 }
-.new {
-   
-    height: 50%;
-}
+
 .exam {
     margin: 5px;
     padding: 5px;
@@ -104,14 +85,20 @@ img{
     color: red;
  
 }
-@media only screen and (max-width: 500px) {
+
+@media (max-width: 900px) {
+  
+}
+
+@media (max-width: 500px) {
     .body {
         justify-content: center;
         align-items: center;
         display: flex;
         flex-direction: column;
-        color: "white"
-       
+        color: "white";
+        font-size: 12px;
+        
        
     }
     .lesson {
@@ -119,49 +106,11 @@ img{
         flex-direction: column;
         justify-content: center;
         align-items: center;
-       
-       
-       
-       
     }
     .left {
         display: flex;
         flex-direction: column;
         width: 300px;
-        height: 200px;
-         
+        height: 200px;   
      }
-     
-     
-
-}
-@media (max-width: 809px) {
-    .body {
-        justify-content: center;
-        align-items: center;
-        display: flex;
-        flex-direction: column;
-        color: "white"
-       
-       
-    }
-    .lesson {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-       
-       
-    }
-    .left {
-        display: flex;
-        flex-direction: column;
-        width: 400px;
-        height: 200px;
-         
-     }
-    
-     
-    
-
 }

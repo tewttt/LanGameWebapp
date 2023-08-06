@@ -17,27 +17,33 @@ const initialState= {
     image: [],
     video: [],
     grammar: [],
-    newWord: []
+    newWord: [],
+    // wordImage: [],
+    // wordSound: []
 }
+
+
 export const LessonStore = (props) => {
     const [state, setState] = useState(initialState)
     const [lessonList, setLessonList] = useState([]);  
     // console.log(state.base)
     // console.log(state.video)
     // console.log(state.translate)
-    // console.log(state.exam)
+    console.log(state)
 
 // https://www.youtube.com/watch?v=2hR-uWjBAgw&t=1095s
 // firestro db tai ajillah hicheel
    
 
     const saveBase = (base) => {setState({...state, base: base})}
-    const saveExam = (questions) => {setState({...state, exam: questions})}
+    const saveExam = (quiz) => {setState({...state, exam: quiz})}
     const saveTranslate= (questions) => {setState({...state, translate: questions})}
-    const saveImage = (stateImage) => {setState({...state, image: stateImage})}
+    const saveImage = (downloadURL) => {setState({...state, image: downloadURL})}
     const saveVideo = (downloadURL) => {setState({...state, video: downloadURL})}
-    const saveGrammar = (stateGrammar) =>{setState({...state, grammar: stateGrammar})}
-    const saveNewWord = (stateWord) =>{setState({...state, newWord: stateWord})}
+    const saveGrammar = (downloadURL) =>{setState({...state, grammar: downloadURL})}
+    const saveNewWord = (questions) => {setState({...state, newWord: questions})}
+    // const saveNewWordImage = (downloadURL) =>{setState({...state, wordImage: downloadURL})}
+    // const saveNewWordSound = (downloadURL) =>{setState({...state, wordSound: downloadURL})}
 
      // read Data
      const lessonsRef = collection(db, "lessons");
@@ -63,9 +69,9 @@ export const LessonStore = (props) => {
         try {
             await addDoc(lessonsRef, {
                 userId: auth.currentUser?.uid,
-              state
+                state
             });
-            alert("lesson db ")
+            alert("lesson db ilgeelee")
             getLessonList();
         } catch (err) {
             console.log(err)
@@ -103,6 +109,8 @@ return (
             saveVideo,
             saveGrammar,
             saveNewWord,
+            // saveNewWordImage,
+            // saveNewWordSound,
             updateDB,
             deleteDB
 

@@ -29,18 +29,22 @@ const AdminLogin = () => {
         
     };
     return (
-        <div className={css.body}>
-            <div className={css.text}>Мэдлэг {auth.currentUser?.uid}</div>
-            <div className={css.login} >
+        <div className="flex flex-col justify-center items-center text-gray-700 max-w-[1540px] mx-auto">
+            <div className="text-6xl font-bold text-[#1974C7] p-10">Мэдлэг {auth.currentUser?.uid}</div>
+            <div className="flex flex-col bg-[#383030] w-[300px] h-[300px] border-2 border-[#1974C7] p-3 items-center rounded-[20px]" >
            
            
            {/* {ctx.state.error && <div style={{ color : "red"}}>{ctx.state.error}</div>}
            {ctx.state.logginIn && <Spinner/>} */}
         
            
-            <input type="email " placeholder="Email" value={email} onChange={e=> setEmail(e.target.value)}/> 
-            <input type="password" placeholder="Password" value={password} onChange={e=>setPassword(e.target.value)}/>
-            <Button variant="outlined"  style={{textTransform: "none", color: "white", backgroundColor: "#4285f4", fontSize: "18px", margin: "12px", fontWeight: "600"}} onClick={login}>Нэвтрэх</Button>
+            <input 
+                className="w-[250px] h-[30px] text-center bg-gray-300 m-4"
+                type="email " placeholder="Email" value={email} onChange={e=> setEmail(e.target.value)}/> 
+            <input 
+                className="w-[250px] h-[30px] text-center bg-gray-300 m-4"
+                type="password" placeholder="Password" value={password} onChange={e=>setPassword(e.target.value)}/>
+            <button variant="outlined"  className="btn p-2 bg-[#1974C7]  w-[200px] h-[40px] text-base active:bg-red-200 hover:bg-blue-500 items-center" onClick={login}>Нэвтрэх</button>
 
            
             </div>

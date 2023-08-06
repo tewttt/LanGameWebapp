@@ -1,0 +1,218 @@
+
+/*450, 930*/
+
+
+
+
+/*display*/
+    .body {
+    display: flex;
+    flex: 1;    
+    width: 500px;
+    height: 800px;  
+    margin: auto;
+    flex-direction: row;
+    background-image: linear-gradient(to right,#166461, #6ab04c, #badc58,#6ab04c, #166461);
+    }
+    .left {
+        display: flex;
+        flex-flow: column;
+       
+        width: 60px;
+        height: 70%;
+        margin: 0px;
+        position: absolute;
+       
+        justify-content: space-around;
+       
+        left: 480px;
+    }
+    .right {
+      
+        display: flex;
+        flex-flow: column;
+        justify-content: space-around;
+        width: 60px;
+        height: 70%;
+        margin: 0px;
+        position: absolute; 
+        
+       right: 480px
+      
+    }
+    .circle1{
+        width: 60px;
+        height: 60px;
+       
+        border-radius: 60px;
+        box-sizing: border-box;
+       border: 5px solid aqua;
+    }
+    .circle2{
+        width: 60px;
+        height: 60px;
+       
+        border-radius: 60px;
+        box-sizing: border-box;
+       border: 5px solid red;
+       
+    }
+    .circle3{
+        width: 60px;
+        height: 60px;
+       
+        border-radius: 60px;
+        box-sizing: border-box;
+        border: 5px solid green;
+    
+      
+    }
+  
+    .circle4{
+        width: 60px;
+        height: 60px;
+     
+        border-radius: 60px;
+        box-sizing: border-box;
+       border: 5px solid orange;
+    }
+    .playerGeneral {
+        flex-direction: column;
+        display: flex;
+        justify-content: center;
+      
+        align-items: center;
+        height: 70px;
+    }
+    
+   
+    .playerText {
+        color: black;
+        width: 100%;
+        text-align: center;
+        margin-bottom: -2px;
+        font-size: 10px;
+        position: relative;
+        font-weight: 900;
+       
+    }
+    .level {
+        color: black;
+        width: 100%;
+        text-align: center;
+        margin-top: -3px;
+        font-size: 10px;
+        position: relative;
+        font-weight: 600;
+    }
+    
+    .field {
+        display: flex;
+        flex-direction: column;
+        width: 380px;
+        height: 700px;
+        right: 540px;
+        position: absolute;
+        align-items: center;
+        justify-content: center;
+    }
+    .footer {
+        display: flex;
+        flex-direction: row;
+        bottom: 40px;
+        position: absolute;
+        justify-content: space-between;
+        height: 40px;
+        width: 500px;
+        padding: 2px;
+      
+       
+        align-items: center;
+       
+    }
+    .baseTools{
+        display: flex;
+      
+        justify-content:space-between;
+        align-items: center;
+        
+    }
+    
+    .icons {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        margin: 10px
+    }
+   
+    .buttons{
+        display: flex;
+        flex-flow: row;
+    }
+   
+    .tools {
+        color: red;
+        width: 50px;
+        height: 50px;
+      
+        margin: auto 5px;
+       
+        
+        
+    }
+    .chat {
+      margin: 10px
+    }
+    .wallet {
+        margin: 10px
+    }
+    .dice {
+        width: 35px;
+        height: 35px;
+       
+   
+       
+    }
+    .step {
+        display: flex;
+        width: 40px;
+        height: 40px;
+        background-color: #0E5125;
+        border-radius: 60px;
+        margin: 10px;
+        color: white;
+        font-size: 14px;
+      
+        justify-content: center;
+        align-items: center;
+        
+    }
+    .step:hover {
+        transform: scale(1.05);
+        background-color: green;
+    }
+    .step:active {
+        background-color: blue;
+    }
+    .horses {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        width: "100%";
+        height: "100%";
+     
+    }
+    .horse {
+        width: 30px;
+        height: 30px;
+    
+      
+        margin: -15px
+    }
+    .base {
+        display: flex;
+        flex-direction: row;
+    }
+    

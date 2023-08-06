@@ -1,39 +1,90 @@
 
 .body {
-   
-  
-  
     display: flex;
    flex-direction: row;
-   
-    
+}
+.head {
+    display: flex;
+    flex-direction: column;  
+    margin-left: -50px;
 }
 .box {
     margin: 10px;
-font-size: 26px;
+    font-size: 20px;
     background-color: red;
-    width: 200px;
-    height: 70px;
+    width: 180px;
+    height: 50px;
     border-radius: 5px;
-  
-    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+   
 }
 .box:hover,
 .box:active {
     background-color: green;
 }
-.head {
-    display: flex;
-    flex-direction: column;
-   
+
+@media (max-width: 900px) {
+    .body {
+        display: flex;
+       flex-direction: column;
+       justify-content: center;
+       align-items: center;
+    }
+    .head {
+        display: flex;
+        flex-direction: row;  
+      
+    }
+    .box {
+        margin: 5px;
+        font-size: 15px;
+        background-color: red;
+        width: 120px;
+        height: 30px;
+        border-radius: 5px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+       
+    }
+    .box:hover,
+    .box:active {
+        background-color: green;
+    }
 }
-.adminMenuItem{
-    display: flex;
-    flex-direction: column;
-    margin: auto
+
+@media (max-width: 500px) {
+    .body {
+        display: flex;
+       flex-direction: column;
+       justify-content: center;
+       align-items: center;
+      
+    }
+    .head {
+        display: flex;
+        flex-direction: row;  
+    
+        
+    }
+    .box {
+       
+        margin: 5px;
+        font-size: 12px;
+        background-color: red;
+        width: 80px;
+        height: 30px;
+        border-radius: 5px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+       
+    }
+    .box:hover,
+    .box:active {
+        background-color: green;
+    }
 }
-li {
-    border: none;
-    color: white;
-    background-color: none;
-}
+

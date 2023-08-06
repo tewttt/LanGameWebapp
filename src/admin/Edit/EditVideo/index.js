@@ -13,50 +13,10 @@ import { useContext } from "react";
 const auth = getAuth();
 // https://www.youtube.com/watch?v=wuArhMaD5Hc&t=26s
 // upload video lesson
-const initialState= {
-    videoLink: "",
-    videoName: ""
-,}
+
 const EditVideo = (props) => {
-    console.log(props.data)
-    // const [stateVideo , setState] = useState(initialState);
-    // const ctx =useContext(LessonContext)
-    // console.log(props)
-
-    // const changeVideoName = (e) => {
-    //     setState({...stateVideo, videoName: e.target.value})
-    // }
-
-    //  const changeVideo = (e) => {
-    //     setState({...stateVideo, videoLink: e.target.files[0]})
-           
-    //     }
-
-    //       const uploadVideo = () => {
-    //         if (stateVideo.videoLink === null) return;
-    //         const videoRef = ref(storage, `videos/${stateVideo.videoLink.name}`)
-    //         const uploadTask = uploadBytesResumable(videoRef, stateVideo.videoLink)
-
-    //         uploadTask.on("state_changed" , (snapshot) => {
-    //             let progress = (snapshot.bytesTransferred/ snapshot.totalBytes) * 100
-
-    //             progress = Math.trunc(progress)
-    //             // progress.style.width=progress+"%"
-    //             console.log(progress)
-    //         }, (error) => {
-    //             console.log("error : ")
-    //         }, () => {
-               
-    //             console.log("success")
-    //             getDownloadURL(uploadTask.snapshot.ref).then(downloadURL => {
-    //                 setState({...stateVideo, videoLink: downloadURL})
-                 
-    //                 ctx.saveVideo(stateVideo)
-                  
-    //             })
-    //             alert("video upload success")
-    //         })
-    //     }
+    // console.log(props.data)
+  
 
     const [video , setVideo] = useState("");
     const [prog, setProg] = useState("")
@@ -97,8 +57,8 @@ const EditVideo = (props) => {
 
     return (
         <div>
-            <div style={{ width: "200", height: "50"}}>
-                <p>video name: {props.data}</p>
+            <div >
+                {/* <p>video name: {props.data}</p> */}
                 <Video autoPlay loop 
                     // poster={photo} 
                     on>

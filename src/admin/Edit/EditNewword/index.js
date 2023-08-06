@@ -7,40 +7,31 @@ import { getAuth } from "firebase/auth";
 import LessonContext from "../../../context/LessonContext";
 
 const auth = getAuth();
-const initialState= {
-    newWordLink: "",
-    newWordName: ""
-,}
 
-const NewWord = (props) => {
-    const [stateWord , setState] = useState(initialState);
+
+const EditNewWord = (props) => {
+    const [state , setState] = useState();
     const ctx = useContext(LessonContext)
-   
+  
 
     const uploadFile = () =>{
-        if (stateWord.newWordLink == null) return;
+        if (state == null) return;
       
-        const fileRef = ref(storage, `newword/${stateWord.newWordLink.name}`);
-        uploadBytes(fileRef, stateWord.newWordLink).then((snapshot) => {
+        const fileRef = ref(storage, `newword/${state.name}`);
+        uploadBytes(fileRef, state).then((snapshot) => {
             getDownloadURL(snapshot.ref).then((downloadURL) => {
-                setState({...stateWord, newWordLink: downloadURL})
-                ctx.saveNewWord(stateWord)
-
-              
+                setState(downloadURL)
+                ctx.saveNewWord(downloadURL)
             })
         })
         alert("photo amjilttai") 
     }
 
-
 const changePhoto = (e) => {
-    const file = e.target.files[0];
-    setState({...stateWord, newWordLink: file})
+  
+    setState(e.target.files[0])
 };
-const changeWordName = (e) => {
-    setState({...stateWord, newWordName: e.target.value})
-}
-        
+      
 
     return (
     <div className={css.body}>
@@ -48,8 +39,7 @@ const changeWordName = (e) => {
            
            <div className={css.photo}>
                
-                <img src={stateWord.newWordLink} className={css.image}/>
-                <input placeholder="video name" type="text" onChange={changeWordName} required/>
+                <img src={props.data} className={css.image}/>
                 <input onChange={changePhoto} 
                     required type="file" 
                     // hidden="hidden"  
@@ -61,11 +51,11 @@ const changeWordName = (e) => {
                 <div className={css.progress}></div>
             </div>
             <div className={css.uploadPercentage}>0%</div>
-            <Button text="New word Upload" daragdsan={uploadFile}></Button>
+            <Button text="Newword Upload" daragdsan={uploadFile}></Button>
         </div>
     </div>
       
     )
 }
 
-export default NewWord;
+export default EditNewWord;

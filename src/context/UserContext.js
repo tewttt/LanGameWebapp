@@ -1,6 +1,6 @@
 import React, {useState, useContext, useEffect, useRef} from "react";
 import axios from "../axios";
-import { collection, addDoc, getDocs, setDoc,doc} from "firebase/firestore";
+import { collection, addDoc, getDocs, setDoc,doc, updateDoc} from "firebase/firestore";
 import { db } from "../firebase";
 import {getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut} from "firebase/auth";
 const auth = getAuth();
@@ -17,10 +17,16 @@ const initialState = {
     userId: null,
     expireDate: null,
 };
-
+const initialData = {
+  photo: "",
+  name: "",
+  phone: ""
+}
 
 export const UserStore = (props) => {
     const [state, setState] = useState(initialState);
+    const [data, setData] = useState(initialData)
+   
     const [userList, setUserList] = useState([])
     const [loading, setLoading] = useState(true)
     const [currentUser, setCurrentUser] = useState(null);
@@ -32,14 +38,19 @@ export const UserStore = (props) => {
       getUserList();
   }, []);
 
-    const profilePhoto = () =>{
-
+  const profilePhoto = (url) => {setData({...data, photo: url})}
+ 
+    const updateProfile = async (id) =>{
+      const updateUser = doc(db, "users" ,id)
+      await updateDoc(updateUser, {state: state})
+      alert(" update")
+      getUserList();
     }
     
 
     const setProfile = async (state, id) => {
-      const updateLesson = doc(db, "users" , id)
-      setDoc(updateLesson, state, {merge: true})
+      const setUser = doc(db, "users" , id)
+      setDoc(setUser, state, {merge: true})
       .then((res) => {console.log('success merge')})
       .catch((error) => {console.log("error" + error)})
       getUserList();
@@ -79,6 +90,7 @@ export const UserStore = (props) => {
       //     setError("Email and password hii")
       //  return; }
        try {
+       
           await signInWithEmailAndPassword (auth, email,password);
           // alert("Амжилттай нэвтэрлээ")
           setState({...state,error: "",logginIn: false })
@@ -157,6 +169,7 @@ export const UserStore = (props) => {
             logout,
             userInfo,
             currentUser,
+            updateProfile,
             profilePhoto,
             setProfile
             // loginUserSucces,

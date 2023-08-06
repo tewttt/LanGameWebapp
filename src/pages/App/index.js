@@ -3,7 +3,7 @@ import css from "./style.module.css";
 import {Switch , Route, Redirect} from "react-router-dom";
 import LessonPage from "../LessonPage";
 import { Fragment } from "react";
-import Game from "../GamePage"
+import Game from "../../game/GamePage"
 
 import Quiz from "../quiz";
 import LudoGame from "../LudoGame";
@@ -42,30 +42,7 @@ const ctx = useContext(UserContext);
 //         // Token huchingui bolohod uldej baigaa hugatsaag tootsoolj
 //         // Ter hugatsaanii daraa avtomataar logout hinpm 
 return (
-<div style={{color: "red"}}>
-    {/* <Switch>
-                    <Route path="/dashboard" component={Dashboard}/>
-                    <Route path="/lesson/:id" component={LessonView}/>
-                    <Route path="/lesson" component={LessonPage}/>
-                    <Route path="/wallet" component={Payment}/>
-                    
-                    <Route path="/addlesson" component={AddLesson}/>
-                    <Route path="/game" component={Game}/>
-                    <Route path="/logout" component={Logout}/>
-                    
-                    <Route path="/ludogame" component={LudoGame} />
-                    <Route path="/quiz" component={Quiz}/>
-                    <Route path="/signup" component={SignUp}/>
-                     <Route path="/" component={Login}/>
-                     <Redirect to="/"/>
-                   
-            </Switch> */}
-        
-           
-            <Switch>
-               
-                    
-            </Switch>
+<div >
              
             {auth.currentUser?.uid ? (
             <Switch>
@@ -76,14 +53,14 @@ return (
 
                    
                     <Route path="/dashboard" component={Dashboard}/>
-                    <Route path="/addlesson" component={AddLesson}/>
-                   <Route path="/edit/:id" component={EditLesson}/>
+                    {/* <Route path="/addlesson" component={AddLesson}/> */}
+                    <Route path="/edit/:id" component={EditLesson}/>
                     <Route path="/game" component={Game}/>
                     <Route path="/logout" component={Logout}/>
                     
                     <Route path="/ludogame" component={LudoGame} />
                     <Route path="/quiz" component={Quiz}/>
-                   <Route path="/user" component={ProfilePage}/>
+                    <Route path="/user" component={ProfilePage}/>
                    
             </Switch>
 
@@ -92,7 +69,7 @@ return (
                      <Route path="/admin" component={AdminLogin}/> 
                      <Route path="/signup" component={SignUp}/>
                      <Route path="/" component={Login}/>
-                     <Redirect to="/"/>
+                     {/* <Redirect to="/"/> */}
                 </Switch>
              )} 
          

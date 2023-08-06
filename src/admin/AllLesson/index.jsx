@@ -14,8 +14,8 @@ const AllLesson = () => {
     const [lessons, setLesson] = useState([]);
   
     return (
-        <div style={{color: "white"}}>Бүх хичээл
-        {/* <AdminChoice/> */}
+        <div className="text-white flex flex-col m-2">
+        
            <AdminLessonList lessons={ctx.lessonList}/>
 
            {/* {ctx.lessonList.map(el => {
