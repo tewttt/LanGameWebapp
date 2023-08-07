@@ -5,8 +5,6 @@ import { Button } from "@mui/material";
 import Modal from "../../../components/General/Modal";
 import { useHistory, useParams } from "react-router-dom";
 
-
-
 import fairy from "../../../assets/video/1.mp4"
 import VideoUpload from "../../../admin/component/VideoUpload";
 import ImageUpload from "../../../admin/component/ImageUpload";
@@ -24,8 +22,8 @@ const EditBase = (props) => {
     const lessonEditbase = ctx.lessonList.find(
         item =>  item.id === id
        );
-    const lessonId = lessonEditbase.id
-    // console.log(lessonEditbase)
+    // const lessonId = lessonEditbase.id
+    // console.log(lessonEditbase.state.base)
 
     
     
@@ -33,26 +31,34 @@ const EditBase = (props) => {
     const [confirm , setConfirm] = useState(false);
     const [addlesson, setAddLesson] = useState(
         {
-        language: "",
-        level: "",
-        lessonNumber: "",
-        name: "", 
+            language: "",
+            level: "",
+            lessonNumber: "",
+            lessonName: "", 
+            price: "",
+            status: "",
+            text: ""
     }); 
     const updateDB = () => {
         const base = {
-                    language: addlesson.language,
-                    level: addlesson.level,
-                    lessonNumber: addlesson.lessonNumber,
-                    name: addlesson.name,
+            language: addlesson.language,
+            level: addlesson.level,
+            lessonNumber: addlesson.lessonNumber,
+            name: addlesson.name,
+            price: addlesson.price,
+            status: addlesson.status,
+            text: addlesson.text
+
         };
-        // alert("Үндсэн мэдээллийн хэсгийг амжилттай хадгаллаа"); 
+        // alert("Үндсэн мэдээллийн хэсгийг амжилттай заслаа"); 
         ctx.saveBase(base);
-        ctx.updateDB(id)
+        // ctx.updateDB(id)
         closeConfirm()
         // history.push("/dashboard/addlesson/translate");
     }
     const save = () => {
        updateDB();
+       history.push(`/edit/${id}/translate`)
     }
    const showConfirm = () => {
     setConfirm(true)
@@ -73,89 +79,100 @@ const EditBase = (props) => {
     const changeName = (e) => {
         setAddLesson({ ...addlesson, name: e.target.value});
     };
-   
+    const changeStatus = (e) => {
+        setAddLesson({ ...addlesson, status: e.target.value});
+    };
+    const changePrice = (e) => {
+        setAddLesson({ ...addlesson, price: e.target.value});
+    };
+    const changeText= (e) => {
+        setAddLesson({ ...addlesson, text: e.target.value});
+    };
     
-   return(
-    <div>jkjkj
-        <input placeholder="kkk" type="text"/>
-    </div>
-   )
+  
    
 
-    // return (
-    // <div className={css.body}>
+    return (
+    <div className="text-gray-300 flex flex-col bg-[#383030]">
         
-    //     <Modal closeConfirm={closeConfirm} show={confirm} >
-    //         <div style={{display: "flex", flexDirection: "column"}}>
-    //         Хадгалахдаа итгэлтэй байна уу
-    //         <div >
-    //             <ButtonCmp btn="Cont" text="Тийм" daragdsan={save}/>
-    //             <ButtonCmp  text="Үгүй" daragdsan={closeConfirm}/>
-    //         </div>
+        <Modal closeConfirm={closeConfirm} show={confirm} >
+            <div style={{display: "flex", flexDirection: "column"}}>
+            Засварыг Хэладгалахдаа итгэлтэй байна уу
+                <div >
+                    <ButtonCmp btn="Cont" text="Тийм" daragdsan={save}/>
+                    <ButtonCmp  text="Үгүй" daragdsan={closeConfirm}/>
+                </div>
           
-    //         </div>
-    //     </Modal>
+            </div>
+        </Modal>
         
-    //         <div style={{color: "white", fontSize: "30px"}}> МЭДЭЭЛЭЛ</div>
-    //         <div className={css.row} >
-    //             {/* language: {props.filBase.state.base.language}  */}
-    //             <br/>
-    //             {/* <input onChange={changeLanguage} type="text" name="Хэл" placeholder="Хэл сонгох"/> */}
-    //             <select onChange={changeLanguage}>
-    //                 {/* <option>{props.filBase.state.base.language}</option> */}
-    //                 <option>Англи хэл</option>
-    //                 <option>Бусад</option>
-                
-    //             </select>
-    //             <br/>  <br/>
-    //         </div>
+            <div className="text-center"> МЭДЭЭЛЭЛ</div>
+            <div className="flex justify-between my-1 mx-3" >
+               <div> language: {addlesson.language} </div>
+                <select onChange={changeLanguage} className="text-black rounded-[5px]">
+                    <option>{lessonEditbase.state.base.language}</option>
+                    <option>Англи хэл</option>
+                    <option>Солонгос хэл</option>
+                    <option>Монгол хэл</option>
+                </select>
+            </div>
 
-    //         <div className={css.row}>
-    //             {/* level: {props.filBase.state.base.level} */}
-    //             <select onChange={changeLevel}>
-    //                 {/* <option>{props.filBase.state.base.level}</option>  */}
-    //                 <option>A1</option>
-    //                 <option>A2</option>
-    //                 <option>B1</option>
-    //                 <option>B1+</option>
-    //                 <option>B2</option>
-    //                 <option>B2+</option>
+            <div className="flex justify-between my-1 mx-3">
+                <div> level: {addlesson.level}</div>
+                <select className="text-black rounded-[5px]" onChange={changeLevel}>
+                    <option>{lessonEditbase.state.base.level}</option> 
+                    <option>A1</option>
+                    <option>A2</option>
+                    <option>B1</option>
+                    <option>B1+</option>
+                    <option>B2</option>
+                    <option>B2+</option>
                 
-    //             </select>
-    //             <br/>  <br/>
+                </select>
+
           
-    //         </div>
+            </div>
 
-    //         <div className={css.row}>
-    //         {/* lessonNumber: {props.filBase.state.base.lessonNumber} <br/> */}
-    //         {/* <input onChange={changeLessonNumber} defaultValue={props.filBase.state.base.lessonNumber}  type="text" name="Хичээлийн дугаар" placeholder="хичээлийн нэр"/> */}
-    //         </div>
+            <div className="flex justify-between my-1 mx-3">
+                <div> lessonNumber: {addlesson.lessonNumber}</div>
+    
+                <input className="w-[150px] h-[20px] rounded-[5px] mx-0 text-black" onChange={changeLessonNumber} defaultValue={lessonEditbase.state.base.lessonNumber}  type="text" name="Хичээлийн дугаар" placeholder="Хичээлийн дугаар" />
+            </div>
  
-    //         <div className={css.row}>
-    //         {/* name: {props.filBase.state.base.name} <br/> */}
-    //         {/* <input onChange={changeName}  type="text"  placeholder={props.filBase.state.base.name}/> */}
-    //         </div>
-            
-    //         <div className={css.row}> 
-        
-    //         {/* <EditVideo data={props.filBase.state.video}/> */}
-    //         <div style={{display: "flex", flexDirection: 'row'}}>
-    //             {/* <EditImage data={props.filBase.state.image}/> */}
-            
-    //             {/* <EditGrammar data={props.filBase.state.grammar}/> */}
-    //             {/* <EditNewWord data={props.filBase.state.newWord}/> */}
-    //         </div>
+            <div className="flex justify-between my-1 mx-3">
+                <div>name: {addlesson.name} </div>
+                <input className="w-[150px] h-[20px] rounded-[5px] mx-0 text-black" onChange={changeName}  type="text" defaultValue={lessonEditbase.state.base.name} placeholder="хичээлийн нэр"/>
+            </div>
+
+            <div className="flex justify-between my-1 mx-3">
+                <div> Төлөв: {addlesson.status}</div>
+                <select className="text-black rounded-[5px]" onChange={changeStatus}>
+                    <option>{lessonEditbase.state.base.status}</option> 
+                    <option>Төлбөртэй</option>
+                    <option>Төлбөргүй</option>
+                </select>
            
-               
-               
-    //         </div>
-    //         <Button onClick={showConfirm} className={css.towch}>Мэдээлэл засах</Button>
+            </div>
+
+            <div className="flex justify-between my-1 mx-3">
+                Үнэ: {addlesson.price} <br/>
+                <input className="w-[150px] h-[20px] rounded-[5px] mx-0 text-black" onChange={changePrice}  type="number" defaultValue={lessonEditbase.state.base.price} name="Хичээлийн үнэ" placeholder="Хичээлийн үнэ"/>
+            </div>   
+            <input className="w-[90%] m-3 h-[20px] rounded-[5px] flex justify-center items-center text-black"
+                multline
+                numberOfLines={10}
+                placeholder="text"
+                required
+                onChange={changeText}
+                defaultValue={lessonEditbase.state.base.text}
+            />
+            <button className="w-[150px] h-[20px] bg-blue-500 flex text-[12px] justify-center items-center m-auto" onClick={showConfirm} >Мэдээлэл засах</button>
                                 
        
           
-    // </div>
+    </div>
       
-    // )
+    )
 }
 
 export default EditBase;

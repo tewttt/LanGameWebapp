@@ -69,7 +69,7 @@ const EditVideo = (props) => {
                     </Video>
                
             </div>
-            {/* <input placeholder="video name" type="text" onChange={changeVideoName} required/> */}
+            {/* <input ="video name" type="text" onChange={changeVideoName} required/> */}
             <input onChange={changeVideo} 
                     required type="file" 
                     name="video" 

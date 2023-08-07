@@ -19,7 +19,7 @@ import Modal from "../../../components/General/Modal";
 const Exam = (props) => {
    const ctx = useContext(LessonContext);
    const history = useHistory();
-   const [confirm , setConfirm] = useState(false);
+   const [confirm , setConfirm] = useState(false);  
     const {id} = useParams();
     const [ questions, setQuestions] = useState(
         [{questionText: "",

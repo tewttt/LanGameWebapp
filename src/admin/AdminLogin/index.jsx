@@ -30,7 +30,7 @@ const AdminLogin = () => {
     };
     return (
         <div className="flex flex-col justify-center items-center text-gray-700 max-w-[1540px] mx-auto">
-            <div className="text-6xl font-bold text-[#1974C7] p-10">Мэдлэг {auth.currentUser?.uid}</div>
+            <div className="text-6xl font-bold text-[#1974C7] p-10">Admin {auth.currentUser?.uid}</div>
             <div className="flex flex-col bg-[#383030] w-[300px] h-[300px] border-2 border-[#1974C7] p-3 items-center rounded-[20px]" >
            
            

@@ -17,20 +17,21 @@ import ButtonCmp from "../../../components/Button"
 import Spinner from "../../../components/General/Spinner";
 import LessonContext from "../../../context/LessonContext";
 import Modal from "../../../components/General/Modal";
-
+import { useHistory } from "react-router-dom";
 
 
 
 const EditExam = (props) => {
+    const history = useHistory()
     // const id = props.filExam.id
    const ctx = useContext(LessonContext);
    const [confirm , setConfirm] = useState(false);
-//    const data = props.filExam.state.exam
-//     const exam = (Object.data.map(exam, i) =>(
-    
-//    )))
+
    
-    // const {id} = useParams();
+    const {id} = useParams();
+     const lessonEditExam = ctx.lessonList.find(
+        item => item.id === id
+    )
     const [ questions, setQuestions] = useState(
         [{questionText: "",
             questionType: "radio",
@@ -38,10 +39,11 @@ const EditExam = (props) => {
                 {optionText: ""},
              
             ],
-            answer: false,
+            // answer: false,
             answerKey: "",
-            open: true,
-            required: false}]
+            // open: true,
+            // required: false
+        }]
     )
     const showConfirm = () => {
         setConfirm(true)
@@ -52,6 +54,7 @@ const EditExam = (props) => {
     const save = () => {
         // alert("Шалгалтын хэсгийг амжилттай хадгаллаа"); 
         ctx.saveExam(questions);
+        history.push(`/edit/${id}/grammar`) 
         // ctx.updateDB(id);
         closeConfirm()
     }
@@ -149,120 +152,23 @@ const EditExam = (props) => {
     
 return ( 
 <div>
-{/* {props.filExam.state.exam.map(el => (
-                <div className={css.answers}>{el.answer}
-                    Асуулт<input placeholder={el.questionText}/>
-                    {
-                        el.options.map(el=> (
-                           <div>
-                            хариулт    <input placeholder={el.optionText}/>
-                            </div>    
-                       
-                        ))
-                    }
-                  
-
-                </div>
-            ))} */}
-    
-    { questions.map((ques, i) => (
+     { questions.map((ques, i) => (
     <div style={{width: "100%",  margin: "auto" }}> 
          <Modal closeConfirm={closeConfirm} show={confirm} >
                 <div style={{display: "flex", flexDirection: "column"}}>
                 Хадгалахдаа итгэлтэй байна уу
                 <div >
-                    <ButtonCmp btn="Cont" text="Тийм" daragdsan={save}/>
-                    <ButtonCmp  text="Үгүй" daragdsan={closeConfirm}/>
+                    <Button btn="Cont" text="Тийм" daragdsan={save}/>
+                    <Button  text="Үгүй" daragdsan={closeConfirm}/>
                 </div>
             
                 </div>
             </Modal>
         <div style={{color: "white", fontSize: "30px"}}></div>         
         <div className={css.questionBox}>
-
-        {props.filExam.state.exam.map(el => (
-            <AccordionDetails className={css.addQuestion}>
-            <div className={css.addQuestionTop}>
-                <input type="text" className={css.question} placeholder={el.questionText} value={ques.questionText} onChange={(e) => {changeQuestion(e.target.value, i)}}></input>
-            </div>
-                
-                {ques.options.map((op, j) => (
-        
-                    <div className={css.addQuestionBody} 
-                    key={j}
-                    >
-                            
-                    <div>
-                    {
-                        el.options.map(el=> (
-                           <div>
-                             <input type="text" className={css.textInput} placeholder={el.optionText} 
-                        value={ques.options[j].optionText} onChange= { (e) => {changeOptionValue(e.target.value, i, j)}}
-                        ></input>
-                          
-                            
-                            </div>    
-                       
-                        ))
-                    }
-                        {/* <input type="text" className={css.textInput} placeholder={el.optionText} 
-                        value={ques.options[j].optionText} onChange= { (e) => {changeOptionValue(e.target.value, i, j)}}
-                        ></input> */}
-                    </div>
-                    <div className={css.formCheck}>
-                            <label style={{fontSize: "13px", color:"black"}} onClick={() => {setOptionAnswer(ques.options[j].optionText, i)}}>
-                                {/* {(ques.questionType!="text") ?  */}
-                                <input
-                                type="checkbox"
-                                    // type={ques.questionType}
-                                    // name={ques.questionText}
-                                    // value="option3"
-                                    className={css.formCheckInput}
-                                    // required={ques.required}
-                                    style={{marginRight: "10px", marginBottom: "10px", marginTop: "5px"}}
-
-                                />
-                                    {/* : "" } */}
-                                
-                            </label>
-
-                        </div>
-                        
-                        <IconButton aria-label="delete">
-                            <CloseIcon  onClick={() => {removeOption( i,j )}}/>
-                        </IconButton>
-        
-                    </div>
-                ))} 
-            
-                {ques.options.length <= 4 ? (
-                    <div className={css.addQuestionBody}>
-                        
-                        <div className={css.addBorder}>
-                            <Button size="small" onClick={() => {addOption(i)}} style={{textTransform: "none", color: "#4285f4", fontSize: "13px", fontWeight: "400"}} >Add option</Button>
-                        </div>
-                        
-                    </div>
-                ):""}
-            
-                <div className={css.addFooter}>
-                    
-                    <div className={css.addQuestionBottom}>
-                                <IconButton aria-label="Copy" onClick={() => {copyQuestion(i)}}>
-                                    <FilterNoneIcon/>
-                                </IconButton>
-                                <IconButton aria-label="Delete"  onClick={() => {deleteQuestion(i)}}>
-                                    <RestoreFromTrashIcon />   
-                                </IconButton>         
-                    </div>
-                </div>
-        </AccordionDetails>
-             
-            ))}
-
             <AccordionDetails className={css.addQuestion}>
                 <div className={css.addQuestionTop}>
-                    <input type="text" className={css.question} placeholder={props.filExam.state.exam[0].questionText} value={ques.questionText} onChange={(e) => {changeQuestion(e.target.value, i)}}></input>
+                    <input type="text" className={css.question} placeholder="Question" value={ques.questionText} onChange={(e) => {changeQuestion(e.target.value, i)}}></input>
                 </div>
                     
                     {ques.options.map((op, j) => (
@@ -332,8 +238,7 @@ return (
     </div>
    
     ))}
-    <Button onClick={showConfirm} className={css.towch}>Шалгалт засах</Button>
-
+   <Button onClick={save}>Save</Button> 
 </div>
 )
     

@@ -110,7 +110,7 @@ const AddLesson = () => {
         </div>
  
         <div className="flex justify-between my-1 mx-3">
-            name: {addlesson.name} <br/>
+            <div>name: {addlesson.name} </div>
             <input className="w-[150px] h-[20px] rounded-[5px] mx-0" onChange={changeName} required type="text" name="Хичээлийн нэр" placeholder="Хичээлийн нэр"/>
         </div>
 
@@ -126,7 +126,7 @@ const AddLesson = () => {
 
         <div className="flex justify-between my-1 mx-3">
             Үнэ: {addlesson.price} <br/>
-            <input className="w-[150px] h-[20px] rounded-[5px] mx-0" onChange={changePrice} required type="number" name="Хичээлийн үнэ" placeholder="Хичээлийн үнэ"/>
+            <input className="w-[150px] h-[20px] rounded-[5px] mx-0" onChange={changePrice} type="number" name="Хичээлийн үнэ" placeholder="Хичээлийн үнэ"/>
         </div>   
         <input className="w-[90%] m-3 h-[20px] rounded-[5px] flex justify-center items-center"
             multline
@@ -139,7 +139,7 @@ const AddLesson = () => {
         <VideoUpload/>
         <ImageUpload/>
       
-        <button className="w-[150px] h-[20px] bg-blue-500 flex text-[12px] justify-center items-centr m-auto"  onClick={showConfirm}>Хадгалах</button>
+        <buttone className="w-[150px] h-[20px] bg-blue-500 flex text-[12px] justify-center items-centr m-auto"  onClick={showConfirm}>Хадгалах</buttone>
     </div>
 )}
 
