@@ -84,7 +84,7 @@ const Translate = (props) => {
     <div className="">
     {
         questions.map((ques, i) => (
-            <div className="flex">
+            <div className="flex"> 
                 
                 <div className="text-white text-[20px]"> </div> 
                    

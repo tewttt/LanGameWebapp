@@ -2,9 +2,7 @@ import React, {useState, useContext} from "react";
 import css from "./style.module.css";
 import { storage } from "../../../firebase";
 import { ref,getDownloadURL, uploadBytesResumable, } from "firebase/storage";
-import { useHistory } from "react-router-dom";
-import Button from "../../../components/Button";
-import {useParams } from "react-router-dom";
+import {useParams,useHistory } from "react-router-dom";
 import LessonContext from "../../../context/LessonContext";
 
 const Grammar = (props) => {
@@ -16,6 +14,7 @@ const Grammar = (props) => {
     const lessonEditGrammar = ctx.lessonList.find(
         item => item.id === id
     )
+    // console.log(lessonEditGrammar.state.grammar)
     const uploadFile =async () =>{
         if (images == null) return;
         for (let i = 0; i<images.length; i++) {
@@ -40,9 +39,9 @@ const Grammar = (props) => {
         }}
 
     return (
-    <div className="text-white">
+    <div className="text-white  flex flex-col items-center w-[300px] h-[250px] m-auto ">
         <div className={css.photo}>
-            <img src={images} className="w-[80px] h-[80px]"/>
+            <img src={lessonEditGrammar.state.grammar} className="w-[80px] h-[80px] m-auto"/>
             <input 
             className="w-[190px] h-[30px] text-[12px]"
                 onChange={(event) => {setImages(event.target.files)}}
@@ -50,7 +49,7 @@ const Grammar = (props) => {
                 multiple
                 id="imageInput" />
         </div>
-        <div className={css.bar}>
+        <div className="w-[200px] h-[20px]">
             <div style={{
                     backgroundColor: "grey",
                     borderRadius: 0,

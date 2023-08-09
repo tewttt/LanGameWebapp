@@ -16,7 +16,7 @@ const auth = getAuth();
 const ImageUpload = (props) => {
     // console.log(props.lessonId)
     const ctx = useContext(LessonContext)
-    const [photo , setPhoto] = useState("");
+    const [photo , setPhoto] = useState(""); 
 
 const editPicture = () => {
     const fileInput = document.getElementById("imageInput");

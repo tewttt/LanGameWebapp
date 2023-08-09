@@ -1,22 +1,18 @@
 import React, {useState, useEffect, useContext} from "react";
 import css from "./style.module.css";
-import {Accordion, Button, FormControlLabel, IconButton, MenuItem, Select} from "@mui/material";
+import { IconButton, MenuItem, Select} from "@mui/material";
 import AccordionDetails from '@mui/material/AccordionDetails';
 
 import FilterNoneIcon from '@mui/icons-material/FilterNone';
 import RestoreFromTrashIcon from '@mui/icons-material/RestoreFromTrash';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import {useParams } from "react-router-dom";
-import ButtonCmp from "../../../components/Button";
 import Modal from "../../../components/General/Modal"
 import { useHistory } from "react-router-dom";
 import LessonContext from "../../../context/LessonContext";
 
-
-
 const EditTranslate = (props) => {
     const history = useHistory()
-    // const id = props.filTranslate.id
     const ctx = useContext(LessonContext)
     const [confirm , setConfirm] = useState(false);
     const {id} = useParams();
@@ -24,7 +20,8 @@ const EditTranslate = (props) => {
     const lessonEditTranslate = ctx.lessonList.find(
         item => item.id === id
     )
-    // console.log(lessonEditTranslate.state.translate)
+    const data = lessonEditTranslate.state.translate
+    console.log(data)
     const [ questions, setQuestions] = useState(
         [{  questionText: "",
             questionAnswer: "",   
@@ -77,9 +74,6 @@ const EditTranslate = (props) => {
             {questionText: "Question", questionType: "radio", options: [{optionText: "Option1"}], open:true, required: false }
             ]);
     }
-   
-
-    
     const expandCloseAll = () => {
         let qs = [...questions];
         for (let j = 0; j< qs.length; j++) {
@@ -88,23 +82,20 @@ const EditTranslate = (props) => {
         setQuestions(qs);
     }
    
-   
-
-
-   
     return (
          <div className="">
     {
-        questions.map((ques, i) => (
-            <div className="flex">
+        data.map((ques, i) => (
+            // console.log(ques.questionText)
+            <div className="flex justify-center">
                 
                 <div className="text-white text-[20px]"> </div> 
                    
                     <div className="flex w-full  m-2 md:w-[60p0x] lg:w-[900px] xl:w-[1000px] ">
                         <AccordionDetails className={css.addQuestion}>
                             <div className={css.addQuestionTop}>
-                                <input type="text" className={css.question} placeholder="Question" defaultValue={lessonEditTranslate.state.translate.questionText} onChange={(e) => {changeQuestion(e.target.value, i)}}></input>
-                                <input type="text" className={css.question} placeholder="Answer" defaultValue={lessonEditTranslate.state.translate.questionText}  onChange={(e) => {changeAnswer(e.target.value, i)}}></input>                                                                          
+                                <input type="text" className={css.question} placeholder="Question" defaultValue={ques.questionText} onChange={(e) => {changeQuestion(e.target.value, i)}}></input>
+                                <input type="text" className={css.question} placeholder="Answer" defaultValue={ques.questionAnswer}  onChange={(e) => {changeAnswer(e.target.value, i)}}></input>                                                                          
                             </div>
                         <div className={css.addFooter}>
                             <div className={css.addQuestionBottom}>

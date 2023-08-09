@@ -49,9 +49,13 @@ const EditLesson = (props) => {
         <div >
         <ToolSidebar/>
         {/* <AdminNav/> */}
-     
-           <div className="mt-0 text-gray-300 text-center flex flex-col"> Засвар оруулах
-
+            <div className="flex text-gray-200 justify-between items-center">
+                
+                <button className="my-1 w-[150px] h-[20px] bg-blue-500 flex text-[12px] justify-center items-center" onClick={back}>Буцах</button>
+                <div>Засвар оруулах</div>
+            </div>
+           <div className="mt-0 text-gray-300 text-center flex flex-col"> 
+                
                 <div className="flex justify-center">
                     <button className="mx-1 w-[70px] h-[15px] bg-blue-200 flex justify-center items-center text-[12px] text text-black hover:bg-blue-500 rounded-sm" onClick={baseInfo}>Мэдээлэл</button>
                     <button className="mx-1 w-[70px] h-[15px] bg-blue-200 flex justify-center items-center text-[12px] text text-black hover:bg-blue-500 rounded-sm" onClick={translate}>Орчуулга</button>

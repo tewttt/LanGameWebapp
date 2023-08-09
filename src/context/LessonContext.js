@@ -2,14 +2,11 @@ import React from "react";
 import { useState } from "react";
 import {db, storage} from "../firebase";
 import {doc,getDocs, onSnapshot,collection, addDoc, updateDoc, deleteDoc} from "firebase/firestore";
-
 import { getAuth } from "firebase/auth";
 import { useEffect } from "react";
 
 const auth = getAuth();
-
 const LessonContext = React.createContext();
-
 const initialState= {
     base: [],
     translate: [],
@@ -18,22 +15,14 @@ const initialState= {
     video: [],
     grammar: [],
     newWord: [],
-    // wordImage: [],
-    // wordSound: []
 }
-
 
 export const LessonStore = (props) => {
     const [state, setState] = useState(initialState)
     const [lessonList, setLessonList] = useState([]);  
-    // console.log(state.base)
-    // console.log(state.video)
-    // console.log(state.translate)
-    console.log(state)
 
 // https://www.youtube.com/watch?v=2hR-uWjBAgw&t=1095s
 // firestro db tai ajillah hicheel
-   
 
     const saveBase = (base) => {setState({...state, base: base})}
     const saveExam = (quiz) => {setState({...state, exam: quiz})}
@@ -42,12 +31,10 @@ export const LessonStore = (props) => {
     const saveVideo = (downloadURL) => {setState({...state, video: downloadURL})}
     const saveGrammar = (downloadURL) =>{setState({...state, grammar: downloadURL})}
     const saveNewWord = (questions) => {setState({...state, newWord: questions})}
-    // const saveNewWordImage = (downloadURL) =>{setState({...state, wordImage: downloadURL})}
-    // const saveNewWordSound = (downloadURL) =>{setState({...state, wordSound: downloadURL})}
 
      // read Data
      const lessonsRef = collection(db, "lessons");
-      const getLessonList = async () => {
+        const getLessonList = async () => {
             try {
                 const data =await getDocs(lessonsRef);
                 const filteredData = data.docs.map((doc) => ({
@@ -60,7 +47,7 @@ export const LessonStore = (props) => {
             }
         };
         
-     useEffect (() => {
+     useEffect (() => { 
         getLessonList();
     }, []);
 
@@ -77,8 +64,6 @@ export const LessonStore = (props) => {
             console.log(err)
         }
     }
-
-    
 
     const updateDB = async (id) => {
         const updateLesson = doc(db, "lessons" ,id)

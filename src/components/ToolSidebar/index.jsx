@@ -2,6 +2,7 @@ import React, {useState} from "react";
 import css from "./style.module.css";
 import Toolbar from "../Toolbar";
 import Sidebar from "../Sidebar";
+import Navbar from "../Navbar";
 
 const ToolSidebar = () => {
     const [showSidebar, setShowSidebar] = useState(false);
@@ -12,7 +13,8 @@ const ToolSidebar = () => {
     return (
         <div>
              <Toolbar toggleSidebar={toggleSidebar}/>
-            <Sidebar toggleSidebar={toggleSidebar} showSidebar={showSidebar}/>
+             <Navbar toggleSidebar={toggleSidebar} showSidebar={showSidebar}/>
+            {/* <Sidebar toggleSidebar={toggleSidebar} showSidebar={showSidebar}/> */}
 
         </div>
     )

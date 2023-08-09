@@ -1,30 +1,28 @@
 import React, {useState} from "react";
-import css from "./style.module.css";
 import {DefaultPlayer as Video} from "react-html5video";
 import "react-html5video/dist/styles.css";
-import videof from "../../../assets/video/1.mp4";
-import Button from "../../../components/Button";
-import { ref, uploadBytes, listAll, getDownloadURL, uploadBytesResumable} from "firebase/storage";
+import {useParams } from "react-router-dom";
+import { ref,  getDownloadURL, uploadBytesResumable} from "firebase/storage";
 import { storage, db } from "../../../firebase";
-import {doc, onSnapshot,collection} from "firebase/firestore";
-import { getAuth } from "firebase/auth";
 import LessonContext from "../../../context/LessonContext";
 import { useContext } from "react";
-const auth = getAuth();
+
+
 // https://www.youtube.com/watch?v=wuArhMaD5Hc&t=26s
 // upload video lesson
-
-const EditVideo = (props) => {
-    // console.log(props.data)
-  
+const VideoUpload = () => {
 
     const [video , setVideo] = useState("");
     const [prog, setProg] = useState("")
     const ctx =useContext(LessonContext)
-    // console.log(video)
-   
+    const {id} = useParams();
+
+    const lessonEditVideo = ctx.lessonList.find(
+        item => item.id === id
+    )
     const changeVideo = (e) => {
-        setVideo(e.target.files[0])
+        setVideo(e.target.files[0]);
+        // uploadVideo();
        
     }
           const uploadVideo = () => {
@@ -37,8 +35,6 @@ const EditVideo = (props) => {
 
                 progress = Math.trunc(progress)
                 setProg(progress)
-                // progress.style.width=progress+"%"
-                // console.log(progress)
             }, (error) => {
                 console.log("error : ")
             }, () => {
@@ -53,38 +49,48 @@ const EditVideo = (props) => {
                 alert("video upload success")
             })
         }
-   
 
-    return (
+return (
+    <div className="flex flex-col">
         <div>
-            <div >
-                {/* <p>video name: {props.data}</p> */}
                 <Video autoPlay loop 
                     // poster={photo} 
                     on>
                         <source
-                         src={props.data}
+                         src={lessonEditVideo.state.video}
                         type="video/webm"
                         />
-                    </Video>
-               
-            </div>
-            {/* <input ="video name" type="text" onChange={changeVideoName} required/> */}
-            <input onChange={changeVideo} 
-                    required type="file" 
-                    name="video" 
-                    id="videoInput" 
-                    // hidden="hidden"
-                    />
-    <div style={{display:"flex", flexDirection: "row", justifyContent: "center", alignItems: "center"}}>
-            <div className={css.bar}>
-                <div className={css.progress}></div>
-            </div>
-            <div className={css.uploadPercentage}>{prog}%</div>
-            <Button text="Video Upload" daragdsan={uploadVideo}></Button>
+                </Video>
+        </div>
+        <div className="flex my-2 ">
+            <input 
+                className="w-[180px] h-[25px] text-[12px]"
+                onChange={changeVideo}
+                required type="file" 
+                name="video" 
+                id="videoInput" 
+                // hidden="hidden"
+                />
+            <button className="w-[150px] h-[20px] bg-blue-500 flex text-[12px] justify-center items-center" onClick={uploadVideo}>Video upload</button>
+        </div>
+              
+        <div style={{
+                backgroundColor: "gray",
+                borderRadius: 0,
+            //  position: "absolute",
+                height: "100%",
+                width: `${prog}%`,
+                display: "flex",
+                flexDirection: 'row',
+                justifyContent: "center",
+                alignItems: "center",
+                marginRight: 5,
+                marginLeft:5
+        }}>
+                <div className="">{prog}%</div>
         </div>
     </div>
     )
 }
 
-export default EditVideo;
+export default VideoUpload;

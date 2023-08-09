@@ -1,16 +1,13 @@
 import React, {useState, useContext, useEffect, useRef} from "react";
-import axios from "../axios";
-import { collection, addDoc, getDocs, setDoc,doc, updateDoc} from "firebase/firestore";
+import { collection, addDoc, getDocs, setDoc,doc, updateDoc, deleteDoc} from "firebase/firestore";
 import { db } from "../firebase";
+
 import {getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut} from "firebase/auth";
+
 const auth = getAuth();
-
 const UserContext = React.createContext();
-
 const initialState = {
-  
     logginIn: false,
-  
     error: null,
     errorCode: null,
     token: null,
@@ -20,106 +17,97 @@ const initialState = {
 const initialData = {
   photo: "",
   name: "",
-  phone: ""
+  phone: "",
+  email: "",
+  password: ""
 }
 
 export const UserStore = (props) => {
-    const [state, setState] = useState(initialState);
-    const [data, setData] = useState(initialData)
-   
-    const [userList, setUserList] = useState([])
-    const [loading, setLoading] = useState(true)
-    const [currentUser, setCurrentUser] = useState(null);
-    const userInfo = useRef();
+  const [state, setState] = useState(initialState);
+  const [data, setData] = useState(initialData)
+  const [userList, setUserList] = useState([])
+  const [currentUser, setCurrentUser] = useState(null);
+  const userInfo = useRef();
+ 
 
-    const userRef = collection(db, "users");
-
+  const userRef = collection(db, "users");
     useEffect (() => {
       getUserList();
   }, []);
 
   const profilePhoto = (url) => {setData({...data, photo: url})}
- 
-    const updateProfile = async (id) =>{
-      const updateUser = doc(db, "users" ,id)
-      await updateDoc(updateUser, {state: state})
-      alert(" update")
-      getUserList();
-    }
-    
 
-    const setProfile = async (state, id) => {
+  const updateProfile = async (id) =>{
+  const updateUser = doc(db, "users" ,id)
+  await updateDoc(updateUser, {state: state})
+  alert(" update")
+  getUserList();
+  }
+
+  const setProfile = async (state, id) => {
       const setUser = doc(db, "users" , id)
       setDoc(setUser, state, {merge: true})
       .then((res) => {console.log('success merge')})
       .catch((error) => {console.log("error" + error)})
       getUserList();
-      
-    
       console.log("update profile")
-     
   }
 
-    const getUserList = async () => {
-      try {
-        const data = await getDocs(userRef);
-        const filteredData = data.docs.map((doc) => ({
-          ...doc.data(),
-          id: doc.id
-        }))
-        setUserList(filteredData)
-      } catch (err) {
-        console.log(err)
-      }
+  const getUserList = async () => {
+    try {
+      const data = await getDocs(userRef);
+      const filteredData = data.docs.map((doc) => ({
+        ...doc.data(),
+        id: doc.id
+      }))
+      setUserList(filteredData)
+    } catch (err) {
+      console.log(err)
     }
+  }
+  const deleteUser = async (id) => {
+    const User = doc(db, "users" , id);
+    await deleteDoc(User);
+    getUserList();
 
+  }
   const logout = () => {
     return signOut(auth)
     // auth
     // .signOut()
     // .then(() => {
-
     // })
     // .catch(error => alert(error))
   }
 
   async function loginUser(email, password) {
     setState({...state, logginIn: true})
-     
-      // if (email === "" || password === "") {
-      //     setError("Email and password hii")
-      //  return; }
        try {
-       
           await signInWithEmailAndPassword (auth, email,password);
           // alert("Амжилттай нэвтэрлээ")
           setState({...state,error: "",logginIn: false })
        } catch (error) {
-        console.log(error)
+          console.log(error)
           let message = error.message;
           if ( message === "Firebase: Error (auth/wrong-password).")
               message = "Нууц үг буруу байна";
           else if ( message === "Firebase: Error (auth/user-not-found).")
               message = "Имэйл хаягаа зөв оруулна уу";
-        else if ( message === "Firebase: Error (auth/network-request-failed).")
+          else if ( message === "Firebase: Error (auth/network-request-failed).")
             message = "Интернетээ шалгана уу"
           setState({...state,error: message,logginIn: false })
-     }}
+  }}
     
-     
-    async function signupUser(email, password, phone) {
-     
+  async function signupUser(email, password, phone) {
        try {
           await createUserWithEmailAndPassword(auth, email, password);
           alert(" Амжилттай бүртгүүллээ")
           setState({...state,error: "",logginIn: false })
-              
           addDoc(collection(db, "users" ), {
               email: email,
               password: password,
               phone: phone,
               authId: auth.currentUser.uid
-            
           })
           .then(() => {
               console.log("amjilttai")
@@ -129,28 +117,15 @@ export const UserStore = (props) => {
               console.log(error)
               setState({...state,error: "",logginIn: false })
           })
-      
-         
-         
        } catch (error) {
           let message = error.message;
-
           if ( message === "Firebase: Password should be at least 6 characters (auth/weak-password).")
               message = "Нууц үг хамгийн багадаа 6 оронтой байх хэрэгтэй";
           else if ( message === "Firebase: Error (auth/invalid-email).")
               message = "Имэйл хаягаа зөв бичнэ үү";
-         
               setState({...state,error: message,logginIn: false })
-         
        }
-       
-      
-      
-      
   };
-
-  
-
     //  useEffect(() => {
     //   const unsubscribe = onAuthStateChanged(auth, async user => {
     //     setCurrentUser(user)
@@ -171,7 +146,8 @@ export const UserStore = (props) => {
             currentUser,
             updateProfile,
             profilePhoto,
-            setProfile
+            setProfile,
+            deleteUser
             // loginUserSucces,
             // autoRenewTokenAfterMillisec,
             // uploadImage

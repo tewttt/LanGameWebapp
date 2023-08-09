@@ -4,6 +4,8 @@ import Choice from "../../components/Choice";
 import ToolSidebar from "../../components/ToolSidebar";
 import {getAuth} from "firebase/auth";
 import Comment from "../../components/Comment";
+import Navbar from "../../components/Navbar";
+import Hero from "../../components/Hero";
 
 const auth = getAuth();
 
@@ -20,9 +22,9 @@ const LessonPage = (props) => {
             <div className="text-white flex flex-col justify-center  ">
                 <ToolSidebar/>
                 <Choice/>  
-                <div>
-                    email: {auth.currentUser?.email}  uid: {auth.currentUser?.uid}
-                </div>
+                {/* <Hero/> */}
+             
+                
             
                 {/* <Comment/> */}
             </div>

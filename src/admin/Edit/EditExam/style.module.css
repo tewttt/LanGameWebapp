@@ -113,6 +113,8 @@
     background-color: #f4f4f9;
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
     margin-right: 12px;
     margin-top:  5px;
     margin-bottom: 0;
@@ -124,7 +126,7 @@
 }
 .edit {
     color: #5f6368;
-    padding: 8px 5px;
+   
     
 }
 .topHeader {

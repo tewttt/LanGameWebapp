@@ -4,13 +4,12 @@ import {Accordion, Button, FormControlLabel, IconButton, MenuItem, Select} from 
 import AccordionDetails from '@mui/material/AccordionDetails';
 
 import CloseIcon from '@mui/icons-material/Close';
-import OutboundIcon from '@mui/icons-material/Outbound';
+
 import FilterNoneIcon from '@mui/icons-material/FilterNone';
 import RestoreFromTrashIcon from '@mui/icons-material/RestoreFromTrash';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import {useParams } from "react-router-dom";
-import ButtonCmp from "../../../components/Button"
-import Spinner from "../../../components/General/Spinner";
+
 import LessonContext from "../../../context/LessonContext";
 import { useHistory } from "react-router-dom";
 import Modal from "../../../components/General/Modal";
@@ -26,6 +25,8 @@ const Word = (props) => {
     const lessonEditWord = ctx.lessonList.find(
         item => item.id === id
     )
+    const word =lessonEditWord.state.newWord
+    console.log(word)
     const [ questions, setQuestions] = useState(
         [{  word: "",
             options : [
@@ -51,6 +52,8 @@ const Word = (props) => {
        const save = () => {      
         alert("Шалгалтын хэсгийг амжилттай хадгаллаа"); 
         ctx.saveNewWord(questions);
+        ctx.updateDB(id)
+        history.push("/dashboard")
         
     }
 
@@ -196,8 +199,9 @@ const Word = (props) => {
 return ( 
 <div>
 
-    { questions.map((ques, i) => (
-    <div style={{width: "100%",  margin: "auto" }}> 
+    { word.map((ques, i) => (
+        
+    <div > 
          <Modal closeConfirm={closeConfirm} show={confirm} >
                 <div style={{display: "flex", flexDirection: "column"}}>
                 Хадгалахдаа итгэлтэй байна уу
@@ -209,34 +213,38 @@ return (
                 </div>
             </Modal>
         <div style={{color: "white", fontSize: "30px"}}></div>         
-        <div className={css.questionBox}>
+        <div className=" flex my-1">
             <AccordionDetails className={css.addQuestion}>
                 <div className={css.addQuestionTop}>
                     <div style={{display: "flex", flexDirection: "column"}}>
                         <div style={{display: "flex", flexDirection: "row"}}>
-                            <input type="text" className={css.question} placeholder="Word" value={ques.word} onChange={(e) => {changeWord(e.target.value, i)}}></input>
-                            <input type="text" className={css.question} placeholder="Translate" value={ques.trans} onChange={(e) => {changeTranslate(e.target.value, i)}}></input>
+                            <input type="text" className={css.question} placeholder="Word" defaultValue={ques.word} onChange={(e) => {changeWord(e.target.value, i)}}></input>
+                            <input type="text" className={css.question} placeholder="Translate" defaultValue={ques.trans} onChange={(e) => {changeTranslate(e.target.value, i)}}></input>
                         </div>
                         <div style={{display: "flex", flexDirection: "row"}}>
-                            <input type="text" className={css.question} placeholder="Description" value={ques.desc} onChange={(e) => {changeDesc(e.target.value, i)}}></input>
+                            <input type="text" className={css.question} placeholder="Description" defaultValue={ques.desc} onChange={(e) => {changeDesc(e.target.value, i)}}></input>
                         </div>
                     
-                        <div style={{display: "flex", flexDirection: 'row', alignItems: "center", color: "green"}}>Image
-                            <img src={questions[i].image} className="w-[40px] h-[40px]"/>
+                        <div className="flex justify-between items-center text-green-700  my-1">
+                            <div>Image</div>
+                            <img src={ques.image} className="w-[40px] h-[40px]"/>
                             <input 
                             className="w-[180px] h-[30px] text-[12px] ml-0"
                             onChange={(e) => {changePhoto(e.target.files[0], i)}}
+                            // defaultValue={ques.image}
                             required type="file" 
                             id="imageInput" />
                         
                         {/* <ButtonCmp text="Image Upload" daragdsan={uploadImage}></ButtonCmp> */}
                         </div>
 
-                        <div style={{display: "flex", flexDirection: 'row', alignItems: "center", color: 'red'}}>Sound
+                        <div className="flex justify-between items-center text-green-700  mb-3">
+                            <div>Sound</div>
                             {/* <sound src={questions[i].sound} className="w-[40px] h-[40px]" /> */}
                             <input 
                             onChange={(e) => {changeSound(e.target.files[0], i)}}
-                            className="w-[180px] h-[30px] text-[12px] ml-0"
+                            className="w-[180px] h-[30px] text-[12px] "
+                            // defaultValue={ques.sound}
                             required type="file" 
                             id="SoundInput" />
                         </div>
@@ -246,16 +254,16 @@ return (
                     
                     {ques.options.map((op, j) => (
             
-                        <div className={css.addQuestionBody} 
+                        <div className="flex items-center justify-between" 
                         key={j}
                         >
                                 
-                        <div>
-                            <input type="text" className={css.textInput} placeholder="option" 
-                            value={ques.options[j].optionText} onChange= { (e) => {changeOptionValue(e.target.value, i, j)}}
-                            ></input>
-                        </div>
-                        <div className={css.formCheck}>
+                            <div>
+                                <input type="text" className="w-[180px] h-[30px] border md:w-[300px]" placeholder="option" 
+                                defaultValue={op.optionText} onChange= { (e) => {changeOptionValue(e.target.value, i, j)}}
+                                ></input>
+                            </div>
+                            <div className="flex justify-center items-center">
                                 <label style={{fontSize: "13px", color:"black"}} onClick={() => {setOptionAnswer(ques.options[j].optionText, i)}}>
                                     {/* {(ques.questionType!="text") ?  */}
                                     <input
@@ -263,20 +271,21 @@ return (
                                         // type={ques.questionType}
                                         // name={ques.questionText}
                                         // value="option3"
-                                        className={css.formCheckInput}
+                                        className="w-[25px] h-[25px]"
                                         // required={ques.required}
-                                        style={{marginRight: "10px", marginBottom: "10px", marginTop: "5px"}}
+                                        // style={{marginRight: "10px", marginBottom: "10px", marginTop: "5px"}}
     
                                     />
-                                        {/* : "" } */}
+                                      
                                     
                                 </label>
+                                <IconButton aria-label="delete">
+                                    <CloseIcon  onClick={() => {removeOption( i,j )}}/>
+                                </IconButton>
     
                             </div>
                             
-                            <IconButton aria-label="delete">
-                                <CloseIcon  onClick={() => {removeOption( i,j )}}/>
-                            </IconButton>
+                            
             
                         </div>
                     ))} 
@@ -311,9 +320,11 @@ return (
     </div>
    
     ))}
+
+    
     <div className="flex">
         <button className="w-[150px] h-[20px] bg-blue-500 flex text-[12px] justify-center items-center m-auto" onClick={save}>Save</button> 
-        <button className="w-[150px] h-[20px] bg-green-500 flex text-[12px] justify-center items-center m-auto" onClick={ctx.updateDB(id)}>Илгээх</button>
+        {/* <button className="w-[150px] h-[20px] bg-green-500 flex text-[12px] justify-center items-center m-auto" onClick={ctx.updateDB(id)}>Илгээх</button> */}
     </div>
 </div>
 )

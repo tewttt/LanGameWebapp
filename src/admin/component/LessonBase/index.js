@@ -7,7 +7,7 @@ import { getAuth } from "firebase/auth";
 import LessonContext from "../../../context/LessonContext";
 import VideoUpload from "../VideoUpload";
 import ImageUpload from "../ImageUpload";
-import TestEdit from "../../Edit/TestEditBase/TestEditBase";
+
 const auth = getAuth();
 
 const AddLesson = () => {

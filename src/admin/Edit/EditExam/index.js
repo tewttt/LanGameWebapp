@@ -32,6 +32,8 @@ const EditExam = (props) => {
      const lessonEditExam = ctx.lessonList.find(
         item => item.id === id
     )
+    const exam = lessonEditExam.state.exam
+    // console.log(exam)
     const [ questions, setQuestions] = useState(
         [{questionText: "",
             questionType: "radio",
@@ -72,12 +74,7 @@ const EditExam = (props) => {
         setQuestions(optionQuestion)
         // console.log(optionQuestion)
     }
-    const addQuestionType = (i, type) => {
-        let qs = [...questions];
-        // console.log(type);
-        qs[i].questionType = type;
-        setQuestions(qs);
-    }
+  
     const removeOption = (i, j) => {
         var RemoveOptionQuestion = [...questions];
         if(RemoveOptionQuestion[i].options.length > 1){
@@ -86,6 +83,15 @@ const EditExam = (props) => {
             console.log(i + "__" +j);
         }
     }
+    
+    // const removeOption = (i, j) => {
+    //     var RemoveOptionQuestion = [...questions];
+    //     if(RemoveOptionQuestion[i].options.length > 1){
+    //         RemoveOptionQuestion[i].options.splice(j, 1);
+    //         setQuestions(RemoveOptionQuestion)
+    //         console.log(i + "__" +j);
+    //     }
+    // }
     const addOption = (i) => {
         var optionsOfQuestion = [...questions];
         if(optionsOfQuestion[i].options.length < 5) {
@@ -117,12 +123,7 @@ const EditExam = (props) => {
     }
    
 
-    const reOrder = (list, starIndex, endIndex) => {
-        const result = Array.from(list);
-        const [removed] = result.splice(starIndex, 1);
-        result.splice(endIndex, 0, removed);
-        return result;
-    }
+    
     const expandCloseAll = () => {
         let qs = [...questions];
         for (let j = 0; j< qs.length; j++) {
@@ -138,21 +139,12 @@ const EditExam = (props) => {
         console.log(qno + "" + ans)
     }
    
-    const doneAnswer = (i) => {
-        var answerOfQuestion = [...questions];
-        answerOfQuestion[i].answer = !answerOfQuestion[i].answer;
-        setQuestions(answerOfQuestion)
-    }
-    const addAnswer = (i) => {
-        var answerOfQuestion = [...questions];
-        answerOfQuestion[i].answer = !answerOfQuestion[i].answer;
-        setQuestions(answerOfQuestion)
-    }
+   
 
     
 return ( 
 <div>
-     { questions.map((ques, i) => (
+     { exam.map((ques, i) => (
     <div style={{width: "100%",  margin: "auto" }}> 
          <Modal closeConfirm={closeConfirm} show={confirm} >
                 <div style={{display: "flex", flexDirection: "column"}}>
@@ -163,52 +155,55 @@ return (
                 </div>
             
                 </div>
-            </Modal>
-        <div style={{color: "white", fontSize: "30px"}}></div>         
-        <div className={css.questionBox}>
+        </Modal>
+                
+        <div className=" flex my-1 justify-center">
             <AccordionDetails className={css.addQuestion}>
                 <div className={css.addQuestionTop}>
-                    <input type="text" className={css.question} placeholder="Question" value={ques.questionText} onChange={(e) => {changeQuestion(e.target.value, i)}}></input>
+                    <input type="text" className={css.question} placeholder="Question" defaultValue={ques.questionText} onChange={(e) => {changeQuestion(e.target.value, i)}}></input>
                 </div>
                     
                     {ques.options.map((op, j) => (
+                        // console.log(op)
             
-                        <div className={css.addQuestionBody} 
-                        key={j}
+                        <div className="flex items-center justify-between" 
+                        key={j} 
                         >
                                 
                         <div>
-                            <input type="text" className={css.textInput} placeholder="option" 
-                            value={ques.options[j].optionText} onChange= { (e) => {changeOptionValue(e.target.value, i, j)}}
+                            <input type="text" className="w-[180px] h-[30px] border md:w-[300px] text-black" placeholder="option" 
+                            defaultValue={op.optionText} onChange= { (e) => {changeOptionValue(e.target.value, i, j)}}
                             ></input>
                         </div>
-                        <div className={css.formCheck}>
-                                <label style={{fontSize: "13px", color:"black"}} onClick={() => {setOptionAnswer(ques.options[j].optionText, i)}}>
-                                    {/* {(ques.questionType!="text") ?  */}
+                        <div className="flex justify-center items-center">
+                                <label style={{fontSize: "13px", color:"black"}} onClick={() => {setOptionAnswer(op.optionText, i)}}>
+                                    
                                     <input
                                     type="checkbox"
                                         // type={ques.questionType}
                                         // name={ques.questionText}
                                         // value="option3"
-                                        className={css.formCheckInput}
+                                        className="w-[25px] h-[25px]"
                                         // required={ques.required}
-                                        style={{marginRight: "10px", marginBottom: "10px", marginTop: "5px"}}
-    
+                                      
                                     />
                                         {/* : "" } */}
                                     
                                 </label>
+                                <IconButton aria-label="delete">
+                                    <CloseIcon  onClick={() => {removeOption( i,j )}}/>
+                                </IconButton>
     
                             </div>
                             
-                            <IconButton aria-label="delete">
-                                <CloseIcon  onClick={() => {removeOption( i,j )}}/>
-                            </IconButton>
+                           
             
                         </div>
+
                     ))} 
                 
-                    {ques.options.length <= 4 ? (
+                    {/* {5 <= 4 ? ( */}
+                          {ques.options.length <= 4 ? (
                         <div className={css.addQuestionBody}>
                             
                             <div className={css.addBorder}>
@@ -238,7 +233,7 @@ return (
     </div>
    
     ))}
-   <Button onClick={save}>Save</Button> 
+   <button className="w-[150px] h-[20px] bg-blue-500 flex text-[12px] justify-center items-center m-auto" onClick={save}>Save</button> 
 </div>
 )
     

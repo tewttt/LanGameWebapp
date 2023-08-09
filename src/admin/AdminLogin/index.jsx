@@ -12,7 +12,7 @@ const auth = getAuth();
 const AdminLogin = () => {
     const ctx = useContext(UserContext)
     const history = useHistory();
-    const [email, setEmail] = useState("admin@gmail.com");
+    const [email, setEmail] = useState("tuya@gmail.com");
     const [password, setPassword] = useState("123456");
 
     const login = () => {

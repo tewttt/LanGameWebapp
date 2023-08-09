@@ -131,12 +131,12 @@ return (
                     
                     {ques.options.map((op, j) => (
             
-                        <div className={css.addQuestionBody} 
+                        <div className="flex items-center justify-between" 
                         key={j}
                         >
                                 
                         <div>
-                            <input type="text" className={css.textInput} placeholder="option" 
+                            <input type="text" className="w-[180px] h-[30px] border" placeholder="option" 
                             value={ques.options[j].optionText} onChange= { (e) => {changeOptionValue(e.target.value, i, j)}}
                             ></input>
                         </div>
@@ -148,10 +148,9 @@ return (
                                         // type={ques.questionType}
                                         // name={ques.questionText}
                                         // value="option3"
-                                        className={css.formCheckInput}
+                                        className="w-[25px] h-[25px]"
                                         // required={ques.required}
-                                        style={{marginRight: "10px", marginBottom: "10px", marginTop: "5px"}}
-    
+                                        
                                     />
                                         {/* : "" } */}
                                     
