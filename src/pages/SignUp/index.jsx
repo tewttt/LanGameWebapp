@@ -3,6 +3,7 @@ import React from "react";
 import {useHistory} from "react-router-dom";
 import UserContext from "../../context/UserContext";
 import Spinner from "../../components/General/Spinner";
+import {AiFillEye, AiFillEyeInvisible, AiFillLock, AiTwotoneMail, AiFillPhone} from "react-icons/ai"
 
 const SignUp = () => {
     const ctx = useContext(UserContext);
@@ -15,6 +16,7 @@ const SignUp = () => {
     const [err, setErr] = useState({
         phone: false
     })
+    const [showPass, setShowPass] = useState(password)
 
     const signupHandler = () => {
         if (phone.length === 0) {
@@ -44,12 +46,41 @@ const SignUp = () => {
         <div className="flex flex-col justify-center items-center text-gray-700 max-w-[1540px] mx-auto">
             <div className="text-6xl font-bold text-[#1974C7] p-10">Мэдлэг</div>
             {/* {ctx.state.userId && <Redirect to="/"/>} */}
-            <div className="flex flex-col bg-[#383030] w-[300px] h-[350px] border-2 border-[#1974C7] p-5 items-center rounded-[20px]">
-                
-                <input className="w-[250px] h-[30px] text-center bg-gray-300 m-2" type="number" placeholder="Phone" value={phone} onChange={e=> setPhone(e.target.value)} required/> 
-                <input className="w-[250px] h-[30px] text-center bg-gray-300 m-2" type="email " placeholder="Email" value={email} onChange={e=> setEmail(e.target.value)}/> 
-                <input className="w-[250px] h-[30px] text-center bg-gray-300 m-2" type="password" placeholder="Нууц үг" value={password} onChange={e=>setPassword(e.target.value)}/>
-                <input className="w-[250px] h-[30px] text-center bg-gray-300 m-2" type="password" placeholder="Нууц үгээ давтан оруулна уу" value={password2} onChange={e=>setPassword2(e.target.value)}/>
+            <div className="flex flex-col bg-[#383030] w-[300px] h-[370px] border-2 border-[#1974C7] p-5 items-center rounded-[20px]">
+                <div className="flex flex-row justify-between items-center mr-[-30px]">
+                    <AiFillPhone size={20} className="text-[#1974C7] mr-[-50px] z-10 "/>
+                    <input 
+                        className="w-[250px] h-[30px] text-center bg-gray-300 border rounded-[12px] transition ease-in-out duration-500 hover:border-blue-500  hover:border-[2px] hover:bg-blue-100" 
+                        type="number" placeholder="Phone" value={phone} onChange={e=> setPhone(e.target.value)} required/> 
+                </div>
+                <div className="flex flex-row justify-between items-center mr-[-30px]">
+                    <AiTwotoneMail size={20} className="text-[#1974C7] mr-[-50px] z-10 "/>
+                    <input 
+                        className="w-[250px] h-[30px] text-center bg-gray-300 border rounded-[12px] transition ease-in-out duration-500 hover:border-blue-500  hover:border-[2px] hover:bg-blue-100" 
+                        type="email " placeholder="Email" value={email} onChange={e=> setEmail(e.target.value)}/> 
+                </div>
+                <div className="flex flex-row justify-between items-center">
+                    <AiFillLock size={20} className="text-[#1974C7] mr-[-40px] z-10" />
+                    <input 
+                        className="w-[250px] h-[30px] text-center bg-gray-300 border rounded-[12px] transition ease-in-out duration-500 hover:border-blue-500  hover:border-[2px] hover:bg-blue-100" 
+                        type="password" placeholder="Нууц үг" value={password} onChange={e=>setPassword(e.target.value)}/>
+                    {showPass ? (
+                          <AiFillEyeInvisible size={20} className="text-[#1974C7] ml-[-40px]" onClick={() => setShowPass(!showPass)}/>
+                    ) : (
+                        <AiFillEye size={20} className="text-[#1974C7] ml-[-40px] " onClick={() => setShowPass(!showPass)}/>
+                    )}
+                </div>
+                <div className="flex flex-row justify-between items-center">
+                    <AiFillLock size={20} className="text-[#1974C7] mr-[-40px] z-10" />
+                    <input
+                        className="w-[250px] h-[30px] text-center bg-gray-300 border rounded-[12px] transition ease-in-out duration-500 hover:border-blue-500  hover:border-[2px] hover:bg-blue-100" 
+                        type="password" placeholder="Нууц үгээ давтана уу" value={password2} onChange={e=>setPassword2(e.target.value)}/>
+                    {showPass ? (
+                          <AiFillEyeInvisible size={20} className="text-[#1974C7] ml-[-40px]" onClick={() => setShowPass(!showPass)}/>
+                    ) : (
+                        <AiFillEye size={20} className="text-[#1974C7] ml-[-40px] " onClick={() => setShowPass(!showPass)}/>
+                    )}
+                </div>
                 {error && <div style={{color: "red"}}>{error}</div>}
 
                 {ctx.state.error && (
