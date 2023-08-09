@@ -1,10 +1,11 @@
 import React, {useState, useContext, useEffect, useRef} from "react";
 import { collection, addDoc, getDocs, setDoc,doc, updateDoc, deleteDoc} from "firebase/firestore";
 import { db } from "../firebase";
-
+import {useHistory} from "react-router-dom";
 import {getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut} from "firebase/auth";
 
 const auth = getAuth();
+
 const UserContext = React.createContext();
 const initialState = {
     logginIn: false,
@@ -23,6 +24,7 @@ const initialData = {
 }
 
 export const UserStore = (props) => {
+  const history = useHistory();
   const [state, setState] = useState(initialState);
   const [data, setData] = useState(initialData)
   const [userList, setUserList] = useState([])
@@ -86,6 +88,7 @@ export const UserStore = (props) => {
           await signInWithEmailAndPassword (auth, email,password);
           // alert("Амжилттай нэвтэрлээ")
           setState({...state,error: "",logginIn: false })
+          // history.push("/lesson")
        } catch (error) {
           console.log(error)
           let message = error.message;
