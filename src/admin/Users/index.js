@@ -34,7 +34,7 @@ const Users = () => {
                     <IconButton onClick={edit}  >
                         <EditIcon color="primary"/>
                     </IconButton>
-                    <IconButton onClick={remove(el.id)}>
+                    <IconButton onClick={remove}>
                         <DeleteIcon color="primary"/>
                     </IconButton>
                 </div>

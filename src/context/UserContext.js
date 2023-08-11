@@ -20,7 +20,8 @@ const initialData = {
   name: "",
   phone: "",
   email: "",
-  password: ""
+  password: "",
+  check: ""
 }
 
 export const UserStore = (props) => {

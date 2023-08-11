@@ -9,8 +9,8 @@ const SignUp = () => {
     const ctx = useContext(UserContext);
     const history = useHistory();
     const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [password2, setPassword2] = useState("");
+    const [password, setPassword] = useState("123456");
+    const [password2, setPassword2] = useState("123456");
     const [phone, setPhone] = useState("");
     const [error, setError] = useState("");
     const [err, setErr] = useState({
@@ -33,9 +33,10 @@ const SignUp = () => {
             setError("6с дээш урттай нууц үг оруулна уу")
             return;
         }
-        else if (password == password2) {
-            setError("Нууц үг хоорондоо таарахгүй байна")
-        } else {
+        // else if (password === password2) {
+        //     setError("Нууц үг хоорондоо таарахгүй байна")
+        // } 
+        else {
             ctx.signupUser(email,password, phone);
             history.push("/")
         }

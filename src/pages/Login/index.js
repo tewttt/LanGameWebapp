@@ -1,18 +1,16 @@
 import React, { useState, useContext} from "react";
 import Spinner from "../../components/General/Spinner";
 import Clock from "../../UI/clock";
-import { Link, useHistory, Redirect } from "react-router-dom";
+import {useHistory} from "react-router-dom";
 import UserContext from "../../context/UserContext";
-import {getAuth} from "firebase/auth";
 import {AiFillEye, AiFillEyeInvisible, AiFillLock, AiTwotoneMail} from "react-icons/ai"
 
-const auth = getAuth();
-const Home = () => {
+const Login = () => {
     const ctx = useContext(UserContext)
     const history = useHistory();
-    const [email, setEmail] = useState("tuya@gmail.com");
+    const [email, setEmail] = useState("admin@gmail.com");
     const [password, setPassword] = useState("123456");
-    // const [showPass, setShowPass] = useState()
+    const [showPass, setShowPass] = useState(false)
     // console.log(email)
 
     const signup = () => {
@@ -37,27 +35,24 @@ const Home = () => {
 
     return (
         <div className="flex flex-col justify-center items-center text-gray-700 max-w-[1540px] mx-auto">
-           
             <h1 className="text-6xl font-bold text-[#1974C7] p-10">Мэдлэг</h1>
-           
             <div className="flex flex-col bg-[#383030] w-[300px] h-[320px] border-2 border-[#1974C7] p-3 items-center rounded-[20px]">
                 {ctx.state.error && <div style={{ color : "red"}}>{ctx.state.error}</div>}
                 {ctx.state.logginIn && <Spinner/>}
                 {/* {ctx.currentUser && <Redirect to="/lesson"/>} */}
                 <div className="flex flex-row justify-between items-center mr-[-30px]">
-                    {/* <AiTwotoneMail size={20} className="text-[#1974C7] mr-[-50px] z-10 "/> */}
+                    <AiTwotoneMail size={20} className="text-[#1974C7] mr-[-50px] z-10 "/>
                     <input 
                     className="w-[250px] h-[30px] text-center bg-gray-300 m-4 border rounded-[12px] transition ease-in-out duration-500 hover:border-blue-500 hover:border-[2px] hover:bg-blue-100" 
                     type="email " 
                     placeholder="Email" 
-                    
                     value={email} 
                     onChange={e=> setEmail(e.target.value)}
                 /> 
                 </div>
                 
                 <div className="flex flex-row justify-between items-center">
-                    {/* <AiFillLock size={20} className="text-[#1974C7] mr-[-40px] z-10" /> */}
+                    <AiFillLock size={20} className="text-[#1974C7] mr-[-40px] z-10" />
                     <input 
                         className="w-[250px] h-[30px] text-center bg-gray-300 border rounded-[12px] transition ease-in-out duration-500 hover:border-blue-500  hover:border-[2px] hover:bg-blue-100" 
                         type="password" 
@@ -65,11 +60,11 @@ const Home = () => {
                         value={password} 
                         onChange={e=>setPassword(e.target.value)}
                     />
-                    {/* {showPass ? (
+                    {showPass ? (
                           <AiFillEyeInvisible size={20} className="text-[#1974C7] ml-[-40px]" onClick={() => setShowPass(!showPass)}/>
                     ) : (
                         <AiFillEye size={20} className="text-[#1974C7] ml-[-40px] " onClick={() => setShowPass(!showPass)}/>
-                    )} */}
+                    )}
                     
                  </div>
                 
@@ -83,4 +78,4 @@ const Home = () => {
         {/* {year} */}
         </div>
 )}
-export default Home;
+export default Login;

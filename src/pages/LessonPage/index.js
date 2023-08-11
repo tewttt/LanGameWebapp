@@ -1,13 +1,12 @@
 import React from "react";
-import css from "./style.module.css";
 import Choice from "../../components/Choice";
 import ToolSidebar from "../../components/ToolSidebar";
-import {getAuth} from "firebase/auth";
+
 import Comment from "../../components/Comment";
 import Navbar from "../../components/Navbar";
 import Hero from "../../components/Hero";
 
-const auth = getAuth();
+
 
 // https://www.youtube.com/watch?v=50vgpBDhEkY&list=PLEVTJcDnFDm9lpEEHTftRa9JSRV4jY_p9&index=12  
 // Quiz app ийн заавар
@@ -21,11 +20,9 @@ const LessonPage = (props) => {
             
             <div className="text-white flex flex-col justify-center  ">
                 <ToolSidebar/>
+                <div></div>
                 <Choice/>  
                 {/* <Hero/> */}
-             
-                
-            
                 {/* <Comment/> */}
             </div>
         
