@@ -20,13 +20,14 @@ const Toolbar = (props) => {
     const profile = () => {
         history.push("/user")
     }
+    
     return (
         <header className="flex h-[40px] w-full p-0 z-10 items-center justify-between mt-0 ml-0 z-90 bg-[#383030] text-white text-center" 
             > 
             <Logo/>
             <div className="flex justify-between ">
-                <div className="w-[120px] h-full border border-gray-300 hover:border-blue-500 hover:text-blue-500 px-5 py-1 rounded-[5px] mx-1 text-sm sm:w-[190px] lg:text-[24px] sm:text-[18px]" onClick={game}>Тоглох </div>
-                <div className="w-[120px] h-full border border-gray-300 hover:border-blue-500 hover:text-blue-500 px-5 py-1 rounded-[5px] mx-1 text-sm sm:w-[190px] lg:text-[24px] sm:text-[18px]" onClick={view}>Хичээл</div>
+                <div className={`${history.location.pathname == '/game' ? 'border border-blue-700 text-blue-500' : ''} w-[120px] h-full border border-blue-200 hover:border-blue-500 hover:text-blue-500 px-5 py-1 rounded-[5px] mx-1 text-sm sm:w-[190px] lg:text-[24px] sm:text-[18px]`} onClick={game}>Тоглох </div>
+                <div className={`${history.location.pathname == '/lesson' ? 'border border-blue-700 text-blue-500' : ''} w-[120px] h-full border border-blue-200 hover:border-blue-500 hover:text-blue-500 px-5 py-1 rounded-[5px] mx-1 text-sm sm:w-[190px] lg:text-[24px] sm:text-[18px]`} onClick={view}>Хичээл</div>
             </div>
             <div className="hidden xl:flex">Сайн байна уу</div>
             <div className="flex items-center">

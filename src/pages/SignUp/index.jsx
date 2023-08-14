@@ -33,9 +33,9 @@ const SignUp = () => {
             setError("6с дээш урттай нууц үг оруулна уу")
             return;
         }
-        // else if (password === password2) {
-        //     setError("Нууц үг хоорондоо таарахгүй байна")
-        // } 
+        else if (password === password2) {
+            setError("Нууц үг хоорондоо таарахгүй байна")
+        } 
         else {
             ctx.signupUser(email,password, phone);
             history.push("/")
@@ -51,19 +51,19 @@ const SignUp = () => {
                 <div className="flex flex-row justify-between items-center mr-[-30px]">
                     <AiFillPhone size={20} className="text-[#1974C7] mr-[-50px] z-10 "/>
                     <input 
-                        className="w-[250px] h-[30px] text-center bg-gray-300 border rounded-[12px] transition ease-in-out duration-500 hover:border-blue-500  hover:border-[2px] hover:bg-blue-100" 
+                        className="w-[250px] h-[30px] text-center bg-blue-50 border rounded-[12px] transition ease-in-out duration-200 hover:border-blue-500  hover:border-[2px] hover:bg-blue-100" 
                         type="number" placeholder="Phone" value={phone} onChange={e=> setPhone(e.target.value)} required/> 
                 </div>
                 <div className="flex flex-row justify-between items-center mr-[-30px]">
                     <AiTwotoneMail size={20} className="text-[#1974C7] mr-[-50px] z-10 "/>
                     <input 
-                        className="w-[250px] h-[30px] text-center bg-gray-300 border rounded-[12px] transition ease-in-out duration-500 hover:border-blue-500  hover:border-[2px] hover:bg-blue-100" 
+                        className="w-[250px] h-[30px] text-center bg-blue-50 border rounded-[12px] transition ease-in-out duration-200 hover:border-blue-500  hover:border-[2px] hover:bg-blue-100" 
                         type="email " placeholder="Email" value={email} onChange={e=> setEmail(e.target.value)}/> 
                 </div>
                 <div className="flex flex-row justify-between items-center">
                     <AiFillLock size={20} className="text-[#1974C7] mr-[-40px] z-10" />
                     <input 
-                        className="w-[250px] h-[30px] text-center bg-gray-300 border rounded-[12px] transition ease-in-out duration-500 hover:border-blue-500  hover:border-[2px] hover:bg-blue-100" 
+                        className="w-[250px] h-[30px] text-center bg-blue-50 border rounded-[12px] transition ease-in-out duration-200 hover:border-blue-500  hover:border-[2px] hover:bg-blue-100" 
                         type="password" placeholder="Нууц үг" value={password} onChange={e=>setPassword(e.target.value)}/>
                     {showPass ? (
                           <AiFillEyeInvisible size={20} className="text-[#1974C7] ml-[-40px]" onClick={() => setShowPass(!showPass)}/>
@@ -74,7 +74,7 @@ const SignUp = () => {
                 <div className="flex flex-row justify-between items-center">
                     <AiFillLock size={20} className="text-[#1974C7] mr-[-40px] z-10" />
                     <input
-                        className="w-[250px] h-[30px] text-center bg-gray-300 border rounded-[12px] transition ease-in-out duration-500 hover:border-blue-500  hover:border-[2px] hover:bg-blue-100" 
+                        className="w-[250px] h-[30px] text-center bg-blue-50 border rounded-[12px] transition ease-in-out duration-200 hover:border-blue-500  hover:border-[2px] hover:bg-blue-100" 
                         type="password" placeholder="Нууц үгээ давтана уу" value={password2} onChange={e=>setPassword2(e.target.value)}/>
                     {showPass ? (
                           <AiFillEyeInvisible size={20} className="text-[#1974C7] ml-[-40px]" onClick={() => setShowPass(!showPass)}/>

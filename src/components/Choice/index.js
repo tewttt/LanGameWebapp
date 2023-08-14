@@ -8,7 +8,8 @@ const Choice = () => {
     const ctx = useContext(LessonContext)
     const arrLanguage =["Англи хэл", "Монгол хэл", "Солонгос хэл"]
     const [chLan, setChLan] = useState("");
-
+    const [lanActive, setLanActive] = useState("");
+    const [levelActive, setLevelActive] = useState("");
     const arrLevel = ["A1", "A2", "B1", "B1+", "B2", "B2+"]
     const [chLevel, setChLevel] = useState("");
 
@@ -60,10 +61,12 @@ const Choice = () => {
         setLessonB2add(filteredLessonB2add);
     }, [chLan, chLevel])
 
-    const selectLevel = (level) => {
+    const selectLevel = (level,i) => {
+        setLevelActive(i)
         setChLevel(level)
     }
-    const selectLan = (lan) => {
+    const selectLan = (lan, i) => {
+        setLanActive(i)
         setChLan(lan)
     }
     
@@ -74,10 +77,9 @@ const Choice = () => {
             <div className="flex justify-center">
                 {arrLanguage.map((lan,i) => (
                     <div
-                        className= "text-[12px] sm:text-[18px] md:grid grid-col-3 gap-2 lg:grid-col-4 gap-2 transform hover:scale-110 hover:border-blue-300 hover:text-blue-300 text-blue-500 border border-blue-500 rounded-[10px] py-1 px-2 mx-3 my-1 w-[90px] h-[30px] sm:w-[130px] sm:h-[40px] flex justify-center items-center"
-                       
+                        className={`${lanActive===i ? "border border-blue-700 text-blue-600":""} text-[12px] sm:text-[18px] md:grid grid-col-3 gap-2 lg:grid-col-4 gap-2 transform hover:scale-110 hover:border-blue-500 hover:text-blue-500 text-blue-200 border border-blue-200 rounded-[10px] py-1 px-2 mx-3 my-1 w-[90px] h-[30px] sm:w-[130px] sm:h-[40px] flex justify-center items-center`}
                         key={i}
-                        onClick={() => selectLan(lan)} 
+                        onClick={() => selectLan(lan, i)} 
                     >
                         {lan}
                     </div> 
@@ -89,16 +91,13 @@ const Choice = () => {
                 <div className=" flex justify-center">
                     {arrLevel.map((level, i) => (
                         <div  
-                            // isSelected = {level === chLevel}
-                            className="flex justify-center items-center tranform hover:scale-110 hover:border-blue-300 hover:text-blue-300 border border-blue-500 m-2 text-blue-500 w-[40px] h-[40px] rounded-[5px] md:w-[60px] md:h-[60px] "
-                         
+                            className={`${levelActive===i ? "border border-blue-700 text-blue-600":""} flex justify-center items-center tranform hover:scale-110 hover:border-blue-500 hover:text-blue-500 border border-blue-200 m-2 text-blue-200 w-[40px] h-[40px] rounded-[5px] md:w-[60px] md:h-[60px] `}
                             key={i}
-                            onClick={() => selectLevel(level)}
+                            onClick={() => selectLevel(level,i)}$
                         >
                            {level}
                         </div>
                     ))}
-
                 </div>
             </div >
             
@@ -106,7 +105,7 @@ const Choice = () => {
                 <div>
                     {
                         chLevel === "A1" ? ( 
-                        <div><LessonList lessons={lessonA1}/></div>) 
+                            <div><LessonList lessons={lessonA1}/></div>) 
                         : chLevel === "A2" ? (
                             <div><LessonList lessons={lessonA2}/></div>
                         ) : chLevel === "B1" ? (
