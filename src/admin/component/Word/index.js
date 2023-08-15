@@ -1,24 +1,20 @@
-import React, {useState, useEffect, useContext} from "react";
+import React, {useState,  useContext} from "react";
 import css from "./style.module.css";
-import {Accordion, Button, FormControlLabel, IconButton, MenuItem, Select} from "@mui/material";
+import { Button,IconButton} from "@mui/material";
 import AccordionDetails from '@mui/material/AccordionDetails';
-
 import CloseIcon from '@mui/icons-material/Close';
-import OutboundIcon from '@mui/icons-material/Outbound';
 import FilterNoneIcon from '@mui/icons-material/FilterNone';
 import RestoreFromTrashIcon from '@mui/icons-material/RestoreFromTrash';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import {useParams } from "react-router-dom";
-import ButtonCmp from "../../../components/Button"
 import Spinner from "../../../components/General/Spinner";
 import LessonContext from "../../../context/LessonContext";
-
 import Modal from "../../../components/General/Modal";
 import { storage} from "../../../firebase";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 
-const Word = (props) => {
+const Word = () => {
    const ctx = useContext(LessonContext);
    const [confirm , setConfirm] = useState(false);
     const {id} = useParams();
@@ -34,8 +30,6 @@ const Word = (props) => {
             sound: ""
         }]
     )
- 
-    const [photo, setPhoto] = useState([])
  
     const showConfirm = () => {
         setConfirm(true)
@@ -160,11 +154,9 @@ const Word = (props) => {
         setQuestions(newQuestion);
         uploadSound(i, newQuestion);
         // console.log(newQuestion[i].image)
-       
     }
 
     const uploadSound = (i) =>{
-      
         if (questions[i].sound == null) return;
         // const imageRef = ref(storage, `images/${photo.name + v4()}`);
         const imageRef = ref(storage, `wordSound/${questions[i].sound.name}`);
@@ -174,36 +166,27 @@ const Word = (props) => {
                 var newQuestion = [...questions];
                 newQuestion[i].sound = url;
                  setQuestions(newQuestion);
-                
                 //  console.log(newQuestion)
-                // setQuestions({...questions, image: url});
-                
+                // setQuestions({...questions, image: url});  
             })
-           
         })
         alert("sound upload amjilttai") 
     }
 
-    
-           
-    
-
 return ( 
 <div>
-
     { questions.map((ques, i) => (
     <div style={{width: "100%",  margin: "auto" }}> 
-         <Modal closeConfirm={closeConfirm} show={confirm} >
-                <div style={{display: "flex", flexDirection: "column"}}>
-                Хадгалахдаа итгэлтэй байна уу
+        <Modal closeConfirm={closeConfirm} show={confirm} >
+            <div style={{display: "flex", flexDirection: "column"}}>
+            Хадгалахдаа итгэлтэй байна уу
                 <div >
                     <Button btn="Cont" text="Тийм" daragdsan={save}/>
                     <Button  text="Үгүй" daragdsan={closeConfirm}/>
                 </div>
-            
-                </div>
-            </Modal>
-        <div style={{color: "white", fontSize: "30px"}}></div>         
+        
+            </div>
+        </Modal>        
         <div className={css.questionBox}>
             <AccordionDetails className={css.addQuestion}>
                 <div className={css.addQuestionTop}>
@@ -216,77 +199,61 @@ return (
                             <input type="text" className={css.question} placeholder="Description" value={ques.desc} onChange={(e) => {changeDesc(e.target.value, i)}}></input>
                         </div>
                     
-                        <div style={{display: "flex", flexDirection: 'row', alignItems: "center", color: "green"}}>Image
-                            <img src={questions[i].image} className="w-[40px] h-[40px]"/>
+                        <div className="flex items-center w-[300px] justify-between ml-5">Image
+                            <img src={questions[i].image} className="w-[40px] h-[40px] border border-gray-400"/>
                             <input 
-                            className="w-[180px] h-[30px] text-[12px] ml-0"
+                            className="w-[180px] h-[40px] text-[12px] ml-0"
                             onChange={(e) => {changePhoto(e.target.files[0], i)}}
                             required type="file" 
                             id="imageInput" />
-                        
-                        {/* <ButtonCmp text="Image Upload" daragdsan={uploadImage}></ButtonCmp> */}
                         </div>
 
-                        <div style={{display: "flex", flexDirection: 'row', alignItems: "center", color: 'red'}}>Sound
-                            {/* <sound src={questions[i].sound} className="w-[40px] h-[40px]" /> */}
+                        <div className="flex items-center w-[300px] justify-between ml-5">Sound
                             <input 
                             onChange={(e) => {changeSound(e.target.files[0], i)}}
-                            className="w-[180px] h-[30px] text-[12px] ml-0"
+                            className="w-[180px] h-[40px] text-[12px] ml-0"
                             required type="file" 
                             id="SoundInput" />
                         </div>
                     </div>
-                   
                 </div>
-                    
                     {ques.options.map((op, j) => (
-            
                         <div className="flex items-center justify-between" 
                         key={j}
                         >
-                                
                         <div>
                             <input type="text" className="w-[180px] h-[30px] border" placeholder="option" 
                             value={ques.options[j].optionText} onChange= { (e) => {changeOptionValue(e.target.value, i, j)}}
                             ></input>
                         </div>
                         <div className={css.formCheck}>
-                                <label style={{fontSize: "13px", color:"black"}} onClick={() => {setOptionAnswer(ques.options[j].optionText, i)}}>
-                                    {/* {(ques.questionType!="text") ?  */}
-                                    <input
-                                    type="checkbox"
-                                        // type={ques.questionType}
-                                        // name={ques.questionText}
-                                        // value="option3"
-                                        className="w-[25px] h-[25px]"
-                                        // required={ques.required}
-                                      
-                                    />
-                                        {/* : "" } */}
-                                    
-                                </label>
-    
-                            </div>
-                            
+                            <label style={{fontSize: "13px", color:"black"}} onClick={() => {setOptionAnswer(ques.options[j].optionText, i)}}>
+                                {/* {(ques.questionType!="text") ?  */}
+                                <input
+                                type="checkbox"
+                                    // type={ques.questionType}
+                                    // name={ques.questionText}
+                                    // value="option3"
+                                    className="w-[25px] h-[25px]"
+                                    // required={ques.required}
+                                />
+                            </label>
+                        </div>
                             <IconButton aria-label="delete">
                                 <CloseIcon  onClick={() => {removeOption( i,j )}}/>
                             </IconButton>
-            
                         </div>
                     ))} 
                 
                     {ques.options.length <= 4 ? (
                         <div className={css.addQuestionBody}>
-                            
                             <div className={css.addBorder}>
                                 <Button size="small" onClick={() => {addOption(i)}} style={{textTransform: "none", color: "#4285f4", fontSize: "13px", fontWeight: "400"}} >Add option</Button>
                             </div>
-                            
                         </div>
                     ):""}
                 
                     <div className={css.addFooter}>
-                        
                         <div className={css.addQuestionBottom}>
                                     <IconButton aria-label="Copy" onClick={() => {copyQuestion(i)}}>
                                         <FilterNoneIcon/>
@@ -299,8 +266,7 @@ return (
             </AccordionDetails>
             <div className={css.QuestionEdit}>
                 <AddCircleIcon onClick={addMoreQuestionField} className={css.edit}/>
-            </div>
-                                       
+            </div>                   
         </div>                             
     </div>
    

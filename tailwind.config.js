@@ -5,7 +5,13 @@ module.exports = {
     "./src/**/*.{js,jsx,ts,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        primaryColor: "",
+        baseColor: "#383030",
+        baseBlue: "#1974C7"
+      }
+    },
   },
   variants:{
     backgroundColor: ["responsive","hover", "focus",'active'],

@@ -2,31 +2,21 @@ import React, {useState} from "react";
 import css from "./style.module.css";
 import {DefaultPlayer as Video} from "react-html5video";
 import "react-html5video/dist/styles.css";
-import videof from "../../../assets/video/1.mp4";
-import Button from "../../../components/Button";
 import { ref,  getDownloadURL, uploadBytesResumable} from "firebase/storage";
 import { storage, db } from "../../../firebase";
-
-import { getAuth } from "firebase/auth";
 import LessonContext from "../../../context/LessonContext";
 import { useContext } from "react";
-import { Gradient } from "@mui/icons-material";
-const auth = getAuth();
+
 // https://www.youtube.com/watch?v=wuArhMaD5Hc&t=26s
 // upload video lesson
 
-
 const VideoUpload = () => {
-
     const [video , setVideo] = useState("");
     const [prog, setProg] = useState("")
     const ctx =useContext(LessonContext)
-    // console.log(video)
    
     const changeVideo = (e) => {
         setVideo(e.target.files[0]);
-        // uploadVideo();
-       
     }
           const uploadVideo = () => {
             if (video === null) return;
@@ -43,10 +33,9 @@ const VideoUpload = () => {
             }, (error) => {
                 console.log("error : ")
             }, () => {
-               
                 console.log("success")
                 getDownloadURL(uploadTask.snapshot.ref).then(downloadURL => {
-                 
+                
                     setVideo(downloadURL)
                     // console.log(downloadURL)
                     ctx.saveVideo(downloadURL)
@@ -55,11 +44,9 @@ const VideoUpload = () => {
             })
         }
 
-       
-
 return (
-    <div className="flex flex-col">
-        <div>
+    <div className="flex flex-col border border-gray-400 md:w-[500px] md:mx-20 md:p-5 md:my-5 ">
+        <div className="border border-gray-400">
                 <Video autoPlay loop 
                     // poster={photo} 
                     on>
@@ -69,9 +56,9 @@ return (
                         />
                 </Video>
         </div>
-        <div className="flex items-center">
+        <div className="flex items-center justify-between">
             <input 
-                className="w-[180px] h-[30px] text-[12px]"
+                className="w-[180px] h-[30px] text-[10px]"
                 onChange={changeVideo} 
                     required type="file" 
                     name="video" 
@@ -85,9 +72,7 @@ return (
                 backgroundColor: "gray",
                 borderRadius: 0,
             //  position: "absolute",
-               
-                height: "100%",
-              
+                height: 40,
                 width: `${prog}%`,
                 display: "flex",
                 flexDirection: 'row',
@@ -95,12 +80,9 @@ return (
                 alignItems: "center",
                 marginRight: 5,
                 marginLeft:5
-            
-            
         }}>
                 <div className={css.uploadPercentage}>{prog}%</div>
-        </div>
-                     
+        </div>  
     </div>
     )
 }

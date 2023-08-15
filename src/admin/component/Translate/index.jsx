@@ -80,14 +80,11 @@ const Translate = (props) => {
         setQuestions(qs);
     }
 
-    return (
-    <div className="">
-    {
+    return ( 
+    <div>
+        {
         questions.map((ques, i) => (
-            <div className="flex"> 
-                
-                <div className="text-white text-[20px]"> </div> 
-                   
+            <div style={{}}> 
                     <div className="flex w-full  m-2 md:w-[60p0x] lg:w-[900px] xl:w-[1000px] ">
                         <AccordionDetails className={css.addQuestion}>
                             <div className={css.addQuestionTop}>
@@ -112,7 +109,7 @@ const Translate = (props) => {
                         </div>                                                                                          
                     </div>                                            
             </div>
-    ))}
+        ))}
         <button className="w-[150px] h-[20px] bg-blue-500 flex text-[12px] justify-center items-center m-auto" onClick={save}>Хадгалах</button> 
     </div>
 )}

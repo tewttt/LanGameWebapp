@@ -3,7 +3,6 @@ import css from "./style.module.css";
 import { storage } from "../../../firebase";
 import { ref,getDownloadURL, uploadBytesResumable, } from "firebase/storage";
 import { useHistory } from "react-router-dom";
-import Button from "../../../components/Button";
 import LessonContext from "../../../context/LessonContext";
 
 const Grammar = (props) => {
@@ -35,11 +34,11 @@ const Grammar = (props) => {
         }}
 
     return (
-    <div className="text-white">
-        <div className={css.photo}>
-            <img src={images} className="w-[80px] h-[80px]"/>
+    <div className="text-white flex flex-col justify-center items-center border border-gray-400 m-2 p-2 rounded-lg">
+        <div className="flex flex-col justify-center items-center">
+            <img src={images} className="w-[120px] h-[120px]"/>
             <input 
-            className="w-[190px] h-[30px] text-[12px]"
+            className="w-[190px] h-[40px] text-[12px]"
                 onChange={(event) => {setImages(event.target.files)}}
                 required type="file" 
                 multiple
@@ -51,7 +50,7 @@ const Grammar = (props) => {
                     borderRadius: 0,
                 //  position: "absolute",
                     left: 0,
-                    height: "100%",
+                    height: "30px",
                     right: 0,
                     width: `${prog}%`,
                     marginTop: 20,
@@ -64,9 +63,7 @@ const Grammar = (props) => {
             </div>     
         </div>
         <button className="w-[150px] h-[20px] bg-blue-500 flex text-[12px] justify-center items-center m-auto" onClick={uploadFile}>Grammar upload</button>
-       
     </div>
-      
 )}
 
 export default Grammar;
