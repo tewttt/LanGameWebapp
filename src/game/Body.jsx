@@ -1,6 +1,7 @@
 import React from "react";
 import zur from "../assets/img/1.jpg"
 import Dice from "./Dice";
+import Field from "./Field";
 const Body = () => {
     return (
         <div className="flex h-[600px] justify-between">
@@ -19,11 +20,7 @@ const Body = () => {
                 <Dice/>
             </div>
              {/* field */}
-             <div>
-                <div className="w-[50px] h-[50px] border rounded-xl">
-                    field
-                </div>
-            </div>
+             <Field/>
              {/* right */}
              <div className=" flex flex-col w-[50px] justify-evenly">
                 <div className="flex flex-col items-center">
@@ -37,7 +34,6 @@ const Body = () => {
                     <p className="text-[10px]">Level</p>
                 </div>
             </div>
-          
         </div>
     )
 }
