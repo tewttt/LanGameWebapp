@@ -38,7 +38,7 @@ const Exam = (props) => {
        const save = () => {      
         alert("Шалгалтын хэсгийг амжилттай хадгаллаа"); 
         ctx.saveExam(questions);
-        history.push("/dashboard/addlesson/grammar");
+        history.push("/dashboard/grammar");
     }
 
     const changeQuestion = (text, i) => {
@@ -194,7 +194,7 @@ return (
                 </div>                             
             </div>
         ))}
-          <button className="w-[150px] h-[20px] bg-blue-500 flex text-[12px] justify-center items-center m-auto" onClick={save}>Хадгалах</button> 
+          <button className="w-[150px] h-[20px] mb-10 bg-blue-400 hover:bg-blue-500 flex text-[12px] justify-center items-center m-auto" onClick={save}>Хадгалах</button> 
       
     </div>
 )}

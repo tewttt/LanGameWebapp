@@ -58,7 +58,7 @@ const AddLesson = () => {
         };
         alert("Үндсэн мэдээллийн хэсгийг амжилттай хадгаллаа"); 
         ctx.saveBase(base);
-        history.push("/dashboard/addlesson/translate");
+        history.push("/dashboard/translate");
     }
 
     return (
@@ -100,14 +100,14 @@ const AddLesson = () => {
                 
                 </div>
 
-                <div className="flex justify-between my-1 mx-3">
+                <div className="flex justify-between my-1 mx-3 ">
                     <div> lessonNumber: {addlesson.lessonNumber}</div>
-                    <input className="w-[170px] h-[20px] rounded-[5px] mx-0 " onChange={changeLessonNumber} required type="text" name="Хичээлийн дугаар" placeholder="Хичээлийн дугаар"/>
+                    <input className="w-[170px] h-[20px] rounded-[5px] mx-0 text-gray-900" onChange={changeLessonNumber} required type="text" name="Хичээлийн дугаар" placeholder="Хичээлийн дугаар"/>
                 </div>
         
                 <div className="flex justify-between my-1 mx-3">
                     <div>name: {addlesson.name} </div>
-                    <input className="w-[170px] h-[20px] rounded-[5px] mx-0" onChange={changeName} required type="text" name="Хичээлийн нэр" placeholder="Хичээлийн нэр"/>
+                    <input className="w-[170px] h-[20px] rounded-[5px] mx-0 text-gray-900" onChange={changeName} required type="text" name="Хичээлийн нэр" placeholder="Хичээлийн нэр"/>
                 </div>
 
                 <div className="flex justify-between my-1 mx-3">
@@ -122,9 +122,9 @@ const AddLesson = () => {
 
                 <div className="flex justify-between my-1 mx-3">
                     Үнэ: {addlesson.price} <br/>
-                    <input className="w-[170px] h-[20px] rounded-[5px] mx-0" onChange={changePrice} type="number" name="Хичээлийн үнэ" placeholder="Хичээлийн үнэ"/>
+                    <input className="w-[170px] h-[20px] rounded-[5px] mx-0 text-gray-900" onChange={changePrice} type="number" name="Хичээлийн үнэ" placeholder="Хичээлийн үнэ"/>
                 </div>   
-                <input className="w-[300px] m-3 h-[20px] rounded-[5px] flex justify-center items-center"
+                <input className="w-[300px] m-3 h-[20px] rounded-[5px] flex justify-center items-center text-gray-900"
                     multline
                     numberOfLines={10}
                     placeholder="text"

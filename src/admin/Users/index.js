@@ -1,16 +1,10 @@
 import React, {useContext} from "react";
-
 import UserContext from "../../context/UserContext";
-import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
-import { IconButton } from "@mui/material";
-
+import {AiFillEdit, AiFillDelete} from "react-icons/ai"
 
 const Users = () => {
     const ctx = useContext(UserContext) 
-
     // console.log(ctx.userList.id)
-   
     const remove =  () => {
         alert("deeeleete")
     //    ctx.deleteUser(id)
@@ -23,20 +17,18 @@ const Users = () => {
    }
     // console.log(ctx.userList)
     return (
-        <div className="text-white text-[12px] flex flex-col  items-center m-2">
+        <div className="text-white my-1 text-[12px] grid  lg:grid-cols-3 xl:grid-cols-5">
             {Object(ctx.userList).map(el => (
                 // console.log(el.id)
-                <div key={el.id} className="border border-gray-400 rounded-[6px] w-full h-[30px] m-1 flex justify-between items-center sm:w-[500px] lg:w-[800px]" >
+                <div key={el.id} className="border border-gray-500 rounded-[6px] w-full md:w-[450px]  h-[30px] m-1 flex justify-between items-center " >
                     <img src={el.photo} className="w-[25px] h-[25px]"/>
                     <div className="mx-1">{el.email}</div>
                     <div className="mx-1">user id:{el.id}</div>
                     <div className="mx-1">{el.phone}</div>
-                    <IconButton onClick={edit}  >
-                        <EditIcon color="primary"/>
-                    </IconButton>
-                    <IconButton onClick={remove}>
-                        <DeleteIcon color="primary"/>
-                    </IconButton>
+                   
+                    <AiFillDelete size={20} className="hover:text-baseBlue hover:rotate-12" onClick={remove} />
+                    <AiFillEdit  size={20} className="hover:text-baseBlue  hover:scale-125" onClick={edit}/>
+                   
                 </div>
             ))}
         </div>

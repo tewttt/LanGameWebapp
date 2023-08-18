@@ -51,8 +51,8 @@ const VideoUpload = () => {
         }
 
 return (
-    <div className="flex flex-col">
-        <div>
+    <div className="flex flex-col border border-gray-400 p-3 rounded-lg justify-center">
+        <div className="border border-gray-400 rounded-xl md:w-[400px]">
                 <Video autoPlay loop 
                     // poster={photo} 
                     on>
@@ -62,9 +62,9 @@ return (
                         />
                 </Video>
         </div>
-        <div className="flex my-2 ">
+        <div className="flex my-2 items-center h-[40px] justify-between ">
             <input 
-                className="w-[180px] h-[25px] text-[12px]"
+                className="w-[180px] h-[40px] text-[12px]"
                 onChange={changeVideo}
                 required type="file" 
                 name="video" 
@@ -78,7 +78,7 @@ return (
                 backgroundColor: "gray",
                 borderRadius: 0,
             //  position: "absolute",
-                height: "100%",
+                height: 40,
                 width: `${prog}%`,
                 display: "flex",
                 flexDirection: 'row',

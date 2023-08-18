@@ -32,7 +32,7 @@ const VideoUpload = () => {
                 // console.log(progress)
             }, (error) => {
                 console.log("error : ")
-            }, () => {
+            }, () => { 
                 console.log("success")
                 getDownloadURL(uploadTask.snapshot.ref).then(downloadURL => {
                 

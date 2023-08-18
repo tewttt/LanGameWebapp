@@ -1,20 +1,18 @@
-import React, {useState, useEffect, useContext} from "react";
+import React, {useState,  useContext} from "react";
 import css from "./style.module.css";
-import {Accordion, Button, FormControlLabel, IconButton, MenuItem, Select} from "@mui/material";
+import {Accordion, Button, IconButton, MenuItem, Select} from "@mui/material";
 import AccordionDetails from '@mui/material/AccordionDetails';
-
 import CloseIcon from '@mui/icons-material/Close';
-
 import FilterNoneIcon from '@mui/icons-material/FilterNone';
 import RestoreFromTrashIcon from '@mui/icons-material/RestoreFromTrash';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import {useParams } from "react-router-dom";
-
 import LessonContext from "../../../context/LessonContext";
 import { useHistory } from "react-router-dom";
 import Modal from "../../../components/General/Modal";
 import { storage} from "../../../firebase";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { SendAndArchiveSharp } from "@mui/icons-material";
 
 
 const Word = (props) => {
@@ -40,21 +38,23 @@ const Word = (props) => {
         }]
     )
  
-    const [photo, setPhoto] = useState([])
- 
     const showConfirm = () => {
-        setConfirm(true)
-       };
-       const closeConfirm = () => {
-        setConfirm(false)
-       };
-  
-       const save = () => {      
-        alert("Шалгалтын хэсгийг амжилттай хадгаллаа"); 
-        ctx.saveNewWord(questions);
+    setConfirm(true)
+    };
+    const closeConfirm = () => {
+    setConfirm(false)
+    };
+
+    const save = () => {      
+    alert("Шалгалтын хэсгийг амжилттай хадгаллаа"); 
+    ctx.saveNewWord(questions);
+    // ctx.updateDB(id)
+    // history.push("/dashboard")
+        
+    }
+    const send = () => {
         ctx.updateDB(id)
         history.push("/dashboard")
-        
     }
 
     const changeWord = (text, i) => {
@@ -148,16 +148,13 @@ const Word = (props) => {
         const imageRef = ref(storage, `wordImage/${questions[i].image.name}`);
         uploadBytes(imageRef, questions[i].image).then((snapshot) => {
             getDownloadURL(snapshot.ref).then((url) => {
-
                 console.log('asd', url)
                 var newQuestion = [...questions];
                 newQuestion[i].image = url;
                  setQuestions(newQuestion);
                 //  console.log(newQuestion)
                 // setQuestions({...questions, image: url});
-                
             })
-           
         })
         alert("photo upload amjilttai") 
     }
@@ -168,39 +165,24 @@ const Word = (props) => {
         setQuestions(newQuestion);
         uploadSound(i, newQuestion);
         // console.log(newQuestion[i].image)
-       
     }
 
     const uploadSound = (i) =>{
-      
         if (questions[i].sound == null) return;
-        // const imageRef = ref(storage, `images/${photo.name + v4()}`);
         const imageRef = ref(storage, `wordSound/${questions[i].sound.name}`);
         uploadBytes(imageRef, questions[i].sound).then((snapshot) => {
             getDownloadURL(snapshot.ref).then((url) => {
-                // console.log(url)
                 var newQuestion = [...questions];
                 newQuestion[i].sound = url;
-                 setQuestions(newQuestion);
-                
-                //  console.log(newQuestion)
-                // setQuestions({...questions, image: url});
-                
+                 setQuestions(newQuestion); 
             })
-           
         })
         alert("sound upload amjilttai") 
     }
 
-    
-           
-    
-
 return ( 
 <div>
-
     { word.map((ques, i) => (
-        
     <div > 
          <Modal closeConfirm={closeConfirm} show={confirm} >
                 <div style={{display: "flex", flexDirection: "column"}}>
@@ -251,85 +233,65 @@ return (
                     </div>
                    
                 </div>
-                    
                     {ques.options.map((op, j) => (
-            
                         <div className="flex items-center justify-between" 
                         key={j}
                         >
-                                
-                            <div>
-                                <input type="text" className="w-[180px] h-[30px] border md:w-[300px]" placeholder="option" 
-                                defaultValue={op.optionText} onChange= { (e) => {changeOptionValue(e.target.value, i, j)}}
-                                ></input>
-                            </div>
-                            <div className="flex justify-center items-center">
-                                <label style={{fontSize: "13px", color:"black"}} onClick={() => {setOptionAnswer(ques.options[j].optionText, i)}}>
-                                    {/* {(ques.questionType!="text") ?  */}
-                                    <input
-                                    type="checkbox"
-                                        // type={ques.questionType}
-                                        // name={ques.questionText}
-                                        // value="option3"
-                                        className="w-[25px] h-[25px]"
-                                        // required={ques.required}
-                                        // style={{marginRight: "10px", marginBottom: "10px", marginTop: "5px"}}
-    
-                                    />
-                                      
-                                    
-                                </label>
-                                <IconButton aria-label="delete">
-                                    <CloseIcon  onClick={() => {removeOption( i,j )}}/>
-                                </IconButton>
-    
-                            </div>
-                            
-                            
-            
+                        <div>
+                            <input type="text" className="w-[180px] h-[30px] border md:w-[300px]" placeholder="option" 
+                            defaultValue={op.optionText} onChange= { (e) => {changeOptionValue(e.target.value, i, j)}}
+                            ></input>
                         </div>
+                        <div className="flex justify-center items-center">
+                            <label style={{fontSize: "13px", color:"black"}} onClick={() => {setOptionAnswer(ques.options[j].optionText, i)}}>
+                                {/* {(ques.questionType!="text") ?  */}
+                                <input
+                                type="checkbox"
+                                    // type={ques.questionType}
+                                    // name={ques.questionText}
+                                    // value="option3"
+                                    className="w-[25px] h-[25px]"
+                                    // required={ques.required}
+                                    // style={{marginRight: "10px", marginBottom: "10px", marginTop: "5px"}}
+                                />
+                            </label>
+                            <IconButton aria-label="delete">
+                                <CloseIcon  onClick={() => {removeOption( i,j )}}/>
+                            </IconButton>
+                        </div>
+                    </div>
                     ))} 
                 
                     {ques.options.length <= 4 ? (
                         <div className={css.addQuestionBody}>
-                            
                             <div className={css.addBorder}>
                                 <Button size="small" onClick={() => {addOption(i)}} style={{textTransform: "none", color: "#4285f4", fontSize: "13px", fontWeight: "400"}} >Add option</Button>
                             </div>
-                            
                         </div>
                     ):""}
-                
                     <div className={css.addFooter}>
-                        
                         <div className={css.addQuestionBottom}>
-                                    <IconButton aria-label="Copy" onClick={() => {copyQuestion(i)}}>
-                                        <FilterNoneIcon/>
-                                    </IconButton>
-                                    <IconButton aria-label="Delete"  onClick={() => {deleteQuestion(i)}}>
-                                        <RestoreFromTrashIcon />   
-                                    </IconButton>         
+                            <IconButton aria-label="Copy" onClick={() => {copyQuestion(i)}}>
+                                <FilterNoneIcon/>
+                            </IconButton>
+                            <IconButton aria-label="Delete"  onClick={() => {deleteQuestion(i)}}>
+                                <RestoreFromTrashIcon />   
+                            </IconButton>         
                         </div>
                     </div>
             </AccordionDetails>
             <div className={css.QuestionEdit}>
                 <AddCircleIcon onClick={addMoreQuestionField} className={css.edit}/>
-            </div>
-                                       
+            </div>                     
         </div>                             
     </div>
    
     ))}
-
-    
     <div className="flex">
         <button className="w-[150px] h-[20px] bg-blue-500 flex text-[12px] justify-center items-center m-auto" onClick={save}>Save</button> 
-        {/* <button className="w-[150px] h-[20px] bg-green-500 flex text-[12px] justify-center items-center m-auto" onClick={ctx.updateDB(id)}>Илгээх</button> */}
+        <button className="w-[150px] h-[20px] bg-green-500 flex text-[12px] justify-center items-center m-auto" onClick={send}>Илгээх</button>
     </div>
 </div>
-)
-}
-    
-
+)}
 export default Word;
 

@@ -33,7 +33,7 @@ const Translate = (props) => {
     const save = () => {
         alert("Орчуулгын хэсгийг амжилттай хадгаллаа"); 
         ctx.saveTranslate(questions);
-        history.push("/dashboard/addlesson/exam");
+        history.push("/dashboard/exam");
 
             
     }
@@ -84,36 +84,32 @@ const Translate = (props) => {
     <div>
         {
         questions.map((ques, i) => (
-            <div style={{}}> 
-                    <div className="flex w-full  m-2 md:w-[60p0x] lg:w-[900px] xl:w-[1000px] ">
-                        <AccordionDetails className={css.addQuestion}>
-                            <div className={css.addQuestionTop}>
-                                <input type="text" className={css.question} placeholder="Question" value={ques.questionText} onChange={(e) => {changeQuestion(e.target.value, i)}}></input>
-                                <input type="text" className={css.question} placeholder="Answer" value={ques.questionAnswer} onChange={(e) => {changeAnswer(e.target.value, i)}}></input>                                                                          
-                            </div>
-                        <div className={css.addFooter}>
-                            <div className={css.addQuestionBottom}>
-                                        <IconButton aria-label="Copy" onClick={() => {copyQuestion(i)}}>
-                                            <FilterNoneIcon/>
-                                        </IconButton>
-                                        <IconButton aria-label="Delete"  onClick={() => {deleteQuestion(i)}}>
-                                            <RestoreFromTrashIcon />   
-                                        </IconButton>
-                            </div>
-                            
-                    
+            <div> 
+                <div className="flex w-full  m-2 md:w-[60p0x] lg:w-[900px] xl:w-[1000px] ">
+                    <AccordionDetails className={css.addQuestion}>
+                        <div className={css.addQuestionTop}>
+                            <input type="text" className={css.question} placeholder="Question" value={ques.questionText} onChange={(e) => {changeQuestion(e.target.value, i)}}></input>
+                            <input type="text" className={css.question} placeholder="Answer" value={ques.questionAnswer} onChange={(e) => {changeAnswer(e.target.value, i)}}></input>                                                                          
                         </div>
-                        </AccordionDetails>
-                        <div className={css.QuestionEdit}>
-                            <AddCircleIcon onClick={addMoreQuestionField} className={css.edit}/>                              
-                        </div>                                                                                          
-                    </div>                                            
+                    <div className={css.addFooter}>
+                        <div className={css.addQuestionBottom}>
+                            <IconButton aria-label="Copy" onClick={() => {copyQuestion(i)}}>
+                                <FilterNoneIcon/>
+                            </IconButton>
+                            <IconButton aria-label="Delete"  onClick={() => {deleteQuestion(i)}}>
+                                <RestoreFromTrashIcon />   
+                            </IconButton>
+                        </div>
+                    </div>
+                    </AccordionDetails>
+                    <div className={css.QuestionEdit}>
+                        <AddCircleIcon onClick={addMoreQuestionField} className={css.edit}/>                              
+                    </div>                                                                                          
+                </div>                                            
             </div>
         ))}
-        <button className="w-[150px] h-[20px] bg-blue-500 flex text-[12px] justify-center items-center m-auto" onClick={save}>Хадгалах</button> 
+        <button className="w-[150px] h-[20px] mb-10 bg-blue-400 hover:bg-blue-500 flex text-[12px] justify-center items-center m-auto" onClick={save}>Хадгалах</button> 
     </div>
 )}
-    
-
 export default Translate;
 

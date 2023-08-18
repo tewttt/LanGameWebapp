@@ -15,6 +15,7 @@ const changePhoto = (e) => {
     setPhoto(e.target.files[0])
     // uploadImage();
 };
+// console.log(photo)
 
 const uploadImage = () =>{
     if (photo == null) return;

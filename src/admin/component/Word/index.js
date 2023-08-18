@@ -176,7 +176,7 @@ const Word = () => {
 return ( 
 <div>
     { questions.map((ques, i) => (
-    <div style={{width: "100%",  margin: "auto" }}> 
+    <div> 
         <Modal closeConfirm={closeConfirm} show={confirm} >
             <div style={{display: "flex", flexDirection: "column"}}>
             Хадгалахдаа итгэлтэй байна уу
@@ -255,12 +255,12 @@ return (
                 
                     <div className={css.addFooter}>
                         <div className={css.addQuestionBottom}>
-                                    <IconButton aria-label="Copy" onClick={() => {copyQuestion(i)}}>
-                                        <FilterNoneIcon/>
-                                    </IconButton>
-                                    <IconButton aria-label="Delete"  onClick={() => {deleteQuestion(i)}}>
-                                        <RestoreFromTrashIcon />   
-                                    </IconButton>         
+                            <IconButton aria-label="Copy" onClick={() => {copyQuestion(i)}}>
+                                <FilterNoneIcon/>
+                            </IconButton>
+                            <IconButton aria-label="Delete"  onClick={() => {deleteQuestion(i)}}>
+                                <RestoreFromTrashIcon />   
+                            </IconButton>         
                         </div>
                     </div>
             </AccordionDetails>
@@ -271,9 +271,9 @@ return (
     </div>
    
     ))}
-    <div className="flex">
-        <button className="w-[150px] h-[20px] bg-blue-500 flex text-[12px] justify-center items-center m-auto" onClick={save}>Save</button> 
-        <button className="w-[150px] h-[20px] bg-green-500 flex text-[12px] justify-center items-center m-auto" onClick={ctx.createLessonDB}>Илгээх</button>
+    <div className="flex mb-10">
+        <button className="w-[150px] h-[20px] bg-blue-400 hover:bg-blue-500 flex text-[12px] justify-center items-center m-auto" onClick={save}>Save</button> 
+        <button className="w-[150px] h-[20px] bg-green-500 hover:bg-green-700 flex text-[12px] justify-center items-center m-auto" onClick={ctx.createLessonDB}>Илгээх</button>
     </div>
 </div>
 )

@@ -1,6 +1,5 @@
 import React, {useState, useEffect, useContext} from "react";
 import css from "./style.module.css";
-
 import AdminLessonList from "../AdminLessonList";
 
 import Spinner from "../../../components/General/Spinner";
@@ -103,12 +102,6 @@ const AdminChoice = () => {
                             </div>
                         )}
 
-         
-
-
-
-
-           
         </div>
     )
 }

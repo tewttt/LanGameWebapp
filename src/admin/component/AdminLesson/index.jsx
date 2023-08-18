@@ -1,15 +1,9 @@
 import React, {useContext, useState} from "react";
-import css from "./style.module.css";
 import Modal from "../../../components/General/Modal";
-import ButtonCmp  from "../../../components/Button"
 import { useHistory} from "react-router-dom";
-
-import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
-import { IconButton } from "@mui/material";
 import 'react-toastify/dist/ReactToastify.css';
-
 import LessonContext from "../../../context/LessonContext";
+import {AiFillEdit, AiFillDelete} from "react-icons/ai"
 
 const AdminLesson = (props) => {
     const [confirm , setConfirm] = useState(false);
@@ -35,34 +29,26 @@ const AdminLesson = (props) => {
    }
   
 return (
-    <div className="flex items-center justify-between w-full bg-[#383030] h-[30px] rounded-[12px] m-2 sm:w-[80%] md:w-[600px]" >  
-
+    <div className="flex items-center justify-between w-[full] bg-[#383030] h-[30px] border border-gray-500 rounded-[12px] m-2 sm:w-[350px]  " >  
         <Modal closeConfirm={closeConfirm} show={confirm} >
             <div style={{display: "flex", flexDirection: "column"}}>
             Устгахдаа итгэлтэй байна уу
                 <div >
-                    <ButtonCmp btn="Cont" text="Тийм" daragdsan={deleteLesson}/>
-                    <ButtonCmp  text="Үгүй" daragdsan={closeConfirm}/>
+                    <button btn="Cont" text="Тийм" daragdsan={deleteLesson}></button>
+                    <button  text="Үгүй" daragdsan={closeConfirm}></button>
                 </div>
-          
             </div>
         </Modal>
-        
         <div className="flex">
                 <div className="m-1"> {props.lesson.state.base.language}</div> 
                 <div className="m-1">{props.lesson.state.base.level}</div> 
                 <div className="m-1">№:{props.lesson.state.base.lessonNumber} </div>
                 <div className="m-1">{props.lesson.state.base.name} </div>
         </div>
-
-        <div className="flex justify-between items-center">
-            <div className="w-[60px] h-[20px] bg-blue-400 flex justify-center items-center rounded-[16px]" onClick={view}>Үзэх</div>
-            <IconButton onClick={edit} >
-                <EditIcon color="primary"/>
-            </IconButton>
-            <IconButton onClick={showConfirm}>
-                <DeleteIcon color="primary"/>
-            </IconButton>
+        <div className="flex justify-between items-center w-[150px] px-1">
+            <div className="w-[60px] h-[20px] bg-blue-400 flex justify-center items-center rounded-[16px] hover:bg-blue-500" onClick={view}>Үзэх</div>
+            <AiFillEdit  size={20} className="hover:text-baseBlue  hover:scale-125" onClick={edit}/>
+            <AiFillDelete size={20} className="hover:text-baseBlue hover:rotate-12" onClick={showConfirm} />
         </div>      
     </div>
     )

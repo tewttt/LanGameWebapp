@@ -20,7 +20,7 @@ const initialState= {
 export const LessonStore = (props) => {
     const [state, setState] = useState(initialState)
     const [lessonList, setLessonList] = useState([]);  
-
+    // console.log(state.image)
 // https://www.youtube.com/watch?v=2hR-uWjBAgw&t=1095s
 // firestro db tai ajillah hicheel
 
@@ -68,7 +68,7 @@ export const LessonStore = (props) => {
     const updateDB = async (id) => {
         const updateLesson = doc(db, "lessons" ,id)
         await updateDoc(updateLesson, {state: state})
-        alert(" update")
+        alert("lesson update")
         getLessonList();
         // console.log('update'+ id)
     }

@@ -10,7 +10,7 @@ const ImageUpload = (props) => {
     const [photo , setPhoto] = useState(""); 
     const history = useHistory();
     const {id} = useParams();
-
+  
     const lessonEditVideo = ctx.lessonList.find(
         item => item.id === id
     )
@@ -19,7 +19,7 @@ const ImageUpload = (props) => {
         setPhoto(e.target.files[0])
         // uploadImage();
     };
-
+    // console.log(photo)
     const uploadImage = () =>{
         if (photo == null) return;
         // const imageRef = ref(storage, `images/${photo.name + v4()}`);
@@ -34,11 +34,13 @@ const ImageUpload = (props) => {
     }
 
     return (
-    <div>
-        <img src={lessonEditVideo.state.image} className="w-[300px] h-[300px] m-auto"/>
+    <div className="border border-gray-400 rounded-lg p-3 mx-5 flex flex-col ">
+        <img 
+        
+        src={lessonEditVideo.state.image} className="w-[250px] h-[250px] border border-gray-400 rounded-lg m-auto"/>
         <div className="flex items-center">
             <input onChange={changePhoto} 
-                className="w-[180px] h-[30px] text-[12px]"
+                className="w-[180px] h-[40px] text-[12px]"
                 required type="file" 
                 // hidden="hidden"  
                 id="imageInput" />

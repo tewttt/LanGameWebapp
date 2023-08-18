@@ -5,7 +5,7 @@ import { ref,getDownloadURL, uploadBytesResumable, } from "firebase/storage";
 import { useHistory } from "react-router-dom";
 import LessonContext from "../../../context/LessonContext";
 
-const Grammar = (props) => {
+const Grammar = () => {
     const [images , setImages] = useState();
     const [prog, setProg] = useState("");
     const history = useHistory();
@@ -27,14 +27,14 @@ const Grammar = (props) => {
                 getDownloadURL(uploadTask.snapshot.ref).then(downloadURL => {
                     setImages(downloadURL)
                     ctx.saveGrammar(downloadURL)    
-                    history.push("/dashboard/addlesson/word");
+                    history.push("/dashboard/word");
                 })
                 // alert(" upload success")
             })
         }}
 
     return (
-    <div className="text-white flex flex-col justify-center items-center border border-gray-400 m-2 p-2 rounded-lg">
+    <div className="text-white flex flex-col border border-gray-400 m-2 p-2 rounded-lg">
         <div className="flex flex-col justify-center items-center">
             <img src={images} className="w-[120px] h-[120px]"/>
             <input 
@@ -62,7 +62,7 @@ const Grammar = (props) => {
                 <div className={css.uploadPercentage}>{prog}%</div>
             </div>     
         </div>
-        <button className="w-[150px] h-[20px] bg-blue-500 flex text-[12px] justify-center items-center m-auto" onClick={uploadFile}>Grammar upload</button>
+        <button className="w-[150px] h-[20px] bg-blue-400 hover:bg-blue-500 flex text-[12px] justify-center items-center m-auto" onClick={uploadFile}>Grammar upload</button>
     </div>
 )}
 
