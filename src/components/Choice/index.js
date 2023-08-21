@@ -22,7 +22,7 @@ const Choice = () => {
     const [lessonB1add, setLessonB1add] = useState([]);
     const [lessonB2, setLessonB2] = useState([]);
     const [lessonB2add, setLessonB2add] = useState([]);
- 
+  
     useEffect(() => {
         const filteredLanEng = ctx.lessonList.filter(
             (item) => item.state.base.language === "Англи хэл"

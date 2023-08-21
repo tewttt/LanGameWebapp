@@ -31,7 +31,7 @@ export const UserStore = (props) => {
   const [userList, setUserList] = useState([])
   const [currentUser, setCurrentUser] = useState(null);
   const userInfo = useRef();
- 
+//  console.log(userList)
 
   const userRef = collection(db, "users");
     useEffect (() => {
@@ -46,7 +46,17 @@ export const UserStore = (props) => {
   alert(" update")
   getUserList();
   }
+  const setTeacher = () => {
 
+  }
+  const setProfilePhoto = async ( id) => {
+    const setUser = doc(db, "users" , id)
+    setDoc(setUser, state, {merge: true})
+    .then((res) => {console.log('success merge')})
+    .catch((error) => {console.log("error" + error)})
+    getUserList();
+    console.log("update profile")
+}
   const setProfile = async (state, id) => {
       const setUser = doc(db, "users" , id)
       setDoc(setUser, state, {merge: true})
@@ -151,7 +161,9 @@ export const UserStore = (props) => {
             updateProfile,
             profilePhoto,
             setProfile,
-            deleteUser
+            setProfilePhoto,
+            deleteUser,
+            setTeacher,
             // loginUserSucces,
             // autoRenewTokenAfterMillisec,
             // uploadImage

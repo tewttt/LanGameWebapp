@@ -1,46 +1,48 @@
 import React, {useContext, useState} from "react";
 import ToolSidebar from "../../components/ToolSidebar";
 import UserContext from "../../context/UserContext";
-import {getAuth} from "firebase/auth";
 import { IconButton } from "@mui/material";
 import Tooltip from "@mui/material/Tooltip";
 import EditIcon from '@mui/icons-material/Edit';
 import SaveIcon from '@mui/icons-material/Save';
-import {storage, db} from "../../firebase"
+import {storage, db} from "../../firebase";
+import {auth} from "../../firebase";
 import { ref, uploadBytes,  getDownloadURL, uploadBytesResumable, } from "firebase/storage";
 
-const auth = getAuth();
+
 const initialState = {
     name: "",
     phone:"",
-    photo: ""
+    // photo: ""
 }
 
 const ProfilePage = () => {
-    const [state, setState] = useState(initialState)
+    // console.log(auth.currentUser.uid)
+    const [state, setState] = useState(initialState);
+    const [photo, setPhoto] = useState("")
     const[pedit, setEdit] = useState(false);
+   
     const ctx = useContext(UserContext)
-    const authId = auth.currentUser.uid
     const profile = ctx.userList.find(
         // item => console.log(item.authId)
-        item => item.authId === authId
+        item => item.authId === auth.currentUser.uid
     )
+    
     const id = profile.id
-        // console.log(profile.name)
+    console.log(id)
     const editPicture = () => {
         const fileInput = document.getElementById("imageInput");
         fileInput.click();
         // uploadImage();
     }
     const changePhoto = (e) => {
-      setState({...state, photo: e.target.files[0]})
+      setPhoto( e.target.files[0])
     };
     const changeName = (e) => {
         setState({...state, name: e.target.value})
     }
     const changePhone = (e) => {
         setState({...state, phone: e.target.value});
-       
     }
     const edit = () =>{
         setEdit(true)
@@ -53,13 +55,15 @@ const ProfilePage = () => {
     }
     
     const uploadImage = () =>{
-        if (state.photo === null) return;
+        if (photo === null) return;
         // const imageRef = ref(storage, `images/${photo.name + v4()}`);
-        const imageRef = ref(storage, `profiles/${state.photo.name}`);
-        uploadBytes(imageRef, state.photo).then((snapshot) => {
+        const imageRef = ref(storage, `profiles/${photo.name}`);
+        uploadBytes(imageRef, photo).then((snapshot) => {
             getDownloadURL(snapshot.ref).then((url) => {
-                setState({...state, photo: url})
-                // ctx.profilePhoto(url)
+                setPhoto(url)
+                // setState({...state, photo: url})
+                ctx.profilePhoto( id)
+                
             })
         })
         alert("photo amjilttai") 
@@ -69,6 +73,7 @@ const ProfilePage = () => {
         <div>
             <ToolSidebar/>
             {pedit ? (
+                // edit
             <div className="flex flex-col text-white justify-center items-center ">
                 {state.photo ? (
                     <img src={state.photo} className="w-[150px] h-[150px] rounded-[18px] border mt-5"/>
