@@ -1,8 +1,8 @@
 import React, {useState, useContext, useEffect, useRef} from "react";
 import { collection, addDoc, getDocs, setDoc,doc, updateDoc, deleteDoc} from "firebase/firestore";
-import { db } from "../firebase";
+import {db} from "../firebase";
 import {useHistory} from "react-router-dom";
-import {getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut} from "firebase/auth";
+import {getAuth,sendEmailVerification,  signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut} from "firebase/auth";
 
 const auth = getAuth();
 
@@ -31,12 +31,29 @@ export const UserStore = (props) => {
   const [userList, setUserList] = useState([])
   const [currentUser, setCurrentUser] = useState(null);
   const userInfo = useRef();
-//  console.log(userList)
+  // console.log(auth.currentUser)
 
   const userRef = collection(db, "users");
-    useEffect (() => {
-      getUserList();
-  }, []);
+
+  useEffect (() => {
+    getUserList();
+  },[]);
+  
+  const getUserList = async () => {
+    try {
+      const data = await getDocs(userRef);
+      const filteredData = data.docs.map((doc) => ({
+        ...doc.data(),
+        id: doc.id
+      }))
+
+      // console.log(filteredData)
+      setUserList(filteredData)
+    } catch (err) {
+      console.log(err)
+    }
+  }
+ 
 
   const profilePhoto = (url) => {setData({...data, photo: url})}
 
@@ -66,18 +83,8 @@ export const UserStore = (props) => {
       console.log("update profile")
   }
 
-  const getUserList = async () => {
-    try {
-      const data = await getDocs(userRef);
-      const filteredData = data.docs.map((doc) => ({
-        ...doc.data(),
-        id: doc.id
-      }))
-      setUserList(filteredData)
-    } catch (err) {
-      console.log(err)
-    }
-  }
+ 
+
   const deleteUser = async (id) => {
     const User = doc(db, "users" , id);
     await deleteDoc(User);
@@ -92,12 +99,11 @@ export const UserStore = (props) => {
     // })
     // .catch(error => alert(error))
   }
-
   async function loginUser(email, password) {
     setState({...state, logginIn: true})
        try {
           await signInWithEmailAndPassword (auth, email,password);
-          // alert("Амжилттай нэвтэрлээ")
+          alert("Амжилттай нэвтэрлээ")
           setState({...state,error: "",logginIn: false })
           // history.push("/lesson")
        } catch (error) {
@@ -106,47 +112,74 @@ export const UserStore = (props) => {
           if ( message === "Firebase: Error (auth/wrong-password).")
               message = "Нууц үг буруу байна";
           else if ( message === "Firebase: Error (auth/user-not-found).")
-              message = "Имэйл хаягаа зөв оруулна уу";
+              message =  "Имэйл хаяг олдсонгүй";
           else if ( message === "Firebase: Error (auth/network-request-failed).")
             message = "Интернетээ шалгана уу"
           setState({...state,error: message,logginIn: false })
   }}
-    
-  async function signupUser(email, password, phone) {
+  
+  async function signupUser(email, password, phone, name) {
+   
        try {
-          await createUserWithEmailAndPassword(auth, email, password);
-          alert(" Амжилттай бүртгүүллээ")
+          await createUserWithEmailAndPassword(auth, email,password);
           setState({...state,error: "",logginIn: false })
+          alert(" Амжилттай бүртгүүллээ")
           addDoc(collection(db, "users" ), {
               email: email,
+              name: name,
               password: password,
               phone: phone,
-              authId: auth.currentUser.uid
+              authId: auth.currentUser?.uid,
           })
-          .then(() => {
-              console.log("amjilttai")
-              setState({...state,error: "",logginIn: false })
-          })
-          .catch((error) => {
-              console.log(error)
-              setState({...state,error: "",logginIn: false })
-          })
+        
+          // .then(() => {
+
+          //       sendEmailVerification(auth.currentUser)({
+          //       handleCodeInApp: true,
+          //       url:"race-d2c0d.firebaseapp.com",
+          //       })
+          //       .then(() => {
+          //         alert("Verification email sent")
+          //       })
+          //       .catch((error) => {
+          //         alert(error.message)
+          //       })
+
+          //     console.log("amjilttai")
+          //     setState({...state,error: "",logginIn: false })
+          // })
+         
        } catch (error) {
+       
           let message = error.message;
           if ( message === "Firebase: Password should be at least 6 characters (auth/weak-password).")
               message = "Нууц үг хамгийн багадаа 6 оронтой байх хэрэгтэй";
           else if ( message === "Firebase: Error (auth/invalid-email).")
               message = "Имэйл хаягаа зөв бичнэ үү";
+         
               setState({...state,error: message,logginIn: false })
-       }
+       } 
+      //  finally  {
+      //   setState({...state, error: "", logginIn: false})
+      //  }
   };
     //  useEffect(() => {
     //   const unsubscribe = onAuthStateChanged(auth, async user => {
     //     setCurrentUser(user)
-    //     setLoading(false)
+    //     // setLoading(false)
     //   })
     //   return unsubscribe
     //  }, [])
+     useEffect(() => {
+      const unsubscribe = auth.onAuthStateChanged( async user => {
+        if(user) {
+          setCurrentUser(user)
+          // setLoading(false)
+        }
+        
+      })
+      return unsubscribe
+     }, [])
 
     return (
         <UserContext.Provider  

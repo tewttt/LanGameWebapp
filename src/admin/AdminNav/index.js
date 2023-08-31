@@ -1,7 +1,7 @@
 import React from "react";
 import AddLesson from "../AddLessonPage";
 import AllLesson from "../AllLesson";
-import Users from "../Users";
+import Users from "../Users/User.jsx";
 import { Switch , Route, useHistory } from "react-router-dom";
 
 const AdminNav = () => {

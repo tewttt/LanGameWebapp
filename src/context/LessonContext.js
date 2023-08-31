@@ -20,7 +20,7 @@ const initialState= {
 export const LessonStore = (props) => {
     const [state, setState] = useState(initialState)
     const [lessonList, setLessonList] = useState([]);  
-    // console.log(state.image)
+    // console.log(lessonList)
 // https://www.youtube.com/watch?v=2hR-uWjBAgw&t=1095s
 // firestro db tai ajillah hicheel
 

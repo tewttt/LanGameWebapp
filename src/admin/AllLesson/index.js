@@ -7,6 +7,7 @@ const AllLesson = () => {
   
     return (
         <div className="text-white flex flex-col">
+           
            <AdminLessonList lessons={ctx.lessonList}/>
         </div>
     )

@@ -16,7 +16,7 @@ const Toolbar = (props) => {
         history.push("/wallet")
     }
     const profile = () => {
-        history.push("/user")
+        history.push("/profile")
     }
     return (
         <header className="flex h-[40px] w-full p-0 z-10 items-center justify-between mt-0 ml-0 z-90 bg-baseColor text-white text-center" > 

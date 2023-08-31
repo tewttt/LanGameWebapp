@@ -1,6 +1,6 @@
 import React, { useEffect, useState} from "react";
 import {Switch , Route, Redirect} from "react-router-dom"
-import { auth } from '../../firebase'
+import { getAuth } from "firebase/auth";
 import LessonPage from "../LessonPage";
 import Game from "../../game/GamePage"
 import Payment from "../Payment";
@@ -16,17 +16,21 @@ import Teacher from "../../components/Teacher";
 import AddLesson from "../../components/AddLesson";
 import NewGame from "../../game/NewGame";
 
-const App = () => {
+const auth = getAuth();
+
+const App = () => { 
      const [userId, setUserId] = useState()
 
      auth.onAuthStateChanged((user) => {
           if (user) {
+               // console.log(user.uid)
                setUserId(user.uid)
           }
      });
 
 return (
-<div >      
+<div >                
+    
      {userId ? (
      <Switch>
           <Route path="/lesson/:id" component={LessonView}/>
@@ -35,7 +39,7 @@ return (
           <Route path="/game" component={Game}/>
           <Route path="/newGame" component={NewGame}/>
           <Route path="/logout" component={Logout}/>
-          <Route path="/user" component={ProfilePage}/>
+          <Route path="/profile" component={ProfilePage}/>
           <Route path="/addLesson" component={AddLesson}/>
           <Route path="/teacher" component={Teacher}/>
           {/* admin */}

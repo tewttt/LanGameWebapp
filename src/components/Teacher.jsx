@@ -1,8 +1,8 @@
 import React, { useState, useContext } from "react";
 import ToolSidebar from "./ToolSidebar";
-import {auth} from "../firebase";
+import { getAuth } from "firebase/auth";
 import UserContext from "../context/UserContext";
-
+const auth = getAuth();
 const Teacher = () => {
     console.log(auth.currentUser.uid)
     const ctx = useContext(UserContext)

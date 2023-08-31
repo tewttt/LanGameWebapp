@@ -47,6 +47,7 @@ const AddLesson = () => {
             <Route path="/dashboard/exam" component={Exam}/>
             <Route path="/dashboard/grammar" component={Grammar} />
             <Route path="/dashboard/word" component={Word} />
+         
             <Route path="/dashboard" component={LessonBase} />
         </Switch>
     </div>       

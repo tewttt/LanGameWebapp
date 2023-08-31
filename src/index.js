@@ -8,6 +8,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {UserStore} from './context/UserContext';
 import { LessonStore } from './context/LessonContext';
+import { MemberStore } from './context/MemberContext';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -16,16 +17,17 @@ root.render(
     <BrowserRouter>
     <LessonStore>
       <UserStore>
-        <ToastContainer
-          position='top-right'
-          autoClose={3000}
-          closeOnClick
-          pauseOnHover={false}
-          theme="dark"
-        >
-
-        </ToastContainer>
-          <App />
+        <MemberStore>
+           <ToastContainer
+          // position='top-right'
+          // autoClose={3000}
+          // closeOnClick
+          // pauseOnHover={false}
+          // theme="dark"
+          >
+          </ToastContainer>
+            <App />
+          </MemberStore>
       </UserStore>
       </LessonStore>
     </BrowserRouter>

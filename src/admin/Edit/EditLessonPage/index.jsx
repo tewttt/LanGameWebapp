@@ -39,7 +39,7 @@ const EditLesson = (props) => {
     const back= () => {
         history.push("/dashboard");
     };
-  console.log(history.location.pathname)
+//   console.log(history.location.pathname)
     return (
         <div >
         <ToolSidebar/>
@@ -55,13 +55,13 @@ const EditLesson = (props) => {
                     </div>   
                     <div className="pr-3">Засвар</div>      
                 </div>              
-                    <Switch>
-                        <Route path="/edit/:id/word"  component={EditNewWord}/>
-                        <Route path="/edit/:id/grammar"  component={EditGrammar}/>
-                        <Route path="/edit/:id/translate"  component={EditTranslate}/>
-                        <Route path="/edit/:id/exam" component={EditExam}/>
-                        <Route path="/edit/:id/" component={EditBase} />
-                    </Switch>
+                <Switch>
+                    <Route path="/edit/:id/word"  component={EditNewWord}/>
+                    <Route path="/edit/:id/grammar"  component={EditGrammar}/>
+                    <Route path="/edit/:id/translate"  component={EditTranslate}/>
+                    <Route path="/edit/:id/exam" component={EditExam}/>
+                    <Route path="/edit/:id/" component={EditBase} />
+                </Switch>
             </div> 
         </div>
     )

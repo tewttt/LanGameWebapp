@@ -37,8 +37,8 @@ const Navbar = (props) => {
                 : "absolute top-0 h-screen left-[-100%] ease-in duration-500"}
             >
                 <ul className=" pt-12 flex flex-col items-center justify-center text-white">
-                    <li onClick={()=> history.push("/user")} className="m-2 p-1 rounded-lg w-[100px] h-[20px] md:w-[200px] md:h-[30px] flex items-center justify-center border border-gray-400 hover:border-blue-500 hover:text-blue-500 bg-[#383030]">
-                        <a href="/user">Profile</a>
+                    <li onClick={()=> history.push("/profile")} className="m-2 p-1 rounded-lg w-[100px] h-[20px] md:w-[200px] md:h-[30px] flex items-center justify-center border border-gray-400 hover:border-blue-500 hover:text-blue-500 bg-[#383030]">
+                        <a href="/profile">Profile</a>
                     </li>
                     <li onClick={()=> history.push("/teacher")} className="m-2 p-1 rounded-lg w-[100px] h-[20px] md:w-[200px] md:h-[30px] flex items-center justify-center border border-gray-400 hover:border-blue-500 hover:text-blue-500 bg-[#383030]">
                         <a href="/teacher">Багш</a>
