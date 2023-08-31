@@ -49,7 +49,7 @@ const Member = () => {
       } 
       else {
          alert("add")
-         ctx.signupMember(email,password, phone,name);
+         // ctx.signupMember(email,password, phone,name);
         
          //  ctx.signupUser(email,password, phone);
       }

@@ -17,7 +17,7 @@ root.render(
     <BrowserRouter>
     <LessonStore>
       <UserStore>
-        <MemberStore>
+        {/* <MemberStore> */}
            <ToastContainer
           // position='top-right'
           // autoClose={3000}
@@ -27,7 +27,7 @@ root.render(
           >
           </ToastContainer>
             <App />
-          </MemberStore>
+          {/* </MemberStore> */}
       </UserStore>
       </LessonStore>
     </BrowserRouter>

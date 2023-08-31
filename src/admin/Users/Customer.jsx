@@ -41,7 +41,7 @@ const Customer = () => {
         //     setError("Нууц үг хоорондоо таарахгүй байна")
         // } 
         else {
-            ctx.signupUser(name, email, phone, password)
+            // ctx.signupUser(name, email, phone, password)
             alert("add")
         }
       
