@@ -9,23 +9,34 @@ const AdminLesson = (props) => {
     const [confirm , setConfirm] = useState(false);
     const ctx = useContext(LessonContext)
     const history = useHistory();
-    // console.log(props)
+    // console.log(props.lang)
     const showConfirm = () => {
         setConfirm(true)
        };
        const closeConfirm = () => {
         setConfirm(false)
        };
-  
+
     const deleteLesson = () => {
+        alert("ustga")
         const id = props.lesson.id;
-        ctx.deleteDB(id)
+    
+        if(props.lan == 'Англи хэл') {
+            ctx.deleteEnglishDB(id)
+        } else if(props.lan == 'Солонгос хэл') {
+            ctx.deleteKoreaDB(id)
+        } else if(props.lan == "Монгол хэл") {
+            ctx.deleteMongoliaDB(id)
+        }
+        closeConfirm()
+        // ctx.deleteDB(id)
     }
     const view = () => {
-        history.push(`/lesson/${props.lesson.id}`)
+        history.push(`/lesson/${props.lesson.id}?lang=${props.lang}`)
     }
     const edit = () => {
-    history.push(`/edit/${props.lesson.id}` )
+    history.push(`/edit/${props.lesson.id}?lang=${props.lang}` )
+    // history.push(`/edit/${props.lesson.id}`)
    }
   
 return (
@@ -34,8 +45,8 @@ return (
             <div style={{display: "flex", flexDirection: "column"}}>
             Устгахдаа итгэлтэй байна уу
                 <div >
-                    <button btn="Cont" text="Тийм" daragdsan={deleteLesson}></button>
-                    <button  text="Үгүй" daragdsan={closeConfirm}></button>
+                    <button className="border border-gray-400 mx-3" onClick={closeConfirm}>Үгүй</button>
+                    <button  onClick={deleteLesson}>Устгах</button>
                 </div>
             </div>
         </Modal>

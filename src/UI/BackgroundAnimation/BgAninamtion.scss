@@ -1,0 +1,53 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+.background {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+
+    overflow: hidden;
+    display: flex;
+    flex-wrap: wrap;
+   
+}
+span{
+    position: relative;
+    width: 20px;
+    height: 20px;
+    display: block;
+}
+span::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #ffe345;
+    transform: scale(0.3);
+    border-radius: 50%;
+    transition: all 1s;
+    opacity: 0;
+    // animation: colorChange 10s linear infinite;
+}
+span:hover::after {
+    transform: scale(1);
+    transition: 0s;
+    box-shadow: 0 0 5px #ffe345,  0 0 10px #ffe345,
+    0 0 3px #ffe345,  0 0 50px #ffe345,  0 0 80px #ffe345,
+    0 0 110px #ffe345,  0 0 130px #ffe345;
+     filter: blur(3px);
+     opacity: 1;
+    
+}
+@keyframes colorChange {
+    0% {
+        filter: hue-rotate(0deg)
+    }
+    100% {
+        filter: hue-rotate(360deg);
+    }
+}

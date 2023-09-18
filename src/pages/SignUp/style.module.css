@@ -1,0 +1,36 @@
+.signupButton {
+    width: 200px;
+    height: 40px;
+    margin-top: 20px;
+    padding: 2px;
+    border: 1px solid #1974C7;
+    color: #1974C7;
+    border-radius: 10px;
+    font-size: 20px;
+    font-family: sans-serif;
+    position: relative;
+    transition: all 1s;
+    overflow: hidden;
+   
+}
+.signupButton::before {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    content: "Бүртгүүлэх";
+    position: absolute;
+    left: 0;
+    top: 0;
+    background-color: #1974C7;
+    height: 100%;
+    width: 100%;
+    transform: translateX(-100%);
+    transition: all 1s;
+  
+}
+.signupButton:hover::before {
+    transform: translateX(0);
+}
+.signupButton:hover {
+    color: white
+}

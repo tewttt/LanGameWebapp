@@ -1,0 +1,57 @@
+.universe{
+    width: 100vw;
+    height: 100vh;
+    transform-style: preserve-3d;
+  
+}
+.earth{
+    position: absolute;
+  
+    top:calc(50% - 150px);
+    left: calc(50% - 150px);
+    height: 300px;
+    width: 300px;
+    background: url("../../assets/img/earth.jpg") no-repeat center center / cover;
+    border-radius: 50%;
+    z-index: 1;
+}
+.moon{
+    position: absolute;
+    top:calc(50% - 300px);
+    left: calc(50% - 300px);
+    width: 600px;
+    height: 600px;
+    border-radius: 50%;
+  
+    transform-style: preserve-3d;
+    transform: rotateX(75deg) rotateY(20deg) rotateZ(0deg);
+    animation: moon 10s linear infinite;
+}
+.moon::before {
+    display: block;
+    content: "";
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: url("../../assets/img/moon.jpg") no-repeat center center / cover;
+    margin:0 auto;
+    margin-top: -25px;
+    transform: rotateX(-75deg) rotateY(-20deg) rotateZ(0deg);
+    animation: moon-invert 10s linear infinite;
+}
+@keyframes moon {
+    0% {
+        transform: rotateX(75deg) rotateY(20deg) rotateZ(360deg);
+    }
+    100% {
+        transform: rotateX(75deg) rotateY(20deg) rotateZ(0deg);
+    }
+}
+@keyframes moon-invert {
+    0% {
+        transform: rotateX(75deg) rotateY(20deg) ;
+    }
+    100% {
+        transform: rotateX(75deg) rotateY(360deg);
+    }
+}

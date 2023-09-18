@@ -1,27 +1,38 @@
 import React from "react";
+import css from "./style.module.css"
 import { useHistory, Link } from "react-router-dom";
 import { useState , useEffect} from "react";
 import 'react-toastify/dist/ReactToastify.css';
 import {AiFillLock} from "react-icons/ai"
 const Lesson = props => {
-   
+//    console.log(props)
     const[status, setStatus] = useState("")
     const history = useHistory();
+
     const view = () => {
-        history.push(`/lesson/${props.lesson.id}`)
+        history.push(`/lesson/${props.lesson.id}?lang=${props.lang}`)
         
     }
-    useEffect(() =>{
+    useEffect(() =>{ 
         setStatus(props.lesson.state.base.status)
     },[])
+
     const wallet = () => {
         
     } 
     
     return (
         <div>
+           
+           
          {status === "Төлбөргүй" ? (
-            <div className="flex flex-col py-3 items-center border border-blue-500 w-[200px]  hover:border-blue-300  rounded-[5px] " >  
+            <div className={css.hoverButton}
+                // className="flex flex-col py-3 items-center border border-blue-500 w-[200px]  hover:border-blue-300  rounded-[5px] " 
+                >  
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
                 <div className="flex mb-2"> 
                         <div className="mx-3"> {props.lesson.state.base.language}</div> 
                         <div className="mx-3">№{props.lesson.state.base.lessonNumber}</div> 

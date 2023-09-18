@@ -1,6 +1,6 @@
-import React, { useEffect, useState} from "react";
-import {Switch , Route, Redirect} from "react-router-dom"
-import { getAuth } from "firebase/auth";
+import React, { useState, useContext} from "react";
+import {Switch , Route} from "react-router-dom"
+import { auth } from "../../firebase";
 import LessonPage from "../LessonPage";
 import Game from "../../game/GamePage"
 import Payment from "../Payment";
@@ -15,22 +15,24 @@ import EditLesson from "../../admin/Edit/EditLessonPage";
 import Teacher from "../../components/Teacher";
 import AddLesson from "../../components/AddLesson";
 import NewGame from "../../game/NewGame";
-
-const auth = getAuth();
+import MemberContext from "../../context/MemberContext";
+import BackgroundAnimation from "../../UI/BackgroundAnimation";
 
 const App = () => { 
+     // const ctx= useContext(MemberContext)
+    
      const [userId, setUserId] = useState()
-
      auth.onAuthStateChanged((user) => {
           if (user) {
-               // console.log(user.uid)
                setUserId(user.uid)
           }
      });
 
 return (
-<div >                
-    
+<div className="relatvie" >   
+     <div className="absolute">  
+          <BackgroundAnimation/> 
+     </div>          
      {userId ? (
      <Switch>
           <Route path="/lesson/:id" component={LessonView}/>
@@ -51,23 +53,21 @@ return (
           <Route path="/admin" component={AdminLogin}/> 
           <Route path="/signup" component={SignUp}/>
           <Route path="/" component={Login}/>
-          {/* <Redirect to="/"/> */}
      </Switch>
-     )}           
+     )
+     // ) :  ctx.memberList.role ? ( 
+     //      <Switch>
+     //           <Route path="/admin" component={AdminLogin}/> 
+     //      </Switch>
+     // ) : (
+     //      <Switch>
+     //           <Route path="/signup" component={SignUp}/>
+     //           <Route path="/" component={Login}/>
+     //      </Switch>
+     // )
+     }           
 </div>
 )}
 export default App;
 
-// useEffect(() => {
-//     const token = localStorage.getItem("token");
-//     const userId = localStorage.getItem("userId");
-//     const expireDate = new Date(localStorage.getItem("expireDate"));
-//     const refreshToken = localStorage.getItem("refreshToken");
 
-//     if (token) {
-//       if (expireDate > new Date()) {
-//         // Hugatsaa n duusaaagui token baina, avtomat login hiine
-//         ctx.loginUserSucces(token, userId, expireDate, refreshToken);
-    
-//         // Token huchingui bolohod uldej baigaa hugatsaag tootsoolj
-//         // Ter hugatsaanii daraa avtomataar logout hinpm 

@@ -8,35 +8,62 @@ import RestoreFromTrashIcon from '@mui/icons-material/RestoreFromTrash';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import {useParams } from "react-router-dom";
 import LessonContext from "../../../context/LessonContext";
-import { useHistory } from "react-router-dom";
+import { useHistory , useLocation} from "react-router-dom";
 import Modal from "../../../components/General/Modal";
 import { storage} from "../../../firebase";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { SendAndArchiveSharp } from "@mui/icons-material";
+import { useEffect } from "react";
 
-
+function useQuery() {
+    const { search } = useLocation();
+    return React.useMemo(() => new URLSearchParams(search), [search]);
+}
 const Word = (props) => {
    const ctx = useContext(LessonContext);
    const [confirm , setConfirm] = useState(false);
    const history = useHistory();
+   const [ questions, setQuestions] = useState(
+    [{  word: "",
+        options : [
+            {optionText: ""},
+        ],
+        answerKey: "",
+        desc: "",
+        image:"",
+        trans: "",
+        sound: ""
+    }]
+)
+console.log(questions)
     const {id} = useParams();
-    const lessonEditWord = ctx.lessonList.find(
-        item => item.id === id
-    )
+
+    let query = useQuery();
+    let lessonEditWord = null
+
+    if(query.get("lang") == 'Англи хэл') {
+        lessonEditWord = ctx.englishList.find(
+            // item => console.log(item + "item id")
+            item =>  item.id === id
+        );
+    }
+     else if(query.get("lang") == 'Солонгос хэл') {
+        lessonEditWord = ctx.koreaList.find(
+            item =>  item.id === id
+        );
+    } else if(query.get("lang") == "Монгол хэл") {
+        lessonEditWord = ctx.mongoliaList.find(
+            item =>  item.id === id
+        );
+    }
+    useEffect(() => {
+        setQuestions(lessonEditWord.state.newWord)
+    })
+    
     const word =lessonEditWord.state.newWord
-    console.log(word)
-    const [ questions, setQuestions] = useState(
-        [{  word: "",
-            options : [
-                {optionText: ""},
-            ],
-            answerKey: "",
-            desc: "",
-            image:"",
-            trans: "",
-            sound: ""
-        }]
-    )
+    // console.log(word)
+  
+
  
     const showConfirm = () => {
     setConfirm(true)
@@ -47,13 +74,21 @@ const Word = (props) => {
 
     const save = () => {      
     alert("Шалгалтын хэсгийг амжилттай хадгаллаа"); 
+    
     ctx.saveNewWord(questions);
     // ctx.updateDB(id)
     // history.push("/dashboard")
         
     }
+   
     const send = () => {
-        ctx.updateDB(id)
+        if(query.get("lang") == 'Англи хэл') {
+            ctx.updateEnglishDB(id)
+        } else if(query.get("lang") == 'Солонгос хэл') {
+            ctx.updateKoreaDB(id)
+        } else if(query.get("lang") == "Монгол хэл") {
+            ctx.updateMongoliaDB(id)
+        }
         history.push("/dashboard")
     }
 

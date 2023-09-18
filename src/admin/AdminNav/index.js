@@ -19,7 +19,7 @@ const AdminNav = () => {
     // console.log(history.location)
     return ( 
         <div className="flex flex-col md:flex md:flex-row ">
-            <div className="flex m-2 justify-between md:justify-start md:ml-0 md:flex-col md:border-r md:border-r-gray-400 md:px-5 ">
+            <div className="flex m-2 mt-12 justify-between md:justify-start md:ml-0 md:flex-col md:border-r md:border-r-gray-400 md:px-5 ">
                 <div className={`${history.location.pathname == '/dashboard' ? 'border border-baseBlue bg-blue-700 text-white' : ''} flex justify-center items-center w-[100px] h-[30px]  bg-blue-50 p-1 border border-gray-600 rounded-[5px] text-[12px] hover:bg-blue-500  `} 
                     onClick={addlesson}>Хичээл нэмэх</div>
                 <div 

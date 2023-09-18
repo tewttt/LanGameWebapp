@@ -16,7 +16,7 @@ const changePhoto = (e) => {
     // uploadImage();
 };
 // console.log(photo)
-
+ 
 const uploadImage = () =>{
     if (photo == null) return;
     // const imageRef = ref(storage, `images/${photo.name + v4()}`);

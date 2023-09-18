@@ -8,20 +8,43 @@ import RestoreFromTrashIcon from '@mui/icons-material/RestoreFromTrash';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import {useParams } from "react-router-dom";
 import Modal from "../../../components/General/Modal"
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import LessonContext from "../../../context/LessonContext";
 
+function useQuery() {
+    const { search } = useLocation();
+    return React.useMemo(() => new URLSearchParams(search), [search]);
+}
 const EditTranslate = (props) => {
     const history = useHistory()
     const ctx = useContext(LessonContext)
     const [confirm , setConfirm] = useState(false);
     const {id} = useParams();
+    
+    let query = useQuery();
+    let lessonEditTranslate = null
 
-    const lessonEditTranslate = ctx.lessonList.find(
-        item => item.id === id
-    )
+    if(query.get("lang") == 'Англи хэл') {
+        lessonEditTranslate = ctx.englishList.find(
+            // item => console.log(item + "item id")
+            item =>  item.id === id
+        );
+    }
+     else if(query.get("lang") == 'Солонгос хэл') {
+        lessonEditTranslate = ctx.koreaList.find(
+            item =>  item.id === id
+        );
+    } else if(query.get("lang") == "Монгол хэл") {
+        lessonEditTranslate = ctx.mongoliaList.find(
+            item =>  item.id === id
+        );
+    }
+    useEffect(() => {
+        setQuestions(lessonEditTranslate.state.translate)
+    })
+
     const data = lessonEditTranslate.state.translate
-    console.log(data)
+
     const [ questions, setQuestions] = useState(
         [{  questionText: "",
             questionAnswer: "",   
@@ -38,7 +61,7 @@ const EditTranslate = (props) => {
         // alert("Орчуулгын хэсгийг амжилттай хадгаллаа"); 
         ctx.saveTranslate(questions);
         // ctx.updateDB(id);
-        history.push(`/edit/${id}/exam`)
+        history.push(`/edit/${id}/exam?lang=${query.get("lang")}`)
         closeConfirm()       
     }
     const changeQuestion = (text, i) => {

@@ -1,0 +1,24 @@
+.walking {
+    position: relative;
+    height: 379px;
+    width: calc(2161px/6);
+    overflow: hidden;
+    background: url("../../assets/spriteSheets/ball.png");
+    animation: movement 0.9s steps(6) infinite, forward 5s linear infinite;
+}
+@keyframes movement {
+    0% {
+        background-position: 0;
+    }
+    100% {
+        background-position: 2161px;
+    }
+}
+@keyframes forward {
+    0% {
+        transform: translate(-256px);
+    }
+    100% {
+        transform: translate(1600px);
+    }
+}

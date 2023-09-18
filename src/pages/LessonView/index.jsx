@@ -1,22 +1,42 @@
-import React , {useContext, useState} from "react";
+import React , {useContext, useEffect, useState} from "react";
 import css from "./style.module.css";
 import {DefaultPlayer as Video} from "react-html5video"
 import "react-html5video/dist/styles.css";
-import { useParams } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 import StarIcon from '@mui/icons-material/Star';
 import TranslateView from "../../components/translateView";
 import ExamView from "../../components/examView";
 import ToolSidebar from "../../components/ToolSidebar";
 import LessonContext from "../../context/LessonContext"
 
+function useQuery() {
+    const { search } = useLocation();
+    return React.useMemo(() => new URLSearchParams(search), [search]);
+}
+
 const LessonView = (props) => {
     const [rating, setRating] = useState(null);
     const ctx = useContext(LessonContext)
     const {id} = useParams()
-    const lessonId = ctx.lessonList.find(
-        // item => console.log(item)
-         item =>  item.id === id
+    let query = useQuery();
+
+    // console.log('lang', query.get("lang"))
+
+    let lessonId = null
+    if(query.get("lang") == 'Англи хэл') {
+        lessonId = ctx.englishList.find(
+            item =>  item.id === id
         );
+    } else if(query.get("lang") == 'Солонгос хэл') {
+        lessonId = ctx.koreaList.find(
+            item =>  item.id === id
+        );
+    } else if(query.get("lang") == "Монгол хэл") {
+        lessonId = ctx.mongoliaList.find(
+            item =>  item.id === id
+        );
+    }
+
         // console.log(lessonId.state.translate)
     return (
         <div>
@@ -36,7 +56,8 @@ const LessonView = (props) => {
                 
                 <div className="flex flex-col justify-center items-center">
                     <div className="w-full md:w-[70%]">
-                        <Video autoPlay loop 
+                        <Video
+                        //  autoPlay loop 
                         // poster={photo} 
                         on>
                             <source

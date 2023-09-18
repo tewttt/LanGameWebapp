@@ -6,7 +6,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import FilterNoneIcon from '@mui/icons-material/FilterNone';
 import RestoreFromTrashIcon from '@mui/icons-material/RestoreFromTrash';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
-import {useParams } from "react-router-dom";
+import {useParams, useHistory } from "react-router-dom";
 import Spinner from "../../../components/General/Spinner";
 import LessonContext from "../../../context/LessonContext";
 import Modal from "../../../components/General/Modal";
@@ -15,7 +15,9 @@ import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 
 const Word = () => {
+    const history = useHistory()
    const ctx = useContext(LessonContext);
+//    console.log(ctx.state.base.language)
    const [confirm , setConfirm] = useState(false);
     const {id} = useParams();
     const [ questions, setQuestions] = useState(
@@ -41,6 +43,7 @@ const Word = () => {
        const save = () => {      
         alert("Шалгалтын хэсгийг амжилттай хадгаллаа"); 
         ctx.saveNewWord(questions);
+        // history.push("/dashboard")
     }
 
     const changeWord = (text, i) => {
@@ -272,8 +275,18 @@ return (
    
     ))}
     <div className="flex mb-10">
+
         <button className="w-[150px] h-[20px] bg-blue-400 hover:bg-blue-500 flex text-[12px] justify-center items-center m-auto" onClick={save}>Save</button> 
-        <button className="w-[150px] h-[20px] bg-green-500 hover:bg-green-700 flex text-[12px] justify-center items-center m-auto" onClick={ctx.createLessonDB}>Илгээх</button>
+        {ctx.state.base.language === "Англи хэл" ? (
+             <button className="w-[150px] h-[20px] bg-green-500 hover:bg-green-700 flex text-[12px] justify-center items-center m-auto" onClick={ctx. createEnglishDB}>Англи хэл илгээх</button>
+        ) : ctx.state.base.language === "Солонгос хэл" ?  (
+            <button className="w-[150px] h-[20px] bg-green-500 hover:bg-green-700 flex text-[12px] justify-center items-center m-auto" onClick={ctx.createKoreaDB}>Солонос хэл лгээх</button>
+        ) : (
+            <button className="w-[150px] h-[20px] bg-green-500 hover:bg-green-700 flex text-[12px] justify-center items-center m-auto" onClick={ctx.createMongoliaDB}>Илгээх</button>
+        )
+        }
+
+     
     </div>
 </div>
 )

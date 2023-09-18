@@ -17,21 +17,39 @@ import ButtonCmp from "../../../components/Button"
 import Spinner from "../../../components/General/Spinner";
 import LessonContext from "../../../context/LessonContext";
 import Modal from "../../../components/General/Modal";
-import { useHistory } from "react-router-dom";
+import { useHistory,useLocation } from "react-router-dom";
 
-
+function useQuery() {
+    const { search } = useLocation();
+    return React.useMemo(() => new URLSearchParams(search), [search]);
+}
 
 const EditExam = (props) => {
     const history = useHistory()
-    // const id = props.filExam.id
-   const ctx = useContext(LessonContext);
-   const [confirm , setConfirm] = useState(false);
-
-   
     const {id} = useParams();
-     const lessonEditExam = ctx.lessonList.find(
-        item => item.id === id
-    )
+    const ctx = useContext(LessonContext);
+    const [confirm , setConfirm] = useState(false);
+    let query = useQuery();
+        
+    let lessonEditExam = null
+    if(query.get("lang") == 'Англи хэл') {
+            lessonEditExam = ctx.englishList.find(
+            // item => console.log(item + "item id")
+            item =>  item.id === id
+        );
+    }
+        else if(query.get("lang") == 'Солонгос хэл') {
+            lessonEditExam = ctx.koreaList.find(
+            item =>  item.id === id
+        );
+    } else if(query.get("lang") == "Монгол хэл") {
+            lessonEditExam = ctx.mongoliaList.find(
+            item =>  item.id === id
+        );
+    }
+    useEffect(() => {
+        setQuestions(lessonEditExam.state.exam)
+    })
     const exam = lessonEditExam.state.exam
     // console.log(exam)
     const [ questions, setQuestions] = useState(
@@ -56,7 +74,7 @@ const EditExam = (props) => {
     const save = () => {
         // alert("Шалгалтын хэсгийг амжилттай хадгаллаа"); 
         ctx.saveExam(questions);
-        history.push(`/edit/${id}/grammar`) 
+        history.push(`/edit/${id}/grammar?lang=${query.get("lang")}`) 
         // ctx.updateDB(id);
         closeConfirm()
     }

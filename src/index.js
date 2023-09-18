@@ -17,17 +17,17 @@ root.render(
     <BrowserRouter>
     <LessonStore>
       <UserStore>
-        {/* <MemberStore> */}
+        <MemberStore>
            <ToastContainer
-          // position='top-right'
-          // autoClose={3000}
-          // closeOnClick
-          // pauseOnHover={false}
-          // theme="dark"
+          position='top-right'
+          autoClose={300000}
+          closeOnClick
+          pauseOnHover={false}
+          theme="dark"
           >
           </ToastContainer>
             <App />
-          {/* </MemberStore> */}
+          </MemberStore>
       </UserStore>
       </LessonStore>
     </BrowserRouter>

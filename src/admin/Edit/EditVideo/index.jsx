@@ -1,13 +1,16 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {DefaultPlayer as Video} from "react-html5video";
 import "react-html5video/dist/styles.css";
-import {useParams } from "react-router-dom";
+import {useParams, useLocation } from "react-router-dom";
 import { ref,  getDownloadURL, uploadBytesResumable} from "firebase/storage";
 import { storage, db } from "../../../firebase";
 import LessonContext from "../../../context/LessonContext";
 import { useContext } from "react";
 
-
+function useQuery() {
+    const { search } = useLocation();
+    return React.useMemo(() => new URLSearchParams(search), [search]);
+}
 // https://www.youtube.com/watch?v=wuArhMaD5Hc&t=26s
 // upload video lesson
 const VideoUpload = () => {
@@ -16,48 +19,69 @@ const VideoUpload = () => {
     const [prog, setProg] = useState("")
     const ctx =useContext(LessonContext)
     const {id} = useParams();
+    console.log(video)
+  
+    let query = useQuery();
+    let lessonEditVideo = null
 
-    const lessonEditVideo = ctx.lessonList.find(
-        item => item.id === id
-    )
+    if(query.get("lang") == 'Англи хэл') {
+        lessonEditVideo = ctx.englishList.find(
+            // item => console.log(item + "item id")
+            item =>  item.id === id
+        );
+    } else if(query.get("lang") == 'Солонгос хэл') {
+        lessonEditVideo = ctx.koreaList.find(
+            item =>  item.id === id
+        );
+        
+    } else if(query.get("lang") == "Монгол хэл") {
+        lessonEditVideo = ctx.mongoliaList.find(
+            item =>  item.id === id
+        );
+    }
+       
+    useEffect(() => {
+        setVideo(lessonEditVideo.state.video)
+    },[lessonEditVideo])
+
     const changeVideo = (e) => {
         setVideo(e.target.files[0]);
         // uploadVideo();
-       
     }
-          const uploadVideo = () => {
-            if (video === null) return;
-            const videoRef = ref(storage, `videos/${video.name}`)
-            const uploadTask = uploadBytesResumable(videoRef, video)
+    const uploadVideo = () => {
+    if (video === null) return;
+    const videoRef = ref(storage, `videos/${video.name}`)
+    const uploadTask = uploadBytesResumable(videoRef, video)
 
-            uploadTask.on("state_changed" , (snapshot) => {
-                let progress = (snapshot.bytesTransferred/ snapshot.totalBytes) * 100
+    uploadTask.on("state_changed" , (snapshot) => {
+        let progress = (snapshot.bytesTransferred/ snapshot.totalBytes) * 100
 
-                progress = Math.trunc(progress)
-                setProg(progress)
-            }, (error) => {
-                console.log("error : ")
-            }, () => {
-               
-                console.log("success")
-                getDownloadURL(uploadTask.snapshot.ref).then(downloadURL => {
-                 
-                    setVideo(downloadURL)
-                    // console.log(downloadURL)
-                    ctx.saveVideo(downloadURL)
-                })
-                alert("video upload success")
-            })
-        }
+        progress = Math.trunc(progress)
+        setProg(progress)
+    }, (error) => {
+        console.log("error : ")
+    }, () => {
+        
+        console.log("success")
+        getDownloadURL(uploadTask.snapshot.ref).then(downloadURL => {
+            
+            setVideo(downloadURL)
+            // console.log(downloadURL)
+            ctx.saveVideo(downloadURL)
+        })
+        alert("video upload success")
+    })
+}
 
 return (
     <div className="flex flex-col border border-gray-400 p-3 rounded-lg justify-center">
         <div className="border border-gray-400 rounded-xl md:w-[400px]">
-                <Video autoPlay loop 
+                <Video 
+                    // autoPlay loop 
                     // poster={photo} 
                     on>
                         <source
-                         src={lessonEditVideo.state.video}
+                        src={video}
                         type="video/webm"
                         />
                 </Video>

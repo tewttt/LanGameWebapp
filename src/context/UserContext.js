@@ -31,13 +31,13 @@ export const UserStore = (props) => {
   const [userList, setUserList] = useState([])
   const [currentUser, setCurrentUser] = useState(null);
   const userInfo = useRef();
-  // console.log(auth.currentUser)
+  // console.log(auth)
 
   const userRef = collection(db, "users");
 
   useEffect (() => {
     getUserList();
-  },[]);
+  },[userList]);
   
   const getUserList = async () => {
     try {
@@ -51,6 +51,11 @@ export const UserStore = (props) => {
       setUserList(filteredData)
     } catch (err) {
       console.log(err)
+      let message = err.message;
+      if ( message === "FirebaseError: Quota exceeded.")
+         message = "Квот хэтэрсэн";
+   
+      setState({...state, error: message,logginIn: false })
     }
   }
  
@@ -86,6 +91,7 @@ export const UserStore = (props) => {
  
 
   const deleteUser = async (id) => {
+    // console.log(id)
     const User = doc(db, "users" , id);
     await deleteDoc(User);
     getUserList();
@@ -118,21 +124,33 @@ export const UserStore = (props) => {
           setState({...state,error: message,logginIn: false })
   }}
   
-  async function signupUser(email, password, phone, name) {
-   
+  async function signupUser(email, password, phone) {
        try {
           await createUserWithEmailAndPassword(auth, email,password);
           setState({...state,error: "",logginIn: false })
           alert(" Амжилттай бүртгүүллээ")
+          // console.log(db)
           addDoc(collection(db, "users" ), {
               email: email,
-              name: name,
               password: password,
               phone: phone,
               authId: auth.currentUser?.uid,
           })
-        
-          // .then(() => {
+       } catch (error) {
+          console.log(error)
+          let message = error.message;
+          if ( message === "Firebase: Password should be at least 6 characters (auth/weak-password).")
+              message = "Нууц үг хамгийн багадаа 6 оронтой байх хэрэгтэй";
+          else if ( message === "Firebase: Error (auth/invalid-email).")
+              message = "Зөв имэйл бичнэ.";
+          else if ( message === "Firebase: Error (auth/email-already-in-use).")
+          message = "Бүртгэлтэй имэйл байна";
+          else if ( message === "Firebase: Error (auth/network-request-failed).")
+          message = "Интернетээ шалгана уу"
+              setState({...state,error: message,logginIn: false })
+       }};
+
+ // .then(() => {
 
           //       sendEmailVerification(auth.currentUser)({
           //       handleCodeInApp: true,
@@ -148,21 +166,8 @@ export const UserStore = (props) => {
           //     console.log("amjilttai")
           //     setState({...state,error: "",logginIn: false })
           // })
-         
-       } catch (error) {
-       
-          let message = error.message;
-          if ( message === "Firebase: Password should be at least 6 characters (auth/weak-password).")
-              message = "Нууц үг хамгийн багадаа 6 оронтой байх хэрэгтэй";
-          else if ( message === "Firebase: Error (auth/invalid-email).")
-              message = "Имэйл хаягаа зөв бичнэ үү";
-         
-              setState({...state,error: message,logginIn: false })
-       } 
-      //  finally  {
-      //   setState({...state, error: "", logginIn: false})
-      //  }
-  };
+
+
     //  useEffect(() => {
     //   const unsubscribe = onAuthStateChanged(auth, async user => {
     //     setCurrentUser(user)

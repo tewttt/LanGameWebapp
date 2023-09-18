@@ -63,12 +63,12 @@ const AddLesson = () => {
 
     return (
     <div className="flex flex-col items-center">
-        <div className="bg-baseColor w-[350px] h-[80%] flex flex-col md:flex md:flex-row md:h-[500px] md:w-[400px] m-auto md:my-5 text-gray-200 md:p-10">
+        <div className="bg-baseColor  w-[350px] h-[80%] flex flex-col md:flex md:flex-row md:h-[500px] md:w-[400px] m-auto md:my-5 text-gray-200 md:p-10">
             <Modal closeConfirm={closeConfirm} show={confirm} >
                 <div style={{display: "flex", flexDirection: "column"}}>
                 Хадгалахдаа итгэлтэй байна уу
                     <div >
-                        <Button btn="Cont" text="Тийм" daragdsan={save}/>
+                        <Button btn="Cont" text="Тийм"  daragdsan={save}/>
                         <Button  text="Үгүй" daragdsan={closeConfirm}/>
                     </div>
             
@@ -86,19 +86,48 @@ const AddLesson = () => {
                     </select>
                 </div>
 
-                <div className="flex justify-between my-1 mx-3">
-                    <div> level: {addlesson.level}</div>
-                    <select className="text-black rounded-[5px] w-[170px]" onChange={changeLevel}>
-                        <option>Сонгох</option> 
-                        <option>A1</option>
-                        <option>A2</option>
-                        <option>B1</option>
-                        <option>B1+</option>
-                        <option>B2</option>
-                        <option>B2+</option>
-                    </select>
-                
-                </div>
+                {addlesson.language === "Англи хэл" ? (
+                    <div className=" flex justify-between my-1 mx-3">
+                        <div> level: {addlesson.level}</div>
+                        <select className="text-black rounded-[5px] w-[170px]" onChange={changeLevel}>
+                            <option>Сонгох</option> 
+                            <option>A1</option>
+                            <option>A2</option>
+                            <option>B1</option>
+                            <option>B1+</option>
+                            <option>B2</option>
+                            <option>B2+</option>
+                        </select>
+                    </div>
+                ) : addlesson.language === "Солонгос хэл" ? (
+                    <div className="flex justify-between my-1 mx-3">
+                        <div> level: {addlesson.level}</div>
+                        <select className="text-black rounded-[5px] w-[170px]" onChange={changeLevel}>
+                            <option>Сонгох</option> 
+                            <option>1</option>
+                            <option>2</option>
+                            <option>B1</option>
+                            <option>B1+</option>
+                            <option>B2</option>
+                            <option>B2+</option>
+                        </select>
+                    </div>
+                    
+                ) : (
+                    <div className="flex justify-between my-1 mx-3">
+                        <div> level: {addlesson.level}</div>
+                        <select className="text-black rounded-[5px] w-[170px]" onChange={changeLevel}>
+                            <option>Сонгох</option> 
+                            <option>111</option>
+                            <option>A2</option>
+                            <option>B1</option>
+                            <option>B1+</option>
+                            <option>B2</option>
+                            <option>B2+</option>
+                        </select>
+                    </div>
+                )}
+              
 
                 <div className="flex justify-between my-1 mx-3 ">
                     <div> lessonNumber: {addlesson.lessonNumber}</div>

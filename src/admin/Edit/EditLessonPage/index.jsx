@@ -1,50 +1,71 @@
 import React, {useState, useContext} from "react";
-import { Switch, Route, Link, useParams} from "react-router-dom";
+import { Switch, Route, Link, useParams, useLocation, useHistory } from "react-router-dom";
 import EditBase from "../EditBase";
 import EditTranslate from "../EditTranslate";
 import EditExam from "../EditExam"
 import ToolSidebar from "../../../components/ToolSidebar"
-import { useHistory } from "react-router-dom";
+
 import LessonContext from "../../../context/LessonContext";
 import EditGrammar from "../EditGrammar";
 import EditNewWord from "../EditNewword";
 import {AiFillStepBackward} from "react-icons/ai"
 
+function useQuery() {
+    const { search } = useLocation();
+    return React.useMemo(() => new URLSearchParams(search), [search]);
+}
 
 const EditLesson = (props) => {
-    // console.log(props.lesson)
+  
     const history = useHistory();
     const ctx = useContext(LessonContext)
-    const {id} = useParams()
-    const lessonId = ctx.lessonList.find(
-         item =>  item.id === id
+    const {id} = useParams();
+    let query = useQuery();
+    
+    let lessonId = null
+   
+    
+    if(query.get("lang") == 'Англи хэл') {
+        lessonId = ctx.englishList.find(
+            // item => console.log(item + "item id")
+            item =>  item.id === id
         );
-    // const findID =lessonId.id
-        // console.log(lessonId.id)
+    }
+     else if(query.get("lang") == 'Солонгос хэл') {
+        lessonId = ctx.koreaList.find(
+            item =>  item.id === id
+        );
+    } else if(query.get("lang") == "Монгол хэл") {
+        lessonId = ctx.mongoliaList.find(
+            item =>  item.id === id
+        );
+    }
+    // console.log(query.get("lang"))
     const baseInfo = () => {
-        history.push(`/edit/${lessonId.id}/`);
+        // history.push(`/edit/${lessonId.id}/`);
+        history.push(`/edit/${lessonId.id}?lang=${query.get("lang")}` )
     };
     const translate = () => {
-        history.push(`/edit/${lessonId.id}/translate`);
+        history.push(`/edit/${lessonId.id}/translate?lang=${query.get("lang")}`);  
     };
     const exam= () => {
-        history.push(`/edit/${lessonId.id}/exam`);
+        history.push(`/edit/${lessonId.id}/exam?lang=${query.get("lang")}`);
     };
     const word= () => {
-        history.push(`/edit/${lessonId.id}/word`);
+        history.push(`/edit/${lessonId.id}/word?lang=${query.get("lang")}`);
     };
     const grammar= () => {
-        history.push(`/edit/${lessonId.id}/grammar`);
+        history.push(`/edit/${lessonId.id}/grammar?lang=${query.get("lang")}`);
     };
     const back= () => {
         history.push("/dashboard");
     };
 //   console.log(history.location.pathname)
     return (
-        <div >
+        <div className="mt-0" >
         <ToolSidebar/>
            <div className=" text-white flex flex-col my-2 px-3"> 
-                <div className="flex justify-between text-[12px] ">
+                <div className="flex mt-12 justify-between text-[12px] ">
                     <AiFillStepBackward size={20} className="text-white hover:text-baseBlue " onClick={back}/>
                     <div className="flex justify-center mb-6">
                         <button className={`${history.location.pathname == `/edit/${lessonId.id}/` ? "bg-blue-700 text-white" : ""} mx-1 w-[50px] text-[10px] lg:w-[70px] h-[15px] bg-blue-50 flex justify-center items-center md:text-[12px] text text-black hover:bg-blue-500 rounded-sm`} onClick={baseInfo}>Мэдээлэл</button>

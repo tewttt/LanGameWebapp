@@ -1,37 +1,4 @@
-.body {
-    margin: auto;
-     width: 90%;
-     margin-top: 70px ;
-     padding: 5px;
-    
- }
- .language {
-    
-    display: flex;
-    justify-content:space-evenly;
-}
-.tab {
-    color:rgb(16, 151, 214);
-    font-size: 25px;
-    padding: 5px;
-    width: 400px;
-    transition: transform ;
-    cursor: pointer;
-    transition: transform 0.25s ease-out;
-    border: 1px solid blue;
-    border-radius: 10px;
-    margin: 10px
-}
-.tab:hover {
-transform: scale(1.05);
-color: pink;
-}
-.tab:active {
-    color: green
-}
-.levelbody {
-    display: flex;
-}
+
 .level {
     display: flex;
     flex-direction: column;
@@ -39,156 +6,115 @@ color: pink;
     justify-content: center;
     
    }
-.tabLevel {
-    color:rgb(16, 151, 214);
-    font-size: 25px;
-    padding: 5px;
-    width: 50px;
-    transition: transform ;
-    cursor: pointer;
-    transition: transform 0.25s ease-out;
-    border: 1px solid blue;
+.text {
+    font-size: 24px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 500;
+    animation: text-color 5s ease-in-out infinite alternate;
+}
+@keyframes text-color {
+    0% {
+        color: red
+    }
+    50% {
+        color: green;
+    }
+    100% {
+        color: blue;
+    }
+}
+.laan {
+    position: relative;
+    width: 120px;
+    height: 40px;
+    border: 1px solid white;
+    background-color: #1974C7;
+    color: white;
+    margin: 5px 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     border-radius: 10px;
-    margin: 10px
+    cursor: pointer;
+    text-shadow: 1px 2px 0 #94bce2;
+    box-shadow: -5px -5px 20px #94bce2, 5px 5px 20px  #034481;;
+    transition: all 0.3s ease-in-out;
 }
-.tabLevel:hover {
-    transform: scale(1.05);
-    color: red;
-}
-.tabLevel:active{
-    color: green
-}
-@media  (max-width: 900px) {
-    .body {
-         margin: auto;
-         width: 90%;
-         margin-top: 70px ;
-         padding: 5px;
-        
-     }
-     .language {
-      
-    
-        justify-content:space-evenly;
-        align-items: center;
-    }
-    .tab {
-        color:rgb(16, 151, 214);
-        font-size: 20px;
-        padding: 5px;
-        width: 300px;
-        transition: transform ;
-        cursor: pointer;
-        transition: transform 0.25s ease-out;
-        border: 1px solid blue;
-        border-radius: 10px;
-        margin: 10px
-    }
-    .tab:hover {
-    transform: scale(1.05);
-    color: red;
-    }
-    .tab:active {
-        color: green
-    }
-    .levelbody {
-        display: flex;
-    }
-    .level {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        
-       }
-    .tabLevel {
-        color:rgb(16, 151, 214);
-        font-size: 25px;
-        padding: 5px;
-        width: 50px;
-        transition: transform ;
-        cursor: pointer;
-        transition: transform 0.25s ease-out;
-        border: 1px solid blue;
-        border-radius: 10px;
-        margin: 10px
-    }
-    .tabLevel:hover {
-        transform: scale(1.05);
-        color: red;
-    }
-    .tabLevel:active{
-        color: green
-    }
-}
-
-@media  (max-width: 500px) {
-    .body {
-        margin: auto;
-        width: 90%;
-        margin-top: 70px ;
-        padding: 5px;
-       
-    }
-    .language {
-   
-       justify-content:space-evenly;
-       align-items: center;
-   }
-   .tab {
-       color:rgb(16, 151, 214);
-       font-size: 15px;
-       padding: 5px;
-       width: 200px;
-       transition: transform ;
-       cursor: pointer;
-       transition: transform 0.25s ease-out;
-       border: 1px solid blue;
-       border-radius: 10px;
-       margin: 10px
-   }
-   .tab:hover {
-    transform: scale(1.8);
-    border: 1px solid pink;
-    color: pink;
+.nolan{
+    position: relative;
+    width: 120px;
+    height: 40px;
+    border: 1px solid gray;
+    font-family: sans-serif;
+    color: gray;
+    margin: 0px 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    overflow: hidden;
   
- 
-   }
-   .tab:active {
-       color: green;
-       background-color: white;
-   }
-   .levelbody {
-       display: flex;
-   }
-   .level {
-       display: flex;
-       flex-direction: column;
-       align-items: center;
-       justify-content: center;
-       
-      }
-   .tabLevel {
-       color:rgb(16, 151, 214);
-       font-size: 15px;
-       padding: 5px;
-       width: 40px;
-       transition: transform ;
-       cursor: pointer;
-       transition: transform 0.25s ease-out;
-       border: 1px solid blue;
-       border-radius: 10px;
-       margin: 10px;
-     
-   }
-   .tabLevel:hover {
-    transition: transform 0.25s ease-out;
-       
-    
-   }
-   .tabLevel:active{
-       color: green
-   }
+}
+.nolan::before,
+.nolan::after{
+    position: absolute;
+    content: "";
+    left: 0;
+    top: 0;
+    height: 100%;
+    opacity: 0.6;
+    transition: 0.6s;
+    filter: blur(20px);
 }
 
+.nolan::before {
+    width: 60px;
+    background-color: aliceblue;
+    transform: translateX(-220px) slewX(-45deg);
+}
+.nolan::after {
+    width: 30px;
+    background-color: aliceblue;
+    transform: translateX(-220px) slewX(-45deg);
+}
+.nolan:hover::before,
+.nolan:hover::after {
+    transform: translateX(300px) skewX(-45deg);
+}
+.nolevel {
+    position: relative;
+    width: 40px;
+    height: 40px;
+    border: 1px solid gray;
+    color: gray;
+    margin: 5px 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+}
+.newlevel {
+    position: relative;
+    width: 40px;
+    height: 40px;
+    border: 1px solid white;
+    background-color: #1974C7;
+    color: white;
+    margin: 5px 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    cursor: pointer;
+    text-shadow: 1px 2px 0 #94bce2;
+    box-shadow: -5px -5px 20px #94bce2, 5px 5px 20px  #034481;;
+    transition: all 0.3s ease-in-out;
+}
 
+.nolevel:hover {
+    box-shadow: -2px -2px 5px #94bce2, 2px 2px 5px  #034481;;
+}
+.newlevel:active {
+    box-shadow:inset 1px 1px 3px #034481, -1px -1px 3px  #94bce2;
+    border: none
+}

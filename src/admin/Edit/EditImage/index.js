@@ -1,8 +1,13 @@
-import React, {useState, useContext} from "react";
+import React, {useState, useContext, useEffect} from "react";
 import { storage} from "../../../firebase";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import LessonContext from "../../../context/LessonContext";
-import {useParams, useHistory } from "react-router-dom";
+import {useParams, useHistory, useLocation } from "react-router-dom";
+
+function useQuery() {
+    const { search } = useLocation();
+    return React.useMemo(() => new URLSearchParams(search), [search]);
+}
 
 const ImageUpload = (props) => {
     // console.log(props.lessonId)
@@ -10,11 +15,31 @@ const ImageUpload = (props) => {
     const [photo , setPhoto] = useState(""); 
     const history = useHistory();
     const {id} = useParams();
+
+    let query = useQuery();
+    
+    let lessonEditVideo = null
+   
+    
+    if(query.get("lang") == 'Англи хэл') {
+        lessonEditVideo = ctx.englishList.find(
+            // item => console.log(item + "item id")
+            item =>  item.id === id
+        );
+    }
+     else if(query.get("lang") == 'Солонгос хэл') {
+        lessonEditVideo = ctx.koreaList.find(
+            item =>  item.id === id
+        );
+    } else if(query.get("lang") == "Монгол хэл") {
+        lessonEditVideo = ctx.mongoliaList.find(
+            item =>  item.id === id
+        );
+    }
+    useEffect(() => {
+        setPhoto(lessonEditVideo.state.image)
+    })
   
-    const lessonEditVideo = ctx.lessonList.find(
-        item => item.id === id
-    )
-    // console.log(lessonEditVideo.state.image)
     const changePhoto = (e) => {
         setPhoto(e.target.files[0])
         // uploadImage();
@@ -37,7 +62,7 @@ const ImageUpload = (props) => {
     <div className="border border-gray-400 rounded-lg p-3 mx-5 flex flex-col ">
         <img 
         
-        src={lessonEditVideo.state.image} className="w-[250px] h-[250px] border border-gray-400 rounded-lg m-auto"/>
+        src={photo} className="w-[250px] h-[250px] border border-gray-400 rounded-lg m-auto"/>
         <div className="flex items-center">
             <input onChange={changePhoto} 
                 className="w-[180px] h-[40px] text-[12px]"

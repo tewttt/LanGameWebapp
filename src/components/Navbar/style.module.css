@@ -1,0 +1,48 @@
+.towch {
+    height: 60px;
+    width: 180px;
+    padding: 2px 4px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 3px;
+    font-size: 20px;
+    cursor: pointer;
+    position: relative;
+}
+.towch::before {
+    content: "";
+    position: absolute;
+    box-sizing: border-box;
+    border-bottom: 2px solid transparent;
+    border-left: 2px solid transparent;
+    border-radius: 20px;
+    left: 0;
+    bottom: 0;
+    height: 0;
+    width: 0;
+    transition: all 0.8s ease;
+}
+.towch::after {
+    content: "";
+    position: absolute;
+    box-sizing: border-box;
+    border-top: 2px solid transparent;
+    border-right: 2px solid transparent;
+    right: 0;
+    top: 0;
+    height: 0;
+    width: 0;
+    transition: all 0.8s ease;
+}
+.towch:hover::before {
+    border-color: red;
+    width: 100%;
+    height: 100%;
+}
+.towch:hover::after
+ {
+    border-color: #1974C7;
+    width: 100%;
+    height: 100%;
+}

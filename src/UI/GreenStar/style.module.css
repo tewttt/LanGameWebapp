@@ -1,0 +1,24 @@
+.body {
+    position: relative;
+    height: 3000px;
+    width: calc(5625px/6);
+    overflow: hidden;
+    background: url("../../assets/spriteSheets/greenstar.jpg");
+    animation: movement 0.9s steps(4) infinite, forward 5s linear infinite;
+}
+@keyframes movement {
+    0% {
+        background-position: 0;
+    }
+    100% {
+        background-position: 5625px;
+    }
+}
+@keyframes forward {
+    0% {
+        transform: translate(-256px);
+    }
+    100% {
+        transform: translate(1600px);
+    }
+}

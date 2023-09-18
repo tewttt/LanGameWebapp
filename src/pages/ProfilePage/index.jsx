@@ -1,6 +1,7 @@
 import React, {useContext, useEffect, useState} from "react";
 import ToolSidebar from "../../components/ToolSidebar";
 import UserContext from "../../context/UserContext";
+import { useHistory, useParams } from "react-router-dom";
 import { IconButton } from "@mui/material";
 import Tooltip from "@mui/material/Tooltip";
 import EditIcon from '@mui/icons-material/Edit';
@@ -16,27 +17,31 @@ const initialState = {
     // photo: ""
 }
 const ProfilePage = () => {
+    const {id} = useParams()
+    // console.log(id)
     const ctx = useContext(UserContext)
     const [state, setState] = useState(initialState);
     const [photo, setPhoto] = useState("")
     const [pedit, setEdit] = useState(false);
-    const [id, setId] = useState("");
+    // const [id, setId] = useState("");
     const [profile, setProfile] = useState("")
 
     
    
     const authId = auth.currentUser.uid
-    console.log(authId)
+    // console.log(authId)
+
     useEffect(() => {
       
         const data = ctx.userList.find(
             // item => console.log(item.authId)
             item => item.authId === authId
         )
-        console.log(data)
+        // console.log(data)
        setProfile(data)
     },[ctx.userList])
-   console.log(profile)
+
+//    console.log(profile)
     
     const editPicture = () => {
         const fileInput = document.getElementById("imageInput");
@@ -58,7 +63,7 @@ const ProfilePage = () => {
     }
    
     const save = () => {
-        setId(profile.id)
+        // setId(profile.id)
         ctx.setProfile(state, id)
         setEdit(false)
     }
@@ -70,7 +75,7 @@ const ProfilePage = () => {
         uploadBytes(imageRef, photo).then((snapshot) => {
             getDownloadURL(snapshot.ref).then((url) => {
                 setPhoto(url)
-                setId(profile.id)
+                // setId(profile.id)
                 // setState({...state, photo: url})
                 ctx.profilePhoto( id)
                 

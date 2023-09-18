@@ -1,13 +1,14 @@
 import React, {useContext, useState} from "react";
 import Spinner from "../../components/General/Spinner";
 import { Link, useHistory,Redirect } from "react-router-dom";
-import UserContext from "../../context/UserContext";
+
+import MemberContext from "../../context/MemberContext";
 import {AiFillEye, AiFillEyeInvisible, AiFillLock, AiTwotoneMail} from "react-icons/ai"
 import {getAuth} from "firebase/auth"
 
 const auth = getAuth();
 const AdminLogin = () => {
-    const ctx = useContext(UserContext)
+    const ctx = useContext(MemberContext)
     const history = useHistory();
     const [email, setEmail] = useState("tuya@gmail.com");
     const [password, setPassword] = useState("123456");
@@ -22,7 +23,7 @@ const AdminLogin = () => {
             alert("Та нууц үгээ оруулна уу");
             return;
         }
-        ctx.loginUser(email,password);
+        ctx.loginMember(email,password);
         history.push("/dashboard")
         
     };
