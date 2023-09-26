@@ -29,6 +29,13 @@ const Choice = () => {
     const [lessonKorB1add, setLessonKorB1add] = useState([]);
     const [lessonKorB2, setLessonKorB2] = useState([]);
     const [lessonKorB2add, setLessonKorB2add] = useState([]);
+
+    const [lessonMonA1, setLessonMonA1] = useState([]);
+    const [lessonMonA2, setLessonMonA2] = useState([]);
+    const [lessonMonB1, setLessonMonB1] = useState([]);
+    const [lessonMonB1add, setLessonMonB1add] = useState([]);
+    const [lessonMonB2, setLessonMonB2] = useState([]);
+    const [lessonMonB2add, setLessonMonB2add] = useState([]);
   
     useEffect(() => {
         const filteredLessonA1 = ctx.englishList.filter(
@@ -45,7 +52,7 @@ const Choice = () => {
             (item) => item.state.base.level === "B1+"
         );
         const filteredLessonB2 = ctx.englishList.filter(
-            (item) => item.state.base.level === "B2"
+            (item) => item.state.base.level === "B2" 
         );
         const filteredLessonB2add = ctx.englishList.filter(
             (item) => item.state.base.level === "B2+"
@@ -84,6 +91,33 @@ const Choice = () => {
         setLessonKorB1add(filteredLessonKorB1add);
         setLessonKorB2(filteredLessonKorB2);
         setLessonKorB2add(filteredLessonKorB2add);
+
+        const filteredLessonMonA1 = ctx.mongoliaList.filter(
+            //  (item) => console.log(item.state.base.level)
+            (item) => item.state.base.level === "A1"
+        );
+        const filteredLessonMonA2 = ctx.koreaList.filter(
+            (item) => item.state.base.level === "A2"
+        );
+        const filteredLessonMonB1 = ctx.koreaList.filter(
+            (item) => item.state.base.level === "B1"
+        );
+        const filteredLessonMonB1add= ctx.koreaList.filter(
+            (item) => item.state.base.level === "B1+"
+        );
+        const filteredLessonMonB2 = ctx.koreaList.filter(
+            (item) => item.state.base.level === "B2"
+        );
+        const filteredLessonMonB2add = ctx.koreaList.filter(
+            (item) => item.state.base.level === "B2+"
+        );
+
+        setLessonMonA1(filteredLessonMonA1);
+        setLessonMonA2(filteredLessonMonA2);
+        setLessonMonB1(filteredLessonMonB1);
+        setLessonMonB1add(filteredLessonMonB1add);
+        setLessonMonB2(filteredLessonMonB2);
+        setLessonMonB2add(filteredLessonMonB2add);
     }, [chLan, chLevel])
 
     const selectLevel = (level,i) => {
@@ -117,7 +151,7 @@ const Choice = () => {
             {chLan ? 
              (
                 <div className={css.level}>
-                <div className="text-gray-400"> Түвшин сонгох</div>
+                <div className="text-gray-400 m-2"> Түвшин сонгох</div>
                 <div className=" flex justify-center">
                     {arrLevel.map((level, i) => (
                         <div  
@@ -155,7 +189,25 @@ const Choice = () => {
                         )}
                     
                 </div>
-            ) : chLan === "Солонгос хэл"  ? (
+            ) : chLan === "Монгол хэл"  ? (
+                <div>
+                {
+                    chLevel === "A1" ? ( 
+                        <div><LessonList lessons={lessonMonA1} lang={chLan}/></div>) 
+                    : chLevel === "A2" ? (
+                        <div><LessonList lessons={lessonMonA2} lang={chLan}/></div>
+                    ) : chLevel === "B1" ? (
+                        <div><LessonList lessons={lessonMonB1} lang={chLan}/></div>
+                    ) : chLevel === "B1add" ? (
+                        <div><LessonList lessons={lessonMonB1add} lang={chLan}/></div>
+                    ) : chLevel === "B2" ? (
+                        <div><LessonList lessons={lessonMonB2} lang={chLan}/></div>
+                    ) : (
+                        <div><LessonList lessons={lessonMonB2add} lang={chLan}/></div>
+                    )
+                }
+            </div>
+            ) : (
                 <div>
                 {
                     chLevel === "A1" ? ( 
@@ -173,7 +225,7 @@ const Choice = () => {
                     )
                 }
             </div>
-            ) : ("") }
+            ) }
         </div>
 )}
 export default Choice;

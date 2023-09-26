@@ -17,10 +17,10 @@ const Users = () => {
     return (
     <div className="flex flex-col mt-12">
         <div className="flex">
-            <button className={`${history.location.pathname == '/dashboard/users' ? 'border border-baseBlue bg-blue-700 text-white' : ''} flex justify-center items-center w-[100px] h-[30px]  bg-blue-50 p-1 border border-gray-600 rounded-[5px] text-[12px] hover:bg-blue-500  `} 
+            <button className={`${history.location.pathname == '/dashboard/users' ? 'border mx-3 border-baseBlue bg-blue-700 text-white' : ''} flex justify-center items-center w-[100px] h-[30px]  bg-blue-50 p-1 border border-gray-600 rounded-[5px] text-[12px] hover:bg-blue-500  `} 
                 onClick={customers}>Хэрэглэгчид </button>
             <button 
-                className={`${history.location.pathname == '/dashboard/users/members' ? 'border border-baseBlue bg-blue-700 text-white' : ''} flex justify-center items-center w-[100px] h-[30px]  bg-blue-50 p-1 border border-gray-600 rounded-[5px] text-[12px] hover:bg-blue-500  `}
+                className={`${history.location.pathname == '/dashboard/users/members' ? 'border mx-3 border-baseBlue bg-blue-700 text-white' : ''} flex justify-center items-center w-[100px] h-[30px]  bg-blue-50 p-1 border border-gray-600 rounded-[5px] text-[12px] hover:bg-blue-500  `}
                 onClick={members}>Гишүүд</button>
             
 

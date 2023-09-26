@@ -21,18 +21,19 @@ const initialData = {
   phone: "",
   email: "",
   password: "",
-  check: ""
+  check: "",
+  teacher: ""
 }
 
 export const UserStore = (props) => {
   const history = useHistory();
   const [state, setState] = useState(initialState);
-  const [data, setData] = useState(initialData)
+  // const [data, setData] = useState(initialData)
   const [userList, setUserList] = useState([])
   const [currentUser, setCurrentUser] = useState(null);
   const userInfo = useRef();
-  // console.log(auth)
-
+  // console.log(userList)
+  
   const userRef = collection(db, "users");
 
   useEffect (() => {
@@ -58,20 +59,23 @@ export const UserStore = (props) => {
       setState({...state, error: message,logginIn: false })
     }
   }
- 
 
-  const profilePhoto = (url) => {setData({...data, photo: url})}
-
-  const updateProfile = async (id) =>{
+  const updateProfile = async (state, id) =>{
   const updateUser = doc(db, "users" ,id)
   await updateDoc(updateUser, {state: state})
   alert(" update")
   getUserList();
   }
-  const setTeacher = () => {
-
+  const setTeacher = (teacher, id) => {
+    console.log(teacher)
+    // const setUser = doc(db, "users" , id)
+    // setDoc(setUser, teacher, {merge: true})
+    // .then((res) => {console.log('success merge')})
+    // .catch((error) => {console.log("error" + error)})
+    // getUserList();
+    // console.log("update profile teacher")
   }
-  const setProfilePhoto = async ( id) => {
+  const setProfilePhoto = async (state, id) => {
     const setUser = doc(db, "users" , id)
     setDoc(setUser, state, {merge: true})
     .then((res) => {console.log('success merge')})
@@ -87,8 +91,6 @@ export const UserStore = (props) => {
       getUserList();
       console.log("update profile")
   }
-
- 
 
   const deleteUser = async (id) => {
     // console.log(id)
@@ -109,7 +111,7 @@ export const UserStore = (props) => {
     setState({...state, logginIn: true})
        try {
           await signInWithEmailAndPassword (auth, email,password);
-          alert("Амжилттай нэвтэрлээ")
+          // alert("Амжилттай нэвтэрлээ")
           setState({...state,error: "",logginIn: false })
           // history.push("/lesson")
        } catch (error) {
@@ -197,11 +199,12 @@ export const UserStore = (props) => {
             userInfo,
             currentUser,
             updateProfile,
-            profilePhoto,
+            // profilePhoto,d
             setProfile,
             setProfilePhoto,
             deleteUser,
             setTeacher,
+          
             // loginUserSucces,
             // autoRenewTokenAfterMillisec,
             // uploadImage

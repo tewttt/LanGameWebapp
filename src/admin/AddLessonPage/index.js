@@ -28,18 +28,18 @@ const AddLesson = () => {
     <div className="flex flex-col mt-12">
         <div className="flex" >
             <button onClick={baseInfo} 
-                className={`${history.location.pathname == "/dashboard" ? "bg-blue-700 text-white" : ""} mx-1  w-[70px] h-[15px] bg-blue-50 flex justify-center items-center text-[12px] text text-black hover:bg-blue-500 rounded-sm`} >
+                className={`${history.location.pathname == "/dashboard" ? "bg-blue-700 text-white" : ""} mx-1  w-[70px] h-[30px] bg-blue-50 flex justify-center items-center text-[12px] text text-black hover:bg-blue-500 rounded-sm`} >
                 Мэдээлэл</button>
             <button onClick={translate} 
-                className={`${history.location.pathname == "/dashboard/translate" ? "bg-blue-700 text-white" : ""} mx-1 w-[70px] h-[15px] bg-blue-50 flex justify-center items-center text-[12px] text text-black hover:bg-blue-500 rounded-sm`} >
+                className={`${history.location.pathname == "/dashboard/translate" ? "bg-blue-700 text-white" : ""} mx-1 w-[70px] h-[30px] bg-blue-50 flex justify-center items-center text-[12px] text text-black hover:bg-blue-500 rounded-sm`} >
                 Орчуулга</button>
             <button onClick={exam} 
-                className={`${history.location.pathname == "/dashboard/exam" ? "bg-blue-700 text-white" : ""} mx-1 w-[70px] h-[15px] bg-blue-50 flex justify-center items-center text-[12px] text text-black hover:bg-blue-500 rounded-sm`} >
+                className={`${history.location.pathname == "/dashboard/exam" ? "bg-blue-700 text-white" : ""} mx-1 w-[70px] h-[30px] bg-blue-50 flex justify-center items-center text-[12px] text text-black hover:bg-blue-500 rounded-sm`} >
                 Шалгалт</button>
             <button onClick={grammar}  
-                className={`${history.location.pathname == "/dashboard/grammar" ? "bg-blue-700 text-white" : ""} mx-1 w-[70px] h-[15px] bg-blue-50 flex justify-center items-center text-[12px] text text-black hover:bg-blue-500 rounded-sm`} >Дүрэм</button>
+                className={`${history.location.pathname == "/dashboard/grammar" ? "bg-blue-700 text-white" : ""} mx-1 w-[70px] h-[30px] bg-blue-50 flex justify-center items-center text-[12px] text text-black hover:bg-blue-500 rounded-sm`} >Дүрэм</button>
             <button onClick={word} 
-                className={`${history.location.pathname == "/dashboard/word" ? "bg-blue-700 text-white" : ""} mx-1 w-[70px] h-[15px] bg-blue-50 flex justify-center items-center text-[12px] text text-black hover:bg-blue-500 rounded-sm`} >
+                className={`${history.location.pathname == "/dashboard/word" ? "bg-blue-700 text-white" : ""} mx-1 w-[70px] h-[30px] bg-blue-50 flex justify-center items-center text-[12px] text text-black hover:bg-blue-500 rounded-sm`} >
                 Шинэ үг</button>
         </div>                             
         <Switch>

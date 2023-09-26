@@ -10,17 +10,18 @@
     font-size: 24px;
     font-family: Arial, Helvetica, sans-serif;
     font-weight: 500;
+    margin: 15px;
     animation: text-color 5s ease-in-out infinite alternate;
 }
 @keyframes text-color {
     0% {
-        color: red
+        color: #1974C7
     }
     50% {
-        color: green;
+        color: #0c5599;
     }
     100% {
-        color: blue;
+        color: #05192d;
     }
 }
 .laan {
@@ -36,8 +37,7 @@
     align-items: center;
     border-radius: 10px;
     cursor: pointer;
-    text-shadow: 1px 2px 0 #94bce2;
-    box-shadow: -5px -5px 20px #94bce2, 5px 5px 20px  #034481;;
+  
     transition: all 0.3s ease-in-out;
 }
 .nolan{
@@ -69,12 +69,14 @@
 
 .nolan::before {
     width: 60px;
-    background-color: aliceblue;
+    background-color: rgb(141, 187, 227);
+  
     transform: translateX(-220px) slewX(-45deg);
 }
 .nolan::after {
     width: 30px;
-    background-color: aliceblue;
+    background-color: rgb(141, 187, 227);
+  
     transform: translateX(-220px) slewX(-45deg);
 }
 .nolan:hover::before,
@@ -106,7 +108,7 @@
     align-items: center;
     border-radius: 10px;
     cursor: pointer;
-    text-shadow: 1px 2px 0 #94bce2;
+   
     box-shadow: -5px -5px 20px #94bce2, 5px 5px 20px  #034481;;
     transition: all 0.3s ease-in-out;
 }

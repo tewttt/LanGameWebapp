@@ -8,6 +8,7 @@
     letter-spacing: 2px;
     border: 1px solid gray;
     border-radius: 10px;
+    background-color: transparent;
 }
 .neon{
     position: relative;
@@ -18,10 +19,11 @@
     font-family: sans-serif;
     font-size: 20px;
     letter-spacing: 2px;
-    border: 1px solid white;
+    border: 0.1px solid #569fe3;
     border-radius: 10px;
+    box-shadow: 0 0 20px white;
 }
-.neon:hover {
+.noneon:hover {
     background-color: #1974C7;
     color: white;
     animation: blink 1s linear forwards;
@@ -52,5 +54,31 @@
         color: white;
         box-shadow: 0 0 5px #1974C7, 0 0 25px #1974C7,
         0 0 50px #1974C7, 0 0 75px #1974C7,0 0 100px #1974C7, 0 0 200px #1974C7;
+    }
+}
+@media (max-width: 400px) {
+    .noneon{
+        position: relative;
+        padding: 1px 10px;
+        margin: 0px 5px;
+        color: gray;
+        font-family: sans-serif;
+        font-size: 16px;
+        border: 1px solid gray;
+        border-radius: 10px;
+        background-color: transparent;
+    }
+    .neon{
+        position: relative;
+        padding: 1px 10px;
+        margin: 0px 5px;
+        color: white;
+        background-color: #1974C7;
+        font-family: sans-serif;
+        font-size: 16px;
+      
+        border: 0.1px solid #569fe3;
+        border-radius: 10px;
+        box-shadow: 0 0 5px white;
     }
 }

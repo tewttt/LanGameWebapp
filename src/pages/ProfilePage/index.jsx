@@ -10,46 +10,38 @@ import {storage, db} from "../../firebase";
 import { getAuth } from "firebase/auth";
 import { ref, uploadBytes,  getDownloadURL, uploadBytesResumable, } from "firebase/storage";
 
+// Хэрэглэгчийн ID г тоогоор яаж харуулах вэ?
+
 const auth = getAuth();
 const initialState = {
     name: "",
     phone:"",
-    // photo: ""
+    photo: ""
 }
 const ProfilePage = () => {
-    const {id} = useParams()
-    // console.log(id)
     const ctx = useContext(UserContext)
     const [state, setState] = useState(initialState);
     const [photo, setPhoto] = useState("")
     const [pedit, setEdit] = useState(false);
-    // const [id, setId] = useState("");
-    const [profile, setProfile] = useState("")
-
-    
-   
-    const authId = auth.currentUser.uid
-    // console.log(authId)
-
+    const id = state.id
+    const authId = auth.currentUser?.uid
+  
     useEffect(() => {
-      
         const data = ctx.userList.find(
-            // item => console.log(item.authId)
+            // item => console.log(item)
             item => item.authId === authId
         )
-        // console.log(data)
-       setProfile(data)
-    },[ctx.userList])
-
-//    console.log(profile)
-    
+ 
+        setState(data)
+    },[])  
+    // console.log(state.photo)
     const editPicture = () => {
         const fileInput = document.getElementById("imageInput");
         fileInput.click();
         // uploadImage();
     }
     const changePhoto = (e) => {
-      setPhoto( e.target.files[0])
+      setPhoto(e.target.files[0])
     };
     const changeName = (e) => {
         setState({...state, name: e.target.value})
@@ -59,12 +51,15 @@ const ProfilePage = () => {
     }
     const edit = () =>{
         setEdit(true)
-        // ctx.updateProfile(id)
     }
    
     const save = () => {
         // setId(profile.id)
         ctx.setProfile(state, id)
+        setEdit(false)
+    }
+    const updatePhoto  =() => {
+        ctx.setProfilePhoto(state,id)
         setEdit(false)
     }
     
@@ -75,10 +70,8 @@ const ProfilePage = () => {
         uploadBytes(imageRef, photo).then((snapshot) => {
             getDownloadURL(snapshot.ref).then((url) => {
                 setPhoto(url)
-                // setId(profile.id)
-                // setState({...state, photo: url})
-                ctx.profilePhoto( id)
-                
+                setState({...state, photo: url})
+                updatePhoto()
             })
         })
         alert("photo amjilttai") 
@@ -87,96 +80,98 @@ const ProfilePage = () => {
     return (
         <div>
             <ToolSidebar/>
-            {pedit ? ( ""
-                // edit
-            // <div className="flex flex-col text-white justify-center items-center ">
-            //     {state.photo ? (
-            //         <img src={state.photo} className="w-[150px] h-[150px] rounded-[18px] border mt-5"/>
-            //     ) : (
-            //         <img src={profile.photo} className="w-[150px] h-[150px] rounded-[18px] border mt-5"/>
-            //     )}
-               
-            //     <div className="flex ">
-            //         <input onChange={changePhoto} 
-            //             className="w-[150px] h-[40px] text-[10px]"
-            //             required type="file" 
-            //             // hidden="hidden"  
-            //             id="imageInput" />
-                   
-            //             <Tooltip title="Save" placement="bottom">
-            //                 <IconButton  onClick={uploadImage}>
-            //                         <SaveIcon color="primary"/>
-            //                 </IconButton>
-            //             </Tooltip>
-            //     </div>
            
-            //     <div className="bg-[#383030] text-gray-300 text-[12px] w-[300px] h-[300px] flex flex-col justify-center items-center mt-10" >
-            //         <div className="flex flex-col justify-start mb-5">
-            //             <p>Хэрэглэгчийн ID: {profile.id}</p>
-            //             <p>AUTH ID: {profile.authId}</p>
-                        
-            //         </div>
-            //         <div className="flex justify-between w-[200px] h-[30px] items-center my-3">
-            //             <p>Email: </p>
-                        
-            //             <input className="text-black h-[20px] mr-0 w-[150px]" defaultValue={profile.email} onChange={(e) =>setState({...state, email:e.target.value}) }/>
-            //         </div>
+                {pedit ? ( 
+                    // edit 
+                <div className="flex flex-col text-white justify-center items-center m-auto pt-20">
+                    {state.photo ? (
+                        <img src={state.photo} className="w-[150px] h-[150px] rounded-[18px] border mt-65"/>
+                    ) : (
+                        <img src={photo} className="w-[150px] h-[150px] rounded-[18px] border mt-25"/>
+                    )}
+                
+                    <div className="flex items-center justify-center ">
+                        <input onChange={changePhoto} 
+                            className="w-[150px] h-[40px] text-[10px] p-2" 
+                            required type="file" 
+                            // hidden="hidden"  
+                            id="imageInput" />
                     
-            //         <div className="flex justify-between w-[200px] h-[30px] items-center my-3 " >
-            //             <div>Нэр:</div>
-                       
-            //             <input className="text-black h-[20px] mr-0 w-[150px]" placeholder="hjhj" defaultValue={profile.name} 
-                      
-            //             onChange={changeName}/>
-            //         </div>
-            //         <div className="flex justify-between w-[200px] h-[30px] items-center my-3 ">
-            //             <div>Дугаар:</div>
-            //             <input className="text-black h-[20px] mr-0 w-[150px]" placeholder="утас" defaultValue={profile.phone} onChange={changePhone}></input>
-            //         </div>
+                        <Tooltip title="Save" placement="bottom">
+                            <IconButton  onClick={uploadImage}>
+                                    <SaveIcon color="primary"/>
+                            </IconButton>
+                        </Tooltip>
+                    </div>
+            
+                    <div className="bg-[#383030] text-gray-300 text-[12px] w-[300px] h-[300px] flex flex-col justify-center items-center mt-10" >
+                        <div className="flex flex-col justify-start mb-5">
+                            <p>Хэрэглэгчийн ID: {state.id}</p>
+                            <p>AUTH ID: {state.authId}</p>
+                            
+                        </div>
+                        <div className="flex justify-between w-[200px] h-[30px] items-center my-3">
+                            <p>Email: </p>
+                            
+                            <input className="text-black h-[20px] mr-0 w-[150px]" value={state.email} onChange={(e) =>setState({...state, email:e.target.value}) }/>
+                        </div>
+                        
+                        <div className="flex justify-between w-[200px] h-[30px] items-center my-3 " >
+                            <div>Нэр:</div>
+                        
+                            <input className="text-black h-[20px] mr-0 w-[150px]" placeholder="hjhj" dvalue={state.name} 
+                        
+                            onChange={changeName}/>
+                        </div>
+                        <div className="flex justify-between w-[200px] h-[30px] items-center my-3 ">
+                            <div>Дугаар:</div>
+                            <input className="text-black h-[20px] mr-0 w-[150px]" placeholder="утас" value={state.phone} onChange={changePhone}></input>
+                        </div>
 
-            //         <div className="flex">                                                        
-            //         <button className="w-[100px] h-[30px] flex justify-center items-center text-[12px] bg-red-500" onClick={() => {setEdit(false)}}>Болих</button>
-            //         <button className="w-[100px] h-[30px] flex justify-center items-center text-[12px] bg-blue-500" onClick={save}>ХАДГАЛАХ</button>
-            //         </div>
-                    
-            //     </div>
-            // </div>
-            ) : ( ""
-            // <div className="flex flex-col text-white justify-center items-center border border-blue-400 w-[350px] h-[600px] m-auto my-5 rounded-[10px]">
-            //     <div className="flex flex-col ">
-            //         <img src={profile.photo} className="w-[150px] h-[150px] rounded-[18px]"/>
-            //     </div>
+                        <div className="flex">                                                        
+                        <button className="w-[100px] h-[30px] flex justify-center items-center text-[12px] bg-red-500 mx-5 rounded-2xl" onClick={() => {setEdit(false)}}>Болих</button>
+                        <button className="w-[100px] h-[30px] flex justify-center items-center text-[12px] bg-blue-500 mx-5 rounded-2xl" onClick={save}>ХАДГАЛАХ</button>
+                        </div>
+                        
+                    </div>
+                </div>
+                ) : (
+                <div className="flex flex-col text-white justify-center items-center m-auto pt-20">
+                    <div>
+                        <img src={state.photo} className="w-[150px] h-[150px] rounded-[18px] bg-baseColor"/>
+                    </div>
+            
+                    <div className="bg-baseColor text-gray-300 text-[12px] w-[300px] h-[300px] flex flex-col justify-center items-center mt-10" >
+                        <div className="flex flex-col justify-start mb-5">
+                            <p>Хэрэглэгчийн ID: {state.id}</p>
+                            <p>AUTH ID: {state.authId}</p>
+                            <p>Email: {state.email}</p>
+                        </div>
+                        
+                        <div className="flex m-2 justify-start">
+                            <div>Нэр:</div>
+                            <div>{state.name}</div>   
+                        </div>
+
+                        <div className="flex m-2 justify-start ">
+                            <div>Дугаар:</div>
+                            <div>{state.phone}</div>
+                        </div>
+
+                        <div className="flex">
+                        <Tooltip title="Edit" placement="bottom">
+                                <IconButton onClick={edit} >
+                                    <EditIcon color="primary"/>
+                                </IconButton>
+                        </Tooltip>
+                        {/* <button className="w-[100px] h-[30px] flex justify-center items-center text-[12px] bg-red-500" onClick={edit}>ЗАСАХ</button> */}
+                        {/* <button className="w-[100px] h-[30px] flex justify-center items-center text-[12px] bg-blue-500" onClick={save}>ХАДГАЛАХ</button> */}
+                        </div>
+                        
+                    </div>
+                </div>
+                )}
            
-            //     <div className="bg-[#383030] text-gray-300 text-[12px] w-[300px] h-[300px] flex flex-col justify-center items-center mt-10" >
-            //         <div className="flex flex-col justify-start mb-5">
-            //             <p>Хэрэглэгчийн ID: {profile.id}</p>
-            //             <p>AUTH ID: {profile.authId}</p>
-            //             <p>Email: {profile.email}</p>
-            //         </div>
-                    
-            //         <div className="flex m-2 justify-start">
-            //             <div>Нэр:</div>
-            //             <div>{profile.name}</div>   
-            //         </div>
-
-            //         <div className="flex m-2 justify-start ">
-            //             <div>Дугаар:</div>
-            //             <div>{profile.phone}</div>
-            //         </div>
-
-            //         <div className="flex">
-            //         <Tooltip title="Edit" placement="bottom">
-            //                 <IconButton onClick={edit} >
-            //                     <EditIcon color="primary"/>
-            //                 </IconButton>
-            //         </Tooltip>
-            //         {/* <button className="w-[100px] h-[30px] flex justify-center items-center text-[12px] bg-red-500" onClick={edit}>ЗАСАХ</button> */}
-            //         {/* <button className="w-[100px] h-[30px] flex justify-center items-center text-[12px] bg-blue-500" onClick={save}>ХАДГАЛАХ</button> */}
-            //         </div>
-                    
-            //     </div>
-            // </div>
-            )}
         </div>
 )}
 

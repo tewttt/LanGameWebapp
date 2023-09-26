@@ -36,7 +36,7 @@ export const LessonStore = (props) => {
     const saveVideo = (downloadURL) => {setState({...state, video: downloadURL})}
     const saveGrammar = (downloadURL) =>{setState({...state, grammar: downloadURL})}
     const saveNewWord = (questions) => {setState({...state, newWord: questions})}
-
+// console.log(state.image)
      // read Data
     //  const lessonsRef = collection(db, "lessons");
     const EnglishRef = collection(db, "english");

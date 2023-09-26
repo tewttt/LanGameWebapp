@@ -45,11 +45,14 @@ const SignUp = () => {
 
    const login = () => {history.push("/")}
     return (
-        <div className="flex flex-col justify-center items-center text-gray-700 max-w-[1540px] mx-auto">
-            <div className="text-6xl font-bold text-baseBlue p-10">Мэдлэг</div>
+        <div className="flex flex-col justify-center items-center w-screen h-screen ">
+            <div className="text-6xl font-bold text-baseBlue p-10 mb-[50px]">Мэдлэг</div>
+            {ctx.state.error && (
+                    <div style={{color: "red"}}> {ctx.state.error}</div>
+                )}
             {/* {ctx.state.userId && <Redirect to="/"/>} */}
             <div className="flex flex-col bg-baseColor w-[300px] h-[370px] border-2 border-baseBlue p-5 items-center rounded-[20px]">
-                <div className="flex flex-row m-1 justify-between items-center mr-[-30px]">
+                <div className="flex flex-row m-1  justify-between items-center mr-[-30px]">
                     <AiFillPhone size={20} className="text-baseBlue mr-[-50px] z-10 "/>
                     <input 
                         className="w-[250px] h-[30px] text-center bg-blue-50 border rounded-[12px] transition ease-in-out duration-200 hover:border-blue-500  hover:border-[2px] hover:bg-blue-100" 
@@ -85,14 +88,12 @@ const SignUp = () => {
                 </div>
                 {error && <div style={{color: "red"}}>{error}</div>}
 
-                {ctx.state.error && (
-                    <div style={{color: "red"}}> {ctx.state.error}</div>
-                )}
+              
 
                 {ctx.state.logginIn && <Spinner/>}
                 <button className={css.signupButton} onClick={signupHandler} > Манайд</button>
                 {/* <button className="btn p-2 bg-baseBlue  w-[200px] h-[40px] text-base hover:bg-blue-500 items-center" onClick={signupHandler} > Бүртгүүлэх</button> */}
-                <button className="bg-baseColor text-base font-300 text-white hover:text-baseBlue w-[200px] h-[40px]" onClick={login} >Нэвтрэх</button>
+                <button className="bg-baseColor mt-8 text-base font-300 text-white hover:text-baseBlue w-[200px] h-[40px]" onClick={login} >Нэвтрэх</button>
             </div>
         </div>
     )

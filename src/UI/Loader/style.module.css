@@ -5,6 +5,7 @@
     height: 100px;
     border: 1px solid red;
     animation: rotate-cont 5s linear infinite;
+    background-color: #0B0C0F;
 }
 .ball1 {
     border-radius: 50%;

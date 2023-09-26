@@ -19,7 +19,7 @@ const VideoUpload = () => {
     const [prog, setProg] = useState("")
     const ctx =useContext(LessonContext)
     const {id} = useParams();
-    console.log(video)
+    // console.log(video)
   
     let query = useQuery();
     let lessonEditVideo = null

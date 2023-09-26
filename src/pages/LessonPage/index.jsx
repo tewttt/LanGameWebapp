@@ -32,7 +32,7 @@ const LessonPage = () => {
         <div className="text-white flex flex-col justify-center">
             <ToolSidebar/>
             <Choice/>
-            <Checkbox/>
+            {/* <Checkbox/> */}
             {/* <Wave/> */}
             {/* <SvgLoader/> */}
             {/* <SvgAnimation/> */}

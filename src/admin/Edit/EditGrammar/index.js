@@ -25,7 +25,7 @@ const Grammar = (props) => {
             item =>  item.id === id
         );
     }
-     else if(query.get("lang") == 'Солонгос хэл') {
+     else if(query.get("lang") == 'Солонгос хэл') { 
         lessonEditGrammar = ctx.koreaList.find(
             item =>  item.id === id
         );

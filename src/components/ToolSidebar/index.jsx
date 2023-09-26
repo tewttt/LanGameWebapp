@@ -11,7 +11,7 @@ const ToolSidebar = () => {
         setShowSidebar(!showSidebar)
     }
     return (
-        <div>
+        <div className="">
              <Toolbar toggleSidebar={toggleSidebar}/>
              <Navbar toggleSidebar={toggleSidebar} showSidebar={showSidebar}/>
             {/* <Sidebar toggleSidebar={toggleSidebar} showSidebar={showSidebar}/> */}

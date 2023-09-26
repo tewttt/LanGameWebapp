@@ -1,0 +1,39 @@
+.towch {
+    color: #1974C7;
+    border: 1px solid #1974C7;
+    padding: 10px 20px;
+  
+    position: relative;
+    transform-style: preserve-3d;
+    margin: 50px 20px;
+    
+}
+.towch::before {
+    position: absolute;
+    content: "";
+    border: 2px solid #1974C7;
+    width: 101%;
+    height: 100%;
+    top: -14px;
+    left: 16px;
+    transform: rotateX(70deg)  skew(-22deg);
+    transform-origin: top;
+    
+}
+.towch::after {
+    position: absolute;
+    content: "";
+    right: -18px;
+    bottom: 14px;
+    border: 1px solid #1974C7;
+    width: 25px;
+    height: 100%;
+    transform-origin:  right;
+    transform: skewY(-41deg) rotateY(45deg);
+}
+.towch:hover,
+.towch:hover::before,
+.towch:hover::after {
+    color: #76ade1;
+    border: 1px solid #76ade1;
+}

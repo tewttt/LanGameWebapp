@@ -21,9 +21,10 @@ const uploadImage = () =>{
     if (photo == null) return;
     // const imageRef = ref(storage, `images/${photo.name + v4()}`);
     const imageRef = ref(storage, `images/${photo.name}`);
-    uploadBytes(imageRef, photo).then((snapshot) => {
+    uploadBytes(imageRef, photo).then((snapshot) => { 
         getDownloadURL(snapshot.ref).then((downloadURL) => {
             setPhoto(downloadURL)
+            // console.log(downloadURL)
             ctx.saveImage(downloadURL)
         })        
     })
