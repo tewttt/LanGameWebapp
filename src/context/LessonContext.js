@@ -14,7 +14,7 @@ const initialState= {
     image: [],
     video: [],
     grammar: [],
-    newWord: [],
+    newWord: [], 
 }
 const editState = {
     base: []
@@ -25,7 +25,7 @@ export const LessonStore = (props) => {
     const [englishList, setEnglishList] = useState([]);  
     const [koreaList, setKoreaList] = useState([]);  
     const [mongoliaList, setMongoliaList] = useState([]);  
-    // console.log(lessonList)
+    // console.log(englishList)
 // https://www.youtube.com/watch?v=2hR-uWjBAgw&t=1095s
 // firestro db tai ajillah hicheel
 
@@ -43,75 +43,54 @@ export const LessonStore = (props) => {
     const KoreaRef = collection(db, "korea");
     const MongoliaRef = collection(db, "mongolia");
 
-    const getEnglishList = async () => {
-        try {
-            const data =await getDocs(EnglishRef);
-            const filteredData = data.docs.map((doc) => ({
-                ...doc.data(),
-                id: doc.id
-            }))
-            setEnglishList(filteredData)
-        } catch (err) {
-            console.log(err)
-        }
-    };
-
-        const getKoreaList = async () => {
-            try {
-                const data =await getDocs(KoreaRef);
-                const filteredData = data.docs.map((doc) => ({
-                    ...doc.data(),
-                    id: doc.id
-                }))
-                setKoreaList(filteredData)
-            } catch (err) {
-                console.log(err)
-            }
-        };
-
-        const getMongoliaList = async () => {
-            try {
-                const data =await getDocs(MongoliaRef);
-                const filteredData = data.docs.map((doc) => ({
-                    ...doc.data(),
-                    id: doc.id
-                }))
-                setMongoliaList(filteredData)
-            } catch (err) {
-                console.log(err)
-            }
-        };
-        
-     useEffect (() => { 
-        getEnglishList();
-        getMongoliaList();
-        // getLessonList();
-        getKoreaList()
-    }, []);
-
-
-    // const createLessonDB = async () => {
-    //     try {
-    //         await addDoc(lessonsRef, {
-    //             userId: auth.currentUser?.uid,
-    //             state
-    //         });
-    //         alert("lesson db ilgeelee")
-    //         getLessonList();
-    //     } catch (err) {
-    //         console.log(err)
-    //     }
-    // }
-
+    useEffect(() => {
+        // setLoading(true)
+        const unEng  = onSnapshot(EnglishRef, (snapshot) => {
+            let lessonsList = []
+            snapshot.docs.map((doc) => lessonsList.push({...doc.data(), id: doc.id}))
+            setEnglishList(lessonsList)
+            // setLoading(false)
+        });
+      
+        const unKor  = onSnapshot(KoreaRef, (snapshot) => {
+            let lessonsList = []
+            snapshot.docs.map((doc) => lessonsList.push({...doc.data(), id: doc.id}))
+            setKoreaList(lessonsList)
+            // setLoading(false)
+        })
     
+        const unMon = onSnapshot(MongoliaRef, (snapshot) => {
+            let lessonsList = []
+            snapshot.docs.map((doc) => lessonsList.push({...doc.data(), id: doc.id}))
+            setMongoliaList(lessonsList)
+            // setLoading(false)
+        })
+        return ()=>{
+            unKor();
+            unEng();
+            unMon();
+        }
+    }, [])
+
+        // const getMongoliaList = async () => {
+        //     try {
+        //         const data =await getDocs(MongoliaRef);
+        //         const filteredData = data.docs.map((doc) => ({
+        //             ...doc.data(),
+        //             id: doc.id
+        //         }))
+        //         setMongoliaList(filteredData)
+        //     } catch (err) {
+        //         console.log(err)
+        //     }
+        // };
     const createEnglishDB = async () => {
         try {
             await addDoc(EnglishRef, {
-                userId: auth.currentUser?.uid,
+                authId: auth.currentUser?.uid,
                 state
             });
             alert("englsh lesson db ilgeelee")
-            getEnglishList();
         } catch (err) {
             console.log(err)
         }
@@ -120,11 +99,10 @@ export const LessonStore = (props) => {
     const createKoreaDB = async () => {
         try {
             await addDoc(KoreaRef, {
-                userId: auth.currentUser?.uid,
+                authId: auth.currentUser?.uid,
                 state
             });
             alert("korea lesson db ilgeelee")
-            getKoreaList();
         } catch (err) {
             console.log(err)
         }
@@ -133,51 +111,50 @@ export const LessonStore = (props) => {
     const createMongoliaDB = async () => {
         try {
             await addDoc(MongoliaRef, {
-                userId: auth.currentUser?.uid,
+                authId: auth.currentUser?.uid,
                 state
             });
             alert("mongolia lesson db ilgeelee")
-            getMongoliaList();
         } catch (err) {
             console.log(err)
         }
     }
-
+   
     const updateEnglishDB = async (id) => {
         // preventDefault();
         const updateLesson = doc(db, "english" ,id)
         await updateDoc(updateLesson, {state: state})
         alert("lesson enlish update")
-        getEnglishList();
+       
     }
     const updateKoreaDB = async (id) => {
         const updateLesson = doc(db, "korea" ,id)
         await updateDoc(updateLesson, {state: state})
         alert("lesson korea update")
-        getKoreaList();
+       
     }
     const updateMongoliaDB = async (id) => {
         const updateLesson = doc(db, "mongolia" ,id)
         await updateDoc(updateLesson, {state: state})
         alert("lesson mongolia update")
-        getMongoliaList();
+       
     }
 
     const deleteEnglishDB = async (id) => {
         console.log(id)
         const LessonDoc = doc(db, "english", id);
         await deleteDoc(LessonDoc);
-        getEnglishList();  
+        // getEnglishList();  
     }
     const deleteKoreaDB = async (id) => {
         const LessonDoc = doc(db, "korea", id);
         await deleteDoc(LessonDoc);
-        getKoreaList();  
+        // getKoreaList();  
     }
     const deleteMongoliaDB = async (id) => {
         const LessonDoc = doc(db, "mongolia", id);
         await deleteDoc(LessonDoc);
-        getMongoliaList();  
+        // getMongoliaList();  
     }
     
 return (
@@ -185,11 +162,8 @@ return (
         value={{
             state,
             saveBase,
-            // baseImageDB,
-            // createLessonDB,
             saveExam,
             saveTranslate,
-            // lessonList,
             englishList,
             mongoliaList,
             koreaList,
@@ -197,8 +171,6 @@ return (
             saveVideo,
             saveGrammar,
             saveNewWord,
-            // saveNewWordImage,
-            // saveNewWordSound,
             updateEnglishDB,
             updateKoreaDB,
             updateMongoliaDB,

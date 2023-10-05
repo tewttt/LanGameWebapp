@@ -97,7 +97,7 @@ const Exam = (props) => {
         for (let j = 0; j< qs.length; j++) {
             qs[j].open = false;
         }
-        setQuestions(qs);
+        setQuestions(qs); 
     }
    
     const setOptionAnswer = (ans,qno) => {

@@ -22,6 +22,6 @@ const Dice = () => {
         <div onClick={rollDice}>
             <img className="" src={newDice}></img>
         </div>
-    )
+    ) 
 }
 export default Dice;

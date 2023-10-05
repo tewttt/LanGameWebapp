@@ -10,14 +10,14 @@ const Navbar = (props) => {
     const [nav , setNav] =useState(false)
     const history = useHistory()
 
-    useEffect(() => {
-        const profile = ctx.userList.find(
-            // item => console.log(item.authId)
-            item => item.authId === auth.currentUser.uid
-        )   
-        // console.log(profile)
+    // useEffect(() => {
+    //     const profile = ctx.userList.find(
+    //         // item => console.log(item.authId)
+    //         item => item.authId === auth.currentUser.uid
+    //     )   
+    //     // console.log(profile)
    
-    },[])
+    // },[])
 
     const handleNav = () => {
         setNav(!nav)

@@ -7,13 +7,14 @@ import {getAuth} from "firebase/auth";
 
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCnuDPQpn0qrBaPJTE05co633S2SVB8jCA",
-  authDomain: "funfun-43ac6.firebaseapp.com",
-  projectId: "funfun-43ac6",
-  storageBucket: "funfun-43ac6.appspot.com",
-  messagingSenderId: "643672554761",
-  appId: "1:643672554761:web:43755fc92692f4e74927d8",
-  measurementId: "G-RRW2Y9VG2Y"
+  apiKey: "AIzaSyB5jrLASKEY0LyQ1HyyHY6rxfwTm1wkqqs",
+  authDomain: "race-d2c0d.firebaseapp.com",
+  databaseURL: "https://race-d2c0d-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "race-d2c0d",
+  storageBucket: "race-d2c0d.appspot.com",
+  messagingSenderId: "1037169996615",
+  appId: "1:1037169996615:web:04cf924c4c85e0c6a21262",
+  measurementId: "G-TZBKFBYBBF"
 };
 
 // Initialize Firebase

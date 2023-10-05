@@ -9,7 +9,7 @@ import {AiFillEye, AiFillEyeInvisible, AiFillLock, AiTwotoneMail, AiFillPhone} f
 const SignUp = () => {
     const ctx = useContext(UserContext);
     const history = useHistory();
-    const [email, setEmail] = useState("shine@gmail.com");
+    const [email, setEmail] = useState("od@gmail.com");
     const [password, setPassword] = useState("123456");
     const [password2, setPassword2] = useState("123456");
     const [phone, setPhone] = useState("5");

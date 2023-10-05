@@ -1,14 +1,33 @@
-import React  from "react";
+import React,{useState, useEffect,useContext}  from "react";
 import css from "./style.module.css"
-import { useHistory } from "react-router-dom";
+import { useHistory,useParams } from "react-router-dom";
 import Logo from "../General/Logo";
 import {HiUserCircle} from "react-icons/hi";
 import {FaWallet} from "react-icons/fa";
+import { getAuth } from "firebase/auth";
+import UserContext from "../../context/UserContext";
+const auth = getAuth();
 
 const Toolbar = (props) => {
+   const ctx = useContext(UserContext)
+    const [state, setState] = useState("");
+    const authId = auth.currentUser?.uid
+ 
+    // console.log(state)
+    // const id = state.id
+    // console.log(id)
+    // useEffect(() => {
+    //     const data = ctx.userList.find(
+    //         // item => console.log(item)
+    //         item => item.authId === authId
+    //     )
+    //     setState(data)
+    // },[])  
+
     const history = useHistory();
     const game = () => {
         history.push("/game");
+        // history.push(`/game/${id}`)
     };
    const view = () => {
     history.push("/lesson");
@@ -20,7 +39,7 @@ const Toolbar = (props) => {
         history.push("/profile")
     }
     return (
-        <header className="fixed flex h-[50px] w-screen p-0 z-10 items-center justify-between mt-0 ml-0 bg-baseColor text-white text-center" > 
+        <header className="fixed flex h-[50px] w-screen  z-10 items-center justify-between  bg-baseColor " > 
             <Logo/>
             <div className="flex justify-between ">
                 <div 

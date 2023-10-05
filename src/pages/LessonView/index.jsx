@@ -37,7 +37,6 @@ const LessonView = (props) => {
         );
     }
 
-        // console.log(lessonId.state.translate)
     return (
         <div>
             <ToolSidebar/>
@@ -61,10 +60,8 @@ const LessonView = (props) => {
                         // poster={photo} 
                         on>
                             <source
-                            src={lessonId.state.video}
-                            // src={introVideo}
-
-                            type="video/webm"
+                                src={lessonId.state.video}
+                                type="video/webm"
                             />
                         </Video>
                     </div>

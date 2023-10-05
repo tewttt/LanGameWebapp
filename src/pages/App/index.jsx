@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect} from "react";
+import React, { useState} from "react";
 import {Switch , Route} from "react-router-dom"
 import { auth } from "../../firebase";
 import LessonPage from "../LessonPage";
@@ -15,43 +15,24 @@ import EditLesson from "../../admin/Edit/EditLessonPage";
 import Teacher from "../../components/Teacher/Teacher";
 import AddLesson from "../../components/AddLesson";
 import NewGame from "../../game/NewGame";
-import MemberContext from "../../context/MemberContext";
-import UserContext from "../../context/UserContext";
 import BackgroundAnimation from "../../UI/BackgroundAnimation";
 
 const App = () => { 
-     const ctxMember= useContext(MemberContext)
-     const ctxUser = useContext(UserContext)
-     const [member , setMember] = useState("")
-     const [user, setuser] = useState("")
-     
-//     console.log(member)
-     const [userId, setUserId] = useState()
+     const [authId, setAuthId] = useState()
+     // console.log(authId)
      auth.onAuthStateChanged((user) => {
           if (user) {
-               setUserId(user.uid)
+               setAuthId(user.uid)
           }
      });
-
-     useEffect(() => {
-         
-         const member = ctxMember.memberList.find(
-               // (item) => console.log(item.authId)
-               (item) => item.authId === userId
-          );
-          const user = ctxUser.userList.find(
-               // (item) => console.log(item.authId)
-               (item) => item.authId === userId
-          );
-          // if(userId === member.authId)
-          // console.log(member)
-          // console.log(user)
-          // setMember(member)
-     }, [])
+    
 return (
-<div className="relatvie" >   
-
-     {userId ? (
+<div className="relatvie z-10" >   
+     <div className="absolute -z-10">  
+          <BackgroundAnimation/> 
+     </div>
+     
+     {authId ? (
      <Switch>
           <Route path="/lesson/:id" component={LessonView}/>
           <Route path="/lesson" component={LessonPage}/>
@@ -75,9 +56,7 @@ return (
      )
     
      }    
-              <div className="absolute">  
-          <BackgroundAnimation/> 
-     </div>   
+    
 </div>
 )}
 export default App;

@@ -25,7 +25,7 @@ const ProfilePage = () => {
     const [pedit, setEdit] = useState(false);
     const id = state.id
     const authId = auth.currentUser?.uid
-  
+    // console.log(state)
     useEffect(() => {
         const data = ctx.userList.find(
             // item => console.log(item)
@@ -54,14 +54,16 @@ const ProfilePage = () => {
     }
    
     const save = () => {
-        // setId(profile.id)
+        // uploadImage()
+        console.log(state)
         ctx.setProfile(state, id)
         setEdit(false)
     }
-    const updatePhoto  =() => {
-        ctx.setProfilePhoto(state,id)
-        setEdit(false)
-    }
+    // const updatePhoto  =() => {
+    //     // console.log(state)
+    //     ctx.setProfilePhoto(state, id)
+    //     setEdit(false)
+    // }
     
     const uploadImage = () =>{
         if (photo === null) return;
@@ -70,8 +72,8 @@ const ProfilePage = () => {
         uploadBytes(imageRef, photo).then((snapshot) => {
             getDownloadURL(snapshot.ref).then((url) => {
                 setPhoto(url)
-                setState({...state, photo: url})
-                updatePhoto()
+                setState({...state, photo: url});
+                save();
             })
         })
         alert("photo amjilttai") 
@@ -119,7 +121,7 @@ const ProfilePage = () => {
                         <div className="flex justify-between w-[200px] h-[30px] items-center my-3 " >
                             <div>Нэр:</div>
                         
-                            <input className="text-black h-[20px] mr-0 w-[150px]" placeholder="hjhj" dvalue={state.name} 
+                            <input className="text-black h-[20px] mr-0 w-[150px]" placeholder="hjhj" value={state.name} 
                         
                             onChange={changeName}/>
                         </div>

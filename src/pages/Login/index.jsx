@@ -11,14 +11,14 @@ import Loader from "../../UI/Loader";
 export default function Login () {
     const ctx = useContext(UserContext)
     const history = useHistory();
-    const [email, setEmail] = useState("shine@gmail.com");
+    const [email, setEmail] = useState("1@gmail.com");
     const [password, setPassword] = useState("123456");
     const [showPass, setShowPass] = useState(password)
     const signup = () => { 
         history.push("/signup")
     }
    
-    const year = new Date().getFullYear()
+    // const year = new Date().getFullYear()
     const login = () => {
         if (email.length === 0) {
             alert("Та имэйл хаягаа бичнэ үү");

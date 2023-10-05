@@ -1,5 +1,5 @@
 import React, {useState, useContext, useEffect} from "react";
-import { collection, addDoc, getDocs, setDoc,doc, updateDoc, deleteDoc} from "firebase/firestore";
+import { collection, addDoc, onSnapshot, getDocs, setDoc,doc, updateDoc, deleteDoc} from "firebase/firestore";
 import { db } from "../firebase";
 import {useHistory} from "react-router-dom";
 import {getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut} from "firebase/auth";
@@ -30,31 +30,43 @@ export const MemberStore = (props) => {
     const memberRef = collection(db, "members");
 
     useEffect (() => {
-        getMemberList();
-      },[memberList]); 
+        const unsubscribe  = onSnapshot(memberRef, (snapshot) => {
+          let list = []
+          snapshot.docs.map((doc) => list.push({...doc.data(), id: doc.id}))
+          setMemberList(list)
+          // setLoading(false)
+      })
+      return ()=>{
+        unsubscribe();
+        
+      }
+      },[]);
 
-    const getMemberList = async () => {
-    try {
-        const data = await getDocs(memberRef);
-        const filteredData = data.docs.map((doc) => ({
-        ...doc.data(),
-        id: doc.id
-        }))
-        setMemberList(filteredData)
-    } catch (err) {
-        console.log(err)
-        let message = err.message;
-        if ( message === "FirebaseError: Quota exceeded.")
-            message = "Квот хэтэрсэн";
+   
+
+    // const getMemberList = async () => {
+    // try {
+       
+    //     const data = await getDocs(memberRef);
+    //     const filteredData = data.docs.map((doc) => ({
+    //     ...doc.data(),
+    //     id: doc.id
+    //     }))
+    //     setMemberList(filteredData)
+    // } catch (err) {
+    //     console.log(err)
+    //     let message = err.message;
+    //     if ( message === "FirebaseError: Quota exceeded.")
+    //         message = "Квот хэтэрсэн";
     
-        setState({...state, error: message,logginIn: false })
-    }}
+    //     setState({...state, error: message,logginIn: false })
+    // }}
      
     const deleteMember = async (id) => {
         // console.log(id)
         const Member = doc(db, "members" , id);
         await deleteDoc(Member);
-        getMemberList();
+        // getMemberList();
     
     }
     async function loginMember (email, password) {

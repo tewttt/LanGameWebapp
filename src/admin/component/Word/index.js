@@ -278,7 +278,7 @@ return (
 
         <button className="w-[150px] h-[20px] bg-blue-400 hover:bg-blue-500 flex text-[12px] justify-center items-center m-auto" onClick={save}>Save</button> 
         {ctx.state.base.language === "Англи хэл" ? (
-             <button className="w-[150px] h-[20px] bg-green-500 hover:bg-green-700 flex text-[12px] justify-center items-center m-auto" onClick={ctx. createEnglishDB}>Англи хэл илгээх</button>
+             <button className="w-[150px] h-[20px] bg-green-500 hover:bg-green-700 flex text-[12px] justify-center items-center m-auto" onClick={ctx.createEnglishDB}>Англи хэл илгээх</button>
         ) : ctx.state.base.language === "Солонгос хэл" ?  (
             <button className="w-[150px] h-[20px] bg-green-500 hover:bg-green-700 flex text-[12px] justify-center items-center m-auto" onClick={ctx.createKoreaDB}>Солонос хэл лгээх</button>
         ) : (

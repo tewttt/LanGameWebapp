@@ -9,26 +9,29 @@ import 'react-toastify/dist/ReactToastify.css';
 import {UserStore} from './context/UserContext';
 import { LessonStore } from './context/LessonContext';
 import { MemberStore } from './context/MemberContext';
-
+import { GameStore } from './context/GameContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <BrowserRouter>
-    <LessonStore>
-      <UserStore>
-        <MemberStore>
-           <ToastContainer
+      <LessonStore>
+        <UserStore>
+          <MemberStore>
+            <GameStore>
+           {/* <ToastContainer
           position='top-right'
           autoClose={300000}
           closeOnClick
           pauseOnHover={false}
           theme="dark"
           >
-          </ToastContainer>
-            <App />
+            
+          </ToastContainer> */}
+              <App />
+            </GameStore>
           </MemberStore>
-      </UserStore>
+        </UserStore>
       </LessonStore>
     </BrowserRouter>
   </React.StrictMode>

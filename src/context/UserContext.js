@@ -1,5 +1,5 @@
 import React, {useState, useContext, useEffect, useRef} from "react";
-import { collection, addDoc, getDocs, setDoc,doc, updateDoc, deleteDoc} from "firebase/firestore";
+import { collection, addDoc, getDocs, setDoc,doc, updateDoc, deleteDoc, onSnapshot} from "firebase/firestore";
 import {db} from "../firebase";
 import {useHistory} from "react-router-dom";
 import {getAuth,sendEmailVerification,  signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut} from "firebase/auth";
@@ -15,56 +15,34 @@ const initialState = {
     userId: null,
     expireDate: null,
 };
-const initialData = {
-  photo: "",
-  name: "",
-  phone: "",
-  email: "",
-  password: "",
-  check: "",
-  teacher: ""
-}
 
 export const UserStore = (props) => {
   const history = useHistory();
   const [state, setState] = useState(initialState);
-  // const [data, setData] = useState(initialData)
   const [userList, setUserList] = useState([])
-  const [currentUser, setCurrentUser] = useState(null);
   const userInfo = useRef();
   // console.log(userList)
   
   const userRef = collection(db, "users");
 
   useEffect (() => {
-    getUserList();
-  },[userList]);
-  
-  const getUserList = async () => {
-    try {
-      const data = await getDocs(userRef);
-      const filteredData = data.docs.map((doc) => ({
-        ...doc.data(),
-        id: doc.id
-      }))
-
-      // console.log(filteredData)
-      setUserList(filteredData)
-    } catch (err) {
-      console.log(err)
-      let message = err.message;
-      if ( message === "FirebaseError: Quota exceeded.")
-         message = "Квот хэтэрсэн";
-   
-      setState({...state, error: message,logginIn: false })
+    const unsubscribe  = onSnapshot(userRef, (snapshot) => {
+      let list = []
+      snapshot.docs.map((doc) => list.push({...doc.data(), id: doc.id}))
+      setUserList(list)
+      // setLoading(false)
+    })
+    return ()=>{
+      unsubscribe();
+      
     }
-  }
-
+  },[]);
+  
   const updateProfile = async (state, id) =>{
-  const updateUser = doc(db, "users" ,id)
-  await updateDoc(updateUser, {state: state})
-  alert(" update")
-  getUserList();
+    const updateUser = doc(db, "users" ,id)
+    await updateDoc(updateUser, {state: state})
+    alert(" update")
+    // getUserList();
   }
   const setTeacher = (teacher, id) => {
     console.log(teacher)
@@ -76,29 +54,30 @@ export const UserStore = (props) => {
     // console.log("update profile teacher")
   }
   const setProfilePhoto = async (state, id) => {
+    // console.log(state)
     const setUser = doc(db, "users" , id)
-    setDoc(setUser, state, {merge: true})
+    await setDoc(setUser, state, {merge: true})
     .then((res) => {console.log('success merge')})
     .catch((error) => {console.log("error" + error)})
-    getUserList();
+    // getUserList();
     console.log("update profile")
-}
-  const setProfile = async (state, id) => {
-      const setUser = doc(db, "users" , id)
-      setDoc(setUser, state, {merge: true})
-      .then((res) => {console.log('success merge')})
-      .catch((error) => {console.log("error" + error)})
-      getUserList();
-      console.log("update profile")
   }
-
+  
   const deleteUser = async (id) => {
     // console.log(id)
     const User = doc(db, "users" , id);
     await deleteDoc(User);
-    getUserList();
+    // getUserList();
 
   }
+  const setProfile = async (state, id) => {
+    const setUser = doc(db, "users" , id)
+    await setDoc(setUser, state, {merge: true})
+    .then((res) => {console.log('success merge')})
+    .catch((error) => {console.log("error" + error)})
+    console.log("update profile")
+  }
+
   const logout = () => {
     return signOut(auth)
     // auth
@@ -123,16 +102,19 @@ export const UserStore = (props) => {
               message =  "Имэйл хаяг олдсонгүй";
           else if ( message === "Firebase: Error (auth/network-request-failed).")
             message = "Интернетээ шалгана уу"
+          else if ( message === "Firebase: Error (auth/invalid-login-credentials).")
+          // message = "Интернетээ шалгана уу"
           setState({...state,error: message,logginIn: false })
   }}
-  
+
   async function signupUser(email, password, phone) {
        try {
           await createUserWithEmailAndPassword(auth, email,password);
           setState({...state,error: "",logginIn: false })
           alert(" Амжилттай бүртгүүллээ")
           // console.log(db)
-          addDoc(collection(db, "users" ), {
+          setDoc(doc(db, "users", auth.currentUser?.uid ), {
+            // addDoc(collection(db, "users"), {
               email: email,
               password: password,
               phone: phone,
@@ -152,41 +134,16 @@ export const UserStore = (props) => {
               setState({...state,error: message,logginIn: false })
        }};
 
- // .then(() => {
-
-          //       sendEmailVerification(auth.currentUser)({
-          //       handleCodeInApp: true,
-          //       url:"race-d2c0d.firebaseapp.com",
-          //       })
-          //       .then(() => {
-          //         alert("Verification email sent")
-          //       })
-          //       .catch((error) => {
-          //         alert(error.message)
-          //       })
-
-          //     console.log("amjilttai")
-          //     setState({...state,error: "",logginIn: false })
-          // })
-
-
     //  useEffect(() => {
-    //   const unsubscribe = onAuthStateChanged(auth, async user => {
-    //     setCurrentUser(user)
-    //     // setLoading(false)
+    //   const unsubscribe = auth.onAuthStateChanged( async user => {
+    //     if(user) {
+    //       setCurrentUser(user)
+    //       // setLoading(false)
+    //     }
+        
     //   })
     //   return unsubscribe
     //  }, [])
-     useEffect(() => {
-      const unsubscribe = auth.onAuthStateChanged( async user => {
-        if(user) {
-          setCurrentUser(user)
-          // setLoading(false)
-        }
-        
-      })
-      return unsubscribe
-     }, [])
 
     return (
         <UserContext.Provider  
@@ -197,7 +154,7 @@ export const UserStore = (props) => {
             loginUser,
             logout,
             userInfo,
-            currentUser,
+            // currentUser,
             updateProfile,
             // profilePhoto,d
             setProfile,

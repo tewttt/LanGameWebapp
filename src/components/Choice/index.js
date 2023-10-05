@@ -146,7 +146,7 @@ const Choice = () => {
                         {lan}
                     </div> 
                 ))}
-            </div>
+            </div> 
 
             {chLan ? 
              (
