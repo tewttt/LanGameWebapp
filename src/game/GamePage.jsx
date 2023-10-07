@@ -14,17 +14,11 @@ import { doc } from "firebase/firestore";
 // firebase admin sudlah
 const auth = getAuth();
 const Game = () => {
-  
     const [state, setState] = useState({});
-  
-    const [newPlayer, setNewPlayer] = useState({})
-   
-    const [gameList , setGameList] = useState([])
     const Gamectx = useContext(GameContext)
     const Userctx = useContext(UserContext)
     const authId = auth.currentUser?.uid
-    // const id = state.id
-
+   
     const [chChoose, setChoose] = useState("");
     const [chooseActive, setChooseActive] = useState(0);
     const [chLan, setChLan] = useState("");
@@ -38,10 +32,7 @@ const Game = () => {
     const arrLanguage =["Англи хэл", "Монгол хэл", "Солонгос хэл"]
     const arrLevel = ["A1", "A2", "B1", "B1+", "B2", "B2+"]
     const arrChoose = ["Online", "Friends"]
-    
-    const [gameLength, setGameLength] = useState("")
-    const [id, setId] = useState("")
-// console.log(Gamectx.setOnePlayer)
+
     const history = useHistory();
 
     // Хэрэглэгчийн датаг татаж авч байгаа
@@ -57,85 +48,13 @@ const Game = () => {
         setState(newData)
     },[])  
 
-  
-    // Бүх тоглоомыг татаад , уртыг нь шалгаж , дүүрээгүй ширээнүүдэд тоглогч нэмэх
-    // Дүүрээгүй тоглоом дээр тоглогч нэмнэ. Дүүрсэн бол Шинэ ширээн дээр тоглогч нэмнэ
-  
-  
-    useEffect(() => {
-          // Нэг тоглоомны id авж байна
-        //  const data = Gamectx.gameList.find(
-        //     // item => (item)
-        //     item => (Object.keys(item).length) < 5
-        //     // item => (item)
-        // )
-        // setId(data.id)
-
-        // console.log(data.id)
-
-        // let gameLength = [];
-        // Gamectx.gameList.map((e, i) => gameLength.push(
-        //     (Object.keys(e).length) 
-        // ))
-        // const game = gameLength.toString()
-        // setGameLength(game)
-
-        // let id =[]
-        // Gamectx.gameList.map((e, i) => id.push(e.id))
-        // setId(id)
-    }, [])
-
-    // Үүссэн  нэг тоглоом дээр тоглогч нэмж байна
-    // ID нь олдсон байх
-
-    const addGame = () => {
-        Gamectx.setOnePlayer(state, id)
-
-        // const data = Gamectx.gameList.find(
-        //     item => (Object.keys(item).length) < 6
-        //     // item => (Object.keys(item).length)
-        // )
-        // if(Object.keys(data).length == 2){
-        //     Gamectx.setOnePlayer(state, id)
-        // } else if (Object.keys(data).length == 3) {
-        //     Gamectx.setTwoPlayer(state, id)
-        // } else if (Object.keys(data).length == 4) {
-        //     Gamectx.setThreePlayer(state, id)
-        // } else {
-        //     // Gamectx.createGame(state)
-        // }
-        // history.push("/newGame")
+    const join = (id, length) => {
+        Gamectx.join(state, id , length)
     }
-
     // Шинэ тоглоом үүсгэж байна
     const newGame = () => {
-       
-        // if(gameLength == 2){
-        //     history.push("/newGame")
-        //     Gamectx.setOnePlayer(state, id)
-        //     return;
-        // } else if (gameLength == 3) {
-        //     history.push("/newGame")
-        //     Gamectx.setTwoPlayer(state, id)
-        //     return;
-        // } else if (gameLength == 4) {
-        //     history.push("/newGame")
-        //     Gamectx.setThreePlayer(state, id)
-        //     return;
-        // } else {
-        //     history.push("/newGame")
-        //     Gamectx.createGame(state)
-        //     return;
-        // }
-        
-        // const data = Gamectx.gameList.find(
-        //     item => (Object.keys(item).length) === 5
-        //     // item => console.log(Object.keys(item).length)
-        // )
-
-        history.push("/newGame")
         Gamectx.createGame(state)
-      
+        history.push("/newGame")
     }
     const selectLevel = (level,i) => {
         setLevelActive(i)
@@ -157,7 +76,7 @@ const Game = () => {
        
         <div className="flex flex-col justify-center"> 
             <ToolSidebar/>
-            <div className="flex flex-col  border border-baseBlue  mt-16 max-w-[400px] h-[620px] m-auto justify-around items-center">
+            <div className="flex flex-col  border border-baseBlue  mt-16 max-w-[400px] h-screen m-auto justify-around items-center">
                 <div className="flex flex-col justify-around " >
                     <div className="flex justify-around bg-baseColor rounded-2xl  my-3 py-5 w-[100%]">
 
@@ -208,8 +127,22 @@ const Game = () => {
                     </div>
                     
                 </div>
+                <div className="grid grid-cols-4 bg-baseColor rounded-2xl w-full my-3 py-5 ">
+                    {Object.entries(Gamectx.games).map((game, i) => (
+                        // console.log(game[1].id)
+                        // console.log(game[1].players.length)
+                        <div  className="border border-blue-700 text-blue-600 w-[85px] h-[50px] flex flex-col justify-center items-center p-3 m-2 rounded-xl">
+                            <div className="text-[12px]">Players 3/{game[1].players.length}</div>
+                            <div 
+                                className=" text-xl hover:text-red-500"
+                                onClick={() => join (game[1].id , game[1].players.length)}
+                            >Join
+                            </div>
+                        </div>
+                    ))}
+                </div>
                 <button onClick={newGame} className=" bg-black rounded-3xl p-3 border border-baseBlue text-white hover:border-blue-800 hover:bg-baseBlue ">New Game</button>
-                <button onClick={addGame} className=" bg-black rounded-3xl p-3 border border-baseBlue text-white hover:border-blue-800 hover:bg-baseBlue ">add player Game</button>
+                {/* <button onClick={join} className=" bg-black rounded-3xl p-3 border border-baseBlue text-white hover:border-blue-800 hover:bg-baseBlue ">add player Game</button> */}
             
             
             </div>

@@ -1,17 +1,17 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import { BrowserRouter } from 'react-router-dom';
-import App from './pages/App';
-import reportWebVitals from './reportWebVitals';
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import {UserStore} from './context/UserContext';
-import { LessonStore } from './context/LessonContext';
-import { MemberStore } from './context/MemberContext';
-import { GameStore } from './context/GameContext';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import { BrowserRouter } from "react-router-dom";
+import App from "./pages/App";
+import reportWebVitals from "./reportWebVitals";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { UserStore } from "./context/UserContext";
+import { LessonStore } from "./context/LessonContext";
+import { MemberStore } from "./context/MemberContext";
+import { GameStore } from "./context/GameContext";
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <BrowserRouter>
@@ -19,7 +19,7 @@ root.render(
         <UserStore>
           <MemberStore>
             <GameStore>
-           {/* <ToastContainer
+              {/* <ToastContainer
           position='top-right'
           autoClose={300000}
           closeOnClick
