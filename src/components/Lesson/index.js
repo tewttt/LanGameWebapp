@@ -13,13 +13,13 @@ const Lesson = props => {
         history.push(`/lesson/${props.lesson.id}?lang=${props.lang}`)
         
     }
-    useEffect(() =>{ 
+    useEffect(() =>{  
         setStatus(props.lesson.state.base.status)
     },[])
 
     const wallet = () => {
         
-    } 
+    }  
     
     return (
         <div>

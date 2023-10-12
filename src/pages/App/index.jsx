@@ -14,7 +14,7 @@ import AdminLogin from "../../admin/AdminLogin";
 import EditLesson from "../../admin/Edit/EditLessonPage";
 import Teacher from "../../components/Teacher/Teacher";
 import AddLesson from "../../components/AddLesson";
-import NewGame from "../../game/NewGame";
+import GameDetail from "../../game/GameDetail";
 import BackgroundAnimation from "../../UI/BackgroundAnimation";
 
 const App = () => { 
@@ -38,7 +38,7 @@ return (
           <Route path="/lesson" component={LessonPage}/>
           <Route path="/wallet" component={Payment}/>
           <Route path="/game" component={Game}/>
-          <Route path="/newGame" component={NewGame}/>
+          <Route path="/newGame/:id" component={GameDetail}/>
           <Route path="/logout" component={Logout}/>
           <Route path="/profile" component={ProfilePage}/>
           <Route path="/addLesson" component={AddLesson}/>

@@ -30,7 +30,7 @@ const AdminLesson = (props) => {
         }
         closeConfirm()
         // ctx.deleteDB(id)
-    }
+    } 
     const view = () => {
         history.push(`/lesson/${props.lesson.id}?lang=${props.lang}`)
     }

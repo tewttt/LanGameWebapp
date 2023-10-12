@@ -9,7 +9,8 @@ import {AiFillEye, AiFillEyeInvisible, AiFillLock, AiTwotoneMail, AiFillPhone} f
 const SignUp = () => {
     const ctx = useContext(UserContext);
     const history = useHistory();
-    const [email, setEmail] = useState("od@gmail.com");
+    const [email, setEmail] = useState("bat@gmail.com");
+    const [name, setName] = useState("bat");
     const [password, setPassword] = useState("123456");
     const [password2, setPassword2] = useState("123456");
     const [phone, setPhone] = useState("5");
@@ -38,7 +39,7 @@ const SignUp = () => {
         //     setError("Нууц үг хоорондоо таарахгүй байна")
         // } 
         else {
-            ctx.signupUser(email,password, phone);
+            ctx.signupUser(email,password, phone, name);
             history.push("/")
         }
     };
@@ -52,6 +53,12 @@ const SignUp = () => {
                 )}
             {/* {ctx.state.userId && <Redirect to="/"/>} */}
             <div className="flex flex-col bg-baseColor w-[300px] h-[370px] border-2 border-baseBlue p-5 items-center rounded-[20px]">
+                <div className="flex flex-row m-1  justify-between items-center mr-[-30px]">
+                    <AiFillPhone size={20} className="text-baseBlue mr-[-50px] z-10 "/>
+                    <input 
+                        className="w-[250px] h-[30px] text-center bg-blue-50 border rounded-[12px] transition ease-in-out duration-200 hover:border-blue-500  hover:border-[2px] hover:bg-blue-100" 
+                        type="text" placeholder="Нэр" value={name} onChange={e=> setName(e.target.value)} required/> 
+                </div>
                 <div className="flex flex-row m-1  justify-between items-center mr-[-30px]">
                     <AiFillPhone size={20} className="text-baseBlue mr-[-50px] z-10 "/>
                     <input 

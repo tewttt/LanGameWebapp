@@ -51,7 +51,7 @@ const AddLesson = () => {
                     language: addlesson.language,
                     level: addlesson.level,
                     lessonNumber: addlesson.lessonNumber,
-                    name: addlesson.name,
+                    name: addlesson.name, 
                     price: addlesson.price,
                     status: addlesson.status,
                     text: addlesson.text
@@ -80,9 +80,9 @@ const AddLesson = () => {
                     <div>  language: {addlesson.language} </div>
                     <select className="text-black rounded-[5px] w-[170px]" onChange={changeLanguage}>
                         <option>Сонгох</option>
-                        <option>Англи хэл</option>
-                        <option>Солонгос хэл</option>
-                        <option>Монгол хэл</option>
+                        <option>English</option>
+                        <option>Korea</option>
+                        <option>Mongolia</option>
                     </select>
                 </div>
 

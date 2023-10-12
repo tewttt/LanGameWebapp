@@ -1,191 +1,336 @@
 import React from "react";
 import { useState } from "react";
-import {db, storage} from "../firebase";
-import {doc,getDocs, onSnapshot,collection, addDoc, updateDoc, deleteDoc} from "firebase/firestore";
+import { db, storage } from "../firebase";
+import {
+  doc,
+  getDocs,
+  onSnapshot,
+  collection,
+  addDoc,
+  updateDoc,
+  deleteDoc,
+  setDoc,
+} from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 import { useEffect } from "react";
 
 const auth = getAuth();
 const LessonContext = React.createContext();
-const initialState= {
-    base: [],
-    translate: [],
-    exam: [],
-    image: [],
-    video: [],
-    grammar: [],
-    newWord: [], 
-}
-const editState = {
-    base: []
-}
-
+const initialState = {
+  base: [],
+  translate: [],
+  exam: [],
+  image: [],
+  video: [],
+  grammar: [],
+  newWord: [],
+};
 export const LessonStore = (props) => {
-    const [state, setState] = useState(initialState)
-    const [englishList, setEnglishList] = useState([]);  
-    const [koreaList, setKoreaList] = useState([]);  
-    const [mongoliaList, setMongoliaList] = useState([]);  
-    // console.log(englishList)
-// https://www.youtube.com/watch?v=2hR-uWjBAgw&t=1095s
-// firestro db tai ajillah hicheel
+  const [state, setState] = useState(initialState);
+  const [lessons, setLessons] = useState([]);
 
-    const saveBase = (base) => {setState({...state, base: base})}
-    const saveExam = (quiz) => {setState({...state, exam: quiz})}
-    const saveTranslate= (questions) => {setState({...state, translate: questions})}
-    const saveImage = (downloadURL) => {setState({...state, image: downloadURL})}
-    const saveVideo = (downloadURL) => {setState({...state, video: downloadURL})}
-    const saveGrammar = (downloadURL) =>{setState({...state, grammar: downloadURL})}
-    const saveNewWord = (questions) => {setState({...state, newWord: questions})}
-// console.log(state.image)
-     // read Data
-    //  const lessonsRef = collection(db, "lessons");
-    const EnglishRef = collection(db, "english");
-    const KoreaRef = collection(db, "korea");
-    const MongoliaRef = collection(db, "mongolia");
+  const saveBase = (base) => {
+    setState({ ...state, base: base });
+  };
+  const saveExam = (quiz) => {
+    setState({ ...state, exam: quiz });
+  };
+  const saveTranslate = (questions) => {
+    setState({ ...state, translate: questions });
+  };
+  const saveImage = (downloadURL) => {
+    setState({ ...state, image: downloadURL });
+  };
+  const saveVideo = (downloadURL) => {
+    setState({ ...state, video: downloadURL });
+  };
+  const saveGrammar = (downloadURL) => {
+    setState({ ...state, grammar: downloadURL });
+  };
+  const saveNewWord = (questions) => {
+    setState({ ...state, newWord: questions });
+  };
 
-    useEffect(() => {
-        // setLoading(true)
-        const unEng  = onSnapshot(EnglishRef, (snapshot) => {
-            let lessonsList = []
-            snapshot.docs.map((doc) => lessonsList.push({...doc.data(), id: doc.id}))
-            setEnglishList(lessonsList)
-            // setLoading(false)
+//   console.log(lessons);
+
+  const lessonsRef = collection(db, "lessons");
+
+  useEffect(() => {
+    const unsubcribe = onSnapshot(lessonsRef, (snapshot) => {
+      setLessons((prev) => {
+        const list = snapshot.docs.map((doc) => {
+          return { ...doc.data(), id: doc.id };
         });
       
-        const unKor  = onSnapshot(KoreaRef, (snapshot) => {
-            let lessonsList = []
-            snapshot.docs.map((doc) => lessonsList.push({...doc.data(), id: doc.id}))
-            setKoreaList(lessonsList)
-            // setLoading(false)
-        })
-    
-        const unMon = onSnapshot(MongoliaRef, (snapshot) => {
-            let lessonsList = []
-            snapshot.docs.map((doc) => lessonsList.push({...doc.data(), id: doc.id}))
-            setMongoliaList(lessonsList)
-            // setLoading(false)
-        })
-        return ()=>{
-            unKor();
-            unEng();
-            unMon();
-        }
-    }, [])
-
-        // const getMongoliaList = async () => {
-        //     try {
-        //         const data =await getDocs(MongoliaRef);
-        //         const filteredData = data.docs.map((doc) => ({
-        //             ...doc.data(),
-        //             id: doc.id
-        //         }))
-        //         setMongoliaList(filteredData)
-        //     } catch (err) {
-        //         console.log(err)
-        //     }
-        // };
-    const createEnglishDB = async () => {
-        try {
-            await addDoc(EnglishRef, {
-                authId: auth.currentUser?.uid,
-                state
+        list.map((e, i) => {
+        
+          let topics = [];
+          const topicsRef = collection(db, `lessons/${e.id}/topics`);
+          const unsubplayer = onSnapshot(topicsRef, (snapshot) => {
+            snapshot.docs.map((doc) => {
+              topics.push({ ...doc.data(), id: doc.id });
             });
-            alert("englsh lesson db ilgeelee")
-        } catch (err) {
-            console.log(err)
-        }
-    }
 
-    const createKoreaDB = async () => {
-        try {
-            await addDoc(KoreaRef, {
-                authId: auth.currentUser?.uid,
-                state
+            topics.map((top, i) => {
+              let lessons = [];
+
+              const lessonsRef = collection(
+                db,
+                `lessons/${e.id}/topics/${top.id}/lessons`
+              );
+              const unTop = onSnapshot(lessonsRef, (snapshot) => {
+                snapshot.docs.map((doc) => {
+                 
+                  lessons.push({ ...doc.data(), id: doc.id });
+                });
+
+                lessons.map((les, i) => {
+                  
+                  let exam = [];
+                  const examRef = collection(db, `lessons/${e.id}/topics/${top.id}/lessons/${les.id}/exam`)
+                  const unExam = onSnapshot(examRef, (snapshot) => {
+                    snapshot.docs.map((doc) => {
+                        //  console.log({...doc.data() , id:doc.id})
+                        exam.push({...doc.data(), id:doc.id})
+                    })
+                  })
+                  lessons[i].exam=exam
+
+                  let translate = [];
+                  const translateRef = collection(db, `lessons/${e.id}/topics/${top.id}/lessons/${les.id}/translate`)
+                  const unLes = onSnapshot(translateRef, (snapshot) => {
+                    snapshot.docs.map((doc) => {
+                        //  console.log({...doc.data() , id:doc.id})
+                        translate.push({...doc.data(), id:doc.id})
+                    })
+                  })
+                  lessons[i].translate= translate
+
+                  let word = [];
+                  const wordRef = collection(db, `lessons/${e.id}/topics/${top.id}/lessons/${les.id}/word`)
+                  const unword = onSnapshot(wordRef, (snapshot) => {
+                    snapshot.docs.map((doc) => {
+                        //  console.log({...doc.data() , id:doc.id})
+                        word.push({...doc.data(), id:doc.id})
+                    })
+                  })
+                  lessons[i].word= word
+
+                  let grammar = [];
+                  const grammarRef = collection(db, `lessons/${e.id}/topics/${top.id}/lessons/${les.id}/grammar`)
+                  const ungrammar = onSnapshot(grammarRef, (snapshot) => {
+                    snapshot.docs.map((doc) => {
+                        //  console.log({...doc.data() , id:doc.id})
+                        grammar.push({...doc.data(), id:doc.id})
+                    })
+                  })
+                  lessons[i].grammar = grammar
+
+                });
+              });
+              topics[i].lessons = lessons;
             });
-            alert("korea lesson db ilgeelee")
-        } catch (err) {
-            console.log(err)
-        }
-    }
+          });
 
-    const createMongoliaDB = async () => {
-        try {
-            await addDoc(MongoliaRef, {
-                authId: auth.currentUser?.uid,
-                state
-            });
-            alert("mongolia lesson db ilgeelee")
-        } catch (err) {
-            console.log(err)
-        }
-    }
-   
-    const updateEnglishDB = async (id) => {
-        // preventDefault();
-        const updateLesson = doc(db, "english" ,id)
-        await updateDoc(updateLesson, {state: state})
-        alert("lesson enlish update")
-       
-    }
-    const updateKoreaDB = async (id) => {
-        const updateLesson = doc(db, "korea" ,id)
-        await updateDoc(updateLesson, {state: state})
-        alert("lesson korea update")
-       
-    }
-    const updateMongoliaDB = async (id) => {
-        const updateLesson = doc(db, "mongolia" ,id)
-        await updateDoc(updateLesson, {state: state})
-        alert("lesson mongolia update")
-       
-    }
+          list[i].topics = topics;
+        });
 
-    const deleteEnglishDB = async (id) => {
-        console.log(id)
-        const LessonDoc = doc(db, "english", id);
-        await deleteDoc(LessonDoc);
-        // getEnglishList();  
+        return [...list];
+      });
+    });
+    return () => {
+      unsubcribe();
+    };
+  }, []);
+
+  const createLesson = async () => {
+    try {
+      const lessRef = doc(db, "lessons", state.base.language);
+      const add = await setDoc(lessRef, {
+        language: state.base.language,
+      });
+      await setDoc(
+        doc(db, `lessons/${state.base.language}/topics`, state.base.level),
+        {
+          level: state.base.level,
+        }
+      );
+      await setDoc(
+        doc(
+          db,
+          `lessons/${state.base.language}/topics/${state.base.level}/lessons`,
+          state.base.lessonNumber
+        ),
+        {
+          userAuthId: auth.currentUser?.uid,
+          name: state.base.name,
+          price: state.base.price,
+          status: state.base.status,
+          text: state.base.text,
+          video: state.video,
+          image: state.image,
+        }
+      );
+      await setDoc(
+        doc(
+          db,
+          `lessons/${state.base.language}/topics/${state.base.level}/lessons/${state.base.lessonNumber}/exam`,
+          state.base.lessonNumber
+        ),
+        {
+          exam: state.exam,
+        }
+      );
+      await setDoc(
+        doc(
+          db,
+          `lessons/${state.base.language}/topics/${state.base.level}/lessons/${state.base.lessonNumber}/translate`,
+          state.base.lessonNumber
+        ),
+        {
+          translate: state.translate,
+        }
+      );
+      await setDoc(
+        doc(
+          db,
+          `lessons/${state.base.language}/topics/${state.base.level}/lessons/${state.base.lessonNumber}/word`,
+          state.base.lessonNumber
+        ),
+        {
+          word: state.newWord,
+        }
+      );
+      await setDoc(
+        doc(
+          db,
+          `lessons/${state.base.language}/topics/${state.base.level}/lessons/${state.base.lessonNumber}/grammar`,
+          state.base.lessonNumber
+        ),
+        {
+          grammar: state.grammar,
+        }
+      );
+      alert("Хичээл амжилттай үүслээ");
+    } catch (err) {
+      console.log(err);
     }
-    const deleteKoreaDB = async (id) => {
-        const LessonDoc = doc(db, "korea", id);
-        await deleteDoc(LessonDoc);
-        // getKoreaList();  
-    }
-    const deleteMongoliaDB = async (id) => {
-        const LessonDoc = doc(db, "mongolia", id);
-        await deleteDoc(LessonDoc);
-        // getMongoliaList();  
-    }
-    
-return (
+  };
+
+ 
+
+  // const updateEnglishDB = async (id) => {
+  //     // preventDefault();
+  //     const updateLesson = doc(db, "english" ,id)
+  //     await updateDoc(updateLesson, {state: state})
+  //     alert("lesson enlish update")
+
+  // }
+
+  // const deleteEnglishDB = async (id) => {
+  //     console.log(id)
+  //     const LessonDoc = doc(db, "english", id);
+  //     await deleteDoc(LessonDoc);
+  //     // getEnglishList();
+  // }
+
+  return (
     <LessonContext.Provider
-        value={{
-            state,
-            saveBase,
-            saveExam,
-            saveTranslate,
-            englishList,
-            mongoliaList,
-            koreaList,
-            saveImage,
-            saveVideo,
-            saveGrammar,
-            saveNewWord,
-            updateEnglishDB,
-            updateKoreaDB,
-            updateMongoliaDB,
-            deleteEnglishDB,
-            deleteKoreaDB,
-            deleteMongoliaDB,
-            createEnglishDB,
-            createKoreaDB,
-            createMongoliaDB
-
-        }}
+      value={{
+        state,
+        lessons,
+        createLesson,
+        saveBase,
+        saveExam,
+        saveGrammar,
+        saveImage,
+        saveNewWord,
+        saveTranslate,
+        saveVideo,
+      }}
     >
-        {props.children}
+      {props.children}
     </LessonContext.Provider>
-);
-
+  );
 };
 export default LessonContext;
+
+//   useEffect(() => {
+//     const unsubcribe = onSnapshot(lessonsRef, (snapshot) => {
+//       let lessonsList = [];
+//       snapshot.docs.map((doc) =>
+//         lessonsList.push({
+//           // console.log(...doc.data())
+//           ...doc.data(),
+//             id: doc.id,
+//         })
+//       );
+//       setLessons(lessonsList);
+
+//     });
+//     return () => {
+//       unsubcribe();
+//     };
+//   }, []);
+
+ //   const createLesson = async () => {
+  //     const lessonsRef = doc(
+  //       db,
+  //       `lessons/${state.base.language}/topics/${state.base.level}/lessons/`,
+  //       state.base.lessonNumber
+  //     );
+  //     try {
+  //       await setDoc(lessonsRef, {
+  //         userAuthId: auth.currentUser?.uid,
+  //         name: state.base.name,
+  //         price: state.base.price,
+  //         status: state.base.status,
+  //         text: state.base.text,
+  //         video: state.video,
+  //         image: state.image,
+  //       });
+  //       const dataRef = doc(
+  //         db,
+  //         `lessons/${state.base.language}/topics/${state.base.level}/lessons/${state.base.lessonNumber}/exam/`,
+  //         state.base.lessonNumber
+  //       );
+  //       const exam = await setDoc(dataRef, {
+  //         exam: state.exam,
+  //       });
+
+  //       const translate = await setDoc(
+  //         doc(
+  //           db,
+  //           `lessons/${state.base.language}/topics/${state.base.level}/lessons/${state.base.lessonNumber}/translate/`,
+  //           state.base.lessonNumber
+  //         ),
+  //         {
+  //           exam: state.translate,
+  //         }
+  //       );
+  //       const word = await setDoc(
+  //         doc(
+  //           db,
+  //           `lessons/${state.base.language}/topics/${state.base.level}/lessons/${state.base.lessonNumber}/word/`,
+  //           state.base.lessonNumber
+  //         ),
+  //         {
+  //           exam: state.newWord,
+  //         }
+  //       );
+  //       const grammar = await setDoc(
+  //         doc(
+  //           db,
+  //           `lessons/${state.base.language}/topics/${state.base.level}/lessons/${state.base.lessonNumber}/grammar/`,
+  //           state.base.lessonNumber
+  //         ),
+  //         {
+  //           exam: state.grammar,
+  //         }
+  //       );
+
+  //       alert("Хичээл амжилттай үүслээ");
+  //     } catch (err) {
+  //       console.log(err);
+  //     }
+  //   };
