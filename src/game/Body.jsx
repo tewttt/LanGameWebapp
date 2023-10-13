@@ -15,8 +15,8 @@ const Body = (props) => {
   // const players = game.players
   const { id } = useParams();
 
-//   console.log(id);
-//   console.log(game?.players);
+  //   console.log(id);
+  //   console.log(game?.players);
 
   useEffect(() => {
     if (ctx.games) {
@@ -57,24 +57,22 @@ const Body = (props) => {
   // Active toglogch shoo hayh
   // Active toglogchiin moriig nvdnii dugaaar dr awaachih
   // Active toglogchiin onoog hadgalah , daraagiin togloltond haruulah
+  const positions = [
+    { position: "fixed", top: 100, left: 10 },
+    { position: "fixed", top: 100, right: 20 },
+    { position: "fixed", bottom: 100, right: 20 },
+    { position: "fixed", bottom: 100, left: 20 },
+  ];
 
   return (
     <div className="flex h-[600px] justify-between mt-10 w-full">
-      {/* <div className=" flex flex-col w-[50px] justify-evenly">
-                {players.map((e, i) => (
-                    // console.log(e.state.name)
-                    <div className="flex flex-col items-center " key={i}>
-                    <p className="text-[10px]">{e.state.name}</p>
-                    <img src={zur} className="w-[50px] h-[50px] bor.sder rounded-[50%] p-0"/>
-                    <p className="text-[10px]">Level</p>
-                </div>
-                ))}
-            </div> */}
-
-      <div className=" flex flex-col w-[50px] justify-evenly">
+      <div className="  w-[50px] ">
         {game?.players?.map((e, i) => (
-          // console.log(e.state.name)
-          <div className="flex flex-col items-center " key={i}>
+          <div
+            style={{ ...positions[i] }}
+            className="flex flex-col items-center w-full "
+            key={i}
+          >
             <p className="text-[10px]">{e.state.name}</p>
             <img
               src={zur}
@@ -84,41 +82,9 @@ const Body = (props) => {
           </div>
         ))}
       </div>
-
-      {/* left */}
-      {/* <div className=" flex flex-col w-[50px] justify-evenly">
-                <div className="flex flex-col items-center ">
-                    <p className="text-[10px]">player1</p>
-                    <img src={zur} className="w-[50px] h-[50px] border rounded-[50%] p-0"/>
-                    <p className="text-[10px]">Level</p>
-                </div>
-                <div className="flex flex-col items-center">
-                    <p className="text-[10px]">player2</p>
-                    <img src={zur} className="w-[50px] h-[50px] border rounded-[50%] p-0"/>
-                    <p className="text-[10px]">Level</p>
-                    
-                </div>
-            </div> */}
-
-      <div className="flex flex-col justify-center items-center">
-        <Field />
-        <Horse />
-        <Dice />
-      </div>
-
-      {/* right */}
-      {/* <div className=" flex flex-col w-[50px] justify-evenly">
-                <div className="flex flex-col items-center">
-                    <p className="text-[10px]">player3</p>
-                    <img src={zur} className="w-[50px] h-[50px] border rounded-[50%] p-0"/>
-                    <p className="text-[10px]">Level</p>
-                </div>
-                <div className="flex flex-col items-center">
-                    <p className="text-[10px]">player4</p>
-                    <img src={zur} className="w-[50px] h-[50px] border rounded-[50%] p-0"/>
-                    <p className="text-[10px]">Level</p>
-                </div>
-            </div> */}
+      <Field />
+      <Horse />
+      <Dice />
     </div>
   );
 };

@@ -1,46 +1,34 @@
-import React , {useContext, useEffect, useState} from "react";
+import React, { useContext, useEffect, useState } from "react";
 import css from "./style.module.css";
-import {DefaultPlayer as Video} from "react-html5video"
+import { DefaultPlayer as Video } from "react-html5video";
 import "react-html5video/dist/styles.css";
 import { useParams, useLocation } from "react-router-dom";
-import StarIcon from '@mui/icons-material/Star';
+import StarIcon from "@mui/icons-material/Star";
 import TranslateView from "../../components/translateView";
 import ExamView from "../../components/examView";
 import ToolSidebar from "../../components/ToolSidebar";
-import LessonContext from "../../context/LessonContext"
+import LessonContext from "../../context/LessonContext";
 
 function useQuery() {
-    const { search } = useLocation();
-    return React.useMemo(() => new URLSearchParams(search), [search]);
+  const { search } = useLocation();
+  return React.useMemo(() => new URLSearchParams(search), [search]);
 }
 
 const LessonView = (props) => {
-    const [rating, setRating] = useState(null);
-    const ctx = useContext(LessonContext)
-    const {id} = useParams()
-    let query = useQuery();
+  const [rating, setRating] = useState(null);
+  const ctx = useContext(LessonContext);
+  const { id } = useParams();
+ 
+//   console.log(id);
+//   console.log(ctx.lesson)
+ 
 
-    // console.log('lang', query.get("lang"))
+  return (
+    <div>
+      <ToolSidebar />
+     
 
-    let lessonId = null
-    if(query.get("lang") == 'Англи хэл') {
-        lessonId = ctx.englishList.find(
-            item =>  item.id === id
-        );
-    } else if(query.get("lang") == 'Солонгос хэл') {
-        lessonId = ctx.koreaList.find(
-            item =>  item.id === id
-        );
-    } else if(query.get("lang") == "Монгол хэл") {
-        lessonId = ctx.mongoliaList.find(
-            item =>  item.id === id
-        );
-    }
-
-    return (
-        <div>
-            <ToolSidebar/>
-            <div className="flex flex-col text-sm text-white text-[12px]">
+      {/* <div className="flex flex-col text-sm text-white text-[12px]">
                 <div className="flex flex-col md:flex-row md:mb-2">
                     <div className="flex mt-2 justify-around md:mt-0">
                         <div className="mx-3 text-gray-300 ">Хэл: {lessonId.state.base.language}</div>
@@ -94,9 +82,27 @@ const LessonView = (props) => {
                     <StarIcon onClick= {() => setRating(4)} className={css.star}/>
                     <StarIcon onClick= {() => setRating(5)} className={css.star}/>
                 </div>
-            </div>
-        </div>
-    )
-}
+            </div> */}
+    </div>
+  );
+};
 
 export default LessonView;
+
+// let query = useQuery();
+ // console.log('lang', query.get("lang"))
+
+  // let lessonId = null
+  // if(query.get("lang") == 'Англи хэл') {
+  //     lessonId = ctx.englishList.find(
+  //         item =>  item.id === id
+  //     );
+  // } else if(query.get("lang") == 'Солонгос хэл') {
+  //     lessonId = ctx.koreaList.find(
+  //         item =>  item.id === id
+  //     );
+  // } else if(query.get("lang") == "Монгол хэл") {
+  //     lessonId = ctx.mongoliaList.find(
+  //         item =>  item.id === id
+  //     );
+  // }

@@ -41,20 +41,28 @@ const Game = () => {
   //     setLessonCount(i);
   //   }
   // });
-  
-  // const lesson = [LessonCount];
 
-  const [lesson, setLesson] = useState(Array(30).fill(null))
+  // const lesson = [LessonCount];
+  // console.log(Lessonctx.lanId);
+  const [lesson, setLesson] = useState(Array(30).fill(null));
   const arrChoose = ["Online", "Friends"];
-  const arrLanguage = ["Англи хэл", "Монгол хэл", "Солонгос хэл"];
+  const arrLanguage = ["English", "Mongolia", "Korea"];
+  // let arrLanguage = [];
   const arrLevel = ["A1", "A2", "B1", "B1+", "B2", "B2+"];
 
   const history = useHistory();
   const [show, setShow] = useState(false);
 
+  // useEffect(() => {
+  //   LessonContext.lanId.map((e) => {
+  //     console.log(e);
+  //     // arrLanguage.push(e);
+  //   });
+  // });
+  // console.log(arrLanguage);
+
   useEffect(() => {
     if (Userctx.currentUser) {
-   
       const newData = {
         name: Userctx.currentUser.name,
         email: Userctx.currentUser.email,
@@ -62,9 +70,7 @@ const Game = () => {
       };
       setState(newData);
     }
-  }, [Userctx.currentUser]);
-
-
+  }, [Userctx.currentUser, Gamectx.games]);
 
   const join = (game) => {
     Gamectx.join(state, game);
@@ -89,6 +95,7 @@ const Game = () => {
     setChLevel(level);
   };
   const selectLan = (lan, i) => {
+    Lessonctx.Levelid(i);
     setLanActive(i);
     setChLan(lan);
   };
@@ -205,20 +212,6 @@ const Game = () => {
               </div>
             );
           })}
-          {/* {Object.entries(Gamectx.games).map((game, i) => (
-                        <div  className="border border-blue-700 text-blue-600 w-[85px] h-[50px] flex flex-col justify-center items-center p-3 m-2 rounded-xl">
-                            <div className="text-[12px]">Players 3/{game[1].players.length}</div>
-                              
-                            <div 
-                                className=" text-xl hover:text-red-500"
-                                onClick={ ()=>showConfirm(game)}
-                                // onClick={() => join(game[1])}
-                            >
-                                <p>join</p>
-                               
-                            </div>
-                        </div>
-                    ))} */}
         </div>
 
         <button
