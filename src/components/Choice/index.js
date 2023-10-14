@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useContext } from "react";
 import css from "./style.module.css";
 import LessonContext from "../../context/LessonContext";
-import { useHistory, Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import Spinner from "../General/Spinner";
-import Lesson from "../../components/Lesson"
+import Lesson from "../../components/Lesson";
 
 const Choice = () => {
   const history = useHistory();
@@ -29,7 +29,6 @@ const Choice = () => {
     setLevelActive(i);
     setChLevel(level);
     ctx.Lessons(level, chLan);
-    
   };
 
   const view = (id, i) => {
@@ -44,7 +43,7 @@ const Choice = () => {
       {ctx.state.loading && <Spinner />}
       <div className={css.text}>Хэл сонгох</div>
 
-      <div className="flex justify-center">
+      <div className="flex justify-center  my-2">
         {arrLanguage.map((lan, i) => {
           return (
             <div
@@ -58,7 +57,7 @@ const Choice = () => {
         })}
       </div>
 
-      <div className="flex justify-center">
+      <div className="flex justify-center my-2">
         {arrLevel.map((e, i) => {
           return (
             <div
@@ -72,24 +71,15 @@ const Choice = () => {
         })}
       </div>
 
-      <div className="flex justify-center">
+      <div className="flex justify-center  w-[100px] h-[100px]">
         {arrLesson.map((e, i) => {
           return (
-            
             <div
               // className={`${levelActive === i ? css.laan : ""} ${css.nolan}`}
               key={i}
               // onClick={() => view(e.id , i)}
-            > 
-              <Lesson  id={e.id} i={i} chLan={chLan} chLevel={chLevel} />
-              {/* {e.id} */}
-
-              {/* const view = (id, i) => {
-    setLessonActive(i);
-    setChLessons(id);
-    ctx.Lesson(id, chLan, chLevel);
-    history.push(`/lesson/${chLan}/${chLevel}/${id}`);
-  }; */}
+            >
+              <Lesson id={e.id} i={i} chLan={chLan} chLevel={chLevel} />
             </div>
           );
         })}
@@ -98,6 +88,7 @@ const Choice = () => {
   );
 };
 export default Choice;
+
 // const [lessonA1, setLessonA1] = useState([]);
 // const [lessonA2, setLessonA2] = useState([]);
 // const [lessonB1, setLessonB1] = useState([]);

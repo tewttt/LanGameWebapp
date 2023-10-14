@@ -18,71 +18,76 @@ const LessonView = (props) => {
   const [rating, setRating] = useState(null);
   const ctx = useContext(LessonContext);
   const { id } = useParams();
- 
-//   console.log(id);
-//   console.log(ctx.lesson)
+
+  // console.log(id);
+  // console.log(ctx.lesson.name);
  
 
   return (
     <div>
       <ToolSidebar />
-     
-
-      {/* <div className="flex flex-col text-sm text-white text-[12px]">
-                <div className="flex flex-col md:flex-row md:mb-2">
-                    <div className="flex mt-2 justify-around md:mt-0">
-                        <div className="mx-3 text-gray-300 ">Хэл: {lessonId.state.base.language}</div>
+      <div className="flex flex-col pt-[50px] text-sm text-white text-[12px]">
+        <div className="flex flex-col md:flex-row md:mb-2">
+          <div className="flex mt-2 justify-around md:mt-0">
+            {/* <div className="mx-3 text-gray-300 ">Хэл: {lessonId.state.base.language}</div>
                         <div className="mx-3 text-gray-300 ">Түвшин: {lessonId.state.base.level}</div>
-                        <div className="mx-3 text-gray-300 ">Хичээлийн дугаар:  {lessonId.state.base.lessonNumber}</div>
-                    </div>        
-                    <div className=" flex items-center mb-2 md:mb-0">
-                        <div className=" text-gray-300 mx-6 sm:mx-16">Хичээлийн нэр:</div> 
-                        <h1 className="text-blue-500 ">{lessonId.state.base.name}</h1>
-                    </div>    
-                </div>  
-                
-                <div className="flex flex-col justify-center items-center">
-                    <div className="w-full md:w-[70%]">
-                        <Video
-                        //  autoPlay loop 
-                        // poster={photo} 
-                        on>
-                            <source
-                                src={lessonId.state.video}
-                                type="video/webm"
-                            />
-                        </Video>
-                    </div>
+                        <div className="mx-3 text-gray-300 ">Хичээлийн дугаар:  {lessonId.state.base.lessonNumber}</div> */}
+          </div>
+          <div className=" flex items-center mb-2 md:mb-0">
+            <div className=" text-gray-300 mx-6 sm:mx-16">Хичээлийн нэр:</div>
+            <h1 className="text-blue-500 ">{ctx.lesson.name}</h1>
+          </div>
+        </div>
 
-                    <div className="flex flex-col ">
-                            <div className="text-[12px] text-gray-300"> image
-                                <img src={lessonId.state.image} className="w-[300px] h-[300px] sm:w-[500px] sm:h-[500px]"/> 
-                            </div>
-                            <div className="text-[12px] text-gray-300"> grammar
-                                <img src={lessonId.state.grammar} className="w-[300px] h-[300px] sm:w-[500px] sm:h-[500px]"/>
-                            </div>
-                            <div className={css.grammar}> newword
-                                <img src={lessonId.state.newWord} className="w-[300px] h-[300px] sm:w-[500px] sm:h-[500px]"/>
-                            </div>
-                    </div>
-                </div>
+        <div className="flex flex-col justify-center items-center">
+          <div className="w-full md:w-[70%]">
+            <Video
+              //  autoPlay loop
+              // poster={photo}
+              on
+            >
+              <source src={ctx.lesson.video} type="video/webm" />
+            </Video>
+          </div>
 
-                <div> 
-                    <div >
-                        <TranslateView translate={lessonId.state.translate}/>
-                    </div>
-                    <div className={css.exam}>
-                        <ExamView exam={lessonId.state.exam}/>
-                    </div>
-                </div>
-                <div className={css.bodyStar}>
-                    <StarIcon onClick= {() => setRating(1)} className={css.star}/>
-                    <StarIcon onClick= {() => setRating(2)} className={css.star}/>
-                    <StarIcon onClick= {() => setRating(3)} className={css.star}/>
-                    <StarIcon onClick= {() => setRating(4)} className={css.star}/>
-                    <StarIcon onClick= {() => setRating(5)} className={css.star}/>
-                </div>
-            </div> */}
+          <div className="flex flex-col ">
+            <div className="text-[12px] text-gray-300">
+              <img
+                src={ctx.lesson.image}
+                className="w-[300px] h-[300px] sm:w-[500px] sm:h-[500px]"
+              />
+            </div>
+           
+
+          </div>
+        </div>
+
+        <div>
+          <div className={css.grammar} onClick={() => ctx.grammarfun()}>
+             
+              grammar
+              {/* <img src={lessonId.state.grammar} className="w-[300px] h-[300px] sm:w-[500px] sm:h-[500px]"/> */}
+          </div>
+          <div className={css.grammar} onClick={() => ctx.wordfun()}>
+              newword
+              {/* <img src={lessonId.state.newWord} className="w-[300px] h-[300px] sm:w-[500px] sm:h-[500px]"/> */}
+          </div>
+          <div className={css.exam} onClick={() => ctx.translatefun()}>translate
+              <TranslateView />
+          </div>
+          <div className={css.exam} onClick={() => ctx.examfun()}>Exam
+              {/* <ExamView exam={lessonId.state.exam}/> */}
+              <ExamView/>
+          </div>
+        </div>
+        <div className={css.bodyStar}>
+          <StarIcon onClick={() => setRating(1)} className={css.star} />
+          <StarIcon onClick={() => setRating(2)} className={css.star} />
+          <StarIcon onClick={() => setRating(3)} className={css.star} />
+          <StarIcon onClick={() => setRating(4)} className={css.star} />
+          <StarIcon onClick={() => setRating(5)} className={css.star} />
+        </div>
+      </div>
     </div>
   );
 };
@@ -90,19 +95,19 @@ const LessonView = (props) => {
 export default LessonView;
 
 // let query = useQuery();
- // console.log('lang', query.get("lang"))
+// console.log('lang', query.get("lang"))
 
-  // let lessonId = null
-  // if(query.get("lang") == 'Англи хэл') {
-  //     lessonId = ctx.englishList.find(
-  //         item =>  item.id === id
-  //     );
-  // } else if(query.get("lang") == 'Солонгос хэл') {
-  //     lessonId = ctx.koreaList.find(
-  //         item =>  item.id === id
-  //     );
-  // } else if(query.get("lang") == "Монгол хэл") {
-  //     lessonId = ctx.mongoliaList.find(
-  //         item =>  item.id === id
-  //     );
-  // }
+// let lessonId = null
+// if(query.get("lang") == 'Англи хэл') {
+//     lessonId = ctx.englishList.find(
+//         item =>  item.id === id
+//     );
+// } else if(query.get("lang") == 'Солонгос хэл') {
+//     lessonId = ctx.koreaList.find(
+//         item =>  item.id === id
+//     );
+// } else if(query.get("lang") == "Монгол хэл") {
+//     lessonId = ctx.mongoliaList.find(
+//         item =>  item.id === id
+//     );
+// }

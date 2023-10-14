@@ -58,19 +58,19 @@ const Body = (props) => {
   // Active toglogchiin moriig nvdnii dugaaar dr awaachih
   // Active toglogchiin onoog hadgalah , daraagiin togloltond haruulah
   const positions = [
-    { position: "fixed", top: 100, left: 10 },
-    { position: "fixed", top: 100, right: 20 },
-    { position: "fixed", bottom: 100, right: 20 },
-    { position: "fixed", bottom: 100, left: 20 },
+    { position: "absolute", top: 100, left: -45 },
+    { position: "absolute", top: 100, right: -45 },
+    { position: "absolute", top: 300, right: -45 },
+    { position: "absolute", bottom: 10, left: -45 },
   ];
-
+const [active, setActive] = useState()
   return (
-    <div className="flex h-[600px] justify-between mt-10 w-full">
-      <div className="  w-[50px] ">
+    <div className="flex flex-col m-auto  ">
+      <div className="relative">
         {game?.players?.map((e, i) => (
           <div
             style={{ ...positions[i] }}
-            className="flex flex-col items-center w-full "
+            className="flex flex-col items-center "
             key={i}
           >
             <p className="text-[10px]">{e.state.name}</p>
@@ -79,12 +79,12 @@ const Body = (props) => {
               className="w-[50px] h-[50px] bor.sder rounded-[50%] p-0"
             />
             <p className="text-[10px]">Level</p>
+            <Dice id={i}/>
           </div>
         ))}
       </div>
       <Field />
       <Horse />
-      <Dice />
     </div>
   );
 };

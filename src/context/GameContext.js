@@ -24,7 +24,11 @@ const GameRef = collection(db, "game");
 export const GameStore = (props) => {
   const history = useHistory();
   const [games, setGames] = useState([]);
-
+  const [languageId, setLanguage] = useState("");
+  const [levelId, setLevel] = useState("");
+  const [lessonId, setLesson] = useState("");
+  console.log(games);
+  console.log(languageId, levelId, lessonId);
   useEffect(() => {
     const unsubscribe = onSnapshot(GameRef, (snapshot) => {
       setGames((prev) => {
@@ -35,12 +39,28 @@ export const GameStore = (props) => {
         list.map(async (e, i) => {
           let players = [];
 
+          // if (
+          //   e.language === languageId &&
+          //   e.level === levelId &&
+          //   e.lesson === lessonId
+          // ) {
+          //   console.log(players);
+          //   const PlayersRef = collection(db, `game/${e.id}/players`);
+          //   const unsubplayer = onSnapshot(PlayersRef, (snapshot) => {
+          //     snapshot.docs.map(
+          //       // (doc) => players.push({ ...doc.data(), id: doc.id })
+
+          //       console.log(doc.data())
+          //     );
+          //   });
+          // }
+
           const PlayersRef = collection(db, `game/${e.id}/players`);
           const unsubplayer = onSnapshot(PlayersRef, (snapshot) => {
             snapshot.docs.map(
               (doc) => players.push({ ...doc.data(), id: doc.id })
 
-              // console.log(doc.id)
+              // console.log(doc.data())
             );
           });
 
@@ -55,15 +75,20 @@ export const GameStore = (props) => {
     };
   }, []);
   // const LessonRef = doc(db ,"english")
+
   const createGame = async (state, chLan, chLevel, chLesson) => {
-    
+    // console.log(chLan);
     try {
       const game = await addDoc(GameRef, {
         count: "",
         createDate: serverTimestamp(),
+        language: chLan,
+        level: chLevel,
+        lesson: chLesson,
       });
       const PlayersRef = doc(
         db,
+
         `game/${game.id}/players`,
         auth.currentUser?.uid
       );
@@ -71,7 +96,10 @@ export const GameStore = (props) => {
       const player = await setDoc(PlayersRef, {
         state,
       });
-      history.push(`/newGame/${game.id}`);
+      setLanguage(chLan);
+      setLevel(chLevel);
+      setLesson(chLesson);
+      history.push(`/newGame/${game.id}${chLan}${chLevel}${chLesson}`);
     } catch (err) {
       console.log(err);
     }
@@ -101,7 +129,8 @@ export const GameStore = (props) => {
     history.push("/game");
   };
 
-  const join = async (state, game) => {
+  const join = async (state, game, chLan, chLevel, chLesson) => {
+    // Gamectx.join(state, game, chLan, chLevel, chLesson );
     // Check game players
     // if (length < 4 ) Join else False
     // JOIN: 1. add doc to players 2. Navigate detail page
@@ -111,7 +140,6 @@ export const GameStore = (props) => {
     const players = game.players;
 
     players.map((e, i) => {
-      
       if (e.id === auth.currentUser?.uid) {
         return history.push(`/newGame/${id}`);
       } else if (length < 3) {

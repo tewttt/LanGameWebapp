@@ -21,6 +21,10 @@ const Game = () => {
   const Userctx = useContext(UserContext);
   const authId = auth.currentUser?.uid;
 
+  let arrLevel = Lessonctx.levelId;
+  let arrLanguage = Lessonctx.lanId;
+  let arrLesson = Lessonctx.lessonsId;
+
   const [chChoose, setChoose] = useState("");
   const [chooseActive, setChooseActive] = useState(0);
 
@@ -33,33 +37,15 @@ const Game = () => {
   const [chLesson, setChLesson] = useState("");
   const [lessonActive, setLessonActive] = useState("");
 
-  // const [LessonCount, setLessonCount] = useState([]);
-
-  // useEffect(() => {
-  //   for (let i = 0; i <= Lessonctx.lessons.length; i++) {
-  //     // console.log(i)
-  //     setLessonCount(i);
-  //   }
-  // });
-
-  // const lesson = [LessonCount];
-  // console.log(Lessonctx.lanId);
   const [lesson, setLesson] = useState(Array(30).fill(null));
   const arrChoose = ["Online", "Friends"];
-  const arrLanguage = ["English", "Mongolia", "Korea"];
+  // const arrLanguage = ["English", "Mongolia", "Korea"];
   // let arrLanguage = [];
-  const arrLevel = ["A1", "A2", "B1", "B1+", "B2", "B2+"];
+  // const arrLevel = ["A1", "A2", "B1", "B1+", "B2", "B2+"];
 
   const history = useHistory();
   const [show, setShow] = useState(false);
-
-  // useEffect(() => {
-  //   LessonContext.lanId.map((e) => {
-  //     console.log(e);
-  //     // arrLanguage.push(e);
-  //   });
-  // });
-  // console.log(arrLanguage);
+  const [showNewGame, setShowNewGame] = useState(false);
 
   useEffect(() => {
     if (Userctx.currentUser) {
@@ -72,10 +58,6 @@ const Game = () => {
     }
   }, [Userctx.currentUser, Gamectx.games]);
 
-  const join = (game) => {
-    Gamectx.join(state, game);
-  };
-
   const closeConfirm = () => {
     setShow(false);
     // setModal({show:false,game:null})
@@ -84,33 +66,51 @@ const Game = () => {
     // {show:true, selectedGame: game}
     setShow({ ...show, show: true, game: game });
   };
+
+  const showGame = () => {
+    // {show:true, selectedGame: game}
+    setShowNewGame(true);
+  };
+  const closeGame = () => {
+    // {show:true, selectedGame: game}
+    setShowNewGame(false);
+  };
   // Шинэ тоглоом үүсгэж байна
-  const newGame = (chLan, chLevel, chLesson) => {
-    if (chLan === "") {
-    }
-    Gamectx.createGame(state, chLan, chLevel, chLesson);
-  };
-  const selectLevel = (level, i) => {
-    setLevelActive(i);
-    setChLevel(level);
-  };
-  const selectLan = (lan, i) => {
-    Lessonctx.Levelid(i);
-    setLanActive(i);
-    setChLan(lan);
-  };
+
   const selectChoose = (lan, i) => {
     setChooseActive(i);
     setChoose(lan);
   };
+  const selectLan = (lan, i) => {
+    setLanActive(i);
+    setChLan(lan);
+    Lessonctx.Level(lan);
+  };
+
+  const selectLevel = (level, i) => {
+    setLevelActive(i);
+    setChLevel(level);
+    Lessonctx.Lessons(level, chLan);
+  };
+
   const selectLesson = (lesson, i) => {
     setLessonActive(i);
     setChLesson(lesson);
+    showGame();
+
+    // Gamectx.createGame(state, chLan, chLevel, chLesson);
+  };
+  const join = (game) => {
+    Gamectx.join(state, game, chLan, chLevel, chLesson);
   };
 
-  console.log(chLan);
-  console.log(chLevel);
-  console.log(chLesson);
+  const newGame = () => {
+    Gamectx.createGame(state, chLan, chLevel, chLesson);
+  };
+
+  // console.log(chLan);
+  // console.log(chLevel);
+  // console.log(chLesson);
   return (
     <div className="flex flex-col justify-center">
       <ToolSidebar />
@@ -140,9 +140,9 @@ const Game = () => {
                 } text-[12px]    transform hover:scale-110 hover:border-blue-500 hover:text-blue-500 text-blue-200 border border-blue-200 rounded-[10px] py-1 px-2 mx-3 my-1 w-[95px] h-[30px] flex justify-center items-center`}
                 //    className={`${lanActive===i ? css.laan : ""} ${css.nolan}`}
                 key={i}
-                onClick={() => selectLan(lan, i)}
+                onClick={() => selectLan(lan.id, i)}
               >
-                {lan}
+                {lan.id}
               </div>
             ))}
           </div>
@@ -157,17 +157,17 @@ const Game = () => {
                     : ""
                 } flex justify-center items-center tranform hover:scale-110 hover:border-blue-500 hover:text-blue-500 border border-blue-200 m-2 text-blue-200 w-[40px] h-[40px] rounded-[5px]  `}
                 key={i}
-                onClick={() => selectLevel(level, i)}
+                onClick={() => selectLevel(level.id, i)}
                 $
               >
-                {level}
+                {level.id}
               </div>
             ))}
           </div>
           <div className="grid grid-cols-10 bg-baseColor rounded-2xl my-3 py-5 w-full">
-            {lesson.map((lesson, i) => (
+            {arrLesson.map((lesson, i) => (
               <div
-                onClick={() => selectLesson(lesson, i)}
+                onClick={() => selectLesson(lesson.id, i)}
                 key={i}
                 className={`${
                   lessonActive === i
@@ -176,7 +176,7 @@ const Game = () => {
                 } flex justify-center items-center tranform hover:scale-110 hover:border-blue-500 hover:text-blue-500 border border-blue-200 m-2 text-blue-200 w-[40px] h-[40px] rounded-[5px]  `}
                 // className=" w-[20px] h-[20px] rounded-[5px] tranform hover:scale-110 hover:border-blue-500 hover:text-blue-500 border border-blue-200 m-2 text-blue-200"
               >
-                {lesson}
+                {lesson.id}
               </div>
             ))}
           </div>
@@ -193,9 +193,21 @@ const Game = () => {
           </div>
         </Modal>
 
+        <Modal closeConfirm={closeGame} show={showNewGame}>
+          <div style={{ display: "flex", flexDirection: "column" }}>
+            Шинэ толооом үүсгэх үү ?
+            <button
+              className="border border-gray-400 mx-3"
+              onClick={() => newGame()}
+            >
+              Тийм
+            </button>
+          </div>
+        </Modal>
+
         <div className="grid grid-cols-4 bg-baseColor rounded-2xl w-full my-3 py-5 ">
           {Gamectx.games.map((game, i) => {
-            // console.log(game);
+            // console.log(game.id);
             return (
               <div className="border border-blue-700 text-blue-600 w-[85px] h-[50px] flex flex-col justify-center items-center p-3 m-2 rounded-xl">
                 <div className="text-[12px]">

@@ -5,8 +5,8 @@ const TranslateView = (props) => {
     const [customerAnswer, setCustomerAnswer] = useState(); 
     // console.log(props.translate)
     return (
-        <div>translate
-            {props.translate.map(el => (
+        <div>translate virew
+            {/* {props.translate.map(el => (
                 <div>
                     
                     <input type="text" placeholder={el.questionAnswer} />
@@ -19,7 +19,7 @@ const TranslateView = (props) => {
                
                 <div>{el.questionText}</div>
                 </div>
-            ))}
+            ))} */}
         </div>
         //  {props.lessons.map(el => (
         //     <Lesson key={el[0]} lesson={el}/>

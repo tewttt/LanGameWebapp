@@ -1,36 +1,47 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import css from "./style.module.css";
-import {Box, Checkbox, FormControl, FormLabel, FormGroup, FormHelperText, FormControlLabel} from '@mui/material';
+import {
+  Box,
+  Checkbox,
+  FormControl,
+  FormLabel,
+  FormGroup,
+  FormHelperText,
+  FormControlLabel,
+} from "@mui/material";
 
 const ExamView = (props) => {
-    const [skills, setSkills] = useState([]);
-    const handleSkillChange = (event) => {
-        const index = skills.indexOf(event.target.value)
-        if(index === -1) {
-            setSkills([ ...skills, event.target.value])
-        } else {
-            setSkills(skills.filter((skill) => skill !== event.target.value))
-        }
+  const [skills, setSkills] = useState([]);
+  const handleSkillChange = (event) => {
+    const index = skills.indexOf(event.target.value);
+    if (index === -1) {
+      setSkills([...skills, event.target.value]);
+    } else {
+      setSkills(skills.filter((skill) => skill !== event.target.value));
     }
-    // console.log(props.exam)
-   
-    return (
-        <div className={css.body}> Exam
-            
-            {props.exam.map(el => (
-                <div className={css.answers}>{el.answer}
-                    <input placeholder={el.questionText}/>
-                    {
-                        el.options.map(el=> (
-                           
-                                <div className={css.answer}>{el.optionText}</div>
-                                
-                       
-                        ))
-                    }
-                  
+  };
+  // console.log(props.exam)
 
-                    {/* <Box>
+  return (
+    <div className={css.body}>
+      Exam view
+      {/* {props.exam.map((el) => (
+        <div className={css.answers}>
+          {el.answer}
+          <input placeholder={el.questionText} />
+          {el.options.map((el) => (
+            <div className={css.answer}>{el.optionText}</div>
+          ))}
+        </div>
+      ))} */}
+    </div>
+  );
+};
+
+export default ExamView;
+
+{
+  /* <Box>
                     <FormControl error>
                         <FormLabel>харуилт</FormLabel>
                         <FormGroup>
@@ -51,11 +62,5 @@ const ExamView = (props) => {
                         </FormGroup>
                         <FormHelperText>хариулт сонгох</FormHelperText>
                     </FormControl>
-                </Box> */}
-                </div>
-            ))}
-        </div>
-    )
+                </Box> */
 }
-
-export default ExamView;

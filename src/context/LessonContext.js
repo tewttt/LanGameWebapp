@@ -33,8 +33,7 @@ const getState = {
   video: [],
   grammar: [],
   newWord: [],
-
-}
+};
 export const LessonStore = (props) => {
   const [state, setState] = useState(initialState);
   const [lessons, setLessons] = useState([]);
@@ -65,7 +64,6 @@ export const LessonStore = (props) => {
   const [lanId, setLanId] = useState([]);
   const [levelId, setLevelId] = useState([]);
   const [lessonsId, setLessonsId] = useState([]);
-  const [lesson, setLesson] = useState([]);
 
   useEffect(() => {
     Language();
@@ -103,8 +101,11 @@ export const LessonStore = (props) => {
     };
   };
 
-  const Lessons = (level , chLan) => {
-    const lessonsRef = collection(db, `lessons/${chLan}/topics/${level}/lessons`);
+  const Lessons = (level, chLan) => {
+    const lessonsRef = collection(
+      db,
+      `lessons/${chLan}/topics/${level}/lessons`
+    );
     const unsubcribe = onSnapshot(lessonsRef, (snapshot) => {
       setLessonsId(() => {
         const list = snapshot.docs.map((doc) => {
@@ -117,28 +118,77 @@ export const LessonStore = (props) => {
       unsubcribe();
     };
   };
-  console.log(lesson)
-  // setState({ ...state, exam: quiz });
-  // const Lesson =async (id ,chLan, chLevel) => {
-  
-  //     const lessonRef = doc(db, `lessons/${chLan}/topics/${chLevel}/lessons/`, id);
-  //      onSnapshot(lessonRef, (doc) => {
-  //     setLesson({...lesson, base: doc.data()})
-  //   });
-  //   const examRef = doc (db, `lessons/${chLan}/topics/${chLevel}/lessons/${id}/exam`, id);
-  //   onSnapshot(examRef, (doc) => {
-  //     setLesson({...lesson, exam: doc.data(),})
-  //   });
-  
-  // };
+
+  const [lesson, setLesson] = useState([]);
+  const [id, setId] = useState("");
+  const [chLan, setChLan] = useState("");
+  const [chLevel, setChLevel] = useState("");
+  const [exam, setExam] = useState([]);
+  const [translate, setTranslate] = useState([]);
+  const [word, setWord] = useState([]);
+  const [grammar, setGrammar] = useState([]);
+  // console.log(id, chLan, chLevel);
+  // console.log(lesson)
+  // console.log(exam);
+  // console.log(translate)
+  // console.log(word)
+  // console.log(grammar)
 
 
-  const Lesson = (id ,chLan, chLevel) => {
-    const lessonRef = doc(db, `lessons/${chLan}/topics/${chLevel}/lessons/`, id);
-     onSnapshot(lessonRef, (doc) => {
-      setLesson(doc.data(), doc.id)
+  const Lesson = (id, chLan, chLevel) => {
+    setId(id);
+    setChLan(chLan);
+    setChLevel(chLevel);
+    const lessonRef = doc(
+      db,
+      `lessons/${chLan}/topics/${chLevel}/lessons/`,
+      id
+    );
+    onSnapshot(lessonRef, (doc) => {
+      setLesson(doc.data(), doc.id);
     });
-   
+  };
+
+  const examfun = () => {
+    const examRef = doc(
+      db,
+      `lessons/${chLan}/topics/${chLevel}/lessons/${id}/exam`,
+      id
+    );
+    onSnapshot(examRef, (doc) => {
+      setExam( doc.data() );
+    });
+  };
+
+  const translatefun = () => {
+    const translateRef = doc(
+      db,
+      `lessons/${chLan}/topics/${chLevel}/lessons/${id}/translate`,
+      id
+    );
+    onSnapshot(translateRef, (doc) => {
+      setTranslate(doc.data());
+    });
+  };
+  const wordfun = () => {
+    const wordRef = doc(
+      db,
+      `lessons/${chLan}/topics/${chLevel}/lessons/${id}/word`,
+      id
+    );
+    onSnapshot(wordRef, (doc) => {
+      setWord(doc.data());
+    });
+  };
+  const grammarfun = () => {
+    const grammarRef = doc(
+      db,
+      `lessons/${chLan}/topics/${chLevel}/lessons/${id}/grammar`,
+      id
+    );
+    onSnapshot(grammarRef, (doc) => {
+      setTranslate(doc.data());
+    });
   };
 
   const createLesson = async () => {
@@ -243,6 +293,15 @@ export const LessonStore = (props) => {
         Lessons,
         Lesson,
         Language,
+        examfun,
+        translatefun,
+        wordfun,
+        grammarfun,
+        exam,
+        translate,
+        word,
+        grammar,
+
         createLesson,
         saveBase,
         saveExam,
