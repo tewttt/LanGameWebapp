@@ -92,7 +92,7 @@ export const LessonStore = (props) => {
           return { id: doc.id };
           // return { ...doc.data(), id: doc.id };
         });
-        console.log(list);
+        // console.log(list);
         return [...list];
       });
     });

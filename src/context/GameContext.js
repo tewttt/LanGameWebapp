@@ -14,6 +14,7 @@ import {
   updateDoc,
   deleteDoc,
   serverTimestamp,
+  where,
 } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 
@@ -27,54 +28,40 @@ export const GameStore = (props) => {
   const [languageId, setLanguage] = useState("");
   const [levelId, setLevel] = useState("");
   const [lessonId, setLesson] = useState("");
-  console.log(games);
-  console.log(languageId, levelId, lessonId);
-  useEffect(() => {
-    const unsubscribe = onSnapshot(GameRef, (snapshot) => {
-      setGames((prev) => {
-        const list = snapshot.docs.map((doc) => {
-          return { ...doc.data(), id: doc.id };
-        });
+  // console.log(games);
+  // console.log(languageId, levelId, lessonId);
 
-        list.map(async (e, i) => {
-          let players = [];
+  // console.log(games)
+  const chGames = async (chLan, chLevel, chLesson) => {
+    console.log(chLan, chLevel, chLesson);
+    const q = query(
+      collection(db, "game"),
+      where("language", "==", chLan),
+      where("level", "==", chLevel),
+      where("lesson", "==", chLesson)
+    );
+    const querySnapshot = await getDocs(q);
 
-          // if (
-          //   e.language === languageId &&
-          //   e.level === levelId &&
-          //   e.lesson === lessonId
-          // ) {
-          //   console.log(players);
-          //   const PlayersRef = collection(db, `game/${e.id}/players`);
-          //   const unsubplayer = onSnapshot(PlayersRef, (snapshot) => {
-          //     snapshot.docs.map(
-          //       // (doc) => players.push({ ...doc.data(), id: doc.id })
-
-          //       console.log(doc.data())
-          //     );
-          //   });
-          // }
-
-          const PlayersRef = collection(db, `game/${e.id}/players`);
-          const unsubplayer = onSnapshot(PlayersRef, (snapshot) => {
-            snapshot.docs.map(
-              (doc) => players.push({ ...doc.data(), id: doc.id })
-
-              // console.log(doc.data())
-            );
-          });
-
-          list[i].players = players;
-        });
-        // return { ...list };
-        return [...list];
-      });
+   
+    const tmp = [];
+    querySnapshot.forEach((doc) => {
+      tmp.push({ ...doc.data(), id: doc.id });
     });
-    return () => {
-      unsubscribe();
-    };
-  }, []);
-  // const LessonRef = doc(db ,"english")
+  
+    tmp.map((e, i) => {
+      
+      let players = [];
+      const PlayersRef = collection(db, `game/${e.id}/players`);
+        const unsubplayer = onSnapshot(PlayersRef, (snapshot) => {
+          snapshot.docs.map(
+            (doc) => players.push({ ...doc.data(), id: doc.id })
+          );
+        });
+
+        tmp[i].players = players;
+    })
+    setGames(tmp);
+  };
 
   const createGame = async (state, chLan, chLevel, chLesson) => {
     // console.log(chLan);
@@ -139,10 +126,13 @@ export const GameStore = (props) => {
     const length = game.players.length;
     const players = game.players;
 
+    // history.push(`/newGame/${id}`)
+
     players.map((e, i) => {
       if (e.id === auth.currentUser?.uid) {
         return history.push(`/newGame/${id}`);
-      } else if (length < 3) {
+      }
+       else if (length < 3) {
         const PlayersRef = doc(db, `game/${id}/players`, state.authId);
         const add = setDoc(PlayersRef, {
           state,
@@ -165,6 +155,7 @@ export const GameStore = (props) => {
         createGame,
         join,
         deletePlayer,
+        chGames,
       }}
     >
       {props.children}
@@ -198,3 +189,38 @@ export default GameContext;
 //   alert("Тоглогч бүрдсэн байна, Өөр ширээ сонгоно уу");
 //   history.push("/game");
 // }
+
+
+
+
+// useEffect(() => {
+  //   const unsubscribe = onSnapshot(GameRef, (snapshot) => {
+  //     setGames((prev) => {
+  //       const list = snapshot.docs.map((doc) => {
+  //         return { ...doc.data(), id: doc.id };
+  //       });
+
+  //       list.map(async (e, i) => {
+  //         let players = [];
+
+  //         const PlayersRef = collection(db, `game/${e.id}/players`);
+  //         const unsubplayer = onSnapshot(PlayersRef, (snapshot) => {
+  //           snapshot.docs.map(
+  //             (doc) => players.push({ ...doc.data(), id: doc.id })
+
+  //             // console.log(doc.data())
+  //           );
+  //         });
+
+  //         list[i].players = players;
+  //       });
+  //       // return { ...list };
+  //       return [...list];
+  //     });
+  //   });
+  //   return () => {
+  //     unsubscribe();
+  //   };
+  // }, []);
+
+  // const LessonRef = doc(db ,"english")

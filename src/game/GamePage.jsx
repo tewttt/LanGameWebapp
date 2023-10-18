@@ -96,11 +96,13 @@ const Game = () => {
   const selectLesson = (lesson, i) => {
     setLessonActive(i);
     setChLesson(lesson);
-    showGame();
+    Gamectx.chGames(chLan, chLevel, chLesson)
+    // showGame();
 
     // Gamectx.createGame(state, chLan, chLevel, chLesson);
   };
   const join = (game) => {
+    // console.log(game.id)
     Gamectx.join(state, game, chLan, chLevel, chLesson);
   };
 
@@ -193,7 +195,7 @@ const Game = () => {
           </div>
         </Modal>
 
-        <Modal closeConfirm={closeGame} show={showNewGame}>
+        {/* <Modal closeConfirm={closeGame} show={showNewGame}>
           <div style={{ display: "flex", flexDirection: "column" }}>
             Шинэ толооом үүсгэх үү ?
             <button
@@ -203,14 +205,15 @@ const Game = () => {
               Тийм
             </button>
           </div>
-        </Modal>
+        </Modal> */}
 
         <div className="grid grid-cols-4 bg-baseColor rounded-2xl w-full my-3 py-5 ">
           {Gamectx.games.map((game, i) => {
-            // console.log(game.id);
+            // console.log(game);
             return (
               <div className="border border-blue-700 text-blue-600 w-[85px] h-[50px] flex flex-col justify-center items-center p-3 m-2 rounded-xl">
                 <div className="text-[12px]">
+                  players
                   Players 3/{game.players.length}
                 </div>
 
