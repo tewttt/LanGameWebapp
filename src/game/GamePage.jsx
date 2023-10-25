@@ -1,18 +1,12 @@
 import React, { useState, useContext, useEffect } from "react";
 import ToolSidebar from "../components/ToolSidebar";
-import { useHistory, useParams } from "react-router-dom";
+
 import GameContext from "../context/GameContext";
 import UserContext from "../context/UserContext";
 import LessonContext from "../context/LessonContext";
 import { getAuth } from "firebase/auth";
 import Modal from "../components/General/Modal";
 
-// toglogchdiin id g GameContext ru ilgeeh , medeelliig tsugluulah
-// New game towchin dr darhad Togloh hvselt ilgeesen hvmvvsiig GameContext neg togloomiin collectiond tsugluulah
-// New game huudas ruu shiljih
-// Togloom duussanii daraa UserContext dr game iin data vvsgeh
-// Rule bichih
-// firebase admin sudlah
 const auth = getAuth();
 const Game = () => {
   const [state, setState] = useState({});
@@ -37,15 +31,8 @@ const Game = () => {
   const [chLesson, setChLesson] = useState("");
   const [lessonActive, setLessonActive] = useState("");
 
-  const [lesson, setLesson] = useState(Array(30).fill(null));
   const arrChoose = ["Online", "Friends"];
-  // const arrLanguage = ["English", "Mongolia", "Korea"];
-  // let arrLanguage = [];
-  // const arrLevel = ["A1", "A2", "B1", "B1+", "B2", "B2+"];
-
-  const history = useHistory();
   const [show, setShow] = useState(false);
-  const [showNewGame, setShowNewGame] = useState(false);
 
   useEffect(() => {
     if (Userctx.currentUser) {
@@ -59,27 +46,18 @@ const Game = () => {
   }, [Userctx.currentUser, Gamectx.games]);
 
   const closeConfirm = () => {
-    setShow(false);
-    // setModal({show:false,game:null})
+    // setShow(false);
+    setShow({ show: false, game: null });
   };
   const showConfirm = (game) => {
     // {show:true, selectedGame: game}
     setShow({ ...show, show: true, game: game });
   };
 
-  const showGame = () => {
-    // {show:true, selectedGame: game}
-    setShowNewGame(true);
-  };
-  const closeGame = () => {
-    // {show:true, selectedGame: game}
-    setShowNewGame(false);
-  };
-  // Шинэ тоглоом үүсгэж байна
-
-  const selectChoose = (lan, i) => {
+  const selectChoose = (ch, i) => {
+    console.log(ch);
     setChooseActive(i);
-    setChoose(lan);
+    setChoose(ch);
   };
   const selectLan = (lan, i) => {
     setLanActive(i);
@@ -96,23 +74,16 @@ const Game = () => {
   const selectLesson = (lesson, i) => {
     setLessonActive(i);
     setChLesson(lesson);
-    Gamectx.chGames(chLan, chLevel, chLesson)
-    // showGame();
-
-    // Gamectx.createGame(state, chLan, chLevel, chLesson);
+    Gamectx.chGames(chLan, chLevel, lesson);
   };
   const join = (game) => {
-    // console.log(game.id)
-    Gamectx.join(state, game, chLan, chLevel, chLesson);
+    Gamectx.join(state, game);
   };
 
   const newGame = () => {
     Gamectx.createGame(state, chLan, chLevel, chLesson);
   };
 
-  // console.log(chLan);
-  // console.log(chLevel);
-  // console.log(chLesson);
   return (
     <div className="flex flex-col justify-center">
       <ToolSidebar />
@@ -148,7 +119,6 @@ const Game = () => {
               </div>
             ))}
           </div>
-
           <div className=" flex justify-center bg-baseColor rounded-2xl my-3 py-5 w-full">
             {arrLevel.map((level, i) => (
               <div
@@ -195,32 +165,20 @@ const Game = () => {
           </div>
         </Modal>
 
-        {/* <Modal closeConfirm={closeGame} show={showNewGame}>
-          <div style={{ display: "flex", flexDirection: "column" }}>
-            Шинэ толооом үүсгэх үү ?
-            <button
-              className="border border-gray-400 mx-3"
-              onClick={() => newGame()}
-            >
-              Тийм
-            </button>
-          </div>
-        </Modal> */}
-
         <div className="grid grid-cols-4 bg-baseColor rounded-2xl w-full my-3 py-5 ">
           {Gamectx.games.map((game, i) => {
             // console.log(game);
             return (
-              <div className="border border-blue-700 text-blue-600 w-[85px] h-[50px] flex flex-col justify-center items-center p-3 m-2 rounded-xl">
-                <div className="text-[12px]">
-                  players
-                  Players 3/{game.players.length}
-                </div>
+              <div
+                key={i}
+                className="border border-blue-700 text-blue-600 w-[85px] h-[50px] flex flex-col justify-center items-center p-3 m-2 rounded-xl"
+              >
+                <div className="text-[12px]">Players 4/{game.count}</div>
 
                 <div
                   className=" text-xl hover:text-red-500"
-                  onClick={() => showConfirm(game)}
-                  // onClick={() => join(game[1])}
+                  // onClick={() => showConfirm(game)}
+                  onClick={() => join(game)}
                 >
                   <p>join</p>
                 </div>
@@ -242,6 +200,18 @@ const Game = () => {
 };
 
 export default Game;
+
+// <Modal closeConfirm={closeGame} show={showNewGame}>
+//         <div style={{ display: "flex", flexDirection: "column" }}>
+//           Шинэ толооом үүсгэх үү ?
+//           <button
+//             className="border border-gray-400 mx-3"
+//             onClick={() => newGame()}
+//           >
+//             Тийм
+//           </button>
+//         </div>
+//       </Modal>
 
 // const [english, setEnglish] = useState([])
 // const [mongolia, setMongolia] = useState([])

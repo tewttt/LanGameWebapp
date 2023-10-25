@@ -69,7 +69,7 @@ export const LessonStore = (props) => {
     Language();
   }, []);
 
-  const Language = () => {
+  const Language = (lan) => {
     const unsubcribe = onSnapshot(lessonsRef, (snapshot) => {
       setLanId(() => {
         const list = snapshot.docs.map((doc) => {
@@ -134,7 +134,6 @@ export const LessonStore = (props) => {
   // console.log(word)
   // console.log(grammar)
 
-
   const Lesson = (id, chLan, chLevel) => {
     setId(id);
     setChLan(chLan);
@@ -156,7 +155,7 @@ export const LessonStore = (props) => {
       id
     );
     onSnapshot(examRef, (doc) => {
-      setExam( doc.data() );
+      setExam(doc.data());
     });
   };
 
@@ -187,7 +186,7 @@ export const LessonStore = (props) => {
       id
     );
     onSnapshot(grammarRef, (doc) => {
-      setTranslate(doc.data());
+      setGrammar(doc.data());
     });
   };
 

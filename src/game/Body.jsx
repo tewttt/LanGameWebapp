@@ -9,77 +9,45 @@ import GameContext from "../context/GameContext";
 const auth = getAuth();
 
 const Body = (props) => {
+  // console.log(props);
   const ctx = useContext(GameContext);
   const [game, setGame] = useState({});
   const { id } = useParams();
-
-  const redPlayer = {
-    bg: "red",
-    path: [1, 2, 3, 4],
-    currentPosition: 0,
-    curretStep: null,
-    // control: "#",
-  };
-  const bluePlayer = {
-    bg: "blue",
-    path: [1, 2, 3, 4],
-    currentPosition: 1,
-    curretStep: null,
-    // control: "#",
-  };
-  const purplePlayer = {
-    bg: "purple",
-    path: [1, 2, 3, 4],
-    currentPosition: 2,
-    curretStep: null,
-    // control: "#",
-  };
-  const orangePlayer = {
-    bg: "orange",
-    path: [1, 2, 3, 4],
-    currentPosition: 3,
-    curretStep: null,
-    // control: "#",
-  };
-  useEffect(() => {
-    if (ctx.games) {
-      const game = ctx.games.find((item) => item.id === id);
-      setGame(game);
-    }
-  }, [ctx.games]);
+  const [point, setPoint] = useState("");
 
   const positions = [
-    { position: "absolute", top: 100, left: -45 },
-    { position: "absolute", top: 100, right: -45 },
-    { position: "absolute", top: 300, right: -45 },
-    { position: "absolute", bottom: 10, left: -45 },
+    { position: "absolute", top: 100, left: 0 },
+    { position: "absolute", top: 100, right: 0 },
+    { position: "absolute", bottom: 100, right: 0 },
+    { position: "absolute", bottom: 100, left: 0 },
   ];
 
-  const [active, setActive] = useState();
   const [turn, setTurn] = useState(0);
-  const [currentPlayer, setCurrentPlayer] = useState("");
+  const [dice, setDice] = useState("");
 
   const autoTurn = () => {
-    let i = 0;
-    for (i = 0; i < 4; i++) {
-      if (currentPlayer === 0) {
-        console.log("dd");
-        break;
-      }
-    }
+    setTurn((prev) => {
+      let next = prev + 1;
+      if (next > 2) next = 0;
+      return next;
+    });
   };
   const onDiceChange = (val) => {
-    console.log(val);
+    // console.log(val);
+    // setDice(val);
+    ctx.addPoint(props.id, val);
+    // shoo hayna
     // 1. Nuudel
     // 2. Eeljee shiljiilne
+    // autoTurn();
   };
 
   return (
-    <div className="flex flex-col m-auto  ">
-      <div className="relative">
-        {game?.players?.map((e, i) => {
-          console.log(e);
-          return (
+    // <div className="flex flex-col m-auto  ">
+    <div className="relative w-full h-full">
+      {props?.players?.map((e, i) => {
+        return (
+          <>
             <div
               id={e}
               style={{ ...positions[i] }}
@@ -87,26 +55,45 @@ const Body = (props) => {
               key={i}
             >
               <p className="text-[10px]">{e.state.name}</p>
-              <img
-                src={zur}
-                style={{ ...redPlayer }}
-                className="w-[50px] h-[50px] rounded-[50%] "
-              />
+              <img src={zur} className="w-[50px] h-[50px] rounded-[50%] " />
               <p className="text-[10px]">Level</p>
 
               {turn === i && <Dice id={i} onDiceChange={onDiceChange} />}
             </div>
-          );
-        })}
+          </>
+        );
+      })}
+      <div className="absolute top-6 left-11">
+        <Field players={props?.players} />
       </div>
-      <Field />
-      <Horse />
     </div>
+
+    // </div>
   );
 };
 
 export default Body;
 
+// useEffect(() => {
+//   if (ctx.games) {
+//     const game = ctx.games.find((item) => item.id === id);
+//     setGame(game);
+//   }
+// }, [ctx.games]);
+
+{
+  /* {turn === i && (
+              <div className="absolute top-6 left-11">
+                <Field point={e.point} playerId={i} />
+              </div>
+            )} */
+}
+{
+  /* <Field dice={dice} /> */
+}
+{
+  /* <Horse move={move}/> */
+}
 // Тоглогчид тоглох хүсэлт илгээх
 // Идэвхитэй 4 тоглогчыг
 // Тоглогч дээр дарахад тоглогчын мэдээллийг харуулах. Оноо , нэр ...selection:
@@ -139,3 +126,32 @@ export default Body;
 // }, [props.game.players])
 
 // console.log(players)
+
+// const redPlayer = {
+//   bg: "red",
+//   path: [1, 2, 3, 4],
+//   currentPosition: 0,
+//   curretStep: null,
+//   // control: "#",
+// };
+// const bluePlayer = {
+//   bg: "blue",
+//   path: [1, 2, 3, 4],
+//   currentPosition: 1,
+//   curretStep: null,
+//   // control: "#",
+// };
+// const purplePlayer = {
+//   bg: "purple",
+//   path: [1, 2, 3, 4],
+//   currentPosition: 2,
+//   curretStep: null,
+//   // control: "#",
+// };
+// const orangePlayer = {
+//   bg: "orange",
+//   path: [1, 2, 3, 4],
+//   currentPosition: 3,
+//   curretStep: null,
+//   // control: "#",
+// };

@@ -1,0 +1,27 @@
+{
+  "files": {
+    "main.css": "/static/css/main.00b881f5.css",
+    "main.js": "/static/js/main.a9648901.js",
+    "static/js/787.a8f6fc5e.chunk.js": "/static/js/787.a8f6fc5e.chunk.js",
+    "static/media/greenstar.jpg": "/static/media/greenstar.08989f2025c789864416.jpg",
+    "static/media/ironman3.png": "/static/media/ironman3.74d9681043c3f29fd7f7.png",
+    "static/media/earth.jpg": "/static/media/earth.b6695dbf779fe5a07b9c.jpg",
+    "static/media/ball.png": "/static/media/ball.ae15f87efb8d33a4a6cf.png",
+    "static/media/1.jpg": "/static/media/1.a549a4e97626976b89f8.jpg",
+    "static/media/back.jpg": "/static/media/back.cd6419aba23e1110bc54.jpg",
+    "static/media/ironman.png": "/static/media/ironman.398154684be295b7309b.png",
+    "static/media/purpleHorse.png": "/static/media/purpleHorse.d2a27ce50078913006f6.png",
+    "static/media/blueHorse.png": "/static/media/blueHorse.655ee79184d3c3eaf990.png",
+    "static/media/redHorse.png": "/static/media/redHorse.d710f8395d882a30e9aa.png",
+    "static/media/orangeHorse.png": "/static/media/orangeHorse.967b1a485c5a1e7259cc.png",
+    "index.html": "/index.html",
+    "static/media/wallet.svg": "/static/media/wallet.00a6de2d4fe46a74cf293d9046187bbf.svg",
+    "main.00b881f5.css.map": "/static/css/main.00b881f5.css.map",
+    "main.a9648901.js.map": "/static/js/main.a9648901.js.map",
+    "787.a8f6fc5e.chunk.js.map": "/static/js/787.a8f6fc5e.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.00b881f5.css",
+    "static/js/main.a9648901.js"
+  ]
+}

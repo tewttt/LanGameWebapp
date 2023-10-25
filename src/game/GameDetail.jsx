@@ -10,31 +10,25 @@ import { getAuth } from "firebase/auth";
 const auth = getAuth();
 const GameDetail = () => {
   const ctx = useContext(GameContext);
-  const [game, setGame] = useState("");
-  const [player, setPlayer] = useState("");
-  const { id } = useParams();
-
+  const [game, setGame] = useState(ctx.game);
+  const [players, setPlayer] = useState(ctx.players);
+  const [id, setID] = useState(ctx.id)
+  const [onePlayer, setOnePlayer] = useState("");
+  // console.log(players);
+  // console.log(onePlayer);
+ 
   useEffect(() => {
-    if (ctx.games) {
-      const game = ctx.games.find((item) => item.id === id);
-      setGame(game);
-    }
-  }, [ctx.games]);
-
-  useEffect(() => {
-    if (game) {
-      const player = game.players.find(
-        (item) => item.id === auth.currentUser?.uid
-        // item => console.log(item.id)
-      );
-      setPlayer(player);
-    }
-  }, [game]);
+    const player = players.find(
+      (item) => item.id === auth.currentUser?.uid
+      // (item) => console.log(item.id)
+    );
+    setOnePlayer(player);
+  }, [players]);
 
   const [loader, setLoader] = useState(false);
 
   const logout = () => {
-    ctx.deletePlayer(game, player);
+    ctx.deletePlayer(game, onePlayer);
   };
 
   return (
@@ -58,7 +52,7 @@ const GameDetail = () => {
           </div>
         )}
         <Head />
-        <Body game={game} />
+        <Body game={game} players={ctx.players} id={id}/>
         <Footer />
       </div>
     </div>
