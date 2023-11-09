@@ -59,7 +59,7 @@ const Toolbar = (props) => {
           // className={`${history.location.pathname == '/game' ? 'border border-blue-700 text-blue-500' : ''} w-[120px] h-full border border-blue-200 hover:border-blue-500 hover:text-blue-500 px-5 py-1 rounded-[5px] mx-1 text-sm sm:w-[190px] lg:text-[24px] sm:text-[18px]`}
           onClick={game}
         >
-          Тоглох{" "}
+          Тоглоом{" "}
         </div>
       </div>
       <div className="flex items-center pr-2">

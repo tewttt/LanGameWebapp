@@ -1,9 +1,8 @@
 import React from "react";
-import { Switch, Route} from "react-router-dom";
+import { Switch, Route, useHistory } from "react-router-dom";
 import LessonBase from "../component/LessonBase";
 import Exam from "../component/Exam/index.js";
 import Translate from "../component/Translate";
-import { useHistory } from "react-router-dom";
 import Word from "../component/Word";
 import Grammar from "../component/Grammar";
 

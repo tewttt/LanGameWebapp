@@ -13,13 +13,13 @@ import { GameStore } from "./context/GameContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <React.StrictMode>
+  // <React.StrictMode>
     <BrowserRouter>
       <LessonStore>
         <UserStore>
           <MemberStore>
-            <GameStore>
-              {/* <ToastContainer
+            {/* <GameStore> */}
+            {/* <ToastContainer
           position='top-right'
           autoClose={300000}
           closeOnClick
@@ -28,13 +28,13 @@ root.render(
           >
             
           </ToastContainer> */}
-              <App />
-            </GameStore>
+            <App />
+            {/* </GameStore> */}
           </MemberStore>
         </UserStore>
       </LessonStore>
     </BrowserRouter>
-  </React.StrictMode>
+  // </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function

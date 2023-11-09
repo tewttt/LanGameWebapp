@@ -28,7 +28,7 @@ const Choice = () => {
   const selectLevel = (level, i) => {
     setLevelActive(i);
     setChLevel(level);
-    ctx.Lessons(level, chLan);
+    ctx.Lessons(level, chLan); 
   };
 
   const view = (id, i) => {

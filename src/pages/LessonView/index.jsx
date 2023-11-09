@@ -2,10 +2,12 @@ import React, { useContext, useEffect, useState } from "react";
 import css from "./style.module.css";
 import { DefaultPlayer as Video } from "react-html5video";
 import "react-html5video/dist/styles.css";
-import { useParams, useLocation } from "react-router-dom";
+import { useParams, useLocation, Switch, Route , useHistory} from "react-router-dom";
 import StarIcon from "@mui/icons-material/Star";
 import TranslateView from "../../components/translateView";
 import ExamView from "../../components/examView";
+import GrammarView from "../../components/grammarView";
+import WordView from "../../components/wordView";
 import ToolSidebar from "../../components/ToolSidebar";
 import LessonContext from "../../context/LessonContext";
 
@@ -15,18 +17,69 @@ function useQuery() {
 }
 
 const LessonView = (props) => {
+  const history = useHistory();
   const [rating, setRating] = useState(null);
   const ctx = useContext(LessonContext);
   const { id } = useParams();
 
-  // console.log(id);
-  // console.log(ctx.lesson.name);
+ const word = () => {
+  history.push("")
+  ctx.wordfun()
+ }
+ const video = () => {
+  history.push("")
+  // ctx.grammarfun()
+ }
+ const grammar = () => {
+  history.push("")
+  // ctx.grammarfun()
+ }
+ const exam = () => {
+  history.push("")
+  // ctx.grammarfun()
+ }
+ const translate = () => {
+  history.push("")
+  // ctx.grammarfun()
+ }
  
 
   return (
     <div>
       <ToolSidebar />
       <div className="flex flex-col pt-[50px] text-sm text-white text-[12px]">
+        <div className="flex justify-between m-3 items-center uppercase">
+          <div onClick={video}>video</div>
+          <div
+            className="border-b-2 pb-2 rounded-xl"
+            onClick={grammar}
+          >
+            grammar
+            {/* <img src={lessonId.state.grammar} className="w-[300px] h-[300px] sm:w-[500px] sm:h-[500px]"/> */}
+          </div>
+          <div onClick={word}>
+            newword
+            {/* <img src={lessonId.state.newWord} className="w-[300px] h-[300px] sm:w-[500px] sm:h-[500px]"/> */}
+          </div>
+          <div onClick={() => ctx.translatefun()}>
+            translate
+            {/* <TranslateView /> */}
+          </div>
+          <div onClick={() => ctx.examfun()}>
+            Exam
+            {/* <ExamView exam={lessonId.state.exam}/> */}
+            {/* <ExamView/> */}
+          </div>
+        </div>
+        <button >Тоглох</button>
+
+        <Switch>
+          <Route path="" />
+          <Route path="" component={TranslateView}/>
+          <Route path="" component={WordView}/>
+          <Route path="" component={ExamView}/>
+          <Route path="" component={GrammarView}/>
+        </Switch>
         <div className="flex flex-col md:flex-row md:mb-2">
           <div className="flex mt-2 justify-around md:mt-0">
             {/* <div className="mx-3 text-gray-300 ">Хэл: {lessonId.state.base.language}</div>
@@ -57,29 +110,9 @@ const LessonView = (props) => {
                 className="w-[300px] h-[300px] sm:w-[500px] sm:h-[500px]"
               />
             </div>
-           
-
           </div>
         </div>
 
-        <div>
-          <div className={css.grammar} onClick={() => ctx.grammarfun()}>
-             
-              grammar
-              {/* <img src={lessonId.state.grammar} className="w-[300px] h-[300px] sm:w-[500px] sm:h-[500px]"/> */}
-          </div>
-          <div className={css.grammar} onClick={() => ctx.wordfun()}>
-              newword
-              {/* <img src={lessonId.state.newWord} className="w-[300px] h-[300px] sm:w-[500px] sm:h-[500px]"/> */}
-          </div>
-          <div className={css.exam} onClick={() => ctx.translatefun()}>translate
-              <TranslateView />
-          </div>
-          <div className={css.exam} onClick={() => ctx.examfun()}>Exam
-              {/* <ExamView exam={lessonId.state.exam}/> */}
-              <ExamView/>
-          </div>
-        </div>
         <div className={css.bodyStar}>
           <StarIcon onClick={() => setRating(1)} className={css.star} />
           <StarIcon onClick={() => setRating(2)} className={css.star} />

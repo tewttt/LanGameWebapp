@@ -20,7 +20,7 @@ const ExamView = (props) => {
       setSkills(skills.filter((skill) => skill !== event.target.value));
     }
   };
-  // console.log(props.exam)
+  // console.log(props.exam);
 
   return (
     <div className={css.body}>

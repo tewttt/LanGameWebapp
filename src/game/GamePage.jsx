@@ -1,12 +1,12 @@
 import React, { useState, useContext, useEffect } from "react";
 import ToolSidebar from "../components/ToolSidebar";
-
+import { GameStore } from "../context/GameContext";
 import GameContext from "../context/GameContext";
 import UserContext from "../context/UserContext";
 import LessonContext from "../context/LessonContext";
 import { getAuth } from "firebase/auth";
 import Modal from "../components/General/Modal";
-
+import useGame from "../hook/useGame";
 const auth = getAuth();
 const Game = () => {
   const [state, setState] = useState({});
@@ -18,7 +18,7 @@ const Game = () => {
   let arrLevel = Lessonctx.levelId;
   let arrLanguage = Lessonctx.lanId;
   let arrLesson = Lessonctx.lessonsId;
-
+  // const { examfun } = useGame(chLan, chLevel, chLesson);
   const [chChoose, setChoose] = useState("");
   const [chooseActive, setChooseActive] = useState(0);
 
@@ -43,7 +43,7 @@ const Game = () => {
       };
       setState(newData);
     }
-  }, [Userctx.currentUser, Gamectx.games]);
+  }, [Userctx.currentUser, Lessonctx.games]);
 
   const closeConfirm = () => {
     // setShow(false);
@@ -70,21 +70,23 @@ const Game = () => {
     setChLevel(level);
     Lessonctx.Lessons(level, chLan);
   };
-
+  // console.log(Lessonctx.chGames);
   const selectLesson = (lesson, i) => {
     setLessonActive(i);
     setChLesson(lesson);
-    Gamectx.chGames(chLan, chLevel, lesson);
+    Lessonctx.chGames(chLan, chLevel, lesson);
   };
   const join = (game) => {
-    Gamectx.join(state, game);
+    Lessonctx.join(state, game, chLan, chLevel, chLesson);
+    // examfun(game.id);
   };
 
   const newGame = () => {
-    Gamectx.createGame(state, chLan, chLevel, chLesson);
+    Lessonctx.createGame(state, chLan, chLevel, chLesson);
   };
 
   return (
+    // <GameStore>
     <div className="flex flex-col justify-center">
       <ToolSidebar />
 
@@ -166,7 +168,7 @@ const Game = () => {
         </Modal>
 
         <div className="grid grid-cols-4 bg-baseColor rounded-2xl w-full my-3 py-5 ">
-          {Gamectx.games.map((game, i) => {
+          {Lessonctx.games.map((game, i) => {
             // console.log(game);
             return (
               <div
@@ -196,6 +198,7 @@ const Game = () => {
         {/* <button onClick={join} className=" bg-black rounded-3xl p-3 border border-baseBlue text-white hover:border-blue-800 hover:bg-baseBlue ">add player Game</button> */}
       </div>
     </div>
+    // </GameStore>
   );
 };
 
