@@ -16,8 +16,8 @@ const Choice = () => {
   const [lanActive, setLanActive] = useState("");
   const [levelActive, setLevelActive] = useState("");
   const [chLevel, setChLevel] = useState("");
-  const [lessonActive, setLessonActive] = useState("");
-  const [chLessons, setChLessons] = useState("");
+  // const [lessonActive, setLessonActive] = useState("");
+  // const [chLessons, setChLessons] = useState("");
 
   const selectLan = (lan, i) => {
     setLanActive(i);
@@ -32,8 +32,8 @@ const Choice = () => {
   };
 
   const view = (id, i) => {
-    setLessonActive(i);
-    setChLessons(id);
+    // setLessonActive(i);
+    // setChLessons(id);
     ctx.Lesson(id, chLan, chLevel);
     history.push(`/lesson/${chLan}/${chLevel}/${id}`);
   };
@@ -79,7 +79,7 @@ const Choice = () => {
               key={i}
               // onClick={() => view(e.id , i)}
             >
-              <Lesson id={e.id} i={i} chLan={chLan} chLevel={chLevel} />
+              <Lesson chLesson={e.id} i={i} chLan={chLan} chLevel={chLevel} />
             </div>
           );
         })}

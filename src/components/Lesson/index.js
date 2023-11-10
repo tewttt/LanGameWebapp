@@ -10,10 +10,10 @@ const Lesson = (props) => {
   const ctx = useContext(LessonContext);
   const [status, setStatus] = useState("Төлбөргүй");
   const history = useHistory();
-  console.log(ctx.lesson);
+  // console.log(ctx.lesson);
   const view = () => {
-    ctx.Lesson(props.id, props.chLan, props.chLevel);
-    history.push(`/lesson/${props.chLan}/${props.chLevel}/${props.id}`);
+    ctx.Lesson(props.chLesson, props.chLan, props.chLevel);
+    history.push(`/lesson/${props.chLan}/${props.chLevel}/${props.chLesson}`);
   };
 
   return (
@@ -30,7 +30,7 @@ const Lesson = (props) => {
           <div className="flex mb-2">
             <div className="mx-3"> {props.chLan}</div>
             <div className="mx-3">{props.chLevel}</div>
-            <div className="mx-3">№{props.id}</div>
+            <div className="mx-3">№{props.chLesson}</div>
           </div>
 
           <div
@@ -46,7 +46,7 @@ const Lesson = (props) => {
           <div className="flex mb-2">
             <div className="mx-3"> {props.chLan}</div>
             <div className="mx-3">{props.chLevel}</div>
-            <div className="mx-3">№{props.id}</div>
+            <div className="mx-3">№{props.chLesson}</div>
           </div>
           <div>
             <AiFillLock

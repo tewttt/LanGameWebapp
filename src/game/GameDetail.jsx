@@ -76,7 +76,7 @@ const GameDetail = () => {
     // props.translate.translate,
     // props.word.word
   );  
-
+    
   // Нийлүүлсэн асуултуудаа хольж , байрыг сольж байна
   useEffect(() => {
     if (questions) {
@@ -133,8 +133,16 @@ const GameDetail = () => {
 }
  // Шоо хаяхад тоглогчын оноог нэмж, ээлжийг шилжүүлж байна
   const onDiceChange = (val) => {
-    addPoint(id, val);
-    autoTurn();
+     addPoint(id, val);
+    autoTurn(); 
+    // console.log(val)
+    // if(val < 6) {
+    //    // addPoint(id, val);
+    // // autoTurn(); 
+    // } else if ( val == 6 ) {
+    //   console.log("")
+    // }
+   
   };
 
   // console.log(time)
@@ -158,26 +166,44 @@ const GameDetail = () => {
         return next;
       });
      
-    }, 500)};
+    }, 5000)};
 
 // Нийт хариулсан тоглогчдын хариултыг зөв болон хугацаагаар шүүж байна
-  const allAnswer = Lessonctx.games[0].questions[questionNumber].answers
+  
+
+  // console.log(Lessonctx.games[0]?.questions[questionNumber])
+  // console.log(questionNumber + "question number")
   const playerCheck = () => {
     // const playerCount = Lessonctx.games[0].questions[questionNumber].answers.length
     const oneCorrectAnswer = Lessonctx.games[0].questions[questionNumber].answerKey
+    const allAnswer = Lessonctx.games[0]?.questions[questionNumber].answers
+    let correctAnswers=  allAnswer?.filter(el => el.answer === oneCorrectAnswer)
+    let sort = correctAnswers?.sort((a , b) => a.time.localeCompare(b.time))
+    console.log(sort,correctAnswers)
+    // setOrder(sort)
+    if (sort?.length === 0  ) {
+      // асуулт , хариулт , шоо хаях
+      questionShow()   
+      addQuestionnumber()
+    
+      clearIntervals()
+      intervalIds.push( setInterval(startTimer, 1000))
+      // // onDiceChange()
+      // autoTurn()
+      sort && setOrder(sort)
+    } else {
+      sort && setOrder(sort)
+    }
    
-    let correctAnswers=  allAnswer.filter(el => el.answer === oneCorrectAnswer)
-    let sort = correctAnswers.sort((a , b) => a.time.localeCompare(b.time))
-    // console.log(sort)
-    setOrder(sort)
+   
   }
  // Асуултын хариултыг Question -ий Answerd нэмж байна
   const saveAnswer = (answer) => {
     addAnswer(answer, currentUser, questionNumber);
     // Тоглогч хариулсан бол хариултын товчыг идэвхигүй болгох
   };
-
-  const answers = allAnswer?.find(item => item.authId === currentUser)
+  const aaAnswer = Lessonctx.games[0]?.questions[questionNumber]?.answers
+  const answer = aaAnswer?.find(item => item.authId === currentUser)
   // console.log(answers.authId)
   
   return (
@@ -242,7 +268,7 @@ const GameDetail = () => {
                     key={i}
                     onClick={() => saveAnswer(e.optionText)}
                     // className={`${lanActive === i ? css.laan : ""} ${css.nolan}`}
-                    className ={`${answers?.authId === currentUser ? "hidden" : "mx-3 border border-red-400 p-2 rounded-2xl"} `}
+                    className ={`${answer?.authId === currentUser ? "hidden" : "mx-3 border border-red-400 p-2 rounded-2xl"} `}
                     // className="mx-3 border border-red-400 p-2 rounded-2xl"
                   >
                     <p>{e.optionText}</p>

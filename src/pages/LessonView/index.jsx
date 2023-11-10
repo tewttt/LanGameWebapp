@@ -71,7 +71,7 @@ const LessonView = (props) => {
             {/* <ExamView/> */}
           </div>
         </div>
-        <button >Тоглох</button>
+        {/* <button >Тоглох</button> */}
 
         <Switch>
           <Route path="" />
