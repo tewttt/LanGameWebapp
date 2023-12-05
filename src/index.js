@@ -9,7 +9,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { UserStore } from "./context/UserContext";
 import { LessonStore } from "./context/LessonContext";
 import { MemberStore } from "./context/MemberContext";
-import { GameStore } from "./context/GameContext";
+
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -18,18 +18,7 @@ root.render(
       <LessonStore>
         <UserStore>
           <MemberStore>
-            {/* <GameStore> */}
-            {/* <ToastContainer
-          position='top-right'
-          autoClose={300000}
-          closeOnClick
-          pauseOnHover={false}
-          theme="dark"
-          >
-            
-          </ToastContainer> */}
             <App />
-            {/* </GameStore> */}
           </MemberStore>
         </UserStore>
       </LessonStore>
@@ -41,3 +30,15 @@ root.render(
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();
+
+
+  {/* <GameStore> */}
+            {/* <ToastContainer
+          position='top-right'
+          autoClose={300000}
+          closeOnClick
+          pauseOnHover={false}
+          theme="dark"
+          >
+            
+          </ToastContainer> */}

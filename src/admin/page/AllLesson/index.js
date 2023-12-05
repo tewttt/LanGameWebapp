@@ -1,6 +1,6 @@
 import React, {useContext, useState} from "react";
-import AdminLessonList from "../component/AdminLessonList";
-import LessonContext from "../../context/LessonContext";
+import AdminLessonList from "../../component/AdminLessonList"
+import LessonContext from "../../../context/LessonContext";
 
 const AllLesson = () => {
     const ctx= useContext(LessonContext)
@@ -26,6 +26,7 @@ const AllLesson = () => {
                 ))}
             </div>
            {chLan === "Англи хэл" ? (
+        
             <AdminLessonList lessons={ctx.englishList} lan={chLan}/>
            ): chLan === 'Солонгос хэл' ? (
             <AdminLessonList lessons={ctx.koreaList} lan={chLan}/>

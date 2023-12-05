@@ -1,14 +1,17 @@
 import React, { useState, useContext, useEffect } from "react";
-import ToolSidebar from "../components/ToolSidebar";
-import { GameStore } from "../context/GameContext";
-import GameContext from "../context/GameContext";
-import UserContext from "../context/UserContext";
-import LessonContext from "../context/LessonContext";
+import ToolSidebar from "../../components/ToolSidebar";
+import GameContext from "../../context/GameContext";
+import UserContext from "../../context/UserContext";
+import LessonContext from "../../context/LessonContext";
 import { getAuth } from "firebase/auth";
-import Modal from "../components/General/Modal";
-import useGame from "../hook/useGame";
+import Modal from "../../components/General/Modal";
+import useGame from "../../hook/useGame";
 const auth = getAuth();
+
+let intervalIds = [];
+const TIME = 10
 const Game = () => {
+  const [time, setTime] = useState(TIME)
   const [state, setState] = useState({});
   const Lessonctx = useContext(LessonContext);
   const Gamectx = useContext(GameContext);
@@ -35,6 +38,31 @@ const Game = () => {
   const [show, setShow] = useState(false);
 
   useEffect(() => {
+    intervalIds.push( setInterval(startTimer, 1000))
+     return ()=>{
+      clearIntervals()
+    }
+  }, []);
+
+  const clearIntervals = () => {
+    // console.log('====Clear',intervalIds)
+    // intervalIds = ref.current
+    intervalIds.map(i=>clearInterval(i))
+    intervalIds = [];
+  }
+
+  const startTimer = () => {
+    setTime(prev =>{
+      let next = prev - 1; 
+      // console.log('=========='+next , next <= 0);
+      if(next <= 0) {
+        next = 10
+      }
+      return next;
+    }) 
+  }
+
+  useEffect(() => {
     if (Userctx.currentUser) {
       const newData = {
         name: Userctx.currentUser.name,
@@ -55,7 +83,7 @@ const Game = () => {
   };
 
   const selectChoose = (ch, i) => {
-    console.log(ch);
+    // console.log(ch);
     setChooseActive(i);
     setChoose(ch);
   };
@@ -92,7 +120,7 @@ const Game = () => {
 
       <div className="flex flex-col  border border-baseBlue  mt-16 max-w-[400px] h-screen m-auto justify-around items-center">
         <div className="flex flex-col justify-around ">
-          <div className="flex justify-around bg-baseColor rounded-2xl  my-3 py-5 w-[100%]">
+          {/* <div className="flex justify-around bg-baseColor rounded-2xl  my-3 py-5 w-[100%]">
             {arrChoose.map((ch, i) => (
               <div
                 key={i}
@@ -106,7 +134,7 @@ const Game = () => {
                 {ch}
               </div>
             ))}
-          </div>
+          </div> */}
           <div className="flex justify-center bg-baseColor rounded-2xl my-3  py-5 w-full">
             {arrLanguage.map((lan, i) => (
               <div
@@ -176,7 +204,7 @@ const Game = () => {
                 className="border border-blue-700 text-blue-600 w-[85px] h-[50px] flex flex-col justify-center items-center p-3 m-2 rounded-xl"
               >
                 <div className="text-[12px]">Players 4/{game.count}</div>
-
+                <div>{time}</div>
                 <div
                   className=" text-xl hover:text-red-500"
                   // onClick={() => showConfirm(game)}

@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
-import ToolSidebar from "../ToolSidebar";
+import ToolSidebar from "../../components/ToolSidebar";
 import { getAuth } from "firebase/auth";
 import UserContext from "../../context/UserContext";
 import css from "./style.module.css"
@@ -9,6 +9,7 @@ import Exam from "../../admin/component/Exam";
 import Grammar from "../../admin/component/Grammar";
 import Word from "../../admin/component/Word";
 import LessonBase from "../../admin/component/LessonBase"
+import useLesson from "../../hook/useLesson";
 
 // Багш болох хүсэлтийг админаа зөвшөөрөх
 // Хүсэлт зөвшөөрсөн үед Хичээл нэмэх хэсгийг харуулах
@@ -16,33 +17,27 @@ import LessonBase from "../../admin/component/LessonBase"
 
 const auth = getAuth();
 const Teacher = () => {
+    const { addTeacher} = useLesson()
     const history = useHistory();
     const [id , setId] = useState("")
-    const [state, setState] =useState({
-        teacher: false
-    })
-    const [teacher, setTeacher] = useState(false)
-
-   
     const ctx = useContext(UserContext)
-
+    const [teacher, setTeacher] = useState(false)
+    const [data , setData] = useState({
+        language: "",
+        experience: "",
+    })
+ 
     useEffect(() => {
         const profile = ctx.userList.find(
             // item => console.log(item.authId)
-            item => item.authId === auth.currentUser.uid
+            item => item.authId === auth?.currentUser?.uid
         )
- 
-        setId(profile.id)
+        setId(profile?.id)
        }, [])
   
 
     const add = () => {
-        // setId(state.id)
-        setTeacher(true)
-        // setState({...state, teacher:true})
-        // ctx.setTeacher(state,id)
-        ctx.setTeacher(teacher,id)
-
+        addTeacher(data)
     }
     const baseInfo = () => {
         history.push("/teacher/lessonbase");
@@ -59,7 +54,9 @@ const Teacher = () => {
     const grammar= () => {
         history.push("/teacher/grammar");
     };
-   
+    const handleChange = (event: any) => {
+        setData({ ...data, [event.target.name]: event.target.value })
+    }
     return (
         <div className="text-white ">
             <ToolSidebar/>
@@ -86,7 +83,28 @@ const Teacher = () => {
                 </div>
             ) : (
                 <div className="pt-20 flex flex-col items-center justify-center">
-                    <div>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Laudantium hic magni nemo dolore assumenda architecto perferendis vitae vero omnis! Quam!</div>
+                    <div className="mb-6 text-red-300">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Laudantium hic magni nemo dolore assumenda architecto perferendis vitae vero omnis! Quam!</div>
+                    <div>
+                        <p>Хичээл заах хэл: </p>
+                        <select name="language" onChange={handleChange} className="bg-black">
+                            <option>choose</option>
+                            <option>English</option>
+                            <option>Mongolia</option>
+                            <option>Korea</option>
+                        </select>
+                       
+                    </div>
+                    <div>
+                        <p>Хичээл заасан туршлага</p>
+                        <input 
+                            className="bg-black"
+                            type="text" 
+                            name="experience" 
+                            placeholder="Жилээр бичих" 
+                            onChange={handleChange}/>
+                    </div>
+                  
+                    <p>Гэрээ </p>
                     <button 
                         onClick={add}
                         className={css.towch}
@@ -94,11 +112,7 @@ const Teacher = () => {
                     </button>
                 </div>
             )}
-            <button 
-                        onClick={add}
-                        className={css.towch}
-                        >Багш болох хүсэлт илгээх
-                    </button>
+           
 
         <Switch>
             <Route path="/teacher/translate"  component={Translate}/>

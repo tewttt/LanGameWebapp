@@ -159,6 +159,16 @@ export const LessonStore = (props) => {
         word: state.newWord,
       });
       alert("Хичээл амжилттай үүслээ");
+
+      const teachRef = collection(db, `teacher/${auth?.currentUser?.uid}/${state.base.language}`);
+          await addDoc(teachRef, {
+            createDate: serverTimestamp(),
+            language: state.base.language,
+            level: state.base.level,
+            lesson: state.base.lessonNumber,
+          
+          });
+
     } catch (err) {
       console.log(err);
     }
@@ -339,11 +349,9 @@ export const LessonStore = (props) => {
       const add = setDoc(PlayersRef, {
         state,
         point: 0,
+        color: ""
       });
-      // examfun();
-      // translatefun();
-      // wordfun();
-      // Lesson(id, chLan, chLevel);
+    
       alert("Тоглогч нэмэгдлээ");
       history.push(
         `/newGame/${id}?lan=${chLan}&level=${chLevel}&lesson=${chLesson}`
@@ -351,12 +359,12 @@ export const LessonStore = (props) => {
       // history.push(`/newGame/${id}/${chLan}/${chLevel}/${chLesson}`);
       // history.push(`/newGame/${id}`);
 
-      const PlRef = collection(db, `game/${game.id}/players`);
-      const snapshot = await getCountFromServer(PlRef);
-      const count = snapshot.data().count;
-      // console.log(count);
-      const GameNewRef = doc(db, "game", game.id);
-      await updateDoc(GameNewRef, { count: count });
+      // const PlRef = collection(db, `game/${game.id}/players`);
+      // const snapshot = await getCountFromServer(PlRef);
+      // const count = snapshot.data().count;
+      // // console.log(count);
+      // const GameNewRef = doc(db, "game", game.id);
+      // await updateDoc(GameNewRef, { count: count });
 
       if (game.count == 2) {
         updateDoc(PlayersRef, {

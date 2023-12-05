@@ -13,7 +13,7 @@ const Head = () => {
         size={18}
         className=" md:w-[30px] md:h-[30px] mx-1 lg:mx-5 hover:text-blue-500 transform duration-500 ease-in-out hover:scale-125"
       />
-      <div>head</div>
+      <div>32,650</div>
     </div>
   );
 };

@@ -1,10 +1,10 @@
 import React from "react";
 import { Switch, Route, useHistory } from "react-router-dom";
-import LessonBase from "../component/LessonBase";
-import Exam from "../component/Exam/index.js";
-import Translate from "../component/Translate";
-import Word from "../component/Word";
-import Grammar from "../component/Grammar";
+import LessonBase from "../../component/LessonBase/index.jsx";
+import Exam from "../../component/Exam/index.js";
+import Translate from "../../component/Translate/index.jsx";
+import Word from "../../component/Word/index.js";
+import Grammar from "../../component/Grammar/index.js";
 
 const AddLesson = () => {
     const history = useHistory();

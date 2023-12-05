@@ -1,7 +1,8 @@
-import React, { useState, useContext, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   collection,
   addDoc,
+  serverTimestamp,
   getDocs,
   setDoc,
   doc,
@@ -9,6 +10,7 @@ import {
   updateDoc,
   deleteDoc,
   onSnapshot,
+  increment,
 } from "firebase/firestore";
 import { db } from "../firebase";
 import { useHistory } from "react-router-dom";
@@ -35,42 +37,44 @@ const initialState = {
 export const UserStore = (props) => {
   const history = useHistory();
   const [state, setState] = useState(initialState);
+  const [transaction , setTransaction] = useState([])
   const [currentUser, setCurrentUser] = useState("");
   const [userList, setUserList] = useState([]);
   const userInfo = useRef();
-  // console.log(userList)
+  // console.log(currentUser)
+  // console.log(auth?.currentUser?.uid)
 
   const userRef = collection(db, "users");
+  
 
+// get userlist data
   useEffect(() => {
     const unsubscribe = onSnapshot(userRef, (snapshot) => {
       let list = [];
       snapshot.docs.map((doc) => list.push({ ...doc.data(), id: doc.id }));
       setUserList(list);
-      // setLoading(false)
     });
     return () => {
       unsubscribe();
     };
   }, []);
-  // const docRef = doc(db, "users", "53CgOTXwY3auugcojSDQzh8nVKE2");
-
+  //current user data
+  // curretUSer iin Posts data
   useEffect(() => {
-    // console.log(auth?.currentUser?.uid);
-    if (auth?.currentUser) {
+    if (auth?.currentUser?.uid) {
       const docRef = doc(db, "users", auth?.currentUser?.uid);
       onSnapshot(docRef, (doc) => {
       setCurrentUser(doc.data(), doc.id)
     });
-    }
 
-    // getDoc(docRef)
-    //   .then((doc) => {
-    //     console.log(doc.data(). doc.id)
-    //   // setOneUser(doc.data(), doc.id)
-    // })
-    
-  }, [auth?.currentUser]);
+    const trRef =collection(db, `users/${auth?.currentUser?.uid}/transaction`)
+      onSnapshot(trRef, (snapshot) => {
+        let list = [];
+        snapshot.docs.map((doc) => list.push({ ...doc.data(), id: doc.id }));
+        setTransaction(list);
+      });
+    }
+  }, [auth?.currentUser?.uid]);
 
   const updateProfile = async (state, id) => {
     const updateUser = doc(db, "users", id);
@@ -78,15 +82,7 @@ export const UserStore = (props) => {
     alert(" update");
     // getUserList();
   };
-  const setTeacher = (teacher, id) => {
-    console.log(teacher);
-    // const setUser = doc(db, "users" , id)
-    // setDoc(setUser, teacher, {merge: true})
-    // .then((res) => {console.log('success merge')})
-    // .catch((error) => {console.log("error" + error)})
-    // getUserList();
-    // console.log("update profile teacher")
-  };
+ 
   const setProfilePhoto = async (state, id) => {
     // console.log(state)
     const setUser = doc(db, "users", id);
@@ -119,6 +115,31 @@ export const UserStore = (props) => {
     console.log("update profile");
   };
 
+  const putTransaction =async (data) => {
+    const oneRef = collection(db, `users/${auth?.currentUser?.uid}/transaction` );
+    await addDoc(oneRef , {
+      data,
+      createDate: serverTimestamp(),
+      
+    } )
+    .then((res) => { 
+      alert("coin nemegdlee")
+      console.log("add coin");
+      // addCoins(data.coin)
+
+    })
+    .catch((error) => {
+      console.log("error" + error);
+    });
+   
+  }
+  const addCoins = async(coins) => {
+    // console.log(coins)
+    const PlayersRef = doc(db, "users", auth?.currentUser?.uid);
+    await updateDoc(PlayersRef, { coins: increment(coins) });
+    // alert("coin nemegdlee");
+  }
+ 
   const logout = () => {
     return signOut(auth);
     // auth
@@ -131,6 +152,7 @@ export const UserStore = (props) => {
     setState({ ...state, logginIn: true });
     try {
       await signInWithEmailAndPassword(auth, email, password);
+      // console.log(auth?.currentUser.uid , email, password)
       // alert("Амжилттай нэвтэрлээ")
       setState({ ...state, error: "", logginIn: false });
       // history.push("/lesson")
@@ -203,15 +225,13 @@ export const UserStore = (props) => {
         userInfo,
         currentUser,
         updateProfile,
-        // profilePhoto,d
         setProfile,
         setProfilePhoto,
         deleteUser,
-        setTeacher,
-
-        // loginUserSucces,
-        // autoRenewTokenAfterMillisec,
-        // uploadImage
+     
+        putTransaction,
+        transaction,
+        // addCoins
       }}
     >
       {props.children}

@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import blueHorse from "../assets/img/blueHorse.png";
-import orangeHorse from "../assets/img/orangeHorse.png";
-import redHorse from "../assets/img/redHorse.png";
-import purpleHorse from "../assets/img/purpleHorse.png";
-import useGame from "../hook/useGame";
+import blueHorse from "../../assets/img/blueHorse.png";
+import orangeHorse from "../../assets/img/orangeHorse.png";
+import redHorse from "../../assets/img/redHorse.png";
+import purpleHorse from "../../assets/img/purpleHorse.png";
+import useGame from "../../hook/useGame";
 import { useParams } from "react-router-dom";
 
 const Field = (props) => {
@@ -15,13 +15,14 @@ const Field = (props) => {
   };
   const { id } = useParams();
   const { players } = useGame(id);
-  const [field, setField] = useState(Array(60).fill(null));
+  const [field, setField] = useState(Array(40).fill(null));
 
   const fieldUsers = (fieldNum) => {
     const playersFil = players?.filter(
       (item) => item.point == fieldNum
       // console.log(item.point)
     );
+    // console.log(playersFil)
     return playersFil;
   };
 
@@ -30,7 +31,10 @@ const Field = (props) => {
       {field.map((value, i) => {
         const players = fieldUsers(i);
         return (
-          <div className="w-[40px] h-[40px] bg-green-800 shadow hover:shadow-gray-900 text-white text-sm  rounded-[50%]">
+          <div 
+          key={i}
+          // style={{...position[i]}} 
+          className="w-[40px] h-[40px] bg-green-800 shadow hover:shadow-gray-900 text-white text-sm  rounded-[50%]">
             {i}
             {players?.map((e, i) => {
               return (

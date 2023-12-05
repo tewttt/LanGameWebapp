@@ -27,7 +27,7 @@ const Toolbar = (props) => {
 
   const history = useHistory();
   const game = () => {
-    history.push("/game");
+    history.push("/gameHome");
     // history.push(`/game/${id}`)
   };
   const view = () => {
@@ -53,7 +53,7 @@ const Toolbar = (props) => {
           Хичээл
         </div>
         <div
-          className={`${history.location.pathname == "/game" ? css.neon : ""} ${
+          className={`${history.location.pathname == "/gameHome" ? css.neon : ""} ${
             css.noneon
           } `}
           // className={`${history.location.pathname == '/game' ? 'border border-blue-700 text-blue-500' : ''} w-[120px] h-full border border-blue-200 hover:border-blue-500 hover:text-blue-500 px-5 py-1 rounded-[5px] mx-1 text-sm sm:w-[190px] lg:text-[24px] sm:text-[18px]`}

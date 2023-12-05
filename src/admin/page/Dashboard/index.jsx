@@ -1,6 +1,6 @@
 import React from "react";
-import AdminNav from "../AdminNav";
-import ToolSidebar from "../../components/ToolSidebar";
+import AdminNav from "../../component/AdminNav";
+import ToolSidebar from "../../../components/ToolSidebar";
 
 const Dashboard = () => {
     return (

@@ -1,12 +1,12 @@
 import { useState } from "react";
 import React from "react";
-import zur from "../assets/img/1.jpg";
-import dice1 from "../assets/img/11.png";
-import dice2 from "../assets/img/2.png";
-import dice3 from "../assets/img/3.png";
-import dice4 from "../assets/img/4.png";
-import dice5 from "../assets/img/5.png";
-import dice6 from "../assets/img/6.png";
+import zur from "../../assets/img/ironman.png";
+import dice1 from "../../assets/img/11.png";
+import dice2 from "../../assets/img/2.png";
+import dice3 from "../../assets/img/3.png";
+import dice4 from "../../assets/img/4.png";
+import dice5 from "../../assets/img/5.png";
+import dice6 from "../../assets/img/6.png";
 
 const Dice = (props) => {
   
@@ -14,9 +14,10 @@ const Dice = (props) => {
   const [newDice, setNewDice] = useState(zur);
 
   const rollDice = () => {
-    var random = Math.floor(Math.random() * 6);
+    var random = Math.floor(Math.random() * 3);
     setNewDice(dices[random]);
     // props.onDiceChange(dices[random]);
+    // console.log(random)
     props.onDiceChange(random);
   };
 

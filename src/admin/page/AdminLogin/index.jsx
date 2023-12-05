@@ -2,7 +2,7 @@ import React, {useContext, useState} from "react";
 import css from "./style.module.css"
 import { Link, useHistory,Redirect } from "react-router-dom";
 
-import MemberContext from "../../context/MemberContext";
+import MemberContext from "../../../context/MemberContext";
 import {AiFillEye, AiFillEyeInvisible, AiFillLock, AiTwotoneMail} from "react-icons/ai"
 import {getAuth} from "firebase/auth"
 

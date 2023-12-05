@@ -18,31 +18,31 @@ const VideoUpload = () => {
     const changeVideo = (e) => {
         setVideo(e.target.files[0]);
     }
-          const uploadVideo = () => {
-            if (video === null) return;
-            const videoRef = ref(storage, `videos/${video.name}`)
-            const uploadTask = uploadBytesResumable(videoRef, video)
+    const uploadVideo = () => {
+        if (video === null) return;
+        const videoRef = ref(storage, `videos/${video.name}`)
+        const uploadTask = uploadBytesResumable(videoRef, video)
 
-            uploadTask.on("state_changed" , (snapshot) => {
-                let progress = (snapshot.bytesTransferred/ snapshot.totalBytes) * 100
+        uploadTask.on("state_changed" , (snapshot) => {
+            let progress = (snapshot.bytesTransferred/ snapshot.totalBytes) * 100
 
-                progress = Math.trunc(progress)
-                setProg(progress)
-                // progress.style.width=progress+"%"
-                // console.log(progress)
-            }, (error) => {
-                console.log("error : ")
-            }, () => { 
-                console.log("success")
-                getDownloadURL(uploadTask.snapshot.ref).then(downloadURL => {
-                
-                    setVideo(downloadURL)
-                    // console.log(downloadURL)
-                    ctx.saveVideo(downloadURL)
-                })
-                alert("video upload success")
+            progress = Math.trunc(progress)
+            setProg(progress)
+            // progress.style.width=progress+"%"
+            // console.log(progress)
+        }, (error) => {
+            console.log("error : ")
+        }, () => { 
+            console.log("success")
+            getDownloadURL(uploadTask.snapshot.ref).then(downloadURL => {
+            
+                setVideo(downloadURL)
+                // console.log(downloadURL)
+                ctx.saveVideo(downloadURL)
             })
-        }
+            alert("video upload success")
+        })
+    }
 
 return (
     <div className="flex flex-col border border-gray-400 md:w-[500px] md:mx-20 md:p-5 md:my-5 ">
@@ -80,8 +80,8 @@ return (
                 alignItems: "center",
                 marginRight: 5,
                 marginLeft:5
-        }}>
-                <div className={css.uploadPercentage}>{prog}%</div>
+                }}>
+            <div className={css.uploadPercentage}>{prog}%</div>
         </div>  
     </div>
     )
