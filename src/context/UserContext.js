@@ -45,8 +45,6 @@ export const UserStore = (props) => {
   // console.log(auth?.currentUser?.uid)
 
   const userRef = collection(db, "users");
-  
-
 // get userlist data
   useEffect(() => {
     const unsubscribe = onSnapshot(userRef, (snapshot) => {
@@ -171,6 +169,8 @@ export const UserStore = (props) => {
     }
   }
 
+  
+  let countUserID = ""
   async function signupUser(email, password, phone, name) {
     try {
       await createUserWithEmailAndPassword(auth, email, password);
@@ -184,6 +184,7 @@ export const UserStore = (props) => {
         phone: phone,
         authId: auth.currentUser?.uid,
         name: name,
+        userID: increment(countUserID)
       });
     } catch (error) {
       console.log(error);

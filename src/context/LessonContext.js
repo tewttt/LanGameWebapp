@@ -296,7 +296,6 @@ export const LessonStore = (props) => {
     });
   };
 
- 
   // Game page дээр Games харагдах
   const chGames = async (chLan, chLevel, chLesson) => {
     const q = query(
