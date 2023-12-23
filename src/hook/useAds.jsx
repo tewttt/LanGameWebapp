@@ -9,11 +9,12 @@ import {
   } from "firebase/firestore";
 import { db } from "../firebase";
 import UserContext from "../context/UserContext";
-
+import { useHistory , useParams} from "react-router-dom"
 
 export default function useAds(id) {
   const ctx = useContext(UserContext)
   const [ads, setAds] = useState([])
+  const history = useHistory()
 
   useEffect(() => {
     // if (auth?.currentUser) {
@@ -57,6 +58,7 @@ export default function useAds(id) {
           message: ""
       } )
       .then((res) => { 
+        history.push("/advertise")
         console.log("add ads");
       })
       .catch((error) => {

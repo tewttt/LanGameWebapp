@@ -61,7 +61,7 @@ return (
      </Switch>
      ) : (
      <Switch>
-          <Route path="/admin" component={AdminLogin}/> 
+          {/* <Route path="/admin" component={AdminLogin}/>  */}
           <Route path="/signup" component={SignUp}/>
           <Route path="/" component={Login}/>
      </Switch>

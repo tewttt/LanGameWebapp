@@ -24,7 +24,7 @@ export default function useLesson(id) {
     // console.log(ctx.currentUser)
 
     useEffect(() => {
-        const oneRef = collection(db, "teacher")
+        const oneRef = collection(db, "users")
         onSnapshot(oneRef, (snapshot) => {
         let list = [];
         snapshot.docs.map((doc) => list.push({ ...doc.data(), id: doc.id }));
@@ -64,20 +64,22 @@ export default function useLesson(id) {
     // console.log(ctx.currentUser)
     const addTeacher =async (data) => {
         // console.log(data)
-        const teachRef = doc(db, "teacher", auth?.currentUser?.uid )
-        await setDoc(teachRef , {
+        const teachRef = doc(db, "users", auth?.currentUser?.uid )
+        // const teacher = {
+        //     data,
+        //     createDate: serverTimestamp(),
+        //     status: false,
+        //     message: "request"
+        // } 
+        await updateDoc(teachRef , { 
             data,
-            userId: ctx?.currentUser?.authId,
-            userName: ctx?.currentUser?.name,
-            userEmail: ctx?.currentUser?.email,
-            userPhone: ctx?.currentUser?.phone,
             createDate: serverTimestamp(),
             status: false,
             message: "request"
         })
         .then((res) => { 
-        console.log("request teacher");
-       
+            alert("request teacher")
+        // console.log("request teacher");
         })
         .catch((error) => {
         console.log("error" + error);

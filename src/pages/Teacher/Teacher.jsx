@@ -18,22 +18,24 @@ import useLesson from "../../hook/useLesson";
 const auth = getAuth();
 const Teacher = () => {
     const { addTeacher} = useLesson()
-    const history = useHistory();
-    const [id , setId] = useState("")
     const ctx = useContext(UserContext)
+    const history = useHistory();
+    const [id , setId] = useState(ctx.currentUser.authId)
+    
     const [teacher, setTeacher] = useState(false)
     const [data , setData] = useState({
         language: "",
         experience: "",
     })
- 
-    useEffect(() => {
-        const profile = ctx.userList.find(
-            // item => console.log(item.authId)
-            item => item.authId === auth?.currentUser?.uid
-        )
-        setId(profile?.id)
-       }, [])
+    const [message, setMessage] = useState("request")
+ console.log(ctx?.currentUser?.message)
+    // useEffect(() => {
+    //     const profile = ctx.userList.find(
+    //         // item => console.log(item.authId)
+    //         item => item.authId === auth?.currentUser?.uid
+    //     )
+    //     setId(profile?.id)
+    //    }, [])
   
 
     const add = () => {
@@ -54,7 +56,7 @@ const Teacher = () => {
     const grammar= () => {
         history.push("/teacher/grammar");
     };
-    const handleChange = (event: any) => {
+    const handleChange = (event) => {
         setData({ ...data, [event.target.name]: event.target.value })
     }
     return (
@@ -81,36 +83,55 @@ const Teacher = () => {
                         Шинэ үг</button>
                     </div>
                 </div>
-            ) : (
-                <div className="pt-20 flex flex-col items-center justify-center">
-                    <div className="mb-6 text-red-300">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Laudantium hic magni nemo dolore assumenda architecto perferendis vitae vero omnis! Quam!</div>
-                    <div>
-                        <p>Хичээл заах хэл: </p>
-                        <select name="language" onChange={handleChange} className="bg-black">
-                            <option>choose</option>
-                            <option>English</option>
-                            <option>Mongolia</option>
-                            <option>Korea</option>
-                        </select>
-                       
-                    </div>
-                    <div>
-                        <p>Хичээл заасан туршлага</p>
-                        <input 
-                            className="bg-black"
-                            type="text" 
-                            name="experience" 
-                            placeholder="Жилээр бичих" 
-                            onChange={handleChange}/>
-                    </div>
-                  
-                    <p>Гэрээ </p>
-                    <button 
-                        onClick={add}
-                        className={css.towch}
-                        >Багш болох хүсэлт илгээх
-                    </button>
+            ) : ( 
+                <div>
+                    {message === "request" ? 
+                        <div className="text-white">Багш болох хүсэлт илгээсэн</div>
+                        : 
+                        ""
+                        // <div className="pt-20 flex flex-col items-center justify-center">
+                        //     <div className="mb-6 text-red-300">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Laudantium hic magni nemo dolore assumenda architecto perferendis vitae vero omnis! Quam!</div>
+                        //     <div>
+                        //         <p>Хичээл заах хэл: </p>
+                        //         <select name="language" onChange={handleChange} className="bg-black">
+                        //             <option>choose</option>
+                        //             <option>English</option>
+                        //             <option>Mongolia</option>
+                        //             <option>Korea</option>
+                        //         </select>
+                            
+                        //     </div>
+                        //     <div>
+                        //         <p>Хичээл заасан туршлага</p>
+                        //         <input 
+                        //             className="bg-black"
+                        //             type="text" 
+                        //             name="experience" 
+                        //             placeholder="Жилээр бичих" 
+                        //             onChange={handleChange}/>
+                        //     </div>
+                        
+                        //     <p>Гэрээ </p>
+                        //     <button 
+                        //             onClick={add}
+                        //             className={css.towch}
+                        //             >Багш болох хүсэлт илгээх
+                        //         </button>
+
+                        //     {/* {message === "request" ? (<div>Багш болох хүсэлт илгээсэн</div>) : (
+                        //         <button 
+                        //             onClick={add}
+                        //             className={css.towch}
+                        //             >Багш болох хүсэлт илгээх
+                        //         </button>
+                        //     )} */}
+                        
+                        // </div>
+                        
+                    } 
                 </div>
+               
+             
             )}
            
 

@@ -40,8 +40,9 @@ export const UserStore = (props) => {
   const [transaction , setTransaction] = useState([])
   const [currentUser, setCurrentUser] = useState("");
   const [userList, setUserList] = useState([]);
-  const userInfo = useRef();
-  // console.log(currentUser)
+  const userInfo = useRef()
+  const [userIdCount, setUserIdCount] = useState("")
+  console.log(userIdCount)
   // console.log(auth?.currentUser?.uid)
 
   const userRef = collection(db, "users");
@@ -66,13 +67,30 @@ export const UserStore = (props) => {
     });
 
     const trRef =collection(db, `users/${auth?.currentUser?.uid}/transaction`)
+    
       onSnapshot(trRef, (snapshot) => {
         let list = [];
         snapshot.docs.map((doc) => list.push({ ...doc.data(), id: doc.id }));
         setTransaction(list);
       });
     }
+
+    const userRef = doc(db, `report/user`)
+      onSnapshot(userRef, (doc) => {
+        // console.log(doc.data())
+        setUserIdCount(doc.data())
+      })
+
+
   }, [auth?.currentUser?.uid]);
+
+  // useEffect(() => {
+  //   if(auth?.currentUser?.uid){
+  //   const userId = doc(db, "report", userIdCount)
+  //   onSnapshot(userId, (doc) => {
+  //     setUserIdCount(doc.data(), doc.id)
+  //   })}
+  // }, [auth?.currentUser?.uid])
 
   const updateProfile = async (state, id) => {
     const updateUser = doc(db, "users", id);
@@ -122,7 +140,7 @@ export const UserStore = (props) => {
     } )
     .then((res) => { 
       alert("coin nemegdlee")
-      console.log("add coin");
+      // console.log("add coin");
       // addCoins(data.coin)
 
     })
@@ -170,7 +188,7 @@ export const UserStore = (props) => {
   }
 
   
-  let countUserID = ""
+ 
   async function signupUser(email, password, phone, name) {
     try {
       await createUserWithEmailAndPassword(auth, email, password);
@@ -182,10 +200,15 @@ export const UserStore = (props) => {
         email: email,
         password: password,
         phone: phone,
-        authId: auth.currentUser?.uid,
+        authId: auth.currentUser?.uid,  
         name: name,
-        userID: increment(countUserID)
+        // userID: increment(countUserID)
       });
+      const oneRef = collection(db, `users/${auth?.currentUser?.uid}/transaction`);
+      await addDoc(oneRef , {
+        createDate: serverTimestamp(),  
+      } )
+
     } catch (error) {
       console.log(error);
       let message = error.message;
