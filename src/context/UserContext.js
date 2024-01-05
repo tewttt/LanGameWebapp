@@ -20,6 +20,8 @@ import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
   signOut,
+  signInWithPhoneNumber,
+  sendPasswordResetEmail
 } from "firebase/auth";
 
 const auth = getAuth();
@@ -42,8 +44,7 @@ export const UserStore = (props) => {
   const [userList, setUserList] = useState([]);
   const userInfo = useRef()
   const [userIdCount, setUserIdCount] = useState("")
-  console.log(userIdCount)
-  // console.log(auth?.currentUser?.uid)
+
 
   const userRef = collection(db, "users");
 // get userlist data
@@ -83,14 +84,6 @@ export const UserStore = (props) => {
 
 
   }, [auth?.currentUser?.uid]);
-
-  // useEffect(() => {
-  //   if(auth?.currentUser?.uid){
-  //   const userId = doc(db, "report", userIdCount)
-  //   onSnapshot(userId, (doc) => {
-  //     setUserIdCount(doc.data(), doc.id)
-  //   })}
-  // }, [auth?.currentUser?.uid])
 
   const updateProfile = async (state, id) => {
     const updateUser = doc(db, "users", id);
@@ -149,12 +142,7 @@ export const UserStore = (props) => {
     });
    
   }
-  const addCoins = async(coins) => {
-    // console.log(coins)
-    const PlayersRef = doc(db, "users", auth?.currentUser?.uid);
-    await updateDoc(PlayersRef, { coins: increment(coins) });
-    // alert("coin nemegdlee");
-  }
+  
  
   const logout = () => {
     return signOut(auth);
@@ -164,6 +152,7 @@ export const UserStore = (props) => {
     // })
     // .catch(error => alert(error))
   };
+ 
   async function loginUser(email, password) {
     setState({ ...state, logginIn: true });
     try {
@@ -175,23 +164,35 @@ export const UserStore = (props) => {
     } catch (error) {
       console.log(error);
       let message = error.message;
-      if (message === "Firebase: Error (auth/wrong-password).")
-        message = "Нууц үг буруу байна";
-      else if (message === "Firebase: Error (auth/user-not-found).")
-        message = "Имэйл хаяг олдсонгүй";
-      else if (message === "Firebase: Error (auth/network-request-failed).")
-        message = "Интернетээ шалгана уу";
-      else if (message === "Firebase: Error (auth/invalid-login-credentials).")
-        // message = "Интернетээ шалгана уу"
+      if (message === "Firebase: Error (auth/wrong-password).") {
+        message = "Нууц үг буруу байна"
         setState({ ...state, error: message, logginIn: false });
+      }
+      else if (message === "Firebase: Error (auth/user-not-found).")
+      {
+        message = "Имэйл хаяг олдсонгүй";
+        setState({ ...state, error: message, logginIn: false });
+      }
+      else if (message === "Firebase: Error (auth/network-request-failed).")
+      {
+        message = "Интернетээ шалгана уу";
+        setState({ ...state, error: message, logginIn: false });
+      }
+        
+      else if (message === "Firebase: Error (auth/invalid-login-credentials).") {
+        message = "Алдаа"
+        setState({ ...state, error: message, logginIn: false });
+      }
+       
     }
   }
-
-  
- 
   async function signupUser(email, password, phone, name) {
     try {
-      await createUserWithEmailAndPassword(auth, email, password);
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      // send email verification
+
+      await sendEmailVerification(userCredential.user);
+    
       setState({ ...state, error: "", logginIn: false });
       alert(" Амжилттай бүртгүүллээ");
       // console.log(db)
@@ -202,12 +203,16 @@ export const UserStore = (props) => {
         phone: phone,
         authId: auth.currentUser?.uid,  
         name: name,
+        status: false
         // userID: increment(countUserID)
       });
+
       const oneRef = collection(db, `users/${auth?.currentUser?.uid}/transaction`);
       await addDoc(oneRef , {
         createDate: serverTimestamp(),  
-      } )
+      })
+      alert("Email check")
+     
 
     } catch (error) {
       console.log(error);
@@ -226,6 +231,27 @@ export const UserStore = (props) => {
       setState({ ...state, error: message, logginIn: false });
     }
   }
+  
+
+  
+  const forgotPassword = async (email) => {
+    try {
+      // Send password reset email
+      await sendPasswordResetEmail(auth, email);
+
+      // console.log('Password reset email sent successfully');
+      alert('Check your email for password reset instructions.');
+      history.push("/login")
+  
+    } catch (error) {
+      // Handle errors
+      // console.error('Error sending password reset email:', error);
+      alert('Error sending password reset email. Please try again.');
+    }
+  };
+  
+
+  
 
   //  useEffect(() => {
   //   const unsubscribe = auth.onAuthStateChanged( async user => {
@@ -255,6 +281,9 @@ export const UserStore = (props) => {
      
         putTransaction,
         transaction,
+        forgotPassword,
+        
+     
         // addCoins
       }}
     >
@@ -263,6 +292,14 @@ export const UserStore = (props) => {
   );
 };
 export default UserContext;
+
+
+// const addCoins = async(coins) => {
+  //   // console.log(coins)
+  //   const PlayersRef = doc(db, "users", auth?.currentUser?.uid);
+  //   await updateDoc(PlayersRef, { coins: increment(coins) });
+  //   // alert("coin nemegdlee");
+  // }
 
 // const loginUserSucces = (token, userId, expireDate, refreshToken) => {
 //   localStorage.setItem("token", token);

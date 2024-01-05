@@ -11,7 +11,7 @@ const GameHome = () => {
             <div className="pt-20 flex flex-col">
                <GameNavbar/>
                 <div className="w-[200px] mt-20 flex flex-col justify-center items-center h-[200px] border border-blue-400 m-auto">
-                    <button onClick={() =>history.push("/watchAdvertise")} className="w-20 h-20 border border-red-500 m-4">video watch </button>
+                    <button onClick={() =>history.push("/watchAds")} className="w-20 h-20 border border-red-500 m-4">video watch </button>
                     <div>coin цуглуулах</div>
                 </div>
                

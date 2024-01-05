@@ -8,7 +8,8 @@ module.exports = {
     extend: {
       colors: {
         bgColor: "#0B0C0F",
-        baseColor: "#151A28",
+        baseColor: "#340472",
+        hpink: "#E2CFEA",
         baseBlue: "#1974C7"
       }
     },

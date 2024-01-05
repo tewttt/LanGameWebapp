@@ -1,6 +1,4 @@
-import React, { useState, useContext } from "react";
-import Spinner from "../../components/General/Spinner";
-import css from "./style.module.css";
+import React, { useState, useContext, useEffect } from "react";
 import Clock from "../../UI/clock";
 import { useHistory } from "react-router-dom";
 import UserContext from "../../context/UserContext";
@@ -11,100 +9,161 @@ import {
   AiTwotoneMail,
 } from "react-icons/ai";
 import Loader from "../../UI/Loader";
+import Logo from "../../assets/logo/Logo-Violet.png"
 
-// Login хэсэг харагдахаа болихыг яаж засах вэ?
 export default function Login() {
   const ctx = useContext(UserContext);
   const history = useHistory();
-  const [email, setEmail] = useState("shine@gmail.com");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("123456");
-  const [showPass, setShowPass] = useState(password);
+  const [showPass, setShowPass] = useState(false);
+  const [rememberMe , setRememberMe] = useState(false)
+
+  useEffect(() => {
+    const rememberMeValue = localStorage.getItem('rememberMe') === 'true';
+    setRememberMe(rememberMeValue);
+    if (rememberMeValue) {
+      const storedUsername = localStorage.getItem('email');
+      if (storedUsername) {
+        setEmail(storedUsername);
+      }
+    }
+  }, []);
+
   const signup = () => {
     history.push("/signup");
   };
 
+// console.log(ctx.state.error)
+  //TO DO
+  // hooson input shalgah , ulaan  bichig gargah
+  // Нууц үг сэргээх phone
+  // login phone number
+  // Phone verifaction
+// remember me color change
+
+
   // const year = new Date().getFullYear()
-  const login = () => {
-    if (email.length === 0) {
-      alert("Та имэйл хаягаа бичнэ үү");
-      return;
+  const login = async () => {
+    if (rememberMe) {
+      localStorage.setItem('email', email);
+      localStorage.setItem('rememberMe', 'true');
+      console.log(localStorage.setItem)
+    } else {
+      // If "Remember Me" is not checked, clear local storage
+      localStorage.removeItem('email');
+      localStorage.removeItem('rememberMe');
+  
+      if (email.length === 0 || password.length === 0) {
+        return alert("Та имэйл хаягаа болон нууц үгээ бөглөнө үү");
+      }
     }
-    if (password.length === 0) {
-      alert("Та нууц үгээ оруулна уу");
-      return;
+    try {
+      ctx.loginUser(email, password);
+      history.push("/lesson");
+      // Your login logic here
+    } catch (error) {
+      alert('Error during login:', error);
+     
     }
-    ctx.loginUser(email, password);
-    history.push("/lesson");
   };
+  
+  const forgotPassword = () => {
+    history.push('/forgot') 
+  }
 
   return (
-    <div className="flex flex-col justify-center items-center w-screen h-screen relative">
+    <div className="flex flex-col justify-center items-center w-screen h-screen relative ">
       {ctx.state.logginIn && (
-        <div className="absolute">
+        <div className="absolute z-10"> 
           <Loader />
         </div>
       )}
-
-      {/* <h1 className="text-6xl font-bold text-baseBlue p-10">Мэдлэг</h1> */}
-      <h1 className={css.garchig}>Fun</h1>
-      <div className="flex flex-col bg-baseColor w-[300px] h-[320px] border-2 border-baseBlue p-3 items-center rounded-[20px]">
+     
+      <div className="flex flex-col items-center">
         {ctx.state.error && (
           <div style={{ color: "red" }}>{ctx.state.error}</div>
         )}
-        {/* {ctx.state.logginIn && <p>loading</p>} */}
-        <div className="flex flex-row mt-5 justify-between items-center mr-[-30px]">
-          <AiTwotoneMail size={20} className="text-baseBlue mr-[-50px] z-10 " />
+        
+        <img src={Logo} className="w-[190px] h-[80px] mb-10"/>
+        <div className="mb-5 flex flex-row relative justify-between items-center w-[276px] h-[40px] ">
+          <AiTwotoneMail size={20} className="text-baseColor/70 absolute ml-4" />
           <input
-            className="w-[250px] h-[30px] text-center bg-blue-50 border rounded-[12px] transition ease-in-out duration-200 hover:border-blue-500  hover:border-[2px] hover:bg-blue-100"
-            type="email "
+            className="w-full h-full text-center border border-baseColor 
+            rounded-[25px] transition ease-in-out duration-200
+             hover:bg-hpink/10"
+            type="email"
             placeholder="Email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
         </div>
-        <div className="flex flex-row mt-5 m-2 justify-between items-center">
-          <AiFillLock size={20} className="text-baseBlue mr-[-40px] z-10" />
+        <div className="mb-3 relative flex flex-row justify-between items-center w-[276px] h-[40px]">
+          <AiFillLock size={22} className="text-baseColor/70 absolute left-4" />
           <input
-            className="w-[250px] h-[30px] text-center bg-blue-50 border rounded-[12px] transition ease-in-out duration-200 hover:border-blue-500  hover:border-[2px] hover:bg-blue-100"
-            type="password"
+            className="w-full h-full text-center border border-baseColor 
+            rounded-[25px] transition ease-in-out duration-200
+             hover:bg-hpink/10"
+            type={showPass ? "text" : "password"} 
             placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
           {showPass ? (
-            <AiFillEyeInvisible
-              size={20}
-              className="text-baseBlue ml-[-40px]"
+            <AiFillEye
+              size={24}
+              className="text-baseColor/70 absolute right-4"
               onClick={() => setShowPass(!showPass)}
             />
           ) : (
-            <AiFillEye
-              size={20}
-              className="text-baseBlue ml-[-40px] "
+
+            <AiFillEyeInvisible
+              size={24}
+              className="text-baseColor/70 absolute right-4"
               onClick={() => setShowPass(!showPass)}
             />
           )}
         </div>
-        <div className="flex flex-col mx-2 items-center">
-          <button className={css.loginButton} onClick={login}>
-            Нэвтрэх
-          </button>
-          {/* <button className="mt-2 p-2 rounded-lg bg-baseBlue  w-[200px] h-[40px] text-base  items-center hover:bg-blue-500" onClick={login}>Нэвтрэх</button> */}
-          {/* <button className="mt-2 p-2 rounded-lg bg-baseBlue  w-[200px] h-[40px] text-base  items-center before:block before:absolute before:content-none before:left-0 before:top-0 before:bg-red-300 before:w-[100px] before:h-[100px] before:translate-x-(-100%) hover:bg-blue-500" onClick={login}>Нэвтрэх</button> */}
+        <div className="flex justify-start w-[276px]">
+          <input
+            checked={rememberMe} 
+            onChange={() => setRememberMe(!rememberMe)}
+            type="checkbox"
+            className="mx-2 w-5 h-5 border border-gray-400 rounded-md appearance-none 
+             checked:bg-baseColor checked:border-baseColor
+            "
 
-          <button className=" text-sm font-300 text-red-500 hover:text-red-400 w-[200px] h-[40px] ">
-            Нууц үг сэргээх
-          </button>
+          />
+          
+
+         
+           
+          <p className="text-sm text-gray-400">Remember me</p>
+
         </div>
-        {/* <button className=" p-2 rounded-lg bg-baseBlue w-[200px] h-[40px] hover:bg-blue-500 text-white text-base items-center"    onClick={signup}> Бүртгүүлэх</button> */}
-        <button className={css.signupButton} onClick={signup}>
-          {" "}
+        <button 
+         className="w-[276px] h-[40px] mt-6 bg-baseColor text-hpink text-center border border-baseColor 
+         rounded-[25px] transition ease-in-out duration-200
+         font-semibold"
+          onClick={login}>
+          Login
+        </button>
+      
+        <button 
+          onClick={forgotPassword}
+          className="w-[276px] h-[40px] text-sm font-300 text-gray-400 hover:text-gray-500 ">
+          Forgot password 
+        </button>
+       
+        <button 
+         className="w-[276px] h-[40px] font-semibold text-center mt-6 bg-hpink 
+         rounded-[25px] transition ease-in-out duration-200
+         text-baseColor"
+          onClick={signup}>
           Бүртгүүлэх
         </button>
       </div>
-
-      {/* <Clock/> */}
-      {/* {year} */}
     </div>
   );
 }
+

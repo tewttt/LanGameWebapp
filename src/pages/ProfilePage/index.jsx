@@ -10,8 +10,6 @@ import {storage, db} from "../../firebase";
 import { getAuth } from "firebase/auth";
 import { ref, uploadBytes,  getDownloadURL, uploadBytesResumable, } from "firebase/storage";
 
-// Хэрэглэгчийн ID г тоогоор яаж харуулах вэ?
-
 const auth = getAuth();
 const initialState = {
     name: "",
@@ -25,16 +23,16 @@ const ProfilePage = () => {
     const [pedit, setEdit] = useState(false);
     const id = state.id
     const authId = auth.currentUser?.uid
-    // console.log(state)
+   
     useEffect(() => {
         const data = ctx.userList.find(
             // item => console.log(item)
             item => item.authId === authId
         )
- 
         setState(data)
-    },[])  
-    // console.log(state.photo)
+    },[ctx?.userList])  
+    
+  
     const editPicture = () => {
         const fileInput = document.getElementById("imageInput");
         fileInput.click();
@@ -59,11 +57,7 @@ const ProfilePage = () => {
         ctx.setProfile(state, id)
         setEdit(false)
     }
-    // const updatePhoto  =() => {
-    //     // console.log(state)
-    //     ctx.setProfilePhoto(state, id)
-    //     setEdit(false)
-    // }
+   
     
     const uploadImage = () =>{
         if (photo === null) return;
@@ -86,7 +80,7 @@ const ProfilePage = () => {
                 {pedit ? ( 
                     // edit 
                 <div className="flex flex-col text-white justify-center items-center m-auto pt-20">
-                    {state.photo ? (
+                    {state?.photo ? (
                         <img src={state.photo} className="w-[150px] h-[150px] rounded-[18px] border mt-65"/>
                     ) : (
                         <img src={photo} className="w-[150px] h-[150px] rounded-[18px] border mt-25"/>
@@ -108,14 +102,14 @@ const ProfilePage = () => {
             
                     <div className="bg-[#383030] text-gray-300 text-[12px] w-[300px] h-[300px] flex flex-col justify-center items-center mt-10" >
                         <div className="flex flex-col justify-start mb-5">
-                            <p>Хэрэглэгчийн ID: {state.id}</p>
-                            <p>AUTH ID: {state.authId}</p>
+                            <p>Хэрэглэгчийн ID: {state?.id}</p>
+                            <p>AUTH ID: {state?.authId}</p>
                             
                         </div>
                         <div className="flex justify-between w-[200px] h-[30px] items-center my-3">
                             <p>Email: </p>
                             
-                            <input className="text-black h-[20px] mr-0 w-[150px]" value={state.email} onChange={(e) =>setState({...state, email:e.target.value}) }/>
+                            <input className="text-black h-[20px] mr-0 w-[150px]" value={state?.email} onChange={(e) =>setState({...state, email:e.target.value}) }/>
                         </div>
                         
                         <div className="flex justify-between w-[200px] h-[30px] items-center my-3 " >
@@ -140,24 +134,24 @@ const ProfilePage = () => {
                 ) : (
                 <div className="flex flex-col text-white justify-center items-center m-auto pt-20">
                     <div>
-                        <img src={state.photo} className="w-[150px] h-[150px] rounded-[18px] bg-baseColor"/>
+                        <img src={state?.photo} className="w-[150px] h-[150px] rounded-[18px] bg-baseColor"/>
                     </div>
             
                     <div className="bg-baseColor text-gray-300 text-[12px] w-[300px] h-[300px] flex flex-col justify-center items-center mt-10" >
                         <div className="flex flex-col justify-start mb-5">
-                            <p>Хэрэглэгчийн ID: {state.id}</p>
-                            <p>AUTH ID: {state.authId}</p>
-                            <p>Email: {state.email}</p>
+                            <p>Хэрэглэгчийн ID: {state?.id}</p>
+                            <p>AUTH ID: {state?.authId}</p>
+                            <p>Email: {state?.email}</p>
                         </div>
                         
                         <div className="flex m-2 justify-start">
                             <div>Нэр:</div>
-                            <div>{state.name}</div>   
+                            <div>{state?.name}</div>   
                         </div>
 
                         <div className="flex m-2 justify-start ">
                             <div>Дугаар:</div>
-                            <div>{state.phone}</div>
+                            <div>{state?.phone}</div>
                         </div>
 
                         <div className="flex">

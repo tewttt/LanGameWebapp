@@ -1,7 +1,8 @@
 export const Colors = {
-   
     bgColor: "#0B0C0F",
-    baseColor: "#151A28",
+    baseColor: "#340472",
     baseBlue: "#1974C7",
+    hpink: "#E2CFEA",
 }
 
+  

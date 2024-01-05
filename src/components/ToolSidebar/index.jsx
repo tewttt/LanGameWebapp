@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 
 import Toolbar from "../Toolbar";
-import Sidebar from "../Sidebar";
+
 import Navbar from "../Navbar/Navbar";
 
 const ToolSidebar = () => {

@@ -9,7 +9,6 @@ const Navbar = (props) => {
     const ctx = useContext(UserContext)
     const history = useHistory()
   
-    
     return (
         <div >
             <div 
@@ -24,7 +23,7 @@ const Navbar = (props) => {
                         Profile
                     </div>
                    
-                    {ctx?.currentUser?.teacher ? (
+                    {/* {ctx?.currentUser?.teacher ? (
                         <div onClick={()=> history.push("/addLesson")} className={css.towch}>
                         Lesson
                         </div>
@@ -32,9 +31,11 @@ const Navbar = (props) => {
                         <div onClick={()=> history.push("/teacher")} className={css.towch}>
                             Teacher
                         </div>
-                    ) }
-                   
-                    <div onClick={()=> history.push("/advertise")} className={css.towch}>
+                    ) } */}
+                   <div onClick={()=> history.push("/teacher")} className={css.towch}>
+                            Teacher
+                        </div>
+                    <div onClick={()=> history.push("/ads")} className={css.towch}>
                        Advertise
                     </div>
                     <div onClick={()=> history.push("/logout")} className={css.towch}>

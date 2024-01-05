@@ -4,7 +4,9 @@ import {
     serverTimestamp,
     addDoc,
     onSnapshot,
-    doc
+    doc,
+    updateDoc,
+    deleteDoc
   } from "firebase/firestore";
 import { db } from "../firebase";
 import UserContext from "../context/UserContext";
@@ -14,10 +16,9 @@ const auth = getAuth();
 export default function usePost(id) {
     const ctx = useContext(UserContext)
     const [posts, setPosts] = useState([])
-    const [post, setPost] = useState([])
+    const [pos, setPos] = useState([])
+    const [data, setData] = useState([])
    
-    // console.log(posts)
-
     useEffect(() => {
       if (auth?.currentUser) {
         const oneRef = collection(db, "posts")
@@ -32,18 +33,20 @@ export default function usePost(id) {
     const getPost = async (postId) => {
       const docRef = doc(db, "posts", postId);
       onSnapshot(docRef, (doc) => {
-      setPost(doc.data(), doc.id)
+        // let list = []
+        // list.push(doc.data(), doc.id)
+      //  setData(doc.data())
+        // console.log(doc.data() , doc.id)
+        setData(doc.data(), doc.id)
       });
     }
 
-    const addPost= async(post, video) => {
+    const addPost= async(post) => {
         const oneRef = collection(db, "posts" );
         await addDoc(oneRef , {
             userId: ctx.currentUser.authId,
-            userName: ctx.currentUser.name,
             post,
-            video,
-            createDate: serverTimestamp(),
+            adsCreateDate: serverTimestamp(),
         } )
         .then((res) => { 
           console.log("add post");
@@ -52,12 +55,29 @@ export default function usePost(id) {
           console.log("error" + error);
         });
     
-      }
+    }
 
+    const editPost = async(id, post) => {
+      const oneRef = doc(db, "posts",id);
+      await updateDoc(oneRef , {
+          post,
+      } )
+      .then((res) => { 
+        console.log("edit post");
+      })
+      .catch((error) => {
+        console.log("error" + error);
+      });
+    }
+    const deletePost = async(id) => {
+      const Doc = doc(db,`posts`, id);
+      await deleteDoc(Doc);
+    }
     return {
        addPost,
        posts,
        getPost,
-       post
+      deletePost,
+       editPost
       };
 }

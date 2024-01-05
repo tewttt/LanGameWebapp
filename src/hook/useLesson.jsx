@@ -62,20 +62,13 @@ export default function useLesson(id) {
     }
   
     // console.log(ctx.currentUser)
-    const addTeacher =async (data) => {
-        // console.log(data)
+    const addTeacher =async (teacher) => {
         const teachRef = doc(db, "users", auth?.currentUser?.uid )
-        // const teacher = {
-        //     data,
-        //     createDate: serverTimestamp(),
-        //     status: false,
-        //     message: "request"
-        // } 
         await updateDoc(teachRef , { 
-            data,
+            teacher,
             createDate: serverTimestamp(),
-            status: false,
-            message: "request"
+            teacherStatus: false,
+            teacherMessage: "request"
         })
         .then((res) => { 
             alert("request teacher")

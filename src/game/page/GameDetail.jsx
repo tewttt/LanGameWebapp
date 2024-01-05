@@ -1,4 +1,4 @@
-import React, { useState,  useEffect , useRef } from "react";
+import React, { useState,  useEffect , useRef, useContext } from "react";
 import Head from "../components/Head";
 import Dice from "../components/Dice";
 import zur from "../../assets/img/1.jpg"
@@ -9,16 +9,17 @@ import Spinner from "../../components/General/Spinner";
 import { useParams } from "react-router-dom";
 import { getAuth } from "firebase/auth";
 import useGame from "../../hook/useGame";
-
+import UserContext from "../../context/UserContext";
 const auth = getAuth();
 let intervalIds = [];
 const TIME = 3
 
 const GameDetail = () => {
- 
-  const currentUser = auth.currentUser.uid;
+ const ctx = useContext(UserContext)
+  // const currentUser = auth.currentUser.uid;
+  const currentUser = ctx?.currentUser?.authId
   const { id } = useParams();
-  // console.log(id)
+  // console.log(ctx.currentUser.coins)
   const { addAnswer, game, players, addPoint,deletePlayer ,isGameEnded, showGameEnd} = useGame(id);
 
   const [loader, setLoader] = useState(false);
@@ -227,7 +228,7 @@ const answer = question?.answers?.find(item => item.authId === currentUser)
           </div>
         </div>
       )}
-      <Head />
+      <Head coins = {ctx?.currentUser?.coins}/>
       {/* Body */}
       <div className="relative w-full h-full">
         {/* Тоглогчдыг харуулж байна */}

@@ -1,26 +1,28 @@
 import React, { useState} from "react";
 import {Switch , Route} from "react-router-dom"
 import { auth } from "../../firebase";
-import LessonPage from "../LessonPage";
+import LessonPage from "../../lesson/page/LessonPage";
 import Game from "../../game/page/GamePage"
-import Payment from "../Payment";
-import LessonView from "../LessonView";
+import Payment from "../../payment/Payment";
+import LessonView from "../../lesson/page/LessonView";
 import Login from "../Login";
 import SignUp from "../SignUp";
-import Dashboard from "../../admin/page/Dashboard";
 import Logout from "../../components/Logout";
 import ProfilePage from "../ProfilePage";
-import AdminLogin from "../../admin/page/AdminLogin"
-import EditLesson from "../../admin/Edit/EditLessonPage";
+import AddLesson from "../../lesson/add/AddLessonPage";
+import EditLesson from "../../lesson/edit/EditLessonPage";
 import Teacher from "../Teacher/Teacher";
-import AddLesson from "../AddLesson";
 import GameDetail from "../../game/page/GameDetail";
 import BackgroundAnimation from "../../UI/BackgroundAnimation";
 import GameHome from "../../game/page/GameHome";
-import WatchAdvertise from "../../game/page/watchAdvertise";
-import Advertise from "../../advertise/page/Advertise";
-import AddPost from "../../advertise/page/addPost";
-import AddAdvertise from "../../advertise/page/addAdvertise";
+import WatchAdvertise from "../../advertise/ads/watchAdvertise";
+import Advertise from "../../advertise/ads/Advertise";
+import AddPost from "../../advertise/post/addPost";
+import AddAdvertise from "../../advertise/ads/addAdvertise";
+import EditPost from "../../advertise/post/editPost";
+import AllAds from "../../advertise/ads/allAds";
+import EditAdvertise from "../../advertise/ads/editAds";
+import Forgot from "../forgot";
 
 const App = () => { 
      // console.log(auth?.currentUser?.uid)
@@ -51,18 +53,21 @@ return (
           <Route path="/profile" component={ProfilePage}/>
           <Route path="/addLesson" component={AddLesson}/>
           <Route path="/teacher" component={Teacher}/>
-          <Route path="/dashboard" component={Dashboard}/>
           <Route path="/edit/:id" component={EditLesson}/>
-          <Route path="/watchAdvertise" component={WatchAdvertise}/>
-          <Route path="/advertise" component={Advertise} />
-          <Route path="/addPost" component={AddPost} />
+          <Route path="/watchAds" component={WatchAdvertise}/>
+          <Route path="/ads" component={Advertise} />
           <Route path="/addAds/:id" component={AddAdvertise} />
+          <Route path="/allAds" component={AllAds} />
+          <Route path="/post" component={AddPost} />
+          <Route path="/editpost/:id" component={EditPost} />
+          <Route path="/editads/:id" component={EditAdvertise} />
           <Route path="/" component={LessonPage}/>
      </Switch>
      ) : (
      <Switch>
-          {/* <Route path="/admin" component={AdminLogin}/>  */}
           <Route path="/signup" component={SignUp}/>
+          <Route path="/forgot" component={Forgot}/>
+          <Route path="/verification" component={Forgot}/>
           <Route path="/" component={Login}/>
      </Switch>
      )}    

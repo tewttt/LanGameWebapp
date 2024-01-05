@@ -1,20 +1,23 @@
 import React, { useState, useContext, useEffect } from "react";
 import ToolSidebar from "../../components/ToolSidebar";
-import GameContext from "../../context/GameContext";
 import UserContext from "../../context/UserContext";
 import LessonContext from "../../context/LessonContext";
 import { getAuth } from "firebase/auth";
 import Modal from "../../components/General/Modal";
-import useGame from "../../hook/useGame";
-const auth = getAuth();
+import { IoAddCircle } from "react-icons/io5";
+import { FaCircleMinus } from "react-icons/fa6";
 
+// TO DO 
+// БҮх тоглогч гарах үед тухайн тоглоомыг устгах
+// 3 tools talbar dr random -r gargah 
+// 
+const auth = getAuth();
 let intervalIds = [];
 const TIME = 10
 const Game = () => {
   const [time, setTime] = useState(TIME)
   const [state, setState] = useState({});
   const Lessonctx = useContext(LessonContext);
-  const Gamectx = useContext(GameContext);
   const Userctx = useContext(UserContext);
   const authId = auth.currentUser?.uid;
 
@@ -37,6 +40,7 @@ const Game = () => {
   const arrChoose = ["Online", "Friends"];
   const [show, setShow] = useState(false);
 
+  
   useEffect(() => {
     intervalIds.push( setInterval(startTimer, 1000))
      return ()=>{
@@ -109,10 +113,35 @@ const Game = () => {
     // examfun(game.id);
   };
 
-  const newGame = () => {
-    Lessonctx.createGame(state, chLan, chLevel, chLesson);
+  const newGame = (entry) => {
+    Lessonctx.createGame(state, chLan, chLevel, chLesson , entry , authId );
   };
+  const [betNumber, setBetNumber] = useState(0)
+  const bet = [
+    {win: 1400, entry: 500},
+    {win: 5600, entry: 2000},
+    {win: 28000, entry: 10000},
+    {win: 140000, entry: 50000},
+    {win: 560000, entry: 200000},
+  ]
 
+  const addBet = () => {
+    if(betNumber === bet.length-1) 
+    {
+      return bet.length - 1
+    } else {
+      setBetNumber(prev => prev + 1)
+    }
+  }
+
+  const minusBet = () => {
+    if(betNumber == 0 ) {
+      return 0;
+    } else {
+      setBetNumber(prev => prev - 1)
+    }
+    
+  }
   return (
     // <GameStore>
     <div className="flex flex-col justify-center">
@@ -182,6 +211,18 @@ const Game = () => {
               </div>
             ))}
           </div>
+
+          <div className="text-white ">
+            <div className="flex justify-center mb-3">Choose Bet</div>
+            <div className="flex justify-between">
+              <div><FaCircleMinus onClick={minusBet} color="blue" size={30}/></div>
+              <div>
+                <div>WIN: {bet[betNumber].win}</div>
+                <div>Entry: {bet[betNumber].entry}</div>
+              </div>
+              <div><IoAddCircle onClick={addBet} color="blue" size={34}/></div>
+            </div>
+          </div>
         </div>
         <Modal closeConfirm={closeConfirm} show={show.show}>
           <div style={{ display: "flex", flexDirection: "column" }}>
@@ -218,7 +259,8 @@ const Game = () => {
         </div>
 
         <button
-          onClick={() => newGame(chLan, chLevel, chLesson)}
+          // onClick={() => newGame(chLan, chLevel, chLesson )}
+          onClick={() => newGame( bet[betNumber].entry)}
           className=" bg-black rounded-3xl p-3 border border-baseBlue text-white hover:border-blue-800 hover:bg-baseBlue "
         >
           New Game

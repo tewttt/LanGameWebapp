@@ -1,7 +1,7 @@
 import React from "react";
 import { AiOutlineStepBackward } from "react-icons/ai";
 import { useHistory } from "react-router-dom";
-const Head = () => {
+const Head = ({coins}) => {
   const history = useHistory();
   const back = () => {
     history.push("/game");
@@ -13,7 +13,7 @@ const Head = () => {
         size={18}
         className=" md:w-[30px] md:h-[30px] mx-1 lg:mx-5 hover:text-blue-500 transform duration-500 ease-in-out hover:scale-125"
       />
-      <div>32,650</div>
+      <div>{coins}</div>
     </div>
   );
 };

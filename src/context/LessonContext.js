@@ -1,5 +1,5 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { db, storage } from "../firebase";
 import { useHistory } from "react-router-dom";
 import {
@@ -18,6 +18,7 @@ import {
 } from "firebase/firestore";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { useEffect } from "react";
+import UserContext from "./UserContext";
 
 const auth = getAuth();
 const LessonContext = React.createContext();
@@ -42,7 +43,8 @@ const getState = {
 let unsubcribeGames;
 export const LessonStore = (props) => {
   const history = useHistory();
-
+  const ctx = useContext(UserContext)
+ 
   const [state, setState] = useState(initialState);
   const [lessons, setLessons] = useState([]);
 
@@ -72,6 +74,7 @@ export const LessonStore = (props) => {
   const [lanId, setLanId] = useState([]);
   const [levelId, setLevelId] = useState([]);
   const [lessonsId, setLessonsId] = useState([]);
+  const [userLesson, setUserLesson] = useState([])
 
   useEffect(() => {
     Language();
@@ -85,6 +88,7 @@ export const LessonStore = (props) => {
       const lessRef = doc(db, "lessons", state.base.language);
       const add = await setDoc(lessRef, {
         language: state.base.language,
+      
       });
       await setDoc(
         doc(db, `lessons/${state.base.language}/topics`, state.base.level),
@@ -98,7 +102,9 @@ export const LessonStore = (props) => {
           `lessons/${state.base.language}/topics/${state.base.level}/lessons`,
           state.base.lessonNumber
         ),
-        {
+        { language: state.base.language,
+          level: state.base.level,
+          lessonNumber: state.base.lessonNumber,
           userAuthId: auth.currentUser?.uid,
           name: state.base.name,
           price: state.base.price,
@@ -148,27 +154,7 @@ export const LessonStore = (props) => {
           grammar: state.grammar,
         }
       );
-      const questionsRef = collection(db, "questions");
-      await addDoc(questionsRef, {
-        createDate: serverTimestamp(),
-        language: state.base.language,
-        level: state.base.level,
-        lesson: state.base.lessonNumber,
-        exam: state.exam,
-        translate: state.translate,
-        word: state.newWord,
-      });
-      alert("Хичээл амжилттай үүслээ");
-
-      const teachRef = collection(db, `teacher/${auth?.currentUser?.uid}/${state.base.language}`);
-          await addDoc(teachRef, {
-            createDate: serverTimestamp(),
-            language: state.base.language,
-            level: state.base.level,
-            lesson: state.base.lessonNumber,
-          
-          });
-
+     
     } catch (err) {
       console.log(err);
     }
@@ -225,6 +211,24 @@ export const LessonStore = (props) => {
     };
   };
 
+  const userLessons = (level, chLan) => {
+    const lessonsRef = collection(
+      db,
+      `lessons/${chLan}/topics/${level}/lessons`
+    );
+    const unsubcribe = onSnapshot(lessonsRef, (snapshot) => {
+      setUserLesson(() => {
+        const list = snapshot.docs.map((doc) => {
+          return { id: doc.id, ...doc.data() };
+        });
+        return [...list];
+      });
+    });
+    return () => {
+      unsubcribe();
+    };
+  };
+
   const [lesson, setLesson] = useState([]);
   const [id, setId] = useState("");
   const [chLan, setChLan] = useState("");
@@ -235,10 +239,9 @@ export const LessonStore = (props) => {
   const [grammar, setGrammar] = useState([]);
   const [games, setGames] = useState([]);
 
-  // console.log(chLan, chLevel, id);
-  // console.log(exam);
   // Lesson хичээл татаж авах
   const Lesson = (id, chLan, chLevel) => {
+    // console.log(id)
     setId(id);
     setChLan(chLan);
     setChLevel(chLevel);
@@ -250,9 +253,25 @@ export const LessonStore = (props) => {
     onSnapshot(lessonRef, (doc) => {
       setLesson(doc.data(), doc.id);
     });
+    translatefun()
+    examfun()
+    grammarfun()
+    wordfun()
   };
   // Exam татаж авах
-  const examfun = async (chLan, chLevel, chLesson) => {
+  const examfun = () => {
+    const translateRef = doc(
+      db,
+      `lessons/${chLan}/topics/${chLevel}/lessons/${id}/exam`,
+      id
+    );
+    onSnapshot(translateRef, (doc) => {
+      // console.log(doc.data())
+      setExam(doc.data());
+    });
+  };
+
+  const examfunGame = async (chLan, chLevel, chLesson) => {
     const examRef = collection(
       db,
       `lessons/${chLan}/topics/${chLevel}/lessons/${chLesson}/exam`
@@ -387,8 +406,8 @@ export const LessonStore = (props) => {
     }
   };
 
-  const createGame = async (state, chLan, chLevel, chLesson) => {
-    const questions = await examfun(chLan, chLevel, chLesson);
+  const createGame = async (state, chLan, chLevel, chLesson , entry , authId) => {
+    const questions = await examfunGame(chLan, chLevel, chLesson);
     await chGames(chLan, chLevel, chLesson)
     try {
       const GameRef = collection(db, "game");
@@ -414,35 +433,118 @@ export const LessonStore = (props) => {
         color: "red",
       });
 
-      // Тоглогчдыг тоог авж байна
-      const PlRef = collection(db, `game/${game.id}/players`);
-      const snapshot = await getCountFromServer(PlRef);
-      const count = snapshot.data().count;
-      const GameNewRef = doc(db, "game", game.id);
-      await updateDoc(GameNewRef, { count: count });
+      const data = {
+        coin: entry,
+        label: "play game",
+        labelType: "game",
+        type: "withdraw"
+      }
 
-      history.push(
-        `/newGame/${game.id}?lan=${chLan}&level=${chLevel}&lesson=${chLesson}`
-      );
+       
+        const oneRef = collection(db, `users/${authId}/transaction` );
+        await addDoc(oneRef , {
+          data,
+          createDate: serverTimestamp(),
+          
+        } )
+        .then((res) => { 
+          alert("togloom ru newterlee")
+          history.push(
+            `/newGame/${game.id}?lan=${chLan}&level=${chLevel}&lesson=${chLesson}`
+          );
+        })
+        .catch((error) => {
+          console.log("error" + error);
+        });
+// TO DO
+// coin hvrehgvi ved hvrehgvi bn gsn medeelel haruulj , togloom ru orohgvi bh
+ 
+
+        // if( userCtx.currentUser.coins < data.coin ){
+        //   alert("coin hvrehgvi bn")
+        //   history.push("/game")
+
+        // } else {
+        //   await addDoc(oneRef , {
+        //     data,
+        //     createDate: serverTimestamp(),
+            
+        //   } )
+        //   .then((res) => { 
+        //     alert("togloom ru newterlee")
+        //     history.push(
+        //       `/newGame/${game.id}?lan=${chLan}&level=${chLevel}&lesson=${chLesson}`
+        //     );
+        //   })
+        //   .catch((error) => {
+        //     console.log("error" + error);
+        //   });
+        // }
+       
+       
+      
+    
+      // Тоглогчдыг тоог авж байна
+      // const PlRef = collection(db, `game/${game.id}/players`);
+      // const snapshot = await getCountFromServer(PlRef);
+      // const count = snapshot.data().count;
+      // const GameNewRef = doc(db, "game", game.id);
+      // await updateDoc(GameNewRef, { count: count });
+
+      // history.push(
+      //   `/newGame/${game.id}?lan=${chLan}&level=${chLevel}&lesson=${chLesson}`
+      // );
     } catch (err) {
       console.log(err);
     }
   };
 
-  // const updateEnglishDB = async (id) => {
-  //     // preventDefault();
-  //     const updateLesson = doc(db, "english" ,id)
-  //     await updateDoc(updateLesson, {state: state})
-  //     alert("lesson enlish update")
+  const updateDB = async (lan, level, number) => {
+    await updateDoc(
+      doc(db,`lessons/${lan}/topics/${level}/lessons`,number),
+      {
+        name: state.base.name,
+        price: state.base.price,
+        status: state.base.status,
+        text: state.base.text,
+        video: state.video,
+        image: state.image,
+      }
+    );
+    await updateDoc(
+      doc(db,`lessons/${lan}/topics/${level}/lessons/${number}/exam`, number),
+      {
+        exam: state.exam,
+      }
+    );
+    await updateDoc(
+      doc(db,`lessons/${lan}/topics/${level}/lessons/${number}/translate`, number),
+      {
+        translate: state.translate,
+      }
+    );
+    await updateDoc(
+      doc(db,`lessons/${lan}/topics/${level}/lessons/${number}/word`, number),
+      {
+        word: state.newWord,
+      }
+    );
+    await updateDoc(
+      doc(db,`lessons/${lan}/topics/${level}/lessons/${number}/grammar`, number),
+      {
+        grammar: state.grammar,
+      }
+    );
+    alert("lesson enlish update")
 
-  // }
+}
 
-  // const deleteEnglishDB = async (id) => {
-  //     console.log(id)
-  //     const LessonDoc = doc(db, "english", id);
-  //     await deleteDoc(LessonDoc);
-  //     // getEnglishList();
-  // }
+const deleteDB = async (lan, level, number) => {
+    const LessonDoc = doc(db,`lessons/${lan}/topics/${level}/lessons`, number);
+    await deleteDoc(LessonDoc);
+}
+
+ 
 
   return (
     <LessonContext.Provider
@@ -477,6 +579,10 @@ export const LessonStore = (props) => {
         saveNewWord,
         saveTranslate,
         saveVideo,
+        updateDB,
+        deleteDB,
+        userLessons,
+        userLesson
        
         // getQuestions,
         // createQuestions,

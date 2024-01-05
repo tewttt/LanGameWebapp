@@ -5,15 +5,16 @@ import {
     addDoc,
     onSnapshot,
     updateDoc,
-    doc
+    doc,
+    deleteDoc
   } from "firebase/firestore";
 import { db } from "../firebase";
 import UserContext from "../context/UserContext";
-import { useHistory , useParams} from "react-router-dom"
+import { useHistory } from "react-router-dom"
 
 export default function useAds(id) {
   const ctx = useContext(UserContext)
-  const [ads, setAds] = useState([])
+  const [allads, setAds] = useState([])
   const history = useHistory()
 
   useEffect(() => {
@@ -27,23 +28,6 @@ export default function useAds(id) {
     // }
   }, []);
   
-  const changeMessage =async (message, adsId) => {
-    const oneRef = doc(db, "ads", adsId)
-
-    if(message === "accept") {
-      await updateDoc(oneRef , {
-        status: true,
-        message: message
-      })
-    } else {
-      await updateDoc(oneRef , {
-        message: message,
-        status: false
-      })
-    }
-    alert("status oorchlogdloo")
-  }
-
   const sendAds = async (ads) => {
       const adsRef = collection(db, "ads")
       await addDoc(adsRef , {
@@ -58,7 +42,7 @@ export default function useAds(id) {
           message: ""
       } )
       .then((res) => { 
-        history.push("/advertise")
+        history.push("/ads")
         console.log("add ads");
       })
       .catch((error) => {
@@ -66,9 +50,28 @@ export default function useAds(id) {
       });
 
   }
-    return {
-        sendAds,
+  const editAds = async(ads, id) => {
+    const oneRef = doc(db, "ads",id);
+    await updateDoc(oneRef , {
         ads,
-        changeMessage 
-    }
+    } )
+    .then((res) => { 
+      history.push("/ads")
+      console.log("edit ads");
+    })
+    .catch((error) => {
+      console.log("error" + error);
+    });
+  }
+  const deleteAds = async(id) => {
+    const Doc = doc(db,`ads`, id);
+    await deleteDoc(Doc);
+  }
+  return {
+      sendAds,
+      editAds,
+      deleteAds,
+      allads,
+      
+  }
 }
