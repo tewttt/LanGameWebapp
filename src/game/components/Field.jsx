@@ -5,6 +5,17 @@ import redHorse from "../../assets/img/redHorse.png";
 import purpleHorse from "../../assets/img/purpleHorse.png";
 import useGame from "../../hook/useGame";
 import { useParams } from "react-router-dom";
+import grass from '../../assets/game/grass.png'
+import greenTree from "../../assets/game/greenTree.png"
+import greenTwoTree from "../../assets/game/greenTwoTree.png"
+import oneGrass from "../../assets/game/oneGrass.png"
+import road from "../../assets/game/road.png"
+import triangleTree from "../../assets/game/triangleTree.png"
+import yellowOneTree from "../../assets/game/yellowOneTree.png"
+import smallGrass from "../../assets/game/smallOneGrass.png"
+import trianleTwoTree from "../../assets/game/triangleTwoTree.png"
+import yellowTwoTree from "../../assets/game/yellowTwotree.png"
+import { MdOutlineLogout } from "react-icons/md";
 
 const Field = (props) => {
   const horses = {
@@ -17,65 +28,124 @@ const Field = (props) => {
   const { players } = useGame(id);
   const [field, setField] = useState(Array(40).fill(null));
 
+  const positions = [
+    { position: "absolute", top: 565, right: 35},
+    { position: "absolute", top: 80, right: 35},
+    { position: "absolute", top: 80, right: 0, borderTopRightRadius:30 },
+    { position: "absolute", top: 115, right: 0 },
+    { position: "absolute", top: 150, right: 0 },
+    { position: "absolute", top: 185, right: 0, borderBottomRightRadius: 30 },
+    { position: "absolute", top: 185, right: 35 },
+    { position: "absolute", top: 185, right: 70 },
+    { position: "absolute", top: 185, right: 105 },
+    { position: "absolute", top: 185, right: 140 },
+    { position: "absolute", top: 185, right: 175, },
+    { position: "absolute", top: 185, left: 0, borderTopLeftRadius: 30},
+    { position: "absolute", top: 220, left: 0 },
+    { position: "absolute", top: 255, left: 0,  },
+    { position: "absolute", top: 290, left: 0, borderBottomLeftRadius: 30 },
+    { position: "absolute", top: 290, left: 35 },
+    { position: "absolute", top: 290, left: 70 },
+    { position: "absolute", top: 290, left: 105 },
+    { position: "absolute", top: 290, left: 140,  },
+    { position: "absolute", top: 290, left: 175,  },
+    { position: "absolute", top: 290, right: 0, borderTopRightRadius: 30 },
+    { position: "absolute", top: 325, right: 0,  },
+    { position: "absolute", top: 360, right: 0 },
+    { position: "absolute", top: 395, right: 0, borderBottomRightRadius: 30 },
+    { position: "absolute", top: 395, right: 35  },
+    { position: "absolute", top: 395, right: 70 },
+    { position: "absolute", top: 395, right: 105,   },
+    { position: "absolute", top: 395, right: 140, },
+    { position: "absolute", top: 395, right: 175 },
+    { position: "absolute", top: 395, left: 0 ,borderTopLeftRadius: 30 },
+    { position: "absolute", top: 430, left: 0,  },
+    { position: "absolute", top: 465, left: 0 },
+    { position: "absolute", top: 495, left: 0, borderBottomLeftRadius: 30 },
+    { position: "absolute", top: 495, left: 35,  },
+    { position: "absolute", top: 495, left: 70,  },
+    { position: "absolute", top: 495, left: 105 },
+    { position: "absolute", top: 495, left: 140 },
+    { position: "absolute", top: 495, left: 175 },
+    { position: "absolute", top: 495, right: 0 , borderTopRightRadius: 30},
+    { position: "absolute", top: 530, right: 0,  },
+  
+    
+  ];
+
   const fieldUsers = (fieldNum) => {
     const playersFil = players?.filter(
       (item) => item.point == fieldNum
-      // console.log(item.point)
     );
-    // console.log(playersFil)
+  
     return playersFil;
   };
 
   return (
-    <div className=" grid grid-cols-5 w-[300px] pl-3 ml-2">
-      {field.map((value, i) => {
-        const players = fieldUsers(i);
-        return (
-          <div 
-          key={i}
-          // style={{...position[i]}} 
-          className="w-[40px] h-[40px] bg-green-800 shadow hover:shadow-gray-900 text-white text-sm  rounded-[50%]">
-            {i}
-            {players?.map((e, i) => {
-              return (
-                <img src={horses[e.color]} className="w-20 h-18 p-0" key={i} />
-              );
-            })}
-          </div>
-        );
-      })}
+    <div className="w-full h-full relative">
+       
+      <img src={greenTree} className="absolute top-[280px] left-[36px] w-[32px] h-[40px]"/>
+      <img src={oneGrass} className="absolute top-[130px] left-[140px] w-[45px] h-[36px]"/>
+      <img src={yellowOneTree} className="absolute top-[200px] right-[20px] w-[48px] h-[56px]"/>
+      <img src={triangleTree} className="absolute top-[380px] right-[24px] w-[37px] h-[53px]"/>
+      <img src={smallGrass} className="absolute top-[230px] right-[100px] w-[32px] h-[24px]"/>
+      <img src={grass} className="absolute top-[308px] right-[104px] z-10 w-[52px] h-[24px]"/>
+      <img src={road} className="absolute top-[300px] right-[100px] w-[100px] h-[42px]"/>
+      <img src={greenTwoTree} className="absolute top-[470px] left-[100px] w-[38px] h-[42px]"/>
+      <img src={yellowTwoTree} className="absolute top-[570px] left-[80px] w-[38px] h-[42px]"/>
+      <img src={trianleTwoTree} className="absolute top-[570px] right-[80px] w-[38px] h-[42px]"/>
+
+
+      <div className="relative ml-28 w-[245px]">
+        {field.map((value, i) => {
+          const players = fieldUsers(i);
+          return (
+            
+              <div 
+                key={i}
+                style={{...positions[i]}} 
+                
+                className="w-[35px] h-[35px] bg-[#4C3F1C] shadow hover:shadow-gray-900 
+                text-white text-sm"
+              >
+                {i}
+
+                {players?.map((e, i) => {
+                  return (
+                    <img src={horses[e.color]} className="w-20 h-18 p-0" key={i} />
+                  );
+                })}
+
+              </div>
+           
+          );
+        })}
+     
+      </div>
     </div>
+
+    
   );
 };
 export default Field;
 
 
-// <div>
-//   {horses.map((e, i) => {
-//     <img src={e} className="w-20 h-18 p-0" key={i} />;
-//   })}
-// </div>
 
-// if (i == 0) {
-//   <img src={blueHorse} className="w-20 h-18 p-0" key={i} />;
-// } else if (i == 1) {
-//   <img src={redHorse} className="w-20 h-18 p-0" key={i} />;
-// } else if (i == 2) {
-//   <img src={orangeHorse} className="w-20 h-18 p-0" key={i} />;
-// } else {
-//   <img src={purpleHorse} className="w-20 h-18 p-0" key={i} />;
-// }
-
-// return (
-//   <div className="w-[40px] h-[40px] bg-green-800 shadow hover:shadow-gray-900  rounded-[50%]">
-//     {horses.map((e, i) => {
-//       // 1. Adilhan onootoi toglogchdiig olno
-//       // fieldUsers(e)
-//       // props.playerId === i && (
-//       //   <img src={e} className="w-20 h-18 p-0" key={i} />
-//       // );
-//       // console.log(e);
-//       return <img src={e} className="w-20 h-18 p-0" key={i} />;
-//     })}
-//   </div>
-// );
+// <div className=" grid grid-cols-5 w-[300px] pl-3 ml-2">
+    //   {field.map((value, i) => {
+    //     const players = fieldUsers(i);
+    //     return (
+    //       <div 
+    //       key={i}
+    //       // style={{...position[i]}} 
+    //       className="w-[40px] h-[40px] bg-green-800 shadow hover:shadow-gray-900 text-white text-sm  rounded-[50%]">
+    //         {i}
+    //         {players?.map((e, i) => {
+    //           return (
+    //             <img src={horses[e.color]} className="w-20 h-18 p-0" key={i} />
+    //           );
+    //         })}
+    //       </div>
+    //     );
+    //   })}
+    // </div>

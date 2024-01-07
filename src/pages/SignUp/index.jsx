@@ -5,7 +5,7 @@ import UserContext from "../../context/UserContext";
 import { Colors } from "../../constants/Colors";
 import Spinner from "../../components/General/Spinner";
 import {AiFillEye, AiFillEyeInvisible, AiFillLock, AiTwotoneMail, AiFillPhone} from "react-icons/ai"
-import Logo from "../../assets/logo/Logo-Violet.png"
+import Logo from "../../assets/logo/Logo Violet.svg"
 import PhoneInput from "react-phone-input-2";
 import 'react-phone-input-2/lib/style.css'
 import {
@@ -160,7 +160,7 @@ const signupHandler = async() => {
    const login = () => {history.push("/")}
     return (
         <div className="flex flex-col justify-center items-center w-screen h-screen ">
-           <img src={Logo} className="w-[190px] h-[80px] mb-10"/>
+           <img src={Logo} className="w-[190px] h-[90px] mb-10"/>
             {ctx.state.error && (
                     <div style={{color: "red"}}> {ctx.state.error}</div>
                 )}

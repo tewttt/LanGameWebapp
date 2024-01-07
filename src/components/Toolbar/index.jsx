@@ -40,7 +40,7 @@ const Toolbar = (props) => {
     history.push("/profile");
   };
   return (
-    <header className="fixed flex h-[50px] w-screen  z-10 items-center justify-between  bg-baseColor ">
+    <header className="fixed flex h-[50px] bg-baseColor w-screen  z-10 items-center justify-between">
       <Logo />
       <div className="flex justify-between ">
         <div

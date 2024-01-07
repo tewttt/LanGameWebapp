@@ -10,6 +10,8 @@ import { useParams } from "react-router-dom";
 import { getAuth } from "firebase/auth";
 import useGame from "../../hook/useGame";
 import UserContext from "../../context/UserContext";
+import { MdOutlineLogout } from "react-icons/md";
+
 const auth = getAuth();
 let intervalIds = [];
 const TIME = 3
@@ -19,7 +21,7 @@ const GameDetail = () => {
   // const currentUser = auth.currentUser.uid;
   const currentUser = ctx?.currentUser?.authId
   const { id } = useParams();
-  // console.log(ctx.currentUser.coins)
+  // console.log(ctx.currentUser)
   const { addAnswer, game, players, addPoint,deletePlayer ,isGameEnded, showGameEnd} = useGame(id);
 
   const [loader, setLoader] = useState(false);
@@ -36,10 +38,10 @@ const GameDetail = () => {
   const question = questions.current[questionNumber] || {} 
 //  console.log(question,questions);
   const positions = [
-    { position: "absolute", top: 100, left: 0 },
-    { position: "absolute", top: 100, right: 0 },
-    { position: "absolute", bottom: 100, right: 0 },
-    { position: "absolute", bottom: 100, left: 0 },
+    { position: "absolute", top: 230, left: 10 },
+    { position: "absolute", top: 310, left: 10 },
+    { position: "absolute", top: 390, left: 10 },
+    { position: "absolute", top: 470, left: 10 },
   ];
  
   const logout = () => {
@@ -209,94 +211,97 @@ const answerClose = () => {
 const answer = question?.answers?.find(item => item.authId === currentUser)
   
   return (
-  <div className="flex flex-col justify-center m-auto text-white h-[660px]  max-w-[400px] ">
-    <div>
-      <header className="fixed flex h-[50px] w-screen  z-10 items-center justify-between  bg-baseColor ">
-        {/* <Logo/> */}
-        <div className="flex justify-between " onClick={logout}>
-          Гарах
-        </div>
-      </header>
-    </div>
-
-    <div className="flex flex-col  relative  bg-green-600 w-full h-full ">
-      {loader && (
-        <div className="absolute bg-baseColor">
-          <Spinner />
-          <div className="text-sm w-full text-center">
-            Waiting for other players... 30sec
+    <div className="bg-[#6e8426] flex justify-center items-center w-screen h-screen">
+      <div className="flex m-auto relative w-[400px] h-[700px] bg-[#97B62E]">
+        {loader && (
+          <div className="absolute bg-baseColor">
+            <Spinner />
+            <div className="text-sm w-full text-center">
+              Waiting for other players... 30sec
+            </div>
           </div>
-        </div>
-      )}
-      <Head coins = {ctx?.currentUser?.coins}/>
-      {/* Body */}
-      <div className="relative w-full h-full">
-        {/* Тоглогчдыг харуулж байна */}
-        {players?.map((e, i) => {
-          return (
-            <>
-              <div
-                id={e}
-                style={{ ...positions[i] }}
-                className="flex flex-col items-center "
-                key={i}
-              >
-                {/* <p>answeredPlayers {answeredPlayers[turn]?.authId === e.state.authId ? turn +1 : ''}</p> */}
-                <p>order </p>
-                <p className="text-[10px]">{e.state.name}</p>
-                <img src={zur} className="w-[50px] h-[50px] rounded-[50%] " />
-                <p className="text-[10px]">Level</p>
+        )}
 
-                {answeredPlayers[turn]?.authId === e.state.authId && <Dice id={i} onDiceChange={onDiceChange} />}
+          {/* Head */}
+          <div className="h-[30px] z-10 absolute flex items-center justify-between w-full">
+              <MdOutlineLogout
+                onClick={logout}
+                size={18}
+                className=" md:w-[30px] md:h-[30px] mx-1 lg:mx-5 hover:text-blue-500 transform duration-500 ease-in-out hover:scale-125"
+              />
+              <div>{ctx?.currentUser?.coins}</div>
+          </div>
+      
+
+          {/* Тоглогчдыг харуулж байна */}
+
+          {players?.map((e, i) => {
+            return (
+              <>
+                <div
+                  id={e}
+                  style={{ ...positions[i] }}
+                  className="flex flex-col items-center z-10"
+                  key={i}
+                >
+                  {/* <p>order </p> */}
+                  
+                  <img src={zur} className="w-[60px] h-[60px] rounded-[50%] " />
+                  <p className="text-[10px]">{e.state.name}</p>
+                  {/* <p className="text-[10px]">Level</p> */}
+
+                  {answeredPlayers[turn]?.authId === e.state.authId && <Dice id={i} onDiceChange={onDiceChange} />}
+                </div>
+              </>
+            );
+          })}
+          
+          {/* game end  */}
+          <Modal show={isGameEnded}>
+            <div>togloom duuslaa
+            </div>
+          </Modal>
+          {/* Асуултыг харуулж байна */}
+          <Modal show={questionShow}>
+            <div style={{ display: "flex", flexDirection: "column" }}>
+              <p>time {time}</p>
+              <div className="flex">
+                {/* <p className="mx-3">Question </p> */}
+                <p>{question?.questionText} </p>
               </div>
-            </>
-          );
-        })}
-        {/* game end  */}
-        <Modal show={isGameEnded}>
-          <div>togloom duuslaa
-          </div>
-        </Modal>
-        {/* Асуултыг харуулж байна */}
-        <Modal show={questionShow}>
-          <div style={{ display: "flex", flexDirection: "column" }}>
-            <p>time {time}</p>
-            <div className="flex">
-              {/* <p className="mx-3">Question </p> */}
-              <p>{question?.questionText} </p>
+              <div className="flex">
+                {question?.options?.map((e, i) => {
+                  // console.log(e);
+                  return (
+                  !answerShow &&    
+                  <button
+                      key={i}
+                      onClick={() => saveAnswer(e.optionText)}
+                      // className={`${lanActive === i ? css.laan : ""} ${css.nolan}`}
+                      className ={`${answer?.authId === currentUser ? "hidden" : "mx-3 border border-red-400 p-2 rounded-2xl"} `}
+                      // className="mx-3 border border-red-400 p-2 rounded-2xl"
+                    >
+                      <p>{e.optionText}</p>
+                    </button>
+                  );
+                })}
+              </div>
             </div>
-            <div className="flex">
-              {question?.options?.map((e, i) => {
-                // console.log(e);
-                return (
-               !answerShow &&    
-               <button
-                    key={i}
-                    onClick={() => saveAnswer(e.optionText)}
-                    // className={`${lanActive === i ? css.laan : ""} ${css.nolan}`}
-                    className ={`${answer?.authId === currentUser ? "hidden" : "mx-3 border border-red-400 p-2 rounded-2xl"} `}
-                    // className="mx-3 border border-red-400 p-2 rounded-2xl"
-                  >
-                    <p>{e.optionText}</p>
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-        </Modal>
+          </Modal>
 
-        {/* Харилутыг харуулж байна */}
-        <Modal show={answerShow}>
-          <p>correct answer : {question?.answerKey}</p>
-        </Modal>
-
-        <div className="absolute top-6 left-11">
+          {/* Харилутыг харуулж байна */}
+          <Modal show={answerShow}>
+            <p>correct answer : {question?.answerKey}</p>
+          </Modal>
+        <div className="absolute w-full h-full">
           <Field players={players} />
         </div>
-      </div>
-      <Footer />
+        
+          <div className="absolute z-10 w-full h-[60px] bottom-5">
+            <Footer />
+          </div>
+      </div>  
     </div>
-  </div>
   );
 };
 

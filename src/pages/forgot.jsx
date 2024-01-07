@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import Logo from "../assets/logo/Logo-Violet.png"
+import Logo from "../assets/logo/Logo Violet.svg"
 import { useHistory } from "react-router-dom";
 import UserContext from "../context/UserContext";
 import {
@@ -15,7 +15,7 @@ export default function Forgot() {
  
   return (
     <div className="flex flex-col justify-center items-center w-screen h-screen">
-     <img src={Logo} className="w-[190px] h-[80px] mb-10"/>   
+     <img src={Logo} className="w-[190px] h-[90px] mb-10"/>   
         <div className="mb-5 flex flex-row relative justify-between items-center w-[276px] h-[40px] ">
           <AiFillPhone size={20} className="text-baseColor/70 absolute ml-4" />
           <input

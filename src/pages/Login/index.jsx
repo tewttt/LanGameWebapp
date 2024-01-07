@@ -9,7 +9,7 @@ import {
   AiTwotoneMail,
 } from "react-icons/ai";
 import Loader from "../../UI/Loader";
-import Logo from "../../assets/logo/Logo-Violet.png"
+import Logo from "../../assets/logo/Logo Violet.svg"
 
 export default function Login() {
   const ctx = useContext(UserContext);
@@ -85,7 +85,7 @@ export default function Login() {
           <div style={{ color: "red" }}>{ctx.state.error}</div>
         )}
         
-        <img src={Logo} className="w-[190px] h-[80px] mb-10"/>
+        <img src={Logo} className="w-[190px] h-[90px] mb-10"/>
         <div className="mb-5 flex flex-row relative justify-between items-center w-[276px] h-[40px] ">
           <AiTwotoneMail size={20} className="text-baseColor/70 absolute ml-4" />
           <input

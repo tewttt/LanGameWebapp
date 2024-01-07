@@ -5,7 +5,7 @@ import { BsFillChatRightTextFill } from "react-icons/bs";
 
 const Footer = () => {
   return (
-    <div className=" h-[30px] mb-2 flex justify-between items-center w-full">
+    <div className="h-full m-auto rounded-[30px] flex justify-center items-center w-[350px] bg-white">
      
 
       <div className="flex w-[20%] justify-between items-center mx-2">

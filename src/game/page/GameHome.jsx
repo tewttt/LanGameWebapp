@@ -6,7 +6,7 @@ import GameNavbar from "../components/GameNavbar";
 const GameHome = () => { 
     const history = useHistory();
     return (
-        <div className="text-white">
+        <div className="">
             <ToolSidebar/>
             <div className="pt-20 flex flex-col">
                <GameNavbar/>

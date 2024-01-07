@@ -203,7 +203,9 @@ export const UserStore = (props) => {
         phone: phone,
         authId: auth.currentUser?.uid,  
         name: name,
-        status: false
+        status: false,
+        coins: 0,
+        amount: 0
         // userID: increment(countUserID)
       });
 
