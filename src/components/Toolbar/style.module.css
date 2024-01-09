@@ -2,29 +2,29 @@
     position: relative;
     padding: 1px 35px;
     margin: 0px 30px;
-    color: gray;
+    color: #340472;
     font-family: sans-serif;
     font-size: 20px;
     letter-spacing: 2px;
     border: 1px solid gray;
     border-radius: 10px;
-    background-color: transparent;
+    background-color: white;
 }
 .neon{
     position: relative;
     padding: 1px 35px;
     margin: 0px 30px;
-    color: white;
-    background-color: #1974C7;
+    color: #340472;
+    background-color: #E2CFEA;
     font-family: sans-serif;
     font-size: 20px;
     letter-spacing: 2px;
-    border: 0.1px solid #569fe3;
+    border: 0.1px solid #E2CFEA;
     border-radius: 10px;
     box-shadow: 0 0 20px white;
 }
 .noneon:hover {
-    background-color: #1974C7;
+    background-color: #E2CFEA;
     color: white;
     animation: blink 1s linear forwards;
 }

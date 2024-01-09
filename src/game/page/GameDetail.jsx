@@ -14,7 +14,17 @@ import { MdOutlineLogout } from "react-icons/md";
 
 const auth = getAuth();
 let intervalIds = [];
-const TIME = 3
+const TIME = 10
+// TO DO
+// vvssen togloomiin toglogchid 10 minutand bvrdehgvi bol tohloomii ustgana
+// game tools iig random r talbar dr gargah
+// end game Model dr toglogchdiin niit heden asuultand zow hariulsaniig haruulah
+// bairiig ezlvvlj haruulah
+// 1, 2 bairnii toglogchdod coin nemeh
+// sound oruulah
+// БҮх тоглогч гарах үед тухайн тоглоомыг устгах
+// express game ustgah 
+// frontend
 
 const GameDetail = () => {
  const ctx = useContext(UserContext)
@@ -23,7 +33,7 @@ const GameDetail = () => {
   const { id } = useParams();
   // console.log(ctx.currentUser)
   const { addAnswer, game, players, addPoint,deletePlayer ,isGameEnded, showGameEnd} = useGame(id);
-
+  // console.log(players)
   const [loader, setLoader] = useState(false);
   const [time, setTime] = useState(TIME)
   const [questionShow, setQuestionShow] = useState(true); 
@@ -32,16 +42,22 @@ const GameDetail = () => {
   const [turn, setTurn] = useState(0);
   const [answeredPlayers, setAnsweredPlayers] = useState([])
   const questions = useRef([])
-
-  // const [questions,setQuestions] = useState([])
  
   const question = questions.current[questionNumber] || {} 
-//  console.log(question,questions);
+
+const [playerAnswer, setPlayerAnswer] = useState("")
+//  const playerAnswer = answeredPlayers.find(
+//   item => item.authId === currentUser
+ 
+// );
+ console.log(playerAnswer);
+
   const positions = [
+    { position: "absolute", top: 150, left: 10 },
     { position: "absolute", top: 230, left: 10 },
     { position: "absolute", top: 310, left: 10 },
     { position: "absolute", top: 390, left: 10 },
-    { position: "absolute", top: 470, left: 10 },
+   
   ];
  
   const logout = () => {
@@ -49,7 +65,7 @@ const GameDetail = () => {
   };
 
   useEffect(() => {
-    // Асуултыг хугацаа харуулж байна
+    // Асуултын хугацаа харуулж байна
     intervalIds.push( setInterval(startTimer, 1000))
      return ()=>{
       // console.log(intervalId);
@@ -162,7 +178,7 @@ const startTimer = () => {
       setTimeout(() => {
         answerClose()
       }, 1000)
-      next = 3
+      next = 10
     }
     return next;
   }) 
@@ -171,6 +187,7 @@ const startTimer = () => {
 // Асуултын хариултыг Question -ий Answerd нэмж байна
 const saveAnswer = (answer) => {
 addAnswer(answer, currentUser, questionNumber);
+setPlayerAnswer(answer)
 // Тоглогч хариулсан бол хариултын товчыг идэвхигүй болгох
 };
 
@@ -241,14 +258,15 @@ const answer = question?.answers?.find(item => item.authId === currentUser)
                 <div
                   id={e}
                   style={{ ...positions[i] }}
-                  className="flex flex-col items-center z-10"
+                  className="flex z-10 items-center"
                   key={i}
                 >
                   {/* <p>order </p> */}
-                  
-                  <img src={zur} className="w-[60px] h-[60px] rounded-[50%] " />
-                  <p className="text-[10px]">{e.state.name}</p>
-                  {/* <p className="text-[10px]">Level</p> */}
+                  <div className="relative flex flex-col justify-center items-center">
+                    {/* <p className="text-[10px] absolute">Level</p> */}
+                    <img src={zur} className="w-[60px] h-[60px] rounded-[50%] " />
+                    <p className="text-[10px]">{e.state.name}</p>
+                  </div>
 
                   {answeredPlayers[turn]?.authId === e.state.authId && <Dice id={i} onDiceChange={onDiceChange} />}
                 </div>
@@ -258,54 +276,68 @@ const answer = question?.answers?.find(item => item.authId === currentUser)
           
           {/* game end  */}
           <Modal show={isGameEnded}>
-            <div>togloom duuslaa
+            <div>
+              <p>End game</p>
             </div>
           </Modal>
+
           {/* Асуултыг харуулж байна */}
           <Modal show={questionShow}>
-            <div style={{ display: "flex", flexDirection: "column" }}>
-              <p>time {time}</p>
-              <div className="flex">
-                {/* <p className="mx-3">Question </p> */}
+            <div 
+            className="flex flex-col h-full w-full"
+            // style={{ display: "flex", flexDirection: "column" }}
+            >
+              <div className="text-white m-auto flex flex-col justify-center items-center w-[70px] h-[70px] bg-baseColor rounded-[50%]">
+                <p className="text-sm">time </p>
+                <p className="text-[22px] font-bold">{time}</p>
+              </div>
+              <div className="flex my-2 w-full bg-hpink border border-baseColor rounded-[10px] h-full p-2">
                 <p>{question?.questionText} </p>
               </div>
-              <div className="flex">
-                {question?.options?.map((e, i) => {
-                  // console.log(e);
+
+              <div className="flex flex-col my-2">
+                {question?.options?.map((choice, i) => {
                   return (
                   !answerShow &&    
                   <button
                       key={i}
-                      onClick={() => saveAnswer(e.optionText)}
-                      // className={`${lanActive === i ? css.laan : ""} ${css.nolan}`}
-                      className ={`${answer?.authId === currentUser ? "hidden" : "mx-3 border border-red-400 p-2 rounded-2xl"} `}
-                      // className="mx-3 border border-red-400 p-2 rounded-2xl"
+                      onClick={() => saveAnswer(choice.optionText)}
+                      disabled={playerAnswer?.answer}
+                      className= {`${
+                        (choice.optionText === playerAnswer?.answer &&  playerAnswer?.answer === question?.answerKey) ? 
+                          'bg-green-600 ' : ""} hover:bg-orange-400 my-1 p-2 border border-baseColor rounded-2xl`}
+                      // className ={`${answer?.authId === currentUser ? "hidden" : "mx-3 border border-hpink my-1 p-2 rounded-2xl"} `}
+                    
                     >
-                      <p>{e.optionText}</p>
-                    </button>
+                    
+                    <p > {choice.optionText}</p>
+                  </button>
                   );
                 })}
               </div>
             </div>
           </Modal>
 
-          {/* Харилутыг харуулж байна */}
-          <Modal show={answerShow}>
-            <p>correct answer : {question?.answerKey}</p>
-          </Modal>
+        
         <div className="absolute w-full h-full">
           <Field players={players} />
         </div>
         
-          <div className="absolute z-10 w-full h-[60px] bottom-5">
-            <Footer />
-          </div>
+      
       </div>  
     </div>
   );
 };
 
 export default GameDetail;
+
+  {/* Харилутыг харуулж байна */}
+          {/* <Modal show={answerShow}>
+            <div className="flex flex-col justify-center">
+              <p className="text-center">Correct answer</p>
+              <p className="text-center my-2 w-full bg-hpink border border-baseColor rounded-[10px] h-full p-2"> {question?.answerKey}</p>
+            </div>
+          </Modal> */}
 
 // const location = useLocation();
   // const queryParams = new URLSearchParams(location.search);

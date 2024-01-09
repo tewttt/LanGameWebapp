@@ -410,6 +410,7 @@ export const LessonStore = (props) => {
     const questions = await examfunGame(chLan, chLevel, chLesson);
     await chGames(chLan, chLevel, chLesson)
     try {
+
       const GameRef = collection(db, "game");
       // Тоглооом үүсгэж байна
       const game = await addDoc(GameRef, {
@@ -431,6 +432,9 @@ export const LessonStore = (props) => {
         state,
         point: 0,
         color: "red",
+        shield: 0,
+        go: 0,
+        back: 0
       });
 
       const data = {
@@ -456,33 +460,6 @@ export const LessonStore = (props) => {
         .catch((error) => {
           console.log("error" + error);
         });
-// TO DO
-// coin hvrehgvi ved hvrehgvi bn gsn medeelel haruulj , togloom ru orohgvi bh
- 
-
-        // if( userCtx.currentUser.coins < data.coin ){
-        //   alert("coin hvrehgvi bn")
-        //   history.push("/game")
-
-        // } else {
-        //   await addDoc(oneRef , {
-        //     data,
-        //     createDate: serverTimestamp(),
-            
-        //   } )
-        //   .then((res) => { 
-        //     alert("togloom ru newterlee")
-        //     history.push(
-        //       `/newGame/${game.id}?lan=${chLan}&level=${chLevel}&lesson=${chLesson}`
-        //     );
-        //   })
-        //   .catch((error) => {
-        //     console.log("error" + error);
-        //   });
-        // }
-       
-       
-      
     
       // Тоглогчдыг тоог авж байна
       // const PlRef = collection(db, `game/${game.id}/players`);

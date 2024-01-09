@@ -67,12 +67,12 @@ const Toolbar = (props) => {
         <FaWallet
           onClick={wallet}
           size={18}
-          color="blue"
+          color="white"
           className=" md:w-[25px] md:h-[25px] mx-1 lg:mx-5 sm:mx-3 transform transition duration-500 ease-in-out hover:rotate-45 hover:translate-x-1 hover:text-blue-500  "
         />
         <HiUserCircle
           onClick={props.toggleSidebar}
-          color="blue"
+          color="white"
           size={22}
           className="md:w-[30px] md:h-[30px] mx-1 lg:mx-5 hover:text-blue-500 transform duration-500 ease-in-out hover:scale-125"
         />

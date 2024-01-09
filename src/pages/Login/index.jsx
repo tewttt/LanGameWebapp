@@ -41,6 +41,8 @@ export default function Login() {
   // login phone number
   // Phone verifaction
 // remember me color change
+// log out shuud garahgvi bn 
+
 
 
   // const year = new Date().getFullYear()

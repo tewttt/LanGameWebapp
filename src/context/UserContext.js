@@ -205,7 +205,8 @@ export const UserStore = (props) => {
         name: name,
         status: false,
         coins: 0,
-        amount: 0
+        amount: 0,
+        statusCoin: false
         // userID: increment(countUserID)
       });
 

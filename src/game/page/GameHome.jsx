@@ -8,14 +8,26 @@ const GameHome = () => {
     return (
         <div className="">
             <ToolSidebar/>
-            <div className="pt-20 flex flex-col">
-               <GameNavbar/>
-                <div className="w-[200px] mt-20 flex flex-col justify-center items-center h-[200px] border border-blue-400 m-auto">
-                    <button onClick={() =>history.push("/watchAds")} className="w-20 h-20 border border-red-500 m-4">video watch </button>
-                    <div>coin цуглуулах</div>
+            <div className="pt-20 flex flex-col items-center justify-between h-screen w-screen">
+              
+                <div className="flex flex-col h-[400px] w-[400px] border rounded-[20px] bg-hpink">
+                    <GameNavbar/>
+                    <div className=" rounded-xl w-[200px] m-auto p-2 text-center">
+                        <p>Collect coin</p>
+                        <button 
+                            onClick={() =>history.push("/watchAds")} 
+                            className="w-[150px] h-[150px] m-auto rounded-[50%] bg-baseColor text-hpink hover:bg-baseColor/80  text-[20px] p-4 border">
+                            WATCH A VIDEO
+                        </button>
+                    </div>
+                    
                 </div>
                
-                <button onClick={() =>history.push("/game")} className="mt-20">start</button>
+                <button 
+                    onClick={() =>history.push("/game")} 
+                    className=" m-auto w-[150px] h-[150px] text-[20px] rounded-[50%] bg-baseColor text-hpink">
+                    START GAME
+                </button>
             </div>
         </div>
     )

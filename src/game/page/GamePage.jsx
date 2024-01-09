@@ -6,15 +6,15 @@ import { getAuth } from "firebase/auth";
 import Modal from "../../components/General/Modal";
 import { IoAddCircle } from "react-icons/io5";
 import { FaCircleMinus } from "react-icons/fa6";
+import { FaCoins } from "react-icons/fa";
+import useGame from "../../hook/useGame";
 
-// TO DO 
-// БҮх тоглогч гарах үед тухайн тоглоомыг устгах
-// 3 tools talbar dr random -r gargah 
-// 
+
 const auth = getAuth();
 let intervalIds = [];
 const TIME = 10
 const Game = () => {
+  // const {players} = useGame();
   const [time, setTime] = useState(TIME)
   const [state, setState] = useState({});
   const Lessonctx = useContext(LessonContext);
@@ -24,22 +24,24 @@ const Game = () => {
   let arrLevel = Lessonctx.levelId;
   let arrLanguage = Lessonctx.lanId;
   let arrLesson = Lessonctx.lessonsId;
-  // const { examfun } = useGame(chLan, chLevel, chLesson);
+ 
   const [chChoose, setChoose] = useState("");
   const [chooseActive, setChooseActive] = useState(0);
 
   const [chLan, setChLan] = useState("");
-  const [lanActive, setLanActive] = useState("");
+  const [lanActive, setLanActive] = useState(0);
 
   const [chLevel, setChLevel] = useState("");
-  const [levelActive, setLevelActive] = useState("");
+  const [levelActive, setLevelActive] = useState(0);
 
   const [chLesson, setChLesson] = useState("");
-  const [lessonActive, setLessonActive] = useState("");
+  const [lessonActive, setLessonActive] = useState(0);
 
   const arrChoose = ["Online", "Friends"];
   const [show, setShow] = useState(false);
-
+  const [showEnterGame, setShowEnterGame] = useState(false)
+  // console.log(coinStatus)
+  // console.log(Userctx.currentUser.coins)
   
   useEffect(() => {
     intervalIds.push( setInterval(startTimer, 1000))
@@ -108,13 +110,22 @@ const Game = () => {
     setChLesson(lesson);
     Lessonctx.chGames(chLan, chLevel, lesson);
   };
-  const join = (game) => {
-    Lessonctx.join(state, game, chLan, chLevel, chLesson);
-    // examfun(game.id);
+  const join = (game, entry) => {
+    game?.players.map((e, i) => {
+      if(e?.state?.authId === authId || Userctx?.currentUser?.coins > entry) {
+        Lessonctx.join(state, game, chLan, chLevel, chLesson);
+      } else {
+        setShowEnterGame(true)
+      }
+    })
   };
 
   const newGame = (entry) => {
-    Lessonctx.createGame(state, chLan, chLevel, chLesson , entry , authId );
+    if(Userctx?.currentUser?.coins > entry) {
+      Lessonctx.createGame(state, chLan, chLevel, chLesson , entry , authId );
+    } else {
+      setShowEnterGame(true)
+    }
   };
   const [betNumber, setBetNumber] = useState(0)
   const bet = [
@@ -144,12 +155,130 @@ const Game = () => {
   }
   return (
     // <GameStore>
-    <div className="flex flex-col justify-center">
+    <div className="flex flex-col justify-center h-screen">
       <ToolSidebar />
+      <div className="flex flex-col mt-16 w-[400px] rounded-t-3xl bg-gradient-to-b from-baseColor to-hpink m-auto">
+          <div className="flex justify-center rounded-t-3xl py-5 w-full
+          bg-gradient-to-b from-baseColor to-hpink
+          ">
+            {arrLanguage.map((lan, i) => (
+              <div
+                className={`${
+                  lanActive === i ? "border border-baseColor bg-white text-baseColor" : ""
+                } text-[12px] transform hover:scale-110 hover:border-blue-500 hover:text-blue-500 border border-blue-200 rounded-[10px] py-1 px-2 mx-3 my-1 w-[95px] h-[30px] flex justify-center items-center`}
+                //    className={`${lanActive===i ? css.laan : ""} ${css.nolan}`}
+                key={i}
+                onClick={() => selectLan(lan.id, i)}
+              >
+                {lan.id}
+              </div>
+            ))}
+          </div>
+          <div className=" flex justify-center bg-gradient-to-b from-baseColor to-hpink rounded-t-3xl py-5 w-full">
+            {arrLevel.map((level, i) => (
+              <div
+                // className={`${levelActive===i ? css.newlevel : css.nolevel} ${css.nolevel}`}
+                className={`${
+                  levelActive === i
+                    ? "border border-baseColor bg-white text-baseColor"
+                    : ""
+                } flex justify-center items-center tranform hover:scale-110 hover:border-blue-500 hover:text-blue-500 border w-[40px] h-[40px] rounded-[5px]  `}
+                key={i}
+                onClick={() => selectLevel(level.id, i)}
+                $
+              >
+                {level.id}
+              </div>
+            ))}
+          </div>
+          <div className="grid grid-cols-10 rounded-t-3xl py-5 w-full bg-gradient-to-b from-baseColor to-hpink">
+            {arrLesson.map((lesson, i) => (
+              <div
+                onClick={() => selectLesson(lesson.id, i)}
+                key={i}
+                className={`${
+                  lessonActive === i
+                    ? "border border-baseColor bg-white text-baseColor"
+                    : ""
+                } flex justify-center items-center tranform hover:scale-110 hover:border-blue-500 hover:text-blue-500 w-[40px] h-[40px] rounded-[5px]  `}
+                // className=" w-[20px] h-[20px] rounded-[5px] tranform hover:scale-110 hover:border-blue-500 hover:text-blue-500 border border-blue-200 m-2 text-blue-200"
+              >
+                {lesson.id}
+              </div>
+            ))}
+          </div>
 
-      <div className="flex flex-col  border border-baseBlue  mt-16 max-w-[400px] h-screen m-auto justify-around items-center">
-        <div className="flex flex-col justify-around ">
-          {/* <div className="flex justify-around bg-baseColor rounded-2xl  my-3 py-5 w-[100%]">
+          <div className="bg-gradient-to-b from-baseColor to-hpink">
+            <div className="flex justify-center mb-3 text-white">Choose Bet</div>
+            <div className="flex justify-around">
+              <div><FaCircleMinus onClick={minusBet} className="text-baseColor" size={30}/></div>
+              <div>
+                < FaCoins size={20} color="yellow"/>
+                <div className="text-yellow-400">WIN: {bet[betNumber].win}</div>
+                <div className="">Entry: {bet[betNumber].entry}</div>
+              </div>
+              <div><IoAddCircle onClick={addBet} className="text-baseColor" size={34}/></div>
+            </div>
+          </div>
+          <div className="grid grid-cols-4 bg-hpink rounded-2xl my-3 py-5 ">
+          {Lessonctx.games.map((game, i) => {
+            // console.log(game);
+            return (
+              <div
+                key={i}
+                className="relative bg-baseColor text-hpink w-[90px] h-[60px] flex flex-col justify-center items-center p-3 m-2 rounded-xl"
+              >
+                 {/* <div className="absolute bg-baseColor rounded-[50%] w-[25px] h-[25px] text-white left-0">{time}</div> */}
+                <div className="text-[12px]">Players 4/{game.count}</div>
+               
+                <div
+                  className=" text-xl hover:text-red-500"
+                  // onClick={() => showConfirm(game)}
+                  onClick={() => join(game,  bet[betNumber].entry)}
+                >
+                  <p className="text-base text-center font-bold">Join game</p>
+                </div>
+              </div>
+            );
+          })}
+          </div>
+          <button
+            // onClick={() => newGame(chLan, chLevel, chLesson )}
+            onClick={() => newGame( bet[betNumber].entry)}
+            className=" bg-black rounded-3xl p-3 border border-baseBlue text-white hover:border-blue-800 hover:bg-baseBlue "
+          >
+            New Game
+          </button>
+      </div>
+
+      {/* coin hvrehgvi ved */}
+
+      
+      <Modal show={showEnterGame} closeConfirm={() => setShowEnterGame(false)}>
+        <div className="text-black">Not enough coins to enter the game</div>
+      </Modal>
+      
+      
+      <Modal closeConfirm={closeConfirm} show={show.show}>
+        <div style={{ display: "flex", flexDirection: "column" }}>
+          Тоглоомоо үргэлжлүүлэх үү ?
+          <button
+            className="border border-gray-400 mx-3"
+            onClick={() => join(show.game)}
+          >
+            Тийм
+          </button>
+        </div>
+      </Modal>
+    </div>
+    // </GameStore>
+  );
+};
+
+export default Game;
+
+
+ {/* <div className="flex justify-around bg-baseColor rounded-2xl  my-3 py-5 w-[100%]">
             {arrChoose.map((ch, i) => (
               <div
                 key={i}
@@ -164,115 +293,7 @@ const Game = () => {
               </div>
             ))}
           </div> */}
-          <div className="flex justify-center bg-baseColor rounded-2xl my-3  py-5 w-full">
-            {arrLanguage.map((lan, i) => (
-              <div
-                className={`${
-                  lanActive === i ? "border border-blue-700 text-blue-600" : ""
-                } text-[12px]    transform hover:scale-110 hover:border-blue-500 hover:text-blue-500 text-blue-200 border border-blue-200 rounded-[10px] py-1 px-2 mx-3 my-1 w-[95px] h-[30px] flex justify-center items-center`}
-                //    className={`${lanActive===i ? css.laan : ""} ${css.nolan}`}
-                key={i}
-                onClick={() => selectLan(lan.id, i)}
-              >
-                {lan.id}
-              </div>
-            ))}
-          </div>
-          <div className=" flex justify-center bg-baseColor rounded-2xl my-3 py-5 w-full">
-            {arrLevel.map((level, i) => (
-              <div
-                // className={`${levelActive===i ? css.newlevel : css.nolevel} ${css.nolevel}`}
-                className={`${
-                  levelActive === i
-                    ? "border border-blue-700 text-blue-600"
-                    : ""
-                } flex justify-center items-center tranform hover:scale-110 hover:border-blue-500 hover:text-blue-500 border border-blue-200 m-2 text-blue-200 w-[40px] h-[40px] rounded-[5px]  `}
-                key={i}
-                onClick={() => selectLevel(level.id, i)}
-                $
-              >
-                {level.id}
-              </div>
-            ))}
-          </div>
-          <div className="grid grid-cols-10 bg-baseColor rounded-2xl my-3 py-5 w-full">
-            {arrLesson.map((lesson, i) => (
-              <div
-                onClick={() => selectLesson(lesson.id, i)}
-                key={i}
-                className={`${
-                  lessonActive === i
-                    ? "border border-blue-700 text-blue-600"
-                    : ""
-                } flex justify-center items-center tranform hover:scale-110 hover:border-blue-500 hover:text-blue-500 border border-blue-200 m-2 text-blue-200 w-[40px] h-[40px] rounded-[5px]  `}
-                // className=" w-[20px] h-[20px] rounded-[5px] tranform hover:scale-110 hover:border-blue-500 hover:text-blue-500 border border-blue-200 m-2 text-blue-200"
-              >
-                {lesson.id}
-              </div>
-            ))}
-          </div>
 
-          <div className="text-white ">
-            <div className="flex justify-center mb-3">Choose Bet</div>
-            <div className="flex justify-between">
-              <div><FaCircleMinus onClick={minusBet} color="blue" size={30}/></div>
-              <div>
-                <div>WIN: {bet[betNumber].win}</div>
-                <div>Entry: {bet[betNumber].entry}</div>
-              </div>
-              <div><IoAddCircle onClick={addBet} color="blue" size={34}/></div>
-            </div>
-          </div>
-        </div>
-        <Modal closeConfirm={closeConfirm} show={show.show}>
-          <div style={{ display: "flex", flexDirection: "column" }}>
-            Тоглоомоо үргэлжлүүлэх үү ?
-            <button
-              className="border border-gray-400 mx-3"
-              onClick={() => join(show.game)}
-            >
-              Тийм
-            </button>
-          </div>
-        </Modal>
-
-        <div className="grid grid-cols-4 bg-baseColor rounded-2xl w-full my-3 py-5 ">
-          {Lessonctx.games.map((game, i) => {
-            // console.log(game);
-            return (
-              <div
-                key={i}
-                className="border border-blue-700 text-blue-600 w-[85px] h-[50px] flex flex-col justify-center items-center p-3 m-2 rounded-xl"
-              >
-                <div className="text-[12px]">Players 4/{game.count}</div>
-                <div>{time}</div>
-                <div
-                  className=" text-xl hover:text-red-500"
-                  // onClick={() => showConfirm(game)}
-                  onClick={() => join(game)}
-                >
-                  <p>join</p>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-
-        <button
-          // onClick={() => newGame(chLan, chLevel, chLesson )}
-          onClick={() => newGame( bet[betNumber].entry)}
-          className=" bg-black rounded-3xl p-3 border border-baseBlue text-white hover:border-blue-800 hover:bg-baseBlue "
-        >
-          New Game
-        </button>
-        {/* <button onClick={join} className=" bg-black rounded-3xl p-3 border border-baseBlue text-white hover:border-blue-800 hover:bg-baseBlue ">add player Game</button> */}
-      </div>
-    </div>
-    // </GameStore>
-  );
-};
-
-export default Game;
 
 // <Modal closeConfirm={closeGame} show={showNewGame}>
 //         <div style={{ display: "flex", flexDirection: "column" }}>

@@ -51,10 +51,10 @@ export default function WatchAdvertise () {
     }
   
     return (
-        <div className="text-white relative h-screen flex flex-col justify-center items-center">
+        <div className=" relative h-screen flex flex-col justify-center items-center">
             <div className="flex absolute top-0 left-0 w-full justify-between">
                 <div>
-                 {showTime && <MdOutlineCancel size={30} onClick={() =>history.push("/gameHome")}/>}   
+                 {showTime && <MdOutlineCancel size={30} color="blue" onClick={() =>history.push("/gameHome")}/>}   
                 </div>
                 {!showTime &&  <div>second {time}</div>}
                

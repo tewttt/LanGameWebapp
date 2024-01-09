@@ -25,8 +25,8 @@ export default function useGame(id) {
   const history = useHistory();
   const [game, setGame] = useState("");
   const [players, setPlayers] = useState([]);
-  const [isGameEnded, setIsGameEnded] = useState(false);
- 
+  const [isGameEnded, setIsGameEnded] = useState(false);  
+
   const oneGame = (id) => {
     const oneRef = doc(db, "game", id);
     onSnapshot(oneRef, (doc) => {
@@ -59,7 +59,7 @@ export default function useGame(id) {
     // console.log(val)
     const PlayersRef = doc(db, `game/${id}/players`, auth.currentUser?.uid);
     await updateDoc(PlayersRef, { point: increment(val + 1) , pointCount: isZeroCnt ? 0 : increment(1) });
-    alert("point shinechlegdlee");
+    // alert("point shinechlegdlee");
   };
   
   // Тоглогчыг устгах
@@ -113,7 +113,7 @@ export default function useGame(id) {
     await updateDoc(gameRef, {
       questions: game.questions,
     });
-    alert("amjiltaai")
+    // alert("amjiltaai")
   };
 
   return {
