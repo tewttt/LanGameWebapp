@@ -346,14 +346,14 @@ export const LessonStore = (props) => {
     });
   };
 
-  const join = async (state, game, chLan, chLevel, chLesson) => {
+  const join = async (state, game, chLan, chLevel, chLesson, entry, win) => {
     await chGames(chLan, chLevel, chLesson)
     const id = game.id;
     setChLan(chLan);
     setChLevel(chLevel);
     setId(chLesson);
 
-    if (game.count < 4) {
+    if (game.count <= 4) {
       const data = game.players.find((e, i) => e.id === auth?.currentUser?.uid);
       if (data) {
         alert("Тоглоом руу буцлаа");
@@ -367,32 +367,38 @@ export const LessonStore = (props) => {
       const add = setDoc(PlayersRef, {
         state,
         point: 0,
-        color: ""
+        color: "",
+        shield: 0,
+        go: 0,
+        back: 0
       });
     
       alert("Тоглогч нэмэгдлээ");
       history.push(
         `/newGame/${id}?lan=${chLan}&level=${chLevel}&lesson=${chLesson}`
       );
-      // history.push(`/newGame/${id}/${chLan}/${chLevel}/${chLesson}`);
-      // history.push(`/newGame/${id}`);
 
-      // const PlRef = collection(db, `game/${game.id}/players`);
-      // const snapshot = await getCountFromServer(PlRef);
-      // const count = snapshot.data().count;
-      // // console.log(count);
-      // const GameNewRef = doc(db, "game", game.id);
-      // await updateDoc(GameNewRef, { count: count });
+      const dataTnx = {
+        coin: entry,
+        label: "play game",
+        labelType: "game",
+        type: "withdraw"
+      }
+      const oneRef = collection(db, `users/${auth?.currentUser?.uid}/transaction` );
+      await addDoc(oneRef , {
+        data: dataTnx,
+        createDate: serverTimestamp(), 
+      })
 
-      if (game.count == 2) {
+      if (game.count == 1) {
         updateDoc(PlayersRef, {
           color: "blue",
         });
-      } else if (game.count == 3) {
+      } else if (game.count == 2) {
         updateDoc(PlayersRef, {
           color: "orange",
         });
-      } else if (game.count == 4) {
+      } else if (game.count == 3) {
         updateDoc(PlayersRef, {
           color: "purple",
         });
@@ -400,13 +406,13 @@ export const LessonStore = (props) => {
 
       // oneGame(id);
       return;
-    } else if (game.count > 4) {
+    } else if (game.count >= 4) {
       alert("Тоглогч бүрдсэн байна, Өөр ширээ сонгоно уу");
       history.push("/game");
     }
   };
 
-  const createGame = async (state, chLan, chLevel, chLesson , entry , authId) => {
+  const createGame = async (state, chLan, chLevel, chLesson , entry , authId, win) => {
     const questions = await examfunGame(chLan, chLevel, chLesson);
     await chGames(chLan, chLevel, chLesson)
     try {
@@ -420,6 +426,7 @@ export const LessonStore = (props) => {
         level: chLevel,
         lesson: chLesson,
         questions,
+        endGame: false
       });
 
       // Тоглогчын мэдээллийг нэмж байна

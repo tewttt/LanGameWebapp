@@ -25,7 +25,7 @@ export default function useGame(id) {
   const history = useHistory();
   const [game, setGame] = useState("");
   const [players, setPlayers] = useState([]);
-  const [isGameEnded, setIsGameEnded] = useState(false);  
+  const [isGameEnded, setIsGameEnded] = useState(false);
 
   const oneGame = (id) => {
     const oneRef = doc(db, "game", id);
@@ -40,11 +40,16 @@ export default function useGame(id) {
           return { ...doc.data(), id: doc.id };
         });
         const winPlayer = list.find((item) => item.point >= 40) 
-        if(winPlayer) 
-        setIsGameEnded(true)
+        if(winPlayer) {
+          setIsGameEnded(true)
+          updateDoc(oneRef, {endGame : true})
+        }
+       
         return [...list];
       });
     });
+    
+   
     return () => {
       unsubcribe();
     };
@@ -54,14 +59,32 @@ export default function useGame(id) {
     setIsGameEnded(true)
   }
   // Тоглогчын оноо цуглуулах
- 
-  const addPoint = async (id, val, isZeroCnt = false) => {
-    // console.log(val)
-    const PlayersRef = doc(db, `game/${id}/players`, auth.currentUser?.uid);
-    await updateDoc(PlayersRef, { point: increment(val + 1) , pointCount: isZeroCnt ? 0 : increment(1) });
-    // alert("point shinechlegdlee");
+  
+  const addPoint = async (ran1, ran2, ran3, updateHorsePoint, id, val, isZeroCnt = false) => {
+    // console.log(updateHorsePoint)
+    // console.log(ran1 + "ran1")
+    // console.log(ran2 + "ran2")
+    // console.log(ran3 + "ran3")
+
+    const playerRef = doc(db, `game/${id}/players`, auth.currentUser?.uid);
+    if(ran1 === updateHorsePoint) {
+      await updateDoc(playerRef, {go : increment(1)})
+    } else if (ran2 === updateHorsePoint) {
+      await updateDoc(playerRef, {shield : increment(1)})
+    } 
+    else if(ran3 === updateHorsePoint) {
+      await updateDoc(playerRef, {back : increment(1)})
+    } 
+    else {
+      console.log("hooson")
+    }
+   
+    await updateDoc(playerRef, { point: increment(val + 1) , pointCount: isZeroCnt ? 0 : increment(1) });
+  
   };
   
+   
+
   // Тоглогчыг устгах
   const deletePlayer = async (id, currentUser) => {
     const PlayersRef = doc(db, `game/${id}/players`, currentUser);
@@ -95,15 +118,11 @@ export default function useGame(id) {
 
   // Тоглогчидын асуултын хариулт
   const addAnswer = async (answer, authId, questionNumber) => {
-  // console.log(time)
     const question = game.questions[questionNumber]
     const prevAnswers = question.answers || []
-    // console.log("question",question)
     const time = new Date().getTime()
-   
     const value = moment(time).format('YYYY-MM-DD HH:mm:ss:SSS')
-    //  console.log(value)
-
+   
     question.answers = [
       ...prevAnswers,
       { answer, authId , time : value},
@@ -113,7 +132,7 @@ export default function useGame(id) {
     await updateDoc(gameRef, {
       questions: game.questions,
     });
-    // alert("amjiltaai")
+   
   };
 
   return {

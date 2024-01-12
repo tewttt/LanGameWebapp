@@ -14,8 +14,8 @@ import Logo from "../../assets/logo/Logo Violet.svg"
 export default function Login() {
   const ctx = useContext(UserContext);
   const history = useHistory();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("123456");
+  const [email, setEmail] = useState("curlets1123@gmail.com");
+  const [password, setPassword] = useState("123456Aa@");
   const [showPass, setShowPass] = useState(false);
   const [rememberMe , setRememberMe] = useState(false)
 

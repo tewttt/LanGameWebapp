@@ -9,22 +9,19 @@ import dice5 from "../../assets/game/five.png";
 import dice6 from "../../assets/game/six.png";
 
 const Dice = (props) => {
-  
   var dices = [dice1, dice2, dice3, dice4, dice5, dice6];
   const [newDice, setNewDice] = useState(zur);
-
   const rollDice = () => {
-    var random = Math.floor(Math.random() * 6);
+    var random = Math.floor(Math.random() * 3);
     setNewDice(dices[random]);
-    // props.onDiceChange(dices[random]);
-    // console.log(random)
+    // props.onDiceChange(dices[random])
     props.onDiceChange(random);
   };
 
   return (
     <div>
       <div onClick={rollDice} id="dice">
-        <img className="w-12 h-12" src={newDice}></img>
+        <img className="w-11 h-11" src={newDice}></img>
       </div>
     </div>
   );

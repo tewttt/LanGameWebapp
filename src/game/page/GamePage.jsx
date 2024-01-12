@@ -8,12 +8,20 @@ import { IoAddCircle } from "react-icons/io5";
 import { FaCircleMinus } from "react-icons/fa6";
 import { FaCoins } from "react-icons/fa";
 import useGame from "../../hook/useGame";
-
+import GameNavbar from "../components/GameNavbar";
 
 const auth = getAuth();
 let intervalIds = [];
-const TIME = 10
+const TIME = 600
 const Game = () => {
+  const bet = [
+    {win: 1400, entry: 500},
+    {win: 5600, entry: 2000},
+    {win: 28000, entry: 10000},
+    {win: 140000, entry: 50000},
+    {win: 560000, entry: 200000},
+  ]
+
   // const {players} = useGame();
   const [time, setTime] = useState(TIME)
   const [state, setState] = useState({});
@@ -40,6 +48,10 @@ const Game = () => {
   const arrChoose = ["Online", "Friends"];
   const [show, setShow] = useState(false);
   const [showEnterGame, setShowEnterGame] = useState(false)
+  const [betNumber, setBetNumber] = useState(0)
+
+  const entry = bet[betNumber].entry
+  const win = bet[betNumber].win
   // console.log(coinStatus)
   // console.log(Userctx.currentUser.coins)
   
@@ -110,31 +122,27 @@ const Game = () => {
     setChLesson(lesson);
     Lessonctx.chGames(chLan, chLevel, lesson);
   };
-  const join = (game, entry) => {
+  const join = (game) => {
     game?.players.map((e, i) => {
       if(e?.state?.authId === authId || Userctx?.currentUser?.coins > entry) {
-        Lessonctx.join(state, game, chLan, chLevel, chLesson);
+      // if( Userctx?.currentUser?.coins > entry) {
+        Lessonctx.join(state, game, chLan, chLevel, chLesson, entry, win);
       } else {
         setShowEnterGame(true)
       }
     })
   };
 
-  const newGame = (entry) => {
-    if(Userctx?.currentUser?.coins > entry) {
-      Lessonctx.createGame(state, chLan, chLevel, chLesson , entry , authId );
+  const newGame = () => {
+   
+    if(Userctx?.currentUser?.coins >= entry) {
+      Lessonctx.createGame(state, chLan, chLevel, chLesson , entry , authId, win );
     } else {
       setShowEnterGame(true)
     }
   };
-  const [betNumber, setBetNumber] = useState(0)
-  const bet = [
-    {win: 1400, entry: 500},
-    {win: 5600, entry: 2000},
-    {win: 28000, entry: 10000},
-    {win: 140000, entry: 50000},
-    {win: 560000, entry: 200000},
-  ]
+
+  
 
   const addBet = () => {
     if(betNumber === bet.length-1) 
@@ -151,14 +159,16 @@ const Game = () => {
     } else {
       setBetNumber(prev => prev - 1)
     }
-    
   }
+
   return (
     // <GameStore>
     <div className="flex flex-col justify-center h-screen">
       <ToolSidebar />
-      <div className="flex flex-col mt-16 w-[400px] rounded-t-3xl bg-gradient-to-b from-baseColor to-hpink m-auto">
-          <div className="flex justify-center rounded-t-3xl py-5 w-full
+      <GameNavbar className="mt-24 bg-green-300"/> 
+      <div className="flex flex-col mt-24 w-[400px] rounded-t-3xl bg-gradient-to-b from-baseColor to-hpink m-auto">
+          
+          <div className="flex justify-center rounded-t-3xl py-5 w-full 
           bg-gradient-to-b from-baseColor to-hpink
           ">
             {arrLanguage.map((lan, i) => (
@@ -174,6 +184,7 @@ const Game = () => {
               </div>
             ))}
           </div>
+
           <div className=" flex justify-center bg-gradient-to-b from-baseColor to-hpink rounded-t-3xl py-5 w-full">
             {arrLevel.map((level, i) => (
               <div
@@ -191,6 +202,7 @@ const Game = () => {
               </div>
             ))}
           </div>
+
           <div className="grid grid-cols-10 rounded-t-3xl py-5 w-full bg-gradient-to-b from-baseColor to-hpink">
             {arrLesson.map((lesson, i) => (
               <div
@@ -220,6 +232,7 @@ const Game = () => {
               <div><IoAddCircle onClick={addBet} className="text-baseColor" size={34}/></div>
             </div>
           </div>
+
           <div className="grid grid-cols-4 bg-hpink rounded-2xl my-3 py-5 ">
           {Lessonctx.games.map((game, i) => {
             // console.log(game);
@@ -228,13 +241,14 @@ const Game = () => {
                 key={i}
                 className="relative bg-baseColor text-hpink w-[90px] h-[60px] flex flex-col justify-center items-center p-3 m-2 rounded-xl"
               >
-                 {/* <div className="absolute bg-baseColor rounded-[50%] w-[25px] h-[25px] text-white left-0">{time}</div> */}
+                <div className="absolute bg-baseColor rounded-[50%] w-[25px] h-[25px] text-white left-0">{time}</div>
                 <div className="text-[12px]">Players 4/{game.count}</div>
                
                 <div
                   className=" text-xl hover:text-red-500"
-                  // onClick={() => showConfirm(game)}
-                  onClick={() => join(game,  bet[betNumber].entry)}
+
+                  // onClick={() => join(game,  bet[betNumber].entry)}
+                  onClick={() => join(game)}
                 >
                   <p className="text-base text-center font-bold">Join game</p>
                 </div>
@@ -242,9 +256,10 @@ const Game = () => {
             );
           })}
           </div>
+
           <button
             // onClick={() => newGame(chLan, chLevel, chLesson )}
-            onClick={() => newGame( bet[betNumber].entry)}
+            onClick={() => newGame()}
             className=" bg-black rounded-3xl p-3 border border-baseBlue text-white hover:border-blue-800 hover:bg-baseBlue "
           >
             New Game

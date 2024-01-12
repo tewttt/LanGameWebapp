@@ -19,10 +19,10 @@ const SignUp = () => {
     const ctx = useContext(UserContext);
     const history = useHistory();
     const [user , setUser] = useState(null)
-    const [email, setEmail] = useState("curlets1123@gmail.com");
-    const [name, setName] = useState("curlests");
-    const [password, setPassword] = useState(123456);
-    const [password2, setPassword2] = useState(123456);
+    const [email, setEmail] = useState("bat@gmail.com");
+    const [name, setName] = useState("bb");
+    const [password, setPassword] = useState("123456Aa@");
+    const [password2, setPassword2] = useState("123456Aa@");
     const [phone, setPhone] = useState("");
     const [error, setError] = useState("");
     const [err, setErr] = useState({
