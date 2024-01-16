@@ -165,9 +165,9 @@ const Game = () => {
     // <GameStore>
     <div className="flex flex-col justify-center h-screen">
       <ToolSidebar />
-      <GameNavbar className="mt-24 bg-green-300"/> 
+      {/* <GameNavbar/>  */}
       <div className="flex flex-col mt-24 w-[400px] rounded-t-3xl bg-gradient-to-b from-baseColor to-hpink m-auto">
-          
+      <GameNavbar className=""/> 
           <div className="flex justify-center rounded-t-3xl py-5 w-full 
           bg-gradient-to-b from-baseColor to-hpink
           ">
@@ -200,7 +200,7 @@ const Game = () => {
               >
                 {level.id}
               </div>
-            ))}
+            ))} 
           </div>
 
           <div className="grid grid-cols-10 rounded-t-3xl py-5 w-full bg-gradient-to-b from-baseColor to-hpink">

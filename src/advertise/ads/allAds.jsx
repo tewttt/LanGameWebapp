@@ -8,9 +8,9 @@ export default function AllAds () {
     const history = useHistory()
     return (
         <div>
-             <MdOutlineCancel className="text-white" onClick={() => history.push("/ads")} size={30}/>
+            <MdOutlineCancel className="hover:text-red-500" onClick={() => history.push("/ads")} size={30}/>
             {allads.map((e, i) => (
-            <AdsCart data={e} key={i}/>
+                <AdsCart data={e} key={i}/>
             ))}
         </div>
     )

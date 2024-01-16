@@ -6,12 +6,13 @@ const GameNavbar = () => {
     const ctx = useContext(UserContext)
   
 return (
-    <div className="flex justify-between mt-6 mx-6">
-        <div className="h-14 w-14 relative rounded-[50%] border border-green-400">
-            <p className="text-[10px] absolute -top-3 left-4">name</p>
-            <img src={zur} className="absolute p-0 top-0 left-0 w-full h-full rounded-[50%]" />
+    <div className="flex justify-between mt-6 mx-6 rounded-xl px-6 bg-white items-center">
+        <div className="h-14 w-14 flex items-center rounded-[50%]">
+            
+            <img src={ctx?.currentUser?.photo} className=" w-full h-full rounded-[50%]" />
+            <p className="text-[10px] ">{ctx?.currentUser?.name}</p>
         </div>
-        <div>coin {ctx.currentUser.coins}</div>
+        <div>coin {ctx?.currentUser?.coins}</div>
     </div>
 )
 }

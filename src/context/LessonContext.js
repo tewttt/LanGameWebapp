@@ -370,7 +370,8 @@ export const LessonStore = (props) => {
         color: "",
         shield: 0,
         go: 0,
-        back: 0
+        back: 0, 
+        place: 0
       });
     
       alert("Тоглогч нэмэгдлээ");
@@ -441,7 +442,8 @@ export const LessonStore = (props) => {
         color: "red",
         shield: 0,
         go: 0,
-        back: 0
+        back: 0,
+        place: 0
       });
 
       const data = {

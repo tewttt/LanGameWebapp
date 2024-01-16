@@ -112,9 +112,12 @@ export const UserStore = (props) => {
     await deleteDoc(User);
     // getUserList();
   };
-  const setProfile = async (state, id) => {
+  const setProfile = async (data, id) => {
+    console.log(data )
     const setUser = doc(db, "users", id);
-    await setDoc(setUser, state, { merge: true })
+    await updateDoc(setUser, data)
+    // await setDoc(setUser, data, { merge: true })
+
       .then((res) => {
         console.log("success merge");
       })
@@ -206,7 +209,10 @@ export const UserStore = (props) => {
         status: false,
         coins: 0,
         amount: 0,
-        statusCoin: false
+        statusCoin: false,
+        photo: "../assets/img/ironman.png",
+        winGame: 0,
+        matchGame: 0
         // userID: increment(countUserID)
       });
 

@@ -83,11 +83,14 @@ export default function useGame(id) {
   
   };
   
-   
-
   // Тоглогчыг устгах
-  const deletePlayer = async (id, currentUser) => {
-    const PlayersRef = doc(db, `game/${id}/players`, currentUser);
+  const deletePlayer = async (id, currentUserId , game) => {
+    console.log(game.count)
+    const PlayersRef = doc(db, `game/${id}/players`, currentUserId);
+
+    // await updateDoc (PlayersRef, {
+    //   place : 4
+    // })
     await deleteDoc(PlayersRef)
       .then((res) => { 
         console.log("player delete");
@@ -95,23 +98,8 @@ export default function useGame(id) {
       .catch((error) => {
         console.log("error" + error);
       });
-    // const PlRef = collection(db, `game/${id}/players`);
-    // const snapshot = await getCountFromServer(PlRef);
-    // const count = snapshot.data().count;
-    // // console.log(count);
-    // const GameNewRef = doc(db, "game", id);
-    // await updateDoc(GameNewRef, { count: count });
-
-    // if (game.players === null) {
-    //   const gameRef = doc(db, "game", id);
-    //   await deleteDoc(gameRef)
-    //     .then((res) => {
-    //       console.log("game delete");
-    //     })
-    //     .catch((error) => {
-    //       console.log("error" + error);
-    //     });
-    // }
+  // player log out hiihed 4, 3 bairiig haruulna
+  // 
 
     history.push("/game");
   };
@@ -135,6 +123,41 @@ export default function useGame(id) {
    
   };
 
+  const minusPoint = async(e , currentUserId , selectedPower , currentUser) => {
+    const total = currentUser.back - 6 
+    const playerRef = doc(db, `game/${id}/players`, e.id);
+    // TO DO
+    // esreg toglogch shield awsniig yaaj medhvv
+    // 2 , 3  toglogch zereg baiwal hamtad n uhraana
+    if (total < 0) {
+      await updateDoc(playerRef, {point : 0})
+    } else {
+      await updateDoc(playerRef, {point : increment(-6)})
+    }
+    const currentRef = doc(db, `game/${id}/players`, currentUserId);
+    if (selectedPower === "back" && currentUser.back > 0){
+      await updateDoc(currentRef, {back : increment(-1)})
+    }
+  }
+
+  const isShield = async( currentUser , currentUserId ) => {
+    const currentRef = doc(db, `game/${id}/players`, currentUserId);
+    if( currentUser.shield > 0) {
+    await updateDoc(currentRef, {shield : increment(-1)})
+   
+    } else {
+      console.log("no shield")
+    }
+  }
+
+  const isGo = async(currentUser , selectedPower, currentUserId , diceNumber) => {
+    const currentRef = doc(db, `game/${id}/players`, currentUserId);
+    if( currentUser.go > 0 ) {
+      await updateDoc(currentRef, {point : increment(diceNumber + 1)})
+      await updateDoc(currentRef, {go : increment(-1)})
+    }
+  }
+
   return {
     game,
     players,
@@ -142,7 +165,10 @@ export default function useGame(id) {
     deletePlayer,
     addAnswer,
     isGameEnded,
-    showGameEnd
+    showGameEnd,
+    minusPoint,
+    isShield,
+    isGo
     // kkk
    
   };

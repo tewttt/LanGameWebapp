@@ -12,26 +12,48 @@ import { MdOutlineLogout } from "react-icons/md";
 import shield from "../../assets/game/Shield 1.png"
 import go from "../../assets/game/Go 1.png"
 import back from "../../assets/game/Back 1.png"
-import Footer from "../components/Footer";
+import Footer from "../components/Footer/Footer";
 import { RiCopperCoinFill } from "react-icons/ri";
 import { IoIosArrowBack } from "react-icons/io";
+
+import e1 from "../../assets/emoji/e1.png"
+import e2 from "../../assets/emoji/e2.png"
+import e3 from "../../assets/emoji/e3.png"
+import e4 from "../../assets/emoji/e4.png"
+import e5 from "../../assets/emoji/e5.png"
+import e6 from "../../assets/emoji/e6.png"
+import e7 from "../../assets/emoji/e7.png"
+import e8 from "../../assets/emoji/e8.png"
+import e9 from "../../assets/emoji/e9.png"
+import e10 from "../../assets/emoji/e10.png"
+import e11 from "../../assets/emoji/e11.png"
+import e12 from "../../assets/emoji/e12.png"
 
 const auth = getAuth();
 let intervalIds = [];
 const TIME = 10
 // TO DO
+
+// firebase security rule
 // waiting for other players Modal haruulah , spinner
 // end game Model dr toglogchdiin niit heden asuultand zow hariulsaniig haruulah
 // 1, 2 bairnii toglogchdod coin nemeh
 // sound oruulah 
-// power heregleh ved power iin toog bagasgah 
-// power other player d ...
 // win coin nemeh
-// shoo shidhees omno power hereglene
-// shield awbal back noloolohgvi, shield bgaa eshiig shalgana
-// ooriigoo uragshluulna
 //random update
-// 
+// 2 r bairnii toglogch todortol toglolt vrgeljilne
+// 2 toglogch neg nvden dr baiwal neg toglogch n ehneesee ehelne
+// if toglogch ehneesee ehelj baiwal coin hasagdana
+// togloltond dund coin duuswal togloomd hojigdono
+
+// entry coinoos shaltgaalj togloltond coin hasaghdah eseh shiidegdene
+// shoo hayh ved power uud idehjine, hereglej bolno
+// if togloltiin dundaas hvn garwal 4 , 3 bariig onoono
+// if toglolt 2 toglochtoi vldsen bol ehnii toglogch ylhad 2 dah ylalt shuud onoogdoj togloom duusna
+// SHooo hayhad 5s time zaana,hugatsaandaa shoo hayhgvi bol automateer shoo buuna
+
+const emoji = [e1, e2, e3, e4, e5,e6, e7, e8, e9, e10, e11, e12]
+
 const GameDetail = () => {
   // players position
   const positions = [
@@ -44,25 +66,27 @@ const GameDetail = () => {
   const ctx = useContext(UserContext)
   const currentUserId = ctx?.currentUser?.authId
   const { id } = useParams();
-  const { addAnswer, game, players, addPoint,deletePlayer ,isGameEnded, showGameEnd} = useGame(id);
+  const {isGo, isShield, minusPoint, addAnswer, game, players, addPoint,deletePlayer ,isGameEnded, showGameEnd} = useGame(id);
   const [loader, setLoader] = useState(false);
   const [time, setTime] = useState(TIME)
   const [questionShow, setQuestionShow] = useState(true); 
   const [answerShow, setAnswerShow] = useState(false)
+  const [showPlayer , setShowPlayer] = useState(false)
   const [questionNumber, setQuestionNumber] = useState(0);
   const [turn, setTurn] = useState(0);
   const [answeredPlayers, setAnsweredPlayers] = useState([])
   const questions = useRef([])
   const question = questions.current[questionNumber] || {} 
-// console.log(questions)
+// console.log(showPlayer)
   const [playerAnswer, setPlayerAnswer] = useState("")
   const [playerAnswerData, setPlayerAnswerData] = useState("")
   const [power, setPower] = useState({})
   const [ran1 , setRan1] = useState("")
   const [ran2 , setRan2] = useState("")
   const [ran3 , setRan3] = useState("")
+  const [logoutGame , setLogoutGame] = useState(false)
   const currentUser = players?.find((item) => item.id === currentUserId)
-  // console.log(players)
+  // console.log(game.count)
 
   // create random number of powers
   useEffect(() => {
@@ -85,7 +109,8 @@ const GameDetail = () => {
  
   // logout game
   const logout = () => {
-    deletePlayer(id, currentUserId);
+  // alert("yes")
+    deletePlayer(id, currentUserId , game);
   };
 
   useEffect(() => {
@@ -257,6 +282,42 @@ const ansShow = () => {
 const answerClose = () => {
   setAnswerShow(false); 
 };
+
+const playerData = ctx?.userList.find(
+  item => item.id === showPlayer.playerID
+)
+
+const [selectedPower, setSelectedPower] = useState("")
+
+const chooseHorse = (e) => {
+  console.log(e)
+  if(selectedPower === "back" && currentUserId === answeredPlayers[turn]?.authId) {
+    minusPoint(e , currentUserId , selectedPower , currentUser)
+    setSelectedPower("")
+  } 
+ 
+}
+// console.log(selectedPower)
+
+const getPower = (power, diceNumber) => {
+  console.log(diceNumber , power)
+  if(power === "back") {
+    setSelectedPower(selectedPower === power ? '' : power)
+  } else if (power === "shield") {
+    setSelectedPower(selectedPower === power ? '' : power)
+    isShield( currentUser , currentUserId )
+    // setSelectedPower("")
+  } else if (power === "go") {
+   setSelectedPower(selectedPower === power ? '' : power)
+    isGo( currentUser , selectedPower, currentUserId , diceNumber)
+  } else {
+    console.log("no power")
+  }
+}
+// TO DO
+// shield butsaad daragdahgvi bolgoh
+// point ygaad NAN bolood bn
+
 const answer = question?.answers?.find(item => item.authId === currentUserId)
   // console.log(answer?.authId)
   return (
@@ -271,14 +332,24 @@ const answer = question?.answers?.find(item => item.authId === currentUserId)
           </div>
         )}
 
-          {/* Back button */}
+          {/* logout game */}
           <div className="h-[30px] left-0 top-14 px-6 z-10 absolute flex items-center justify-between w-full">
             <IoIosArrowBack
-              onClick={logout}
+              onClick={() => setLogoutGame(true)}
               size={30}
               className="text-white md:w-[30px] md:h-[30px] mx-1 lg:mx-5 hover:text-blue-500 transform duration-500 ease-in-out hover:scale-125"
             />
           </div>
+
+          <Modal show={logoutGame}>
+            <div>
+              <p className="text-center">Are you sure about exiting the game ?</p>
+              <div className="flex justify-around mt-4 text-white font-semibold">
+                <button className="bg-green-500 rounded-2xl p-2 w-16" onClick={() => setLogoutGame(false)}>NO</button>
+                <button className="bg-red-500 rounded-2xl p-2 " onClick={logout}>Yes , logout game</button>
+              </div>
+            </div>
+          </Modal>
 
           {/* coin */}
           <div className="bg-white absolute bottom-[120px] right-8 flex justify-around items-center w-[100px] h-[30px] rounded-[23px]">
@@ -288,6 +359,7 @@ const answer = question?.answers?.find(item => item.authId === currentUserId)
 
           {/* Тоглогчдыг харуулж байна */}
           {players?.map((e, i) => {
+            // setAnsweredPlayerId(e.state.authId)
             return (
               <>
                 <div
@@ -297,10 +369,12 @@ const answer = question?.answers?.find(item => item.authId === currentUserId)
                   key={i}
                 >
                   {/* <p>order </p> */}
-                  <div className="relative flex flex-col justify-center items-center">
+                  <div 
+                     onClick={() => setShowPlayer({ showPlayer: true, playerID:e.state.authId})}
+                    className="relative flex flex-col justify-center items-center">
                     {/* <p className="text-[10px] absolute">Level</p> */}
                     <img src={zur} className="w-[60px] h-[60px] rounded-[50%] " />
-                    <p className="text-[10px]">{e.state.name}</p>
+                    <p className="text-[10px]">{e?.state?.name}</p>
                   </div>
 
                   {answeredPlayers[turn]?.authId === e.state.authId && <Dice id={i} onDiceChange={onDiceChange} />}
@@ -308,7 +382,68 @@ const answer = question?.answers?.find(item => item.authId === currentUserId)
               </>
             );
           })}
-          
+          {/* show player information*/}
+          <Modal show={showPlayer.showPlayer} closeConfirm={() => setShowPlayer({showPlayer: false, playerID: null})}>
+            {showPlayer?.playerID === currentUserId ? (
+              <div className="text-baseColor ">
+                 <div className="flex justify-between">
+                   <p className="bg-red-500 rounded-xl p-1 w-[40px] text-white text-sm">lv.</p>
+                   <p className="text-baseColor font-bold">{playerData?.name}</p>
+                   <div className="flex items-center w-[60px] justify-between">
+                     <RiCopperCoinFill size={25} className="text-yellow-500"/>
+                     <p className="text-orange-600">{playerData?.coins}</p>
+                   </div>
+                 </div>
+                 <div className="flex bg-hpink justify-around mt-3 w-full rounded-2xl h-[50px]">
+                  <div className="flex flex-col items-center h-full">
+                    <p>Match</p>
+                    <p className="font-bold">d{playerData?.matchGame}</p>
+                  </div>
+                  <div className="flex flex-col items-center h-full ">
+                    <p>Win</p>
+                    <p className="font-bold">d{playerData?.winGame}</p>
+                  </div>
+                </div>
+            </div>
+            ) : (
+              <div className="text-baseColor ">
+                <div className="flex justify-between">
+                  <p className="bg-red-500 rounded-xl p-1 w-[40px] text-white text-sm">lv.</p>
+                  <p className="text-baseColor font-bold">{playerData?.name}</p>
+                  <div className="flex items-center w-[60px] justify-between">
+                    <RiCopperCoinFill size={25} className="text-yellow-500"/>
+                    <p className="text-orange-600">{playerData?.coins}</p>
+                  </div>
+                </div>
+                <div className="flex bg-hpink justify-around mt-3 w-full rounded-2xl h-[50px]">
+                  <div className="flex flex-col items-center h-full">
+                    <p>Match</p>
+                    <p className="font-bold">d{playerData?.matchGame}</p>
+                  </div>
+                  <div className="flex flex-col items-center h-full ">
+                    <p>Win</p>
+                    <p className="font-bold">d{playerData?.winGame}</p>
+                  </div>
+                </div>
+                <div className="">
+                  <div className="flex mt-2 items-center justify-between">
+                    <p className="font-bold ">Send emojij</p>
+                    <p className="text-sm">100 coins per Emoji</p>
+                  </div>
+                  <div className="grid grid-cols-4 w-full h-[300px] place-items-center">
+                    {emoji.map((e, i) => {
+                      return (
+                        <div className="w-[50px] h-[50px]">
+                          <img src={e} key={i} className="h-full w-full" />
+                        </div>
+                      )
+                    })}
+                  </div>
+                </div>
+
+              </div>
+            )}
+          </Modal>          
           {/* game end  */}
           <Modal show={isGameEnded}>
             <div>
@@ -366,11 +501,13 @@ const answer = question?.answers?.find(item => item.authId === currentUserId)
           </Modal>
 
         <div className="absolute w-full h-full">
-          <Field power={power}/>
+          <Field power={power} chooseHorse={chooseHorse} selectedPower={selectedPower} currentUserId={currentUserId}/> 
         </div>
+     
 
         <div className="absolute z-10 w-full h-[68px] bottom-[40px]">
-          <Footer currentUser={currentUser}/>
+
+          <Footer currentUser={currentUser} answerPlayerId={answeredPlayers[turn]?.authId} currentUserId={currentUserId} getPower={getPower} selectedPower={selectedPower} />
         </div> 
       </div>  
     </div>

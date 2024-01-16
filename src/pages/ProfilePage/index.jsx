@@ -21,9 +21,9 @@ const ProfilePage = () => {
     const [state, setState] = useState(initialState);
     const [photo, setPhoto] = useState("")
     const [pedit, setEdit] = useState(false);
-    const id = state.id
+    const id = state?.id
     const authId = auth.currentUser?.uid
-   
+//    console.log(state)
     useEffect(() => {
         const data = ctx.userList.find(
             // item => console.log(item)
@@ -67,7 +67,7 @@ const ProfilePage = () => {
             getDownloadURL(snapshot.ref).then((url) => {
                 setPhoto(url)
                 setState({...state, photo: url});
-                save();
+                // save();
             })
         })
         alert("photo amjilttai") 
@@ -79,13 +79,13 @@ const ProfilePage = () => {
            
                 {pedit ? ( 
                     // edit 
-                <div className="flex flex-col text-white justify-center items-center m-auto pt-20">
+                <div className="flex flex-col justify-center items-center m-auto pt-20">
                     {state?.photo ? (
                         <img src={state.photo} className="w-[150px] h-[150px] rounded-[18px] border mt-65"/>
                     ) : (
                         <img src={photo} className="w-[150px] h-[150px] rounded-[18px] border mt-25"/>
                     )}
-                
+                 {/* <img src={state?.photo} className="w-[150px] h-[150px] rounded-[18px] border mt-65"/> */}
                     <div className="flex items-center justify-center ">
                         <input onChange={changePhoto} 
                             className="w-[150px] h-[40px] text-[10px] p-2" 
@@ -102,8 +102,8 @@ const ProfilePage = () => {
             
                     <div className="bg-[#383030] text-gray-300 text-[12px] w-[300px] h-[300px] flex flex-col justify-center items-center mt-10" >
                         <div className="flex flex-col justify-start mb-5">
-                            <p>Хэрэглэгчийн ID: {state?.id}</p>
-                            <p>AUTH ID: {state?.authId}</p>
+                            <p>Хэрэглэгчийн ID: {state?.userID}</p>
+                            {/* <p>AUTH ID: {state?.authId}</p> */}
                             
                         </div>
                         <div className="flex justify-between w-[200px] h-[30px] items-center my-3">
@@ -139,8 +139,8 @@ const ProfilePage = () => {
             
                     <div className="bg-baseColor text-gray-300 text-[12px] w-[300px] h-[300px] flex flex-col justify-center items-center mt-10" >
                         <div className="flex flex-col justify-start mb-5">
-                            <p>Хэрэглэгчийн ID: {state?.id}</p>
-                            <p>AUTH ID: {state?.authId}</p>
+                            <p>Хэрэглэгчийн ID: {state?.userID}</p>
+                            {/* <p>AUTH ID: {state?.authId}</p> */}
                             <p>Email: {state?.email}</p>
                         </div>
                         

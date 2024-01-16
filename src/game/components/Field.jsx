@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import blueHorse from "../../assets/img/blueHorse.png";
-import orangeHorse from "../../assets/img/orangeHorse.png";
-import redHorse from "../../assets/img/redHorse.png";
-import purpleHorse from "../../assets/img/purpleHorse.png";
+import blueHorse from "../../assets/shagai/blue.png";
+import orangeHorse from "../../assets/shagai/orange.png";
+import redHorse from "../../assets/shagai/red.png";
+import purpleHorse from "../../assets/shagai/purple.png";
 import useGame from "../../hook/useGame";
 import { useParams } from "react-router-dom";
 import grass from '../../assets/game/grass.png'
@@ -61,7 +61,7 @@ const positions = [
  
 ];
 
-const Field = ({power}) => {
+const Field = ({power , chooseHorse , selectedPower , currentUserId}) => {
   const horses = {
     blue: blueHorse,
     orange: orangeHorse,
@@ -70,7 +70,7 @@ const Field = ({power}) => {
   };
 
   const { id } = useParams();
-  const { players } = useGame(id);
+  const { players} = useGame(id);
   const [field, setField] = useState(Array(40).fill(null));
   
 
@@ -81,6 +81,10 @@ const Field = ({power}) => {
     );
     return playersFil;
   };
+
+  const getHorse= (e) => {
+    chooseHorse(e)
+  }
 
   return (
     <div className="w-full h-full relative">
@@ -100,16 +104,16 @@ const Field = ({power}) => {
         {field.map((value, i) => {
           const playersHorsePosition = horsePosition(i);
           // console.log(playersHorsePosition.length)
-          const currentPower = power[i]   
+          const currentPower = power[i]    
           return (
             <div 
               key={i}
               style={{...positions[i]}} 
               className={`${
-                playersHorsePosition.length === 2 ? "bg-yellow-300 " 
-              : playersHorsePosition.length === 3 ? "bg-pink-300"
-              : playersHorsePosition.length === 4 ? "to-blue-300" : ''} 
-               w-[35px] h-[35px] bg-[#4C3F1C]`}
+                playersHorsePosition.length === 2 ? "grid grid-cols-2" 
+              : playersHorsePosition.length === 3 ? "grid grid-cols-2"
+              : playersHorsePosition.length === 4 ? "grid grid-cols-2" : ''} 
+               w-[35px] h-[35px] bg-[#4C3F1C] relative`}
              
             >
               {/* {i} */}
@@ -117,12 +121,24 @@ const Field = ({power}) => {
               {/* {players.length === 0 && currentPower ? <img src={currentPower}/> : null} */}
 
               {playersHorsePosition?.map((e, index) => {
+                // console.log(e)
                 return (
-                  <img src={horses[e.color]} className="p-0" alt={`horse_${index}`} key={index} />
+                <div 
+                  // onClick={()=>getHorse(e)}
+                  // shield bga ved back vilchlehgvi
+                  // 2 mori zeregtseh ved ehend bsn mori ehneesee ehelne
+                  onClick={() => {
+                    if (!(e.id === currentUserId && selectedPower === "shield")) {
+                      getHorse(e);
+                    }
+                  }}
+                  >
+                  <img src={horses[e.color]} 
+                    className={`${e.id === currentUserId && selectedPower === "shield" ? "bg-red-300" :""} absolute p-0`}  
+                    key={index} />
+                </div>
                 );
               })}
-
-              
             </div>
           );
         })}
