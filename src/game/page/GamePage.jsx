@@ -15,11 +15,11 @@ let intervalIds = [];
 const TIME = 600
 const Game = () => {
   const bet = [
-    {win: 1400, entry: 500},
-    {win: 5600, entry: 2000},
-    {win: 28000, entry: 10000},
-    {win: 140000, entry: 50000},
-    {win: 560000, entry: 200000},
+    {win: 1400, entry: 500, second: 500},
+    {win: 5600, entry: 2000 , second: 2000},
+    {win: 28000, entry: 10000 , second: 10000},
+    {win: 140000, entry: 50000, second: 50000},
+    {win: 560000, entry: 200000 , second: 200000},
   ]
 
   // const {players} = useGame();
@@ -51,6 +51,7 @@ const Game = () => {
   const [betNumber, setBetNumber] = useState(0)
 
   const entry = bet[betNumber].entry
+  const second = bet[betNumber].second
   const win = bet[betNumber].win
   // console.log(coinStatus)
   // console.log(Userctx.currentUser.coins)
@@ -86,6 +87,7 @@ const Game = () => {
         name: Userctx.currentUser.name,
         email: Userctx.currentUser.email,
         authId: Userctx.currentUser.authId,
+        photo: Userctx.currentUser.photo,
       };
       setState(newData);
     }
@@ -126,7 +128,7 @@ const Game = () => {
     game?.players.map((e, i) => {
       if(e?.state?.authId === authId || Userctx?.currentUser?.coins > entry) {
       // if( Userctx?.currentUser?.coins > entry) {
-        Lessonctx.join(state, game, chLan, chLevel, chLesson, entry, win);
+        Lessonctx.join(state, game, chLan, chLevel, chLesson, entry, win , second);
       } else {
         setShowEnterGame(true)
       }
@@ -136,7 +138,7 @@ const Game = () => {
   const newGame = () => {
    
     if(Userctx?.currentUser?.coins >= entry) {
-      Lessonctx.createGame(state, chLan, chLevel, chLesson , entry , authId, win );
+      Lessonctx.createGame(state, chLan, chLevel, chLesson , entry , authId, win, second );
     } else {
       setShowEnterGame(true)
     }
@@ -219,7 +221,7 @@ const Game = () => {
               </div>
             ))}
           </div>
-
+            {/* bet choose */}
           <div className="bg-gradient-to-b from-baseColor to-hpink">
             <div className="flex justify-center mb-3 text-white">Choose Bet</div>
             <div className="flex justify-around">

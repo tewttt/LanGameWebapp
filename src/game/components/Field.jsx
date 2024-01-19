@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import blueHorse from "../../assets/shagai/blue.png";
-import orangeHorse from "../../assets/shagai/orange.png";
-import redHorse from "../../assets/shagai/red.png";
-import purpleHorse from "../../assets/shagai/purple.png";
+import blueHorse from "../../assets/shagai/blue.svg";
+import orangeHorse from "../../assets/shagai/orange.svg";
+import redHorse from "../../assets/shagai/red.svg";
+import purpleHorse from "../../assets/shagai/purple.svg";
 import useGame from "../../hook/useGame";
 import { useParams } from "react-router-dom";
 import grass from '../../assets/game/grass.png'
@@ -15,7 +15,11 @@ import yellowOneTree from "../../assets/game/yellowOneTree.png"
 import smallGrass from "../../assets/game/smallOneGrass.png"
 import trianleTwoTree from "../../assets/game/triangleTwoTree.png"
 import yellowTwoTree from "../../assets/game/yellowTwotree.png"
-
+import { CloseFullscreen } from "@mui/icons-material";
+ // TO DO
+ // emoji 
+ 
+ 
 const positions = [
   { position: "absolute", top: 80, right: 175},
   { position: "absolute", top: 80, right: 140},
@@ -57,11 +61,12 @@ const positions = [
   { position: "absolute", top: 495, left: 70,  },
   { position: "absolute", top: 495, left: 105 },
   { position: "absolute", top: 495, left: 140 },
-  { position: "absolute", top: 495, left: 175 },
+  { position: "absolute", top: 475, right: 0, background: "white", width: 60 , height: 60, borderRadius: 40 },
+
  
 ];
 
-const Field = ({power , chooseHorse , selectedPower , currentUserId}) => {
+const Field = ({ power , chooseHorse , selectedPower , currentUserId}) => {
   const horses = {
     blue: blueHorse,
     orange: orangeHorse,
@@ -70,10 +75,9 @@ const Field = ({power , chooseHorse , selectedPower , currentUserId}) => {
   };
 
   const { id } = useParams();
-  const { players} = useGame(id);
-  const [field, setField] = useState(Array(40).fill(null));
+  const { players , isBegin} = useGame(id);
+  const [field, setField] = useState(Array(41).fill(null));
   
-
   // player's horse's position
   const horsePosition = (fieldNum) => {
     const playersFil = players?.filter(
@@ -81,6 +85,21 @@ const Field = ({power , chooseHorse , selectedPower , currentUserId}) => {
     );
     return playersFil;
   };
+
+  const currentPoint = players?.find(
+      item => item.id === currentUserId
+  )
+  const backHorse = (e) => {
+    const data = players?.filter(
+      item => !(item.id === currentUserId)
+    )
+    data.map((e,i) => {
+      // console.log(e.point)
+      if (currentPoint?.point === e.point) {
+      isBegin(e)
+    }
+    })
+  }
 
   const getHorse= (e) => {
     chooseHorse(e)
@@ -103,7 +122,6 @@ const Field = ({power , chooseHorse , selectedPower , currentUserId}) => {
       <div className="relative ml-28 w-[245px]">
         {field.map((value, i) => {
           const playersHorsePosition = horsePosition(i);
-          // console.log(playersHorsePosition.length)
           const currentPower = power[i]    
           return (
             <div 
@@ -114,31 +132,30 @@ const Field = ({power , chooseHorse , selectedPower , currentUserId}) => {
               : playersHorsePosition.length === 3 ? "grid grid-cols-2"
               : playersHorsePosition.length === 4 ? "grid grid-cols-2" : ''} 
                w-[35px] h-[35px] bg-[#4C3F1C] relative`}
-             
             >
               {/* {i} */}
               {playersHorsePosition.length === 0 && currentPower ? <img src={currentPower} alt="power"/> : null}
-              {/* {players.length === 0 && currentPower ? <img src={currentPower}/> : null} */}
-
-              {playersHorsePosition?.map((e, index) => {
-                // console.log(e)
+              {playersHorsePosition.map((e, index) => {
+                
+                backHorse(e)
+              
                 return (
                 <div 
-                  // onClick={()=>getHorse(e)}
-                  // shield bga ved back vilchlehgvi
-                  // 2 mori zeregtseh ved ehend bsn mori ehneesee ehelne
                   onClick={() => {
-                    if (!(e.id === currentUserId && selectedPower === "shield")) {
+                    if (!(e.id === currentUserId && e.activatedShield)) {
                       getHorse(e);
                     }
                   }}
                   >
+                  
                   <img src={horses[e.color]} 
-                    className={`${e.id === currentUserId && selectedPower === "shield" ? "bg-red-300" :""} absolute p-0`}  
+                    className={`${e.id === currentUserId && e.activatedShield ? "bg-red-300" :""} absolute p-0`}  
                     key={index} />
                 </div>
                 );
               })}
+
+              {/* {playersHorsePosition.filter((item => item.point === ))} */}
             </div>
           );
         })}

@@ -346,7 +346,7 @@ export const LessonStore = (props) => {
     });
   };
 
-  const join = async (state, game, chLan, chLevel, chLesson, entry, win) => {
+  const join = async (state, game, chLan, chLevel, chLesson, entry, win , second) => {
     await chGames(chLan, chLevel, chLesson)
     const id = game.id;
     setChLan(chLan);
@@ -371,7 +371,13 @@ export const LessonStore = (props) => {
         shield: 0,
         go: 0,
         back: 0, 
-        place: 0
+        endGamePlayer: false,
+        endGamePlayerTime: "",
+        activatedGo: false,
+        activatedBack: false,
+        activatedShield : false,
+        winCoin: win,
+        secondCoin: second
       });
     
       alert("Тоглогч нэмэгдлээ");
@@ -413,7 +419,7 @@ export const LessonStore = (props) => {
     }
   };
 
-  const createGame = async (state, chLan, chLevel, chLesson , entry , authId, win) => {
+  const createGame = async (state, chLan, chLevel, chLesson , entry , authId, win , second) => {
     const questions = await examfunGame(chLan, chLevel, chLesson);
     await chGames(chLan, chLevel, chLesson)
     try {
@@ -443,7 +449,13 @@ export const LessonStore = (props) => {
         shield: 0,
         go: 0,
         back: 0,
-        place: 0
+        endGamePlayer: false,
+        endGamePlayerTime: "",
+        activatedGo: false,
+        activatedBack: false,
+        activatedShield : false,
+        winCoin: win,
+        secondCoin: second
       });
 
       const data = {

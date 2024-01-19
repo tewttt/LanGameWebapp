@@ -2,11 +2,11 @@ import {
   collection,
   deleteDoc,
   doc,
-  getCountFromServer,
+ 
   increment,
   onSnapshot,
   updateDoc,
-  setDoc,
+ 
   serverTimestamp,
 } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
@@ -25,8 +25,10 @@ export default function useGame(id) {
   const history = useHistory();
   const [game, setGame] = useState("");
   const [players, setPlayers] = useState([]);
-  const [isGameEnded, setIsGameEnded] = useState(false);
-
+  const [isGameEnded, setIsGameEnded] = useState(true);
+// TO DO
+// 2 zereg horse current user bish ved uhrahgvi bn
+// random power neg negeeree random hiigdeh
   const oneGame = (id) => {
     const oneRef = doc(db, "game", id);
     onSnapshot(oneRef, (doc) => {
@@ -39,11 +41,30 @@ export default function useGame(id) {
           // return { id: doc.id };
           return { ...doc.data(), id: doc.id };
         });
-        const winPlayer = list.find((item) => item.point >= 40) 
-        if(winPlayer) {
-          setIsGameEnded(true)
-          updateDoc(oneRef, {endGame : true})
+        // end player
+        const endPlayer = list.filter((item) => item.point >= 40) 
+
+        endPlayer.map((e, i) => {
+          if(e.endGamePlayer === false) {
+          const endRef = doc(db, `game/${id}/players`, e?.id)
+          updateDoc(endRef, {endGamePlayer : true , endGamePlayerTime : serverTimestamp()} )
         }
+
+        const serverTime = moment(doc.customTimestamp).format('YYYY-MM-DD HH:mm:ss');
+        console.log(serverTime + " servertime")
+      
+        const playerTime = moment(e?.endGamePlayerTime.toDate()).format('YYYY-MM-DD HH:mm:ss')
+        console.log(playerTime + " playertime")
+        console.log(serverTime > playerTime)
+        })
+    
+
+     
+      //  console.log(value)
+        // if(winPlayer) {
+        //   setIsGameEnded(true)
+        //   updateDoc(oneRef, {endGame : true})
+        // }
        
         return [...list];
       });
@@ -55,33 +76,32 @@ export default function useGame(id) {
     };
   };
 
-  const showGameEnd = () => {
-    setIsGameEnded(true)
+  const showGameEnd = (status) => {
+    console.log(status)
+    // setIsGameEnded(status)
   }
   // Тоглогчын оноо цуглуулах
   
-  const addPoint = async (ran1, ran2, ran3, updateHorsePoint, id, val, isZeroCnt = false) => {
-    // console.log(updateHorsePoint)
-    // console.log(ran1 + "ran1")
-    // console.log(ran2 + "ran2")
-    // console.log(ran3 + "ran3")
+  const addPoint = async (status, ran1, ran2, ran3, updateHorsePoint, id, val, isZeroCnt = false) => {
+    
+    const playerRef = doc(db, `game/${id}/players`, auth.currentUser?.uid)
+    await updateDoc(playerRef, { activatedShield : status, activatedBack : status, activatedGo : status  })
 
-    const playerRef = doc(db, `game/${id}/players`, auth.currentUser?.uid);
     if(ran1 === updateHorsePoint) {
       await updateDoc(playerRef, {go : increment(1)})
     } else if (ran2 === updateHorsePoint) {
-      await updateDoc(playerRef, {shield : increment(1)})
+      await updateDoc(playerRef, {shield : increment(1)  })
     } 
     else if(ran3 === updateHorsePoint) {
       await updateDoc(playerRef, {back : increment(1)})
     } 
     else {
-      console.log("hooson")
+      // console.log("hooson")
     }
-   
     await updateDoc(playerRef, { point: increment(val + 1) , pointCount: isZeroCnt ? 0 : increment(1) });
   
   };
+
   
   // Тоглогчыг устгах
   const deletePlayer = async (id, currentUserId , game) => {
@@ -98,8 +118,6 @@ export default function useGame(id) {
       .catch((error) => {
         console.log("error" + error);
       });
-  // player log out hiihed 4, 3 bairiig haruulna
-  // 
 
     history.push("/game");
   };
@@ -123,9 +141,10 @@ export default function useGame(id) {
    
   };
 
-  const minusPoint = async(e , currentUserId , selectedPower , currentUser) => {
-    const total = currentUser.back - 6 
+  const isBack = async(status, e , currentUserId , selectedPower , currentUser) => {
+    const total = currentUser.point - 6 
     const playerRef = doc(db, `game/${id}/players`, e.id);
+    
     // TO DO
     // esreg toglogch shield awsniig yaaj medhvv
     // 2 , 3  toglogch zereg baiwal hamtad n uhraana
@@ -134,28 +153,68 @@ export default function useGame(id) {
     } else {
       await updateDoc(playerRef, {point : increment(-6)})
     }
+
     const currentRef = doc(db, `game/${id}/players`, currentUserId);
     if (selectedPower === "back" && currentUser.back > 0){
-      await updateDoc(currentRef, {back : increment(-1)})
+      await updateDoc(currentRef, {back : increment(-1), activatedBack : status})
     }
   }
 
-  const isShield = async( currentUser , currentUserId ) => {
-    const currentRef = doc(db, `game/${id}/players`, currentUserId);
-    if( currentUser.shield > 0) {
-    await updateDoc(currentRef, {shield : increment(-1)})
-   
-    } else {
-      console.log("no shield")
+ 
+  
+  const isShield = async(status, currentUser , currentUserId , cb ) => {
+    // console.log(status)
+      try {
+        
+      const currentRef = doc(db, `game/${id}/players`, currentUserId);
+      if( currentUser.shield > 0) {
+      await updateDoc(currentRef, {shield : increment(-1) , activatedShield : status})
+      
+      } else {
+        console.log("no shield")
+        // TODO: warning
+      }
+    } catch (error) {
+        
+    } finally{
+      cb && cb()
     }
   }
 
-  const isGo = async(currentUser , selectedPower, currentUserId , diceNumber) => {
-    const currentRef = doc(db, `game/${id}/players`, currentUserId);
-    if( currentUser.go > 0 ) {
-      await updateDoc(currentRef, {point : increment(diceNumber + 1)})
-      await updateDoc(currentRef, {go : increment(-1)})
+  const isGo = async(status, currentUser , selectedPower, currentUserId , diceNumber , go) => {
+    try {
+      const currentRef = doc(db, `game/${id}/players`, currentUserId);
+      if( currentUser.go > 0 ) {
+        await updateDoc(currentRef, {point : increment(diceNumber + 1)})
+        await updateDoc(currentRef, {go : increment(-1), activatedGo : status})
+      }
+    } catch (err) {
+
+    } finally{
+      go && go()
     }
+    
+  }
+
+  const isBegin = async(e) => {
+    try {
+      if(e.endGamePlayer === false) {
+        const currentRef = doc(db, `game/${id}/players`, e.id);
+        await updateDoc(currentRef, {point : 0})
+      }
+     } catch (err) {
+
+    } finally{
+      
+    }
+  
+  }
+
+  const minusCoin =async(e , currentUser , currentUserId , sendPlayerId) => {
+    const currentRef = doc(db, "users", currentUserId);
+    await updateDoc(currentRef, {coins : increment(-100)})
+    const gameRef = doc(db, `game/${id}/players`, sendPlayerId);
+    await updateDoc(gameRef, {sendEmoji : e})
   }
 
   return {
@@ -166,9 +225,12 @@ export default function useGame(id) {
     addAnswer,
     isGameEnded,
     showGameEnd,
-    minusPoint,
+    isBack,
     isShield,
-    isGo
+    isGo,
+    isBegin,
+    minusCoin
+  
     // kkk
    
   };

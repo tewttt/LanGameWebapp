@@ -206,13 +206,15 @@ export const UserStore = (props) => {
         phone: phone,
         authId: auth.currentUser?.uid,  
         name: name,
+        photo: "",
         status: false,
         coins: 0,
         amount: 0,
         statusCoin: false,
         photo: "../assets/img/ironman.png",
         winGame: 0,
-        matchGame: 0
+        matchGame: 0,
+      
         // userID: increment(countUserID)
       });
 

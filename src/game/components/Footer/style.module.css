@@ -21,3 +21,20 @@
         0 0 5px #E2CFEA, 0 0 10px #340472,0 0 5px #E2CFEA, 0 0 10px #340472;
     }
 }
+
+.new{
+    box-shadow: 0 0 5px white;
+    animation: newBlink 3s linear infinite;
+}
+
+@keyframes newBlink {
+    0%,
+    20%,
+    40%,
+    60%,
+    80%,
+    100% {
+        box-shadow: 0 0 5px #E2CFEA, 0 0 10px #340472,
+        0 0 5px #E2CFEA, 0 0 10px #340472,0 0 5px #E2CFEA, 0 0 10px #340472;
+    }
+}
