@@ -18,6 +18,7 @@ import { MdOutlineCancel } from "react-icons/md";
 import { LuCrown } from "react-icons/lu";
 import { IoMdWine } from "react-icons/io";
 import { FaHandsBubbles } from "react-icons/fa6";
+
 import e1 from "../../assets/emoji/e1.png"
 import e2 from "../../assets/emoji/e2.png"
 import e3 from "../../assets/emoji/e3.png"
@@ -38,22 +39,13 @@ const TIME = 10
 
 // firebase security rule
 // waiting for other players Modal haruulah , spinner
-// end game Model dr toglogchdiin niit heden asuultand zow hariulsaniig haruulah
-// 1, 2 bairnii toglogchdod coin nemeh
 // sound oruulah 
-// win coin nemeh
 //random update
-// 2 r bairnii toglogch todortol toglolt vrgeljilne
-// 2 toglogch neg nvden dr baiwal neg toglogch n ehneesee ehelne
-// if toglogch ehneesee ehelj baiwal coin hasagdana
-// togloltond dund coin duuswal togloomd hojigdono
 
-// entry coinoos shaltgaalj togloltond coin hasaghdah eseh shiidegdene
-// shoo hayh ved power uud idehjine, hereglej bolno
-// if togloltiin dundaas hvn garwal 4 , 3 bariig onoono
 // if toglolt 2 toglochtoi vldsen bol ehnii toglogch ylhad 2 dah ylalt shuud onoogdoj togloom duusna
 // SHooo hayhad 5s time zaana,hugatsaandaa shoo hayhgvi bol automateer shoo buuna
 // point ygaad NAN bolood bn
+// wifi salsan , genet garsan playeriig 4 , 3 bairand oruulah
 const emoji = [e1, e2, e3, e4, e5,e6, e7, e8, e9, e10, e11, e12]
 
 const GameDetail = () => {
@@ -68,7 +60,7 @@ const GameDetail = () => {
   const ctx = useContext(UserContext)
   const currentUserId = ctx?.currentUser?.authId
   const { id } = useParams();
-  const {minusCoin, isGo, isShield, isBack, addAnswer, game, players, addPoint,deletePlayer ,isGameEnded, showGameEnd} = useGame(id);
+  const {queryPlayer, sendEmoji, isGo, isShield, isBack, addAnswer, game, players, addPoint, logoutPlayer ,isGameEnded, showGameEnd} = useGame(id);
   const [loader, setLoader] = useState(false);
   const [time, setTime] = useState(TIME)
   const [questionShow, setQuestionShow] = useState(true); 
@@ -89,7 +81,8 @@ const GameDetail = () => {
   const [logoutGame , setLogoutGame] = useState(false)
   const [selectedPower, setSelectedPower] = useState("")
   const currentUser = players?.find((item) => item.id === currentUserId)
-  // console.log(game.count)
+  const [showCoin  ,setShowCoin] = useState(false)
+  // console.log(queryPlayer)
 
   // create random number of powers
   useEffect(() => {
@@ -113,7 +106,7 @@ const GameDetail = () => {
   // logout game
   const logout = () => {
   // alert("yes")
-    deletePlayer(id, currentUserId , game);
+    logoutPlayer(id, currentUserId , game);
   };
 
   useEffect(() => {
@@ -291,8 +284,6 @@ const playerData = ctx?.userList.find(
   item => item.id === showPlayer.playerID
 )
 
-
-
 const chooseHorse = (e) => {
   // console.log(e)
   if(selectedPower === "back" && currentUserId === answeredPlayers[turn]?.authId) {
@@ -301,7 +292,6 @@ const chooseHorse = (e) => {
   } 
  
 }
-
 
 const getPower = (power, diceNumber) => {
   // console.log(diceNumber , power)
@@ -330,7 +320,14 @@ const getPower = (power, diceNumber) => {
 }
 
 const getEmoji = (e) => {
-  minusCoin(e , currentUser , currentUserId , showPlayer.playerID)
+  if(ctx?.currentUser?.coins >= 100 ) {
+    sendEmoji(e , currentUser , currentUserId , showPlayer.playerID , ctx?.currentUser?.coins)
+    setShowPlayer({showPlayer: false, playerID: null})
+  } else {
+    setShowPlayer({showPlayer: false, playerID: null})
+    setShowCoin(true)
+    // alert("coin hvrehgvi bn")
+  }
 }
 
 const answer = question?.answers?.find(item => item.authId === currentUserId)
@@ -355,6 +352,11 @@ const answer = question?.answers?.find(item => item.authId === currentUserId)
               className="text-white md:w-[30px] md:h-[30px] mx-1 lg:mx-5 hover:text-blue-500 transform duration-500 ease-in-out hover:scale-125"
             />
           </div>
+            {/* not enough coin */}
+          <Modal show={showCoin} closeConfirm={() => setShowCoin(false)}>
+            <div className="text-black">Not enough coins</div>
+          </Modal>
+
           {/* logout modal */}
           <Modal show={logoutGame}>
             <div>
@@ -374,7 +376,7 @@ const answer = question?.answers?.find(item => item.authId === currentUserId)
 
           {/* Тоглогчдыг харуулж байна */}
           {players?.map((e, i) => {
-            // console.log(e.sendEmoji)
+            // console.log(e.color)
             return (
               <>
                 <div
@@ -386,23 +388,30 @@ const answer = question?.answers?.find(item => item.authId === currentUserId)
                   {/* <p>order </p> */}
                   <div 
                     onClick={() => setShowPlayer({ showPlayer: true, playerID:e.state.authId})}
-                    className="relative flex flex-col justify-center items-center">
-                    {/* TO DO  5s haragdana */}
+                    className={`relative  flex flex-col justify-center items-center`}>
+                   
                     {e?.sendEmoji ? (
                       <div className="relative">
-                        <img src={zur} className="w-[60px] h-[60px] rounded-[50%] " />
+                        <img src={e?.state?.photo} className={`border-[8px] p-0 border-${e?.color}-500  w-[60px] h-[60px] rounded-[50%]`} />
                         <img 
                           src={e?.sendEmoji} 
                           className="absolute top-0 -right-4 w-[40px] h-[40px] rounded-[50%] " />
                        </div>
-                    ): (
-                       <img src={zur} className="w-[60px] h-[60px] rounded-[50%] " />
+                    ) : e?.logoutGame ? (
+                      <img src={go} className={`border-[8px] p-0 border-${e?.color}-500  w-[60px] h-[60px] rounded-[50%]`}/>
+                    ) : (
+                      <img src={e?.state?.photo} 
+                        className={`border-[8px] p-0 border-${e?.color}-500  w-[60px] h-[60px] rounded-[50%]`}
+                      />
                     )}
-                   
+                     {/* <img src={e?.state?.photo} 
+                        className={`border-[8px] p-0 border-${e?.color}-700  w-[60px] h-[60px] rounded-[50%]`}
+                      /> */}
+                  
                     <p className="text-[10px]">{e?.state?.name}</p>
                   </div>
 
-                  {answeredPlayers[turn]?.authId === e.state.authId && <Dice id={i} onDiceChange={onDiceChange} />}
+                  {answeredPlayers[turn]?.authId === e?.state?.authId && <Dice id={i} onDiceChange={onDiceChange} />}
                 </div>
               </>
             );
@@ -468,7 +477,8 @@ const answer = question?.answers?.find(item => item.authId === currentUserId)
 
               </div>
             )}
-          </Modal>          
+          </Modal>   
+        
           {/* game end  */}
           <Modal show={isGameEnded}>
             <div className="">
@@ -478,33 +488,78 @@ const answer = question?.answers?.find(item => item.authId === currentUserId)
                 <MdOutlineCancel onClick={() => showGameEnd(false)} size={25} className="absolute top-0 right-0"/>
               </div>
              
-              {players.map((e, i) => {
-                // console.log(e.point)
+              {queryPlayer?.map((e, i) => {
+                // console.log(e.logoutGame)
                 return (
-                <div className="border border-baseColor m-1 rounded-2xl flex justify-between py-1 items-center">
-                  { e?.endGamePlayer === true ? (
-                    //  {e?.point >= 40 && e?.endGame === true ? (
-                    <LuCrown className="text-yellow-500 ml-2" size={30}/>
-                  ) : (
-                    // <IoMdWine/>
-                    <FaHandsBubbles className="text-green-700 ml-2" size={20}/>
-                  )}
-               
-                 
-                  <div className="flex flex-col w-[80px] justify-center items-center">
-                    <img src={e?.state?.photo}/>
-                    <p>{e?.state?.name}</p>
-                  </div>
-                  {e?.endGamePlayer ? (
-                    <div className="flex justify-between items-center w-[100px] mx-2">
-                    <RiCopperCoinFill size={30} className="text-yellow-500"/>
-                    <p className="text-2xl text-orange-500 font-semibold">+{e.winCoin}</p>
-                  </div>
-                  ) : (
-                    <div className="flex justify-center items-center w-[100px] mx-2">
-                      <p>Playing</p>
-                    </div>
-                  )}
+                <div 
+                  key={i}
+                  className="">
+                    { e?.endGamePlayer ? (
+                        <div className="">
+                          {i === 0 ? (
+                            <div className="border border-baseColor m-1 rounded-2xl flex justify-between py-1 items-center">
+                              <LuCrown className="text-yellow-500 ml-2" size={30}/>
+                              <div className="flex flex-col w-[80px] justify-center items-center">
+                                <img src={e?.state?.photo}/>
+                                <p>{e?.state?.name}</p>
+                              </div>
+                              
+                              <div className="flex justify-between items-center w-[100px] mx-2">
+                                <RiCopperCoinFill size={30} className="text-yellow-500"/>
+                                <p className="text-2xl text-orange-500 font-semibold">+{e.winCoin}</p>
+                              </div>
+                                
+                            </div>
+                          ) : i === 1 ? (
+                            <div className="border border-baseColor m-1 rounded-2xl flex justify-between py-1 items-center">
+                              <IoMdWine className="text-blue-500 ml-2" size={30}/>
+                              <div className="flex flex-col w-[80px] justify-center items-center">
+                                <img src={e?.state?.photo}/>
+                                <p>{e?.state?.name}</p>
+                              </div>
+                              
+                              <div className="flex justify-between items-center w-[100px] mx-2">
+                                <RiCopperCoinFill size={30} className="text-yellow-500"/>
+                                <p className="text-2xl text-orange-500 font-semibold">+{e?.secondCoin}</p>
+                              </div>
+                            </div>
+                          ) : (
+                            <div className="border border-baseColor m-1 rounded-2xl flex justify-between py-1 items-center">
+                              <FaHandsBubbles className="text-green-700 ml-2" size={20}/>
+                              <div className="flex flex-col w-[80px] justify-center items-center">
+                                <img src={e?.state?.photo}/>
+                                <p>{e?.state?.name}</p>
+                              </div>
+                              
+                              <div className="flex justify-between items-center w-[100px] mx-2">
+                                <RiCopperCoinFill size={30} className="text-yellow-500"/>
+                                <p className="text-2xl text-orange-500 font-semibold">+{e?.secondCoin}</p>
+                              </div>
+                            </div>
+                          ) 
+                          }
+                        </div>
+                      ) : e?.logoutGame ? (
+                        <div className="border border-baseColor m-1 rounded-2xl flex justify-between py-1 items-center">
+                          {/* <FaHandsBubbles className="text-green-700 ml-2" size={20}/> */}
+                          {/* <div className="flex flex-col w-[80px] justify-center items-center">
+                            <img src={e?.state?.photo}/>
+                            <p>{e?.state?.name}</p>
+                          </div>  */}
+                          <p className="flex justify-center items-center w-[100px] mx-2">Leaving</p>
+                        </div>
+                      ) : (
+                        <div className="border border-baseColor m-1 rounded-2xl flex justify-between py-1 items-center">
+                          <FaHandsBubbles className="text-green-700 ml-2" size={20}/>
+                            <div className="flex flex-col w-[80px] justify-center items-center">
+                              <img src={e?.state?.photo}/>
+                              <p>{e?.state?.name}</p>
+                            </div> 
+                              <p className="flex justify-center items-center w-[100px] mx-2">Playing</p>
+                          
+                        </div>
+                      )
+                    }
                 </div>
                 )
               })}
@@ -562,12 +617,10 @@ const answer = question?.answers?.find(item => item.authId === currentUserId)
           </Modal>
 
         <div className="absolute w-full h-full">
-          <Field  power={power} chooseHorse={chooseHorse} selectedPower={selectedPower} currentUserId={currentUserId}/> 
+          <Field usersData={ctx?.userList} ran1={ran1} ran2={ran2} ran3={ran3}  power={power} chooseHorse={chooseHorse} selectedPower={selectedPower} currentUserId={currentUserId} currentUser={currentUser}/> 
         </div>
      
-
         <div className="absolute z-10 w-full h-[68px] bottom-[40px]">
-
           <Footer currentUser={currentUser} answerPlayerId={answeredPlayers[turn]?.authId} currentUserId={currentUserId} getPower={getPower} selectedPower={selectedPower} />
         </div> 
       </div>  

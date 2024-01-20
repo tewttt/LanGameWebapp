@@ -377,7 +377,8 @@ export const LessonStore = (props) => {
         activatedBack: false,
         activatedShield : false,
         winCoin: win,
-        secondCoin: second
+        secondCoin: second,
+        entryCoin: entry
       });
     
       alert("Тоглогч нэмэгдлээ");
@@ -455,7 +456,8 @@ export const LessonStore = (props) => {
         activatedBack: false,
         activatedShield : false,
         winCoin: win,
-        secondCoin: second
+        secondCoin: second,
+        entryCoin: entry
       });
 
       const data = {

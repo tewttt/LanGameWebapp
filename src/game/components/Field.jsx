@@ -16,10 +16,7 @@ import smallGrass from "../../assets/game/smallOneGrass.png"
 import trianleTwoTree from "../../assets/game/triangleTwoTree.png"
 import yellowTwoTree from "../../assets/game/yellowTwotree.png"
 import { CloseFullscreen } from "@mui/icons-material";
- // TO DO
- // emoji 
- 
- 
+import { FaFlagCheckered } from "react-icons/fa";
 const positions = [
   { position: "absolute", top: 80, right: 175},
   { position: "absolute", top: 80, right: 140},
@@ -62,22 +59,20 @@ const positions = [
   { position: "absolute", top: 495, left: 105 },
   { position: "absolute", top: 495, left: 140 },
   { position: "absolute", top: 475, right: 0, background: "white", width: 60 , height: 60, borderRadius: 40 },
-
- 
 ];
 
-const Field = ({ power , chooseHorse , selectedPower , currentUserId}) => {
+const Field = ({usersData, ran1, ran2, ran3, power , chooseHorse , selectedPower , currentUserId , currentUser}) => {
   const horses = {
     blue: blueHorse,
     orange: orangeHorse,
     red: redHorse,
     purple: purpleHorse,
   };
-
+ 
   const { id } = useParams();
-  const { players , isBegin} = useGame(id);
+  const { players , isBegin} = useGame(id );
   const [field, setField] = useState(Array(41).fill(null));
-  
+  // console.log(currentUserData.entryCoin)
   // player's horse's position
   const horsePosition = (fieldNum) => {
     const playersFil = players?.filter(
@@ -85,22 +80,7 @@ const Field = ({ power , chooseHorse , selectedPower , currentUserId}) => {
     );
     return playersFil;
   };
-
-  const currentPoint = players?.find(
-      item => item.id === currentUserId
-  )
-  const backHorse = (e) => {
-    const data = players?.filter(
-      item => !(item.id === currentUserId)
-    )
-    data.map((e,i) => {
-      // console.log(e.point)
-      if (currentPoint?.point === e.point) {
-      isBegin(e)
-    }
-    })
-  }
-
+ 
   const getHorse= (e) => {
     chooseHorse(e)
   }
@@ -123,6 +103,7 @@ const Field = ({ power , chooseHorse , selectedPower , currentUserId}) => {
         {field.map((value, i) => {
           const playersHorsePosition = horsePosition(i);
           const currentPower = power[i]    
+          // console.log(currentPower)
           return (
             <div 
               key={i}
@@ -136,11 +117,10 @@ const Field = ({ power , chooseHorse , selectedPower , currentUserId}) => {
               {/* {i} */}
               {playersHorsePosition.length === 0 && currentPower ? <img src={currentPower} alt="power"/> : null}
               {playersHorsePosition.map((e, index) => {
-                
-                backHorse(e)
-              
+                // beginHorse(e)
                 return (
-                <div 
+                <div  
+                //when no shield , choose back horse  
                   onClick={() => {
                     if (!(e.id === currentUserId && e.activatedShield)) {
                       getHorse(e);
@@ -154,12 +134,14 @@ const Field = ({ power , chooseHorse , selectedPower , currentUserId}) => {
                 </div>
                 );
               })}
-
-              {/* {playersHorsePosition.filter((item => item.point === ))} */}
             </div>
           );
         })}
+       
       </div>
+      <FaFlagCheckered 
+        size={30}
+        className="absolute z-10 text-red-700 right-[20px] bottom-[180px]"/>
     </div>
   );
 };

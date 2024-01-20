@@ -63,7 +63,8 @@ const getGo = (i) => {
           </div>
       </Modal>
       {answerPlayerId === currentUserId ? (
-       <div className="h-full m-auto rounded-[30px] flex justify-around items-center w-[350px] bg-hpink">
+      <div className="h-full m-auto rounded-[30px] flex justify-around items-center w-[350px] bg-hpink">
+        {/* shield */}
         <div className="flex flex-col items-center relative"
           onClick={() => {
             if ((currentUser?.activatedShield === false)) {
@@ -72,7 +73,6 @@ const getGo = (i) => {
           }} 
         >
           <div 
-          
             className={`${selectedPower === "shield" ? css.neon : ""}   bg-baseColor flex justify-center items-center w-[52px] h-[35px] rounded-[23px]`}
           >
             <img src={shield} 
@@ -84,14 +84,15 @@ const getGo = (i) => {
           </div>
         </div>
 
+        {/* go */}
         <div 
-        onClick={() => {
-          if ((currentUser?.activatedGo === false)) {
-            showGoModal()
-          }
-        }} 
-      
-        className="flex flex-col items-center relative">
+            onClick={() => {
+              if ((currentUser?.activatedGo === false)) {
+                showGoModal()
+              }
+            }} 
+          
+            className="flex flex-col items-center relative">
           <div  className={`${selectedPower === "go" ? css.neon : ""}  bg-baseColor flex justify-center items-center w-[52px] h-[35px] rounded-[23px]`}>
             <img src={go} className="h-[40px] w-[40px]"/>
           </div>
@@ -99,7 +100,8 @@ const getGo = (i) => {
             {currentUser?.go}
           </div>
         </div>
-
+        
+        {/* back */}
         <div
         onClick={() => {
           if ((currentUser?.activatedBack === false)) {
@@ -115,9 +117,6 @@ const getGo = (i) => {
             {currentUser?.back}
           </div>
         </div>  
-
-        
-
       </div>
      ) : (
       <div className="h-full m-auto rounded-[30px] flex justify-around items-center w-[350px] bg-white">

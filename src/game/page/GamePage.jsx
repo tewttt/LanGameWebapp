@@ -7,7 +7,6 @@ import Modal from "../../components/General/Modal";
 import { IoAddCircle } from "react-icons/io5";
 import { FaCircleMinus } from "react-icons/fa6";
 import { FaCoins } from "react-icons/fa";
-import useGame from "../../hook/useGame";
 import GameNavbar from "../components/GameNavbar";
 
 const auth = getAuth();
@@ -22,13 +21,13 @@ const Game = () => {
     {win: 560000, entry: 200000 , second: 200000},
   ]
 
-  // const {players} = useGame();
+  
   const [time, setTime] = useState(TIME)
   const [state, setState] = useState({});
   const Lessonctx = useContext(LessonContext);
   const Userctx = useContext(UserContext);
   const authId = auth.currentUser?.uid;
-
+  const [getPlayers, setGetPlayers] = useState([])
   let arrLevel = Lessonctx.levelId;
   let arrLanguage = Lessonctx.lanId;
   let arrLesson = Lessonctx.lessonsId;
@@ -53,6 +52,8 @@ const Game = () => {
   const entry = bet[betNumber].entry
   const second = bet[betNumber].second
   const win = bet[betNumber].win
+
+  
   // console.log(coinStatus)
   // console.log(Userctx.currentUser.coins)
   
@@ -129,7 +130,8 @@ const Game = () => {
       if(e?.state?.authId === authId || Userctx?.currentUser?.coins > entry) {
       // if( Userctx?.currentUser?.coins > entry) {
         Lessonctx.join(state, game, chLan, chLevel, chLesson, entry, win , second);
-      } else {
+      } 
+      else {
         setShowEnterGame(true)
       }
     })
@@ -237,24 +239,28 @@ const Game = () => {
 
           <div className="grid grid-cols-4 bg-hpink rounded-2xl my-3 py-5 ">
           {Lessonctx.games.map((game, i) => {
-            // console.log(game);
+            const logoutPlayer =  game?.players.find(item => item.id === authId)
+            // console.log(logoutPlayer.logoutGame)
             return (
-              <div
-                key={i}
-                className="relative bg-baseColor text-hpink w-[90px] h-[60px] flex flex-col justify-center items-center p-3 m-2 rounded-xl"
-              >
-                <div className="absolute bg-baseColor rounded-[50%] w-[25px] h-[25px] text-white left-0">{time}</div>
-                <div className="text-[12px]">Players 4/{game.count}</div>
-               
+              <div>
+               {logoutPlayer?.logoutGame ? null : (
                 <div
-                  className=" text-xl hover:text-red-500"
-
-                  // onClick={() => join(game,  bet[betNumber].entry)}
-                  onClick={() => join(game)}
+                  key={i}
+                  className="relative bg-baseColor text-hpink w-[90px] h-[60px] flex flex-col justify-center items-center p-3 m-2 rounded-xl"
                 >
-                  <p className="text-base text-center font-bold">Join game</p>
+                  <div className="absolute bg-baseColor rounded-[50%] w-[25px] h-[25px] text-white left-0">{time}</div>
+                  <div className="text-[12px]">Players 4/{game.count}</div>
+                
+                  <div
+                    className=" text-xl hover:text-red-500"
+                    onClick={() => join(game)}
+                  >
+                    <p className="text-base text-center font-bold">Join game</p>
+                  </div>
                 </div>
+               )}
               </div>
+              
             );
           })}
           </div>
@@ -269,12 +275,9 @@ const Game = () => {
       </div>
 
       {/* coin hvrehgvi ved */}
-
-      
       <Modal show={showEnterGame} closeConfirm={() => setShowEnterGame(false)}>
         <div className="text-black">Not enough coins to enter the game</div>
       </Modal>
-      
       
       <Modal closeConfirm={closeConfirm} show={show.show}>
         <div style={{ display: "flex", flexDirection: "column" }}>
