@@ -17,7 +17,7 @@ export default function AddAdvertise() {
                     onClick={() => history.push("/gameHome")} 
                     size={30}
                 />
-                <div 
+                <div  
                     className="bg-baseColor px-4 h-[40px] text-hpink font-bold rounded-2xl flex justify-center items-center
                     hover:bg-baseColor/80 hover:text-purple-200"
                     onClick={() =>  history.push("/post")}>

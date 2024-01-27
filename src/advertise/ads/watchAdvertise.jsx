@@ -1,25 +1,63 @@
 import { MdOutlineCancel } from "react-icons/md";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams ,Link } from "react-router-dom";
 import React, {useContext,  useEffect , useState} from "react"
 import UserContext from "../../context/UserContext";
 import { DefaultPlayer as Video } from "react-html5video";
 import "react-html5video/dist/styles.css";
 import video from "../../../src/assets/video/1.mp4"
-
-
-const TIME = 3
+import useAds from "../../hook/useAds";
+import usePost from "../../hook/usePost";
+// TO DO
+// ads search 
+// start date
+// search age, gender, 
+// total bidget
+// start time
+// hedees heden hvn harsan ?
+// location sign up hiihed location awj bolohuu 
+// all users shvvlt hiih , haragdah hvmvvsiig songoh
+// dansan dah mongiig shalgah
+// accept iin daraa amount baiwal start true bolgoh , start date ogoh
+// if amount hvrehgvi baiwal dansaa tsenegleh
+// dansaa honogiin dotor tseneglehgvi bol accept iig denied bolgoh
+// transaction vvsgeh
+// emoji send dr tnx vvsgeh
+// balance collection
+// heden vzseniig medeh
+// 1000 hvrwel ads zogsono
+// ads dr count vvsgene 
+// user tnx dr ads iin id nemne
+// 1000 person hvrwel ads zogsoooh
+const TIME = 5
 let intervalIds = [];
 
 export default function WatchAdvertise () {
-    const [time, setTime] = useState(TIME)
+    const {id} = useParams();
+    const {getAds, ads } = useAds(id)
+    const { getPostAds , postDataAds} = usePost()
+    // console.log(ads?.ads)
+    // console.log(postDataAds?.post)
+    const [time, setTime] = useState(TIME) 
     const [showTime , setShowTime] = useState(false)
     const ctx = useContext(UserContext)
     const history = useHistory();
+    useEffect (() => {
+        if(id){
+            getAds(id) 
+        }
+    },[id])
+    useEffect (() => {
+        if(ads?.postId){
+            getPostAds(ads?.postId) 
+        }
+    },[ads?.postId])
+
     const data = {
         coin: 100,
         label: "watch video",
         labelType: "ads",
-        type: "deposit"
+        type: "deposit",
+        adsId: id,
     }
         
     useEffect(() => {
@@ -60,11 +98,39 @@ export default function WatchAdvertise () {
                
                 <div>coin 100</div>
             </div>
+
+            <div className="flex bg-baseColor justify-center text-hpink rounded-2xl py-2 px-4 m-2 border border-baseColor">
+                 <a 
+                    // className="bg-baseColor text-hpink py-2 px-4 rounded-2xl"
+                    href={postDataAds?.post?.link} target="_blank" rel="noopener noreferrer">
+                  visit {postDataAds?.post?.title}
+                 </a>
+            </div>
+
             {/* <button onClick={() => ctx.transaction(100, "ads" )}>add coin</button> */}
             <div className="flex bg-red-300">
-                <Video>
-                    <source src={video}/>
-                </Video>
+                <video src={postDataAds?.post?.video} width="320" height="240" type="video/mp4" controls autoPlay></video>
+            </div>
+            <div className="w-[300px] ">
+                <div className="flex rounded-2xl py-2 px-4 m-2 border border-baseColor">
+                  <p className="w-[100px]">address: </p>
+                  <p>{postDataAds?.post?.address} </p>
+                </div>
+               <div className="flex rounded-2xl py-2 px-4 m-2 border border-baseColor">
+                <p className="w-[100px]">email:</p>
+                <p> {postDataAds?.post?.email} </p>
+                </div>
+              
+                
+                <div className="flex rounded-2xl py-2 px-4 m-2 border border-baseColor">
+                  <p className="w-[100px]">title</p>
+                  <p> {postDataAds?.post?.title} </p>
+                </div>
+                <div className="flex rounded-2xl py-2 px-4 m-2 border border-baseColor">
+                    <p className="w-[100px]">text</p>
+                    <p>{postDataAds?.post?.text} </p>
+                </div>
+               
             </div>
         </div>
     ) 

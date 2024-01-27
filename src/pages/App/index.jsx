@@ -23,6 +23,12 @@ import EditPost from "../../advertise/post/editPost";
 import AllAds from "../../advertise/ads/allAds";
 import EditAdvertise from "../../advertise/ads/editAds";
 import Forgot from "../forgot";
+import Verification from "../Verification";
+import SignUpChoose from "../SignUpChoose";
+import LoginChoose from "../LoginChoose";
+import SignUpPhone from "../SignUpPhone";
+import LoginPhone from "../LoginPhone";
+import OneAds from "../../advertise/ads/oneAds";
 
 const App = () => { 
      // console.log(auth?.currentUser?.uid)
@@ -54,20 +60,27 @@ return (
           <Route path="/addLesson" component={AddLesson}/>
           <Route path="/teacher" component={Teacher}/>
           <Route path="/edit/:id" component={EditLesson}/>
-          <Route path="/watchAds" component={WatchAdvertise}/>
+          <Route path="/watchAds/:id" component={WatchAdvertise}/>
           <Route path="/ads" component={Advertise} />
           <Route path="/addAds/:id" component={AddAdvertise} />
           <Route path="/allAds" component={AllAds} />
           <Route path="/post" component={AddPost} />
           <Route path="/editpost/:id" component={EditPost} />
-          <Route path="/editads/:id" component={EditAdvertise} />
+          
+          <Route path="/verification" component={Verification}/>
+          <Route path="/oneAds/:id" component={OneAds}/>
+          <Route path="/oneEdit/:id" component={EditAdvertise} />
           <Route path="/" component={LessonPage}/>
      </Switch>
      ) : (
      <Switch>
           <Route path="/signup" component={SignUp}/>
+          <Route path="/signupPhone" component={SignUpPhone}/>
+          {/* <Route path="/signupChoose" component={SignUpChoose}/> */}
           <Route path="/forgot" component={Forgot}/>
-          <Route path="/verification" component={Forgot}/>
+          {/* <Route path="/login" component={Login}/> */}
+          {/* <Route path="/loginPhone" component={LoginPhone}/> */}
+          <Route path="/verification" component={Verification}/>
           <Route path="/" component={Login}/>
      </Switch>
      )}    

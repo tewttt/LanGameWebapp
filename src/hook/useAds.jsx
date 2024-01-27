@@ -14,7 +14,8 @@ import { useHistory } from "react-router-dom"
 
 export default function useAds(id) {
   const ctx = useContext(UserContext)
-  const [allads, setAds] = useState([])
+  const [allads, setAllAds] = useState([])
+  const [ads, setAds] = useState([])
   const history = useHistory()
 
   useEffect(() => {
@@ -23,11 +24,19 @@ export default function useAds(id) {
       onSnapshot(oneRef, (snapshot) => {
         let list = [];
         snapshot.docs.map((doc) => list.push({ ...doc.data(), id: doc.id }));
-        setAds(list);
+        setAllAds(list);
       });
     // }
   }, []);
-  
+
+  const getAds = (id) => {
+    // console.log(id)
+    const postRef = doc(db, "ads", id);
+    onSnapshot(postRef, (doc) => {
+      setAds(doc.data() , doc.id)
+    });
+  }
+
   const sendAds = async (ads) => {
       const adsRef = collection(db, "ads")
       await addDoc(adsRef , {
@@ -39,7 +48,7 @@ export default function useAds(id) {
           userName: ctx.currentUser.name,
           userEmail:ctx.currentUser.email,
           userPhone: ctx.currentUser.phone,
-          message: ""
+          message: "request"
       } )
       .then((res) => { 
         history.push("/ads")
@@ -56,7 +65,7 @@ export default function useAds(id) {
         ads,
     } )
     .then((res) => { 
-      history.push("/ads")
+      history.push(`/oneAds/${id}`)
       console.log("edit ads");
     })
     .catch((error) => {
@@ -72,6 +81,8 @@ export default function useAds(id) {
       editAds,
       deleteAds,
       allads,
+      getAds,
+      ads
       
   }
 }

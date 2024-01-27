@@ -13,11 +13,10 @@ export default function EditAdvertise() {
         age: "",
         totalBudget:"",
         location:"",
-        startDate:"",
-        endDate:"",
         durationDate:"",
-        startTime:""
+       
     })
+    const totalPerson = (ads?.totalBudget * 10)/100
 //   console.log(ads)
    useEffect(() => {
     if(allads) {
@@ -33,27 +32,21 @@ export default function EditAdvertise() {
     const changeGender = (e) => {
         setAds({...ads, gender: e.target.value})
     }
-    const changeStart = (e) => {
-        setAds({...ads, startDate: e.target.value})
-    }
-    const changeEnd = (e) => {
-        setAds({...ads, endDate: e.target.value})
-    }
-    const changeTime = (e) => {
-        setAds({...ads, startTime: e.target.value})
-    }
+   
+  
     const changeBudget = (e) => {
         setAds({...ads, totalBudget: e.target.value})
     }
     return (
-        <div className="text-red-400">
-              <MdOutlineCancel className="mb-10" onClick={() => history.push("/advertise")} size={30}/>
-            <div>
-                <div>
+        <div className="flex flex-col justify-center items-center my-5">
+              <MdOutlineCancel className="mb-10" onClick={() => history.push(`/oneAds/${id}`)} size={30}/>
+            
+            <div className="w-[300px]">
+                <div className="border border-baseColor  w-full rounded-xl p-2 my-1">
                     <p>gender {ads?.gender}</p>
                     <select 
                         onChange={changeGender}
-                        className="bg-black">
+                        className="w-full ">
                         <option>{ads?.gender}</option>
                         <option>All</option>
                         <option>Men</option>
@@ -61,29 +54,36 @@ export default function EditAdvertise() {
                        
                     </select>
                 </div>
-
-                <p>age </p>
-                <div>Location</div>
-                <div>
-                    <p>start date</p>   
-                    <input type="date"  value={ads?.startDate} onChange={changeStart}/>
+                <div className="border border-baseColor  w-full rounded-xl p-2 my-1">
+                    <p>age </p>
                 </div>
-                <div>
-                    <p>end date</p>   
-                    <input type="date" value={ads?.endDate} onChange={changeEnd}/>
+               
+                <div className="border border-baseColor  w-full rounded-xl p-2 my-1">
+                    <p>Location</p>
                 </div>
-                <div>
-                    <p>start time</p>   
-                    <input type="time" value={ads?.startTime} onChange={changeTime}/>
+               
+                <div className="border border-baseColor  w-full rounded-xl p-2 my-1">
+                    <p>days duration</p>
                 </div>
-            
-                <p>days duration</p>
-                <p>total budget</p>
-    
-                <input onChange={changeBudget} value={ads?.totalBudget} placeholder="budget" type="number"/>
+                <div className="flex justify-between border border-baseColor  w-full rounded-xl p-2 my-1">
+                    <p>total budget</p>
+                    <input onChange={changeBudget} value={ads?.totalBudget} type="number" className="w-[100px]" placeholder="budget" type="number"/>
+                    <p>₮</p>
+                </div>
+                <div className="flex justify-end">
+                   <p>goal  person</p>
+                   <p> {totalPerson}</p>
+                </div>
+               
             </div>
-            <button onClick={() => editAds(ads, id)} className="mt-10 border border-red-400 w-[200px] h-[40px]">edit save</button>
-            <button onClick={() => deleteAds( id)} className="mt-10 border border-red-400 w-[200px] h-[40px]">delete ads</button>
+            <button 
+                onClick={() => editAds(ads, id)} 
+                className="mt-10 border bg-green-500 text-white border-baseColor rounded-2xl w-[200px] h-[40px]">
+                    Edit save ads</button>
+            {/* <button 
+                onClick={() => deleteAds( id)} 
+                className="mt-10 border bg-red-500 text-white border-baseColor rounded-2xl w-[200px] h-[40px]">
+                    Delete ads</button> */}
         </div>
     )
 }

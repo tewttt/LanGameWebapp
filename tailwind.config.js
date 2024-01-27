@@ -13,6 +13,9 @@ module.exports = {
         baseBlue: "#1974C7"
       }
     },
+    dropShadow: {
+      '3xl' : "20px 20px 20px #E2CFEA"
+    },
   },
   variants:{
     backgroundColor: ["responsive","hover", "focus",'active'],

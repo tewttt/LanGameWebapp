@@ -1,11 +1,11 @@
-import { useContext, useState } from "react";
+import { useContext, useState , useEffect } from "react";
 import React from "react";
 import {useHistory} from "react-router-dom";
-import UserContext from "../../context/UserContext";
-import { Colors } from "../../constants/Colors";
-import Spinner from "../../components/General/Spinner";
+import UserContext from "../context/UserContext";
+import { Colors } from "../constants/Colors";
+import Spinner from "../components/General/Spinner";
 import {AiFillEye, AiFillEyeInvisible, AiFillLock, AiTwotoneMail, AiFillPhone} from "react-icons/ai"
-import Logo from "../../assets/logo/Logo Violet.svg"
+import Logo from "../assets/logo/Logo Violet.svg"
 import PhoneInput from "react-phone-input-2";
 import 'react-phone-input-2/lib/style.css'
 import {
@@ -13,31 +13,23 @@ import {
     signInWithPhoneNumber,
     RecaptchaVerifier
   } from "firebase/auth";
-const auth = getAuth();
 
-const SignUp = () => {
+
+const SignUpPhone = () => {
     const ctx = useContext(UserContext);
     const history = useHistory();
-    const [user , setUser] = useState(null)
-    const [email, setEmail] = useState("curlets1123@gmail.com");
-    const [name, setName] = useState("curlets");
     const [password, setPassword] = useState("123456Aa@");
     const [password2, setPassword2] = useState("123456Aa@");
     const [phone, setPhone] = useState("");
     const [error, setError] = useState("");
-    const [err, setErr] = useState({
-        phone: false
-    })
+    const [code, setCode] = useState("");
     const [showPass, setShowPass] = useState(false)
     const [showPass2, setShowPass2] = useState(false)
     const [valid, setValid] = useState(false)
     const [isStrongPassword, setIsStrongPassword] = useState(false)
     const [isStrongPassword2, setIsStrongPassword2] = useState(false)
-    const [otp, setOtp] = useState("")
 
-    const [verificationCode, setVerificationCode] = useState('');
-    const [confirmationResult, setConfirmationResult] = useState(null);
-
+console.log(phone)
     const changePass =()=> {
      setShowPass(!showPass)  
     }
@@ -46,62 +38,14 @@ const SignUp = () => {
     }
 
     const changePhone =async (value) => {
-        setPhone(value)
+        setPhone("+" + value)
         setValid(validatePhone(value))
+        signin()
     }
     const validatePhone = (phone) => {
         const phoneNumberPattern = /^\d{11}$/;
         return phoneNumberPattern.test(phone)
     }
-
-    const handleSendCode = async () => {
-        try {
-          const result = await auth.signInWithPhoneNumber(phone);
-          setConfirmationResult(result);
-        } catch (error) {
-          console.error('Error sending code:', error);
-        }
-      };
-
-      const handleVerifyCode = async () => {
-        try {
-          const user = await confirmationResult.confirm(verificationCode);
-          console.log('User successfully signed in:', user);
-        } catch (error) {
-          console.error('Error verifying code:', error);
-        }
-      };
-
-    const sendOtp = async() => {
-        try {
-            const recaptchaContainer = document.getElementById('recaptcha');
-            const recaptcha = new RecaptchaVerifier(recaptchaContainer, {
-                size: "normal",
-                callback: (response) => {
-                    console.log("recaptcha resolved", response)
-                },
-                "expired-callback" : () => {
-                    console.log("recaptcha expired")
-                }
-            })
-            // const recaptcha = new RecaptchaVerifier(auth, "recaptcha" , {})
-        
-            const confirmation = await signInWithPhoneNumber(auth, phone, recaptcha)
-            setUser(confirmation)
-        }catch (err) {
-            console.log(err)
-        }
-    }
-
-    const verifyOtp = async() => {
-        try{
-            await user.confirm(otp)
-        }catch(err){
-            console.log(err)
-        }
-    }
-// TO DO
-// phone verification
 
 
 const checkStrongPassword = (value) => {
@@ -153,13 +97,7 @@ const signupHandler = async() => {
         // setErr({... err, phone: text.lenght < 8})
         setError(" Утасны дугаараа оруулна уу")
         return;
-    }
-    else if (email.length === 0) {
-        setError("Имэйл хаягаа оруулна уу")
-        // Alert.alert("Та имэйл хаягаа бичнэ үү");
-        return;
-    }
-    else if (password.length === 0) {
+    } else if (password.length === 0) {
         setError("6с дээш урттай нууц үг оруулна уу")
         return;
     }
@@ -171,15 +109,61 @@ const signupHandler = async() => {
         return;
         }
     else {
-        ctx.signupUser(email, password, phone, name);
+        ctx.signupUserPhone(password, phone);
         // alert("email check")
         
         // history.push("/verification")
     } 
     
 };
+const auth = getAuth();
+const signin = () => {
+    // console.log('auth',auth);
+    window.recaptchaVerifier = new RecaptchaVerifier(  'recaptcha-container', {
+  // 'size': 'normal',
+  // 'callback': (response) => {
+  //   console.log(response)
+  //   // reCAPTCHA solved, allow signInWithPhoneNumber.
+  //   // ...
+  // },
+  // 'expired-callback': () => {
+  //   // Response expired. Ask user to solve reCAPTCHA again.
+  //   // ...
+  // }
+  },auth);
 
-const login = () => {history.push("/")}
+    const appVerifier = window.recaptchaVerifier;
+    if (phone === "") return;
+    // console.log( appVerifier)
+    // console.log( auth)
+    // console.log( phone)
+    // updatePhoneNumber(auth, phone, appVerifier)
+    signInWithPhoneNumber(auth, phone, appVerifier)
+    .then((confirmationResult) => {
+      console.log(confirmationResult )
+      // SMS sent. Prompt user to type the code from the message, then sign the
+      // user in with confirmationResult.confirm(code).
+      window.confirmationResult = confirmationResult;
+      // ...
+    }).catch((error) => {
+      console.log(error)
+      // Error; SMS not sent
+      // ...
+    });  
+};
+
+const sendCode = () => {
+  window.confirmationResult.confirm(code).then((result) => {
+    console.log(result)
+    // User signed in successfully.
+    const user = result.user;
+    // ...
+  }).catch((error) => {
+    console.log(error)
+    // User couldn't sign in (bad verification code?)
+    // ...
+  });
+}
 
 return (
     <div className="flex flex-col justify-center items-center w-screen h-screen ">
@@ -187,16 +171,7 @@ return (
         {ctx.state.error && (
                 <div style={{color: "red"}}> {ctx.state.error}</div>
             )}
-        {/* {ctx.state.userId && <Redirect to="/"/>} */}
-        
-            <div className="mb-5 flex flex-row relative justify-between items-center w-[276px] h-[40px] ">
-                <input 
-                    className="w-full h-full text-center border border-baseColor 
-                    rounded-[25px] transition ease-in-out duration-200
-                        hover:bg-hpink/10"
-                    type="text" placeholder="Нэр" value={name} onChange={e=> setName(e.target.value)} required/> 
-            </div>
-            
+    
             <div className="mb-5 flex flex-col relative justify-between items-center w-[276px] h-[40px] ">
                 <PhoneInput
                     country={"mn"}
@@ -211,15 +186,33 @@ return (
                 />
                 {! valid && <p className="text-red-500 text-xs">Please enter a valid phone number</p>}
             </div>
-
-            <div className="mb-5 flex flex-row relative justify-between items-center w-[276px] h-[40px] ">
-                <AiTwotoneMail size={20} className="text-baseColor/70 left-4 absolute z-10 "/>
-                <input 
-                        className="w-full h-full text-center border border-baseColor 
-                        rounded-[25px] transition ease-in-out duration-200
-                        hover:bg-hpink/10"
-                    type="email " placeholder="Email" value={email} onChange={e=> setEmail(e.target.value)}/> 
-            </div>
+        <div 
+          className="w-[276px]"
+          id="recaptcha-container">
+            
+        </div>
+        <button onClick={() => history.push("/verification")}>verification</button>
+        {/* <button 
+            onClick={signin}
+            className="w-[276px] h-[40px] font-semibold text-center mt-6 bg-baseColor 
+            rounded-[25px] transition ease-in-out duration-200
+            text-hpink"
+        >Send recaptcha 
+       </button> */}
+       <input
+                value={code}
+                onChange={(e) => {
+                    setCode(e.target.value);
+                }}
+                placeholder="code"
+            />
+       <button 
+            onClick={sendCode}
+            className="w-[276px] h-[40px] font-semibold text-center mt-6 bg-baseColor 
+            rounded-[25px] transition ease-in-out duration-200
+            text-hpink"
+        >Send verification code 
+       </button>
             
             <div className=" flex flex-col mb-8 relative justify-center items-center w-[276px] h-[40px] ">
                 <AiFillLock size={20} className="text-baseColor/70 left-4 absolute z-10 " />
@@ -269,29 +262,27 @@ return (
                     ) : (
                     <p className="text-red-500 top-10 text-center absolute text-[10px]">Password must be at least 8 characters with uppercase, lowercase, number, and special character.</p>
                 )}  
-            </div>
+            </div> 
             
             {error && <div style={{color: "green"}}>{error}</div>}
 
             {ctx.state.logginIn && <Spinner/>}
 
-            {/* <button onClick={sendOtp}>send otp</button>
-            <div id="recaptcha"></div>
-            <button onClick={verifyOtp}>verify otp</button> */}
+        
 
             <button 
                 className="w-[276px] h-[40px] font-semibold text-center mt-6 bg-baseColor 
                 rounded-[25px] transition ease-in-out duration-200
                 text-hpink"
                 onClick={signupHandler} >Sign up</button>
-            {/* <button className="btn p-2 bg-baseBlue  w-[200px] h-[40px] text-base hover:bg-blue-500 items-center" onClick={signupHandler} > Бүртгүүлэх</button> */}
+          
             <button 
                 className="w-[276px] h-[40px] font-semibold text-center mt-2 bg-hpink 
                 rounded-[25px] transition ease-in-out duration-200
                 text-baseColor"
-                onClick={login} >Back</button>
+                onClick={() => {history.push("signupChoose")}} >Back</button>
         </div>
     
 )
 }
-export default SignUp;
+export default SignUpPhone;

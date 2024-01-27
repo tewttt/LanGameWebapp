@@ -11,7 +11,7 @@ import usePost from "../../hook/usePost";
 
 export default function EditPost() {
     const {id} =useParams()
-    const { editPost, posts} = usePost();
+    const {postData, editPost} = usePost( id );
     const history = useHistory()
     const [prog, setProg] = useState("")
     const [post , setPost] = useState({
@@ -24,14 +24,12 @@ export default function EditPost() {
         video: ""
     })
     useEffect(() => {
-        if(posts) {
-            const data = posts.find(
-                item => item.id === id
-            );
-            setPost(data?.post)
+        if(postData?.post) {
+            setPost(postData.post)
         }
-       },[posts])
-   
+        
+    } ,[postData])
+     
     // console.log(post?.video)
     const handleChange = (event) => {
         setPost({ ...post, [event.target.name]: event.target.value })
@@ -68,13 +66,14 @@ export default function EditPost() {
         history.push("/ads")
     }
     return (
-        <div className="text-white flex flex-col">
-             <div className="">
+        <div className="flex flex-col justify-center items-center my-5">
+             <div className="mt-5">
                 <MdOutlineCancel onClick={() =>  history.push("/ads")} size={30}/>
             </div>
-            <div className="">
-                <div className="flex flex-col justify-between my-1 mx-3 ">
-                    <div>Title</div>
+            <div className="flex flex-col w-[300px] ">
+              
+                <div className="border border-baseColor  w-full rounded-xl p-2 my-1">
+                    <p>Title</p>
                     <input  
                         className="w-[300px] h-[30px] rounded-[5px] mx-0 text-gray-900" 
                         onChange={handleChange} 
@@ -85,7 +84,8 @@ export default function EditPost() {
                         value={post?.title}
                     />
                 </div>
-                <div className="flex flex-col justify-between my-1 mx-3 ">
+               
+                <div className="border border-baseColor  w-full rounded-xl p-2 my-1">
                     <div>Text</div>
                     <input  
                         className="w-[300px] h-[30px] rounded-[5px] mx-0 text-gray-900" 
@@ -97,7 +97,7 @@ export default function EditPost() {
                         value={post?.text}
                     />
                 </div>
-                <div className="flex flex-col justify-between my-1 mx-3 ">
+                <div className="border border-baseColor  w-full rounded-xl p-2 my-1">
                     <div>Link</div>
                     <input  
                         className="w-[300px] h-[30px] rounded-[5px] mx-0 text-gray-900" 
@@ -109,7 +109,7 @@ export default function EditPost() {
                         value={post?.link}
                     />
                 </div>
-                <div className="flex flex-col justify-between my-1 mx-3 ">
+                <div className="border border-baseColor  w-full rounded-xl p-2 my-1">
                     <div>Address</div>
                     <input  
                         className="w-[300px] h-[30px] rounded-[5px] mx-0 text-gray-900" 
@@ -121,7 +121,7 @@ export default function EditPost() {
                         value={post?.address}
                     />
                 </div>
-                <div className="flex flex-col justify-between my-1 mx-3 ">
+                <div className="border border-baseColor  w-full rounded-xl p-2 my-1">
                     <div>Phone</div>
                     <input  
                         className="w-[300px] h-[30px] rounded-[5px] mx-0 text-gray-900" 
@@ -133,7 +133,7 @@ export default function EditPost() {
                         value={post?.phone}
                     />
                 </div>
-                <div className="flex flex-col justify-between my-1 mx-3 ">
+                <div className="border border-baseColor  w-full rounded-xl p-2 my-1">
                     <div>Email</div>
                     <input  
                         className="w-[300px] h-[30px] rounded-[5px] mx-0 text-gray-900" 
@@ -147,27 +147,35 @@ export default function EditPost() {
                 </div>
                
             </div>
-            <Video>
-                <source src={post?.video}/>
-            </Video>
-            <input type="file" name="video"  onChange={changeVideo}/>
-            <div style={{
-                backgroundColor: "gray",
-                borderRadius: 0,
-            //  position: "absolute",
-                height: 40,
-                width: `${prog}%`,
-                display: "flex",
-                flexDirection: 'row',
-                justifyContent: "center",
-                alignItems: "center",
-                marginRight: 5,
-                marginLeft:5
-                }}>
-            <div >{prog}%</div>
+
+        <div className="my-3 w-full px-8">
+            <video src={post?.video} width="320" height="240" type="video/mp4" controls></video>
+                <input className="my-2" type="file" name="video"  onChange={changeVideo}/>
+                <div style={{
+                    backgroundColor: "gray",
+                    borderRadius: 0,
+                //  position: "absolute",
+                    height: 40,
+                    width: `${prog}%`,
+                    display: "flex",
+                    flexDirection: 'row',
+                    justifyContent: "center",
+                    alignItems: "center",
+                    marginRight: 5,
+                    marginLeft:5
+                    }}>
+                <div >{prog}%</div>
+            </div>
         </div>  
-            <button className="w-[150px] h-[20px] bg-blue-500 flex text-[12px] justify-center items-center" onClick={uploadVideo}>Video upload</button>
-            <button onClick={ add}>Save Post</button>
+
+        <button 
+            className="w-[150px] h-[40px] rounded-2xl my-3 bg-baseColor  flex text-hpink p-3 justify-center items-center" 
+            onClick={uploadVideo}>
+            Video upload
+        </button >
+        <button 
+            className="w-[150px] h-[40px] rounded-2xl mt-3 mb-6 bg-baseColor  flex text-hpink p-3 justify-center items-center" 
+            onClick={ add}>Save Post</button>
         </div>
     )
 }

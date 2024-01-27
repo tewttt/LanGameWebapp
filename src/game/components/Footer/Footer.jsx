@@ -49,13 +49,14 @@ const getGo = (i) => {
               // console.log(i)
               return (
                 <div
-                onClick={() => {
-                  if ((currentUser?.activatedGo === false)) {
-                    getGo(i)
-                  }
-                }} 
-                  // onClick={() => getGo(i)} 
-                  className="bg-baseColor w-[40px] my-3 h-[40px] hover:bg-hpink">
+                  onClick={() => {
+                    if ((currentUser?.activatedGo === false)) {
+                      getGo(i)
+                    }
+                  }} 
+                  key={i}
+                  className="bg-baseColor w-[40px] my-3 h-[40px] hover:bg-hpink"
+                >
                   <img src={e} className="w-full h-full"/>
                 </div>
               )

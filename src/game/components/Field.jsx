@@ -18,50 +18,50 @@ import yellowTwoTree from "../../assets/game/yellowTwotree.png"
 import { CloseFullscreen } from "@mui/icons-material";
 import { FaFlagCheckered } from "react-icons/fa";
 const positions = [
-  { position: "absolute", top: 80, right: 175},
-  { position: "absolute", top: 80, right: 140},
-  { position: "absolute", top: 80, right: 105},
-  { position: "absolute", top: 80, right: 70},
-  { position: "absolute", top: 80, right: 35},
-  { position: "absolute", top: 80, right: 0, borderTopRightRadius:30 },
-  { position: "absolute", top: 115, right: 0 },
-  { position: "absolute", top: 150, right: 0 },
-  { position: "absolute", top: 185, right: 0, borderBottomRightRadius: 30 },
-  { position: "absolute", top: 185, right: 35 },
-  { position: "absolute", top: 185, right: 70 },
-  { position: "absolute", top: 185, right: 105 },
-  { position: "absolute", top: 185, right: 140 },
-  { position: "absolute", top: 185, right: 175, },
-  { position: "absolute", top: 185, left: 0, borderTopLeftRadius: 30},
-  { position: "absolute", top: 220, left: 0 },
-  { position: "absolute", top: 255, left: 0,  },
-  { position: "absolute", top: 290, left: 0, borderBottomLeftRadius: 30 },
-  { position: "absolute", top: 290, left: 35 },
-  { position: "absolute", top: 290, left: 70 },
-  { position: "absolute", top: 290, left: 105 },
-  { position: "absolute", top: 290, left: 140,  },
-  { position: "absolute", top: 290, left: 175,  },
-  { position: "absolute", top: 290, right: 0, borderTopRightRadius: 30 },
-  { position: "absolute", top: 325, right: 0,  },
-  { position: "absolute", top: 360, right: 0 },
-  { position: "absolute", top: 395, right: 0, borderBottomRightRadius: 30 },
-  { position: "absolute", top: 395, right: 35  },
-  { position: "absolute", top: 395, right: 70 },
-  { position: "absolute", top: 395, right: 105,   },
-  { position: "absolute", top: 395, right: 140, },
-  { position: "absolute", top: 395, right: 175 },
-  { position: "absolute", top: 395, left: 0 ,borderTopLeftRadius: 30 },
-  { position: "absolute", top: 430, left: 0,  },
-  { position: "absolute", top: 465, left: 0 },
-  { position: "absolute", top: 495, left: 0, borderBottomLeftRadius: 30 },
-  { position: "absolute", top: 495, left: 35,  },
-  { position: "absolute", top: 495, left: 70,  },
-  { position: "absolute", top: 495, left: 105 },
-  { position: "absolute", top: 495, left: 140 },
-  { position: "absolute", top: 475, right: 0, background: "white", width: 60 , height: 60, borderRadius: 40 },
+  { position: "absolute", top: 60, right: 120},
+  { position: "absolute", top: 60, right: 80},
+  { position: "absolute", top: 60, right: 40},
+  { position: "absolute", top: 60, right: 0, borderTopRightRadius:30 },
+  { position: "absolute", top: 100, right: 0 },
+  { position: "absolute", top: 140, right: 0, borderBottomRightRadius: 30 },
+  { position: "absolute", top: 140, right: 40,  },
+  { position: "absolute", top: 140, right: 80 },
+  { position: "absolute", top: 140, right: 120 },
+  { position: "absolute", top: 140, right: 160 },
+  { position: "absolute", top: 140, right: 200 , borderTopLeftRadius: 30 },
+  { position: "absolute", top: 180, right: 200},
+  { position: "absolute", top: 220, left: 0, borderBottomLeftRadius: 30},
+  { position: "absolute", top: 220, left: 40 },
+  { position: "absolute", top: 220, left: 80,  },
+  { position: "absolute", top: 220, left: 120,  },
+  { position: "absolute", top: 220, left: 160 },
+  { position: "absolute", top: 220, left: 200, borderTopRightRadius: 30 },
+  { position: "absolute", top: 260, left: 200 },
+  { position: "absolute", top: 300, left: 200,borderBottomRightRadius: 30  },
+  { position: "absolute", top: 300, left: 160},
+  { position: "absolute", top: 300, right: 80},
+  { position: "absolute", top: 300, right: 120,  },
+  { position: "absolute", top: 300, right: 160 },
+  { position: "absolute", top: 300, right: 200 , borderTopLeftRadius: 30},
+  { position: "absolute", top: 340, right: 200  },
+  { position: "absolute", top: 380, right: 200, borderBottomLeftRadius: 30 },
+  { position: "absolute", top: 380, right: 160 },
+  { position: "absolute", top: 380, right: 120, },
+  { position: "absolute", top: 380, right: 80 },
+  { position: "absolute", top: 380, right: 40},
+  { position: "absolute", top: 380, right: 0, borderTopRightRadius: 30},
+  { position: "absolute", top: 420, left: 200 },
+  { position: "absolute", top: 460, left: 200, borderBottomRightRadius: 30 },
+  { position: "absolute", top: 460, left: 160,  },
+  { position: "absolute", top: 460, left: 120,  },
+  { position: "absolute", top: 460, left: 80 },
+  { position: "absolute", top: 460, left: 40 },
+  { position: "absolute", top: 460, left: 0, borderTopLeftRadius: 30  },
+  { position: "absolute", top: 500, left: 0, borderBottomLeftRadius: 30 },
+  { position: "absolute", top: 520, left: 40, background: "white", width: 50, height: 50, borderRadius: 40 },
 ];
 
-const Field = ({usersData, ran1, ran2, ran3, power , chooseHorse , selectedPower , currentUserId , currentUser}) => {
+const Field = ({ power , chooseHorse , selectedPower , currentUserId , currentUser}) => {
   const horses = {
     blue: blueHorse,
     orange: orangeHorse,
@@ -88,18 +88,18 @@ const Field = ({usersData, ran1, ran2, ran3, power , chooseHorse , selectedPower
   return (
     <div className="w-full h-full relative">
        
-      <img src={greenTree} className="absolute top-[100px] left-[20px] w-[32px] h-[40px]"/>
-      <img src={oneGrass} className="absolute top-[130px] left-[120px] w-[45px] h-[36px]"/>
-      <img src={yellowOneTree} className="absolute top-[220px] right-[20px] w-[48px] h-[56px]"/>
-      <img src={triangleTree} className="absolute top-[30px] right-[24px] w-[37px] h-[53px]"/>
-      <img src={smallGrass} className="absolute top-[250px] right-[100px] w-[36px] h-[28px]"/>
-      <img src={grass} className="absolute top-[348px] right-[104px] z-10 w-[52px] h-[24px]"/>
-      <img src={road} className="absolute top-[340px] right-[100px] w-[100px] h-[42px]"/>
-      <img src={greenTwoTree} className="absolute top-[340px] left-[120px] w-[48px] h-[52px]"/>
-      <img src={yellowTwoTree} className="absolute top-[500px] left-[60px] w-[60px] h-[58px]"/>
-      <img src={trianleTwoTree} className="absolute top-[420px] right-[60px] z-10 w-[48px] h-[52px]"/>
+      <img src={greenTree} className="absolute top-[100px] left-[24px] w-[32px] h-[40px]"/>
+      <img src={oneGrass} className="absolute top-[100px] left-[120px] w-[45px] h-[36px]"/>
+      <img src={yellowOneTree} className="absolute top-[180px] right-[20px] w-[48px] h-[56px]"/>
+      <img src={triangleTree} className="absolute top-[30px] right-[20px] w-[37px] h-[53px]"/>
+      <img src={smallGrass} className="absolute top-[190px] right-[170px] w-[36px] h-[28px]"/>
+      <img src={grass} className="absolute top-[270px] right-[100px] z-10 w-[52px] h-[24px]"/>
+      <img src={road} className="absolute top-[260px] right-[100px] w-[100px] h-[42px]"/>
+      <img src={greenTwoTree} className="absolute top-[330px] z-10 left-[160px] w-[48px] h-[52px]"/>
+      <img src={yellowTwoTree} className="absolute top-[480px] z-10 left-[60px] w-[60px] h-[58px]"/>
+      <img src={trianleTwoTree} className="absolute top-[410px] right-[80px] z-10 w-[48px] h-[52px]"/>
 
-      <div className="relative ml-28 w-[245px]">
+      <div className="relative ml-28 w-[240px]">
         {field.map((value, i) => {
           const playersHorsePosition = horsePosition(i);
           const currentPower = power[i]    
@@ -108,29 +108,34 @@ const Field = ({usersData, ran1, ran2, ran3, power , chooseHorse , selectedPower
             <div 
               key={i}
               style={{...positions[i]}} 
+              // className="w-[45px] h-[45px] bg-[#4C3F1C] relative"
               className={`${
-                playersHorsePosition.length === 2 ? "grid grid-cols-2" 
-              : playersHorsePosition.length === 3 ? "grid grid-cols-2"
-              : playersHorsePosition.length === 4 ? "grid grid-cols-2" : ''} 
-               w-[35px] h-[35px] bg-[#4C3F1C] relative`}
+                playersHorsePosition.length > 1 ? "grid grid-cols-2" 
+               : 'flex justify-center items-center'} 
+ w-[40px] h-[40px] bg-[#4C3F1C] relative border border-[#5b5032]`}
             >
               {/* {i} */}
-              {playersHorsePosition.length === 0 && currentPower ? <img src={currentPower} alt="power"/> : null}
+              {playersHorsePosition.length === 0 && currentPower ? <img className="w-full h-full" src={currentPower} alt="power"/> : null}
               {playersHorsePosition.map((e, index) => {
                 // beginHorse(e)
                 return (
                 <div  
                 //when no shield , choose back horse  
+                  key={index}
                   onClick={() => {
                     if (!(e.id === currentUserId && e.activatedShield)) {
                       getHorse(e);
                     }
                   }}
+                  className="flex justify-center items-center"
                   >
                   
                   <img src={horses[e.color]} 
-                    className={`${e.id === currentUserId && e.activatedShield ? "bg-red-300" :""} absolute p-0`}  
-                    key={index} />
+                   
+                    className={`${e.id === currentUserId && e.activatedShield  ? "drop-shadow-[0_35px_35px_[#E2CFEA]]" :""} absolute p-0 w-full h-full`}  
+                    
+                    key={index} 
+                  />
                 </div>
                 );
               })}
@@ -141,7 +146,7 @@ const Field = ({usersData, ran1, ran2, ran3, power , chooseHorse , selectedPower
       </div>
       <FaFlagCheckered 
         size={30}
-        className="absolute z-10 text-red-700 right-[20px] bottom-[180px]"/>
+        className="absolute z-10 text-red-700 right-[176px] bottom-[140px]"/>
     </div>
   );
 };

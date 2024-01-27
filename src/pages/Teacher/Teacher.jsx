@@ -6,7 +6,7 @@ import { useHistory } from "react-router-dom";
 import useLesson from "../../hook/useLesson";
 import LessonContext from "../../context/LessonContext";
 import { getAuth } from "firebase/auth";
-
+import Modal from "../../components/General/Modal";
 const auth = getAuth();
 const Teacher = () => {
     const { addTeacher} = useLesson()
@@ -24,6 +24,7 @@ const Teacher = () => {
     const [chLan, setChLan] = useState("");
     const [levelActive, setLevelActive] = useState("");
     const [chLevel, setChLevel] = useState("");
+    const [show, setShow] = useState(false)
   
 
     const selectLan = (lan, i) => {
@@ -66,11 +67,11 @@ const Teacher = () => {
         LessonCtx.deleteDB(chLan, chLevel, number );
     };
     return (
-        <div className="text-white ">
+        <div >
             <ToolSidebar/>
             {ctx?.currentUser?.teacherStatus ? 
             (
-            <div className="flex flex-col pt-20 text-white ">
+            <div className="flex flex-col pt-20">
                 <div onClick={() => history.push("/addlesson")}>Хичээл нэмэх</div>
                 <div className="flex justify-center  my-2">
                     {arrLanguage.map((lan, i) => {
@@ -143,30 +144,53 @@ const Teacher = () => {
                 </div>
             </div>
             ) : ( 
-            <div className="pt-20 flex flex-col items-center justify-center">
-                <div className="mb-6 text-red-300">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Laudantium hic magni nemo dolore assumenda architecto perferendis vitae vero omnis! Quam!</div>
-                <div>
+            <div className="pt-20 flex flex-col w-[300px] m-auto">
+            <Modal show={show} >
+                <div className="flex flex-col justify-between">
+                    <p className="text-red-500 text-lg my-3 text-center">Submit a request to become a teacher</p>
+                    <div className="flex justify-between">
+                        <button  
+                            className="bg-green-500 py-3 px-5 rounded-2xl text-white"
+                            onClick={() => setShow(false)}>NO</button>
+                        <button 
+                        className="bg-red-500 text-white py-3 px-5 rounded-2xl"
+                        onClick={add}>Yes , send request</button>
+                    </div>
+                </div>
+            </Modal>
+                <div className="mb-6 w-full">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Laudantium hic magni nemo dolore assumenda architecto perferendis vitae vero omnis! Quam!</div>
+                <div className="border border-baseColor w-full rounded-xl p-2 my-2">
                     <p>Хичээл заах хэл: </p>
-                    <select name="language" onChange={handleChange} className="bg-black">
+                    <select name="language" onChange={handleChange} className="w-full">
                         <option>choose</option>
                         <option>English</option>
                         <option>Mongolia</option>
                         <option>Korea</option>
                     </select>
                 </div>
-                <div>
+                <div className="border border-baseColor w-full rounded-xl p-2 my-2">
                     <p>Хичээл заасан туршлага</p>
                     <input 
-                        className="bg-black"
+                        className=""
+                        type="text" 
+                        name="experience" 
+                        placeholder="Жилээр бичих" 
+                        onChange={handleChange}/>
+                </div>
+                <div className="border border-baseColor w-full rounded-xl p-2 my-2">
+                    <p>Хэлний түвшин</p>
+                    <input 
+                        className=""
                         type="text" 
                         name="experience" 
                         placeholder="Жилээр бичих" 
                         onChange={handleChange}/>
                 </div>
 
-                {ctx?.currentUser?.message === "request" ? (<div>Багш болох хүсэлт илгээсэн</div>) : (
-                    <button onClick={add} className={css.towch}
-                        >Багш болох хүсэлт илгээх
+                {ctx?.currentUser?.message === "request" ? (<div>Request a teacher</div>) : (
+                    <button onClick={() => setShow(true)} className={css.towch}
+                        >
+                        <p className="text-sm">Request a teacher</p>
                     </button>
                 )}
             </div>

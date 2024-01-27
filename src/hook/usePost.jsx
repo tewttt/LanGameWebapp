@@ -16,8 +16,12 @@ const auth = getAuth();
 export default function usePost(id) {
     const ctx = useContext(UserContext)
     const [posts, setPosts] = useState([])
-    const [pos, setPos] = useState([])
-    const [data, setData] = useState([])
+    const [postData, setPost] = useState([])
+    const [postDataAds, setPostAds] = useState([])
+
+   useEffect(() => {
+    id &&  getPost(id)
+   }, [id])
    
     useEffect(() => {
       if (auth?.currentUser) {
@@ -30,14 +34,18 @@ export default function usePost(id) {
       }
     }, [auth?.currentUser]);
 
-    const getPost = async (postId) => {
-      const docRef = doc(db, "posts", postId);
-      onSnapshot(docRef, (doc) => {
-        // let list = []
-        // list.push(doc.data(), doc.id)
-      //  setData(doc.data())
-        // console.log(doc.data() , doc.id)
-        setData(doc.data(), doc.id)
+    const getPost = (id) => {
+      // console.log(id)
+      const postRef = doc(db, "posts", id);
+      onSnapshot(postRef, (doc) => {
+        setPost(doc.data() , doc.id)
+      });
+    }
+    const getPostAds = (id) => {
+      // console.log(id)
+      const postRef = doc(db, "posts", id);
+      onSnapshot(postRef, (doc) => {
+        setPostAds(doc.data() , doc.id)
       });
     }
 
@@ -77,7 +85,10 @@ export default function usePost(id) {
        addPost,
        posts,
        getPost,
-      deletePost,
-       editPost
+        deletePost,
+       editPost,
+       postData,
+       getPostAds,
+       postDataAds
       };
 }

@@ -25,11 +25,17 @@ export default function useGame(id ) {
   const [players, setPlayers] = useState([]);
   const [isGameEnded, setIsGameEnded] = useState(false);
   const [queryPlayer , setQueryPlayer] = useState([])
-
+// console.log(game)
   useEffect(() => {
     oneGame();
-    queryPlayerData()
+    // queryPlayerData()
   }, [id]);
+
+  useEffect(() => {
+    if(isGameEnded){
+      queryPlayerData()
+    }
+  },[isGameEnded])
 
   useEffect(() => {  
     players?.map((e, i) => {
@@ -70,14 +76,6 @@ export default function useGame(id ) {
           updateDoc(gameRef, {endGame : true})
           setIsGameEnded(true)
         }
-
-        // const endCoin = list.filter(item )
-// useriin coin iig shalgana , user iin id heregtei
-// coin duussan toglogchiig olood endGamePlayer true bolgono
-// coin heregleh bvrd useriin coiniig shalgana
-// emoji minus coin 
-// create , join game minus coin 
-
         return [...list];
       });
     });
@@ -87,7 +85,7 @@ export default function useGame(id ) {
     };
   };
 
-  // end players data
+  // end players data , win Player add coin,  second Player add coin
   const queryPlayerData = () => {
     const playersRef = collection(db, `game/${id}/players`);
     const queryData = query(playersRef , orderBy("point", "desc") , orderBy("endGamePlayerTime", "desc" ))
@@ -96,17 +94,18 @@ export default function useGame(id ) {
         const list = snapshot.docs.map((doc) => {
           return { ...doc.data(), id: doc.id };
         });
-
+        // console.log(list[0])
+        // console.log(game?.winCoin)  
         // win Player add coin
         const winRef = doc(db, "users", list[0]?.id);
         if(list[0]?.endGamePlayer === true && list[0]?.point >= 40 ) {
-          updateDoc(winRef, {coins : list[0]?.winCoin})
+          updateDoc(winRef, {coins : game?.winCoin})
         }
       
-         // second Player add coin
+        //  second Player add coin
         const secondRef = doc(db, "users", list[1]?.id);
         if(list[1]?.endGamePlayer === true && list[1]?.point >= 40 ) {
-          updateDoc(secondRef, {coins : list[1]?.secondCoin})
+          updateDoc(secondRef, {coins : game?.secondCoin})
         }
       
 
@@ -125,18 +124,36 @@ export default function useGame(id ) {
   }
 
   // Тоглогчын оноо цуглуулах
-  const addPoint = async (status, ran1, ran2, ran3, updateHorsePoint, id, val, isZeroCnt = false) => {
+  const addPoint = async (status, go, shield, back, updateHorsePoint, id, val, isZeroCnt = false) => {
     // add powers
+    const gameRef = doc(db, "game", id);
     const playerRef = doc(db, `game/${id}/players`, auth.currentUser?.uid)
     await updateDoc(playerRef, { activatedShield : status, activatedBack : status, activatedGo : status  })
 
-    if(ran1 === updateHorsePoint) {
+    const generateUniqueRandomNumber = (exclude = []) => {
+      let randomNumber;
+      do {
+        randomNumber = Math.floor(Math.random() * 40);
+      } while (exclude.includes(randomNumber));
+      return randomNumber;
+    };
+    // Generate three unique random numbers
+    const randomGoNew = generateUniqueRandomNumber([shield, back]);
+    const randomShieldNew = generateUniqueRandomNumber([go, back]);
+    const randomBackNew = generateUniqueRandomNumber([go, shield]);
+    // console.log(randomGoNew , randomShieldNew, randomBackNew)
+
+    if(go === updateHorsePoint) {
       await updateDoc(playerRef, {go : increment(1)})
-    } else if (ran2 === updateHorsePoint) {
+      await updateDoc(gameRef , {go: randomGoNew} )
+
+    } else if (shield === updateHorsePoint) {
       await updateDoc(playerRef, {shield : increment(1)  })
+      await updateDoc(gameRef , {shield: randomShieldNew} )
     } 
-    else if(ran3 === updateHorsePoint) {
+    else if(back === updateHorsePoint) {
       await updateDoc(playerRef, {back : increment(1)})
+      await updateDoc(gameRef , {back: randomBackNew} )
     } 
     else {
       // console.log("hooson")
@@ -238,49 +255,49 @@ export default function useGame(id ) {
   }
 
   // begin player , end player, end game
+
+  
+  // console.log(doublePlayer)
  useEffect(() => {
   const otherPlayers = players?.filter(item => !(item?.id === userCtx?.currentUser?.id))
   const currentPlayer = players?.find(item => (item?.id === userCtx?.currentUser?.id))
   const doublePlayer = otherPlayers?.find(item => item?.point === currentPlayer?.point)
   const backUser = userCtx?.userList?.find(item => item?.id === doublePlayer?.id)
-
-  // console.log(doublePlayer)
-  // console.log(backUser?.coins <= 0)
-
+  
    try {
-      if(doublePlayer.endGamePlayer === false) {
-        const currentRef = doc(db, `game/${id}/players`, doublePlayer?.id);
+      const userRef = doc(db, "users", backUser?.id);
+      const currentRef = doc(db, `game/${id}/players`, doublePlayer?.id);
+      if(doublePlayer?.endGamePlayer === false) {
          updateDoc(currentRef, {point : 0}) 
-      }
+         return
+      } 
 
       // when begin player of the game , minus entry coin 
-      if(backUser.coins >= doublePlayer.entryCoin) {
-        const userRef = doc(db, "users", backUser.id);
-        updateDoc(userRef, {coins : increment(-doublePlayer.entryCoin)})
-        console.log(" minus coin ")
-      } else {
-        const currentRef = doc(db, `game/${id}/players`, doublePlayer?.id);
+      if(backUser?.coins >= game?.entryCoin) {
+        updateDoc(userRef, {coins : increment(-game?.entryCoin)})
+       // add game coin
+        const gameRef = doc(db, "game", id);
+        updateDoc(gameRef, {winCoin : increment(Math.floor((game?.entryCoin/5) * 3))})
+        updateDoc(gameRef, {secondCoin : increment(Math.floor((game?.entryCoin/5)))})
+        // console.log(Math.floor((game?.entryCoin/5) * 3))
+        // console.log(Math.floor((game?.entryCoin/5)))
+      } else { 
+        updateDoc(userRef, {coins : increment(0),  })
         updateDoc(currentRef, {endGamePlayer : true})
         setIsGameEnded(true)
-        console.log("end game")
       }
 
       // when ponit = 0 , logout player from the game
-      if(backUser.coins <= 0) {
-        const currentRef = doc(db, `game/${id}/players`, doublePlayer?.id);
+      if (backUser?.coins <= 0) {
          updateDoc(currentRef, {endGamePlayer : true})
         setIsGameEnded(true)
-      }
-
-
-
+        return
+      } 
      } catch (err) {
-
+      // console.log(err)
     } finally{
       
     }
-
-
  } ,[players])
    
 
@@ -296,7 +313,14 @@ export default function useGame(id ) {
     }, 2000);
   }
 
-  return {
+  const randomPower = (ranGo, ranShield, ranBack ) => {
+    // console.log(ranGo, ranShield, ranBack)
+    const gameRef = doc(db, "game", id);
+    updateDoc(gameRef, {go : ranGo, shield: ranShield, back: ranBack})
+  }
+  
+
+  return { 
     game,
     players,
     addPoint,
@@ -307,7 +331,7 @@ export default function useGame(id ) {
     isBack,
     isShield,
     isGo,
-   
+    randomPower,
     sendEmoji,
     queryPlayer,
     queryPlayerData,

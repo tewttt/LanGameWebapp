@@ -1,6 +1,5 @@
 import React, { useState,  useEffect , useRef, useContext } from "react";
 import Dice from "../components/Dice";
-import zur from "../../assets/img/1.jpg"
 import Field from "../components/Field";
 import Modal from "../../components/General/Modal";
 import Spinner from "../../components/General/Spinner";
@@ -40,12 +39,13 @@ const TIME = 10
 // firebase security rule
 // waiting for other players Modal haruulah , spinner
 // sound oruulah 
-//random update
+
 
 // if toglolt 2 toglochtoi vldsen bol ehnii toglogch ylhad 2 dah ylalt shuud onoogdoj togloom duusna
 // SHooo hayhad 5s time zaana,hugatsaandaa shoo hayhgvi bol automateer shoo buuna
 // point ygaad NAN bolood bn
 // wifi salsan , genet garsan playeriig 4 , 3 bairand oruulah
+
 const emoji = [e1, e2, e3, e4, e5,e6, e7, e8, e9, e10, e11, e12]
 
 const GameDetail = () => {
@@ -60,7 +60,7 @@ const GameDetail = () => {
   const ctx = useContext(UserContext)
   const currentUserId = ctx?.currentUser?.authId
   const { id } = useParams();
-  const {queryPlayer, sendEmoji, isGo, isShield, isBack, addAnswer, game, players, addPoint, logoutPlayer ,isGameEnded, showGameEnd} = useGame(id);
+  const {randomPower, queryPlayer, sendEmoji, isGo, isShield, isBack, addAnswer, game, players, addPoint, logoutPlayer ,isGameEnded, showGameEnd} = useGame(id);
   const [loader, setLoader] = useState(false);
   const [time, setTime] = useState(TIME)
   const [questionShow, setQuestionShow] = useState(true); 
@@ -74,16 +74,13 @@ const GameDetail = () => {
 // console.log(showPlayer)
   const [playerAnswer, setPlayerAnswer] = useState("")
   const [playerAnswerData, setPlayerAnswerData] = useState("")
-  const [power, setPower] = useState({})
-  const [ran1 , setRan1] = useState("")
-  const [ran2 , setRan2] = useState("")
-  const [ran3 , setRan3] = useState("")
+
   const [logoutGame , setLogoutGame] = useState(false)
   const [selectedPower, setSelectedPower] = useState("")
+
   const currentUser = players?.find((item) => item.id === currentUserId)
   const [showCoin  ,setShowCoin] = useState(false)
-  // console.log(queryPlayer)
-
+  const power = {[game?.go] : go , [game?.shield] : shield , [game?.back] : back}
   // create random number of powers
   useEffect(() => {
     const generateUniqueRandomNumber = (exclude = []) => {
@@ -97,10 +94,8 @@ const GameDetail = () => {
     const random1 = generateUniqueRandomNumber();
     const random2 = generateUniqueRandomNumber([random1]);
     const random3 = generateUniqueRandomNumber([random1, random2]);
-    setPower({  [random1]: go , [random2]: shield  , [random3]: back  })
-    setRan1(random1-1);
-    setRan2(random2-1 );
-    setRan3(random3-1);
+    // setPower({  [random1]: go , [random2]: shield  , [random3]: back  })
+    randomPower(random1, random2, random3)
   }, []);
  
   // logout game
@@ -209,9 +204,10 @@ const onDiceChange =async (val) => {
   const updateHorsePoint = horsePoint + val
  
   if(val === 2 && pointCount < 2  ) {  
-    addPoint(false, ran1, ran2, ran3, updateHorsePoint, id, val)
+    addPoint(false, game?.go, game?.shield, game?.back, updateHorsePoint, id, val)
   } else {
-    addPoint(false, ran1, ran2, ran3, updateHorsePoint, id, val, true);
+    addPoint(false, game?.go, game?.shield, game?.back, updateHorsePoint, id, val, true);
+    // addPoint(false, ran1, ran2, ran3, updateHorsePoint, id, val, true);
     autoTurn();
   }
 };
@@ -274,7 +270,7 @@ const questionClose = () => {
 };
 // Хариулт харуулах Modal
 const ansShow = () => {
-  setAnswerShow(true);
+  setAnswerShow(true); 
 };
 const answerClose = () => {
   setAnswerShow(false); 
@@ -294,12 +290,14 @@ const chooseHorse = (e) => {
 }
 
 const getPower = (power, diceNumber) => {
-  // console.log(diceNumber , power)
+  console.log(diceNumber , power)
   if(power === "back") {
     setSelectedPower(selectedPower === power ? '' : power)
+    
   } 
   else if (power === "shield") {
     setSelectedPower( power)
+   
     isShield(true, currentUser , currentUserId , ()=>{
       setTimeout(() => {
         setSelectedPower('')   
@@ -309,6 +307,7 @@ const getPower = (power, diceNumber) => {
   } 
   else if (power === "go") {
    setSelectedPower( power)
+  
     isGo(true, currentUser , selectedPower, currentUserId , diceNumber , () => {
       setTimeout(() => {
         setSelectedPower('')   
@@ -330,8 +329,6 @@ const getEmoji = (e) => {
   }
 }
 
-const answer = question?.answers?.find(item => item.authId === currentUserId)
-  // console.log(answer?.authId)
   return (
     <div className="bg-[#6e8426] flex justify-center items-center w-screen h-screen">
       <div className="flex m-auto relative w-[400px] h-[700px] bg-[#97B62E]">
@@ -352,6 +349,7 @@ const answer = question?.answers?.find(item => item.authId === currentUserId)
               className="text-white md:w-[30px] md:h-[30px] mx-1 lg:mx-5 hover:text-blue-500 transform duration-500 ease-in-out hover:scale-125"
             />
           </div>
+
             {/* not enough coin */}
           <Modal show={showCoin} closeConfirm={() => setShowCoin(false)}>
             <div className="text-black">Not enough coins</div>
@@ -368,11 +366,7 @@ const answer = question?.answers?.find(item => item.authId === currentUserId)
             </div>
           </Modal>
 
-          {/* coin */}
-          <div className="bg-white absolute bottom-[120px] right-8 flex justify-around items-center w-[100px] h-[30px] rounded-[23px]">
-              <RiCopperCoinFill size={18} className="text-yellow-400"/>
-              <p className="text-baseColor font-bold">{ctx?.currentUser?.coins}</p>
-          </div>
+         
 
           {/* Тоглогчдыг харуулж байна */}
           {players?.map((e, i) => {
@@ -388,10 +382,11 @@ const answer = question?.answers?.find(item => item.authId === currentUserId)
                   {/* <p>order </p> */}
                   <div 
                     onClick={() => setShowPlayer({ showPlayer: true, playerID:e.state.authId})}
-                    className={`relative  flex flex-col justify-center items-center`}>
+                    className={`relative  flex flex-col justify-center items-center`}
+                  >
                    
                     {e?.sendEmoji ? (
-                      <div className="relative">
+                      <div className={`relative border border-${e?.color}-500`}>
                         <img src={e?.state?.photo} className={`border-[8px] p-0 border-${e?.color}-500  w-[60px] h-[60px] rounded-[50%]`} />
                         <img 
                           src={e?.sendEmoji} 
@@ -404,11 +399,12 @@ const answer = question?.answers?.find(item => item.authId === currentUserId)
                         className={`border-[8px] p-0 border-${e?.color}-500  w-[60px] h-[60px] rounded-[50%]`}
                       />
                     )}
-                     {/* <img src={e?.state?.photo} 
-                        className={`border-[8px] p-0 border-${e?.color}-700  w-[60px] h-[60px] rounded-[50%]`}
+                    {/* <img src={e?.state?.photo} 
+                        className={`border-[8px] p-0 border-${e?.color}-500  w-[60px] h-[60px] rounded-[50%]`}
                       /> */}
+                    
                   
-                    <p className="text-[10px]">{e?.state?.name}</p>
+                    <p className={`text-[14px] `}>{e?.state?.name}</p>
                   </div>
 
                   {answeredPlayers[turn]?.authId === e?.state?.authId && <Dice id={i} onDiceChange={onDiceChange} />}
@@ -467,8 +463,8 @@ const answer = question?.answers?.find(item => item.authId === currentUserId)
                   <div className="grid grid-cols-4 w-full h-[300px] place-items-center">
                     {emoji.map((e, i) => {
                       return (
-                        <div onClick={() => getEmoji(e)} className="w-[50px] h-[50px]">
-                          <img src={e} key={i} className="h-full w-full" />
+                        <div onClick={() => getEmoji(e)} key={i} className="w-[50px] h-[50px]">
+                          <img src={e}  className="h-full w-full" />
                         </div>
                       )
                     })}
@@ -493,7 +489,7 @@ const answer = question?.answers?.find(item => item.authId === currentUserId)
                 return (
                 <div 
                   key={i}
-                  className="">
+                >
                     { e?.endGamePlayer ? (
                         <div className="">
                           {i === 0 ? (
@@ -506,7 +502,7 @@ const answer = question?.answers?.find(item => item.authId === currentUserId)
                               
                               <div className="flex justify-between items-center w-[100px] mx-2">
                                 <RiCopperCoinFill size={30} className="text-yellow-500"/>
-                                <p className="text-2xl text-orange-500 font-semibold">+{e.winCoin}</p>
+                                <p className="text-2xl text-orange-500 font-semibold">+{game?.winCoin}</p>
                               </div>
                                 
                             </div>
@@ -520,7 +516,7 @@ const answer = question?.answers?.find(item => item.authId === currentUserId)
                               
                               <div className="flex justify-between items-center w-[100px] mx-2">
                                 <RiCopperCoinFill size={30} className="text-yellow-500"/>
-                                <p className="text-2xl text-orange-500 font-semibold">+{e?.secondCoin}</p>
+                                <p className="text-2xl text-orange-500 font-semibold">+{game?.secondCoin}</p>
                               </div>
                             </div>
                           ) : (
@@ -617,9 +613,13 @@ const answer = question?.answers?.find(item => item.authId === currentUserId)
           </Modal>
 
         <div className="absolute w-full h-full">
-          <Field usersData={ctx?.userList} ran1={ran1} ran2={ran2} ran3={ran3}  power={power} chooseHorse={chooseHorse} selectedPower={selectedPower} currentUserId={currentUserId} currentUser={currentUser}/> 
+          <Field   power={power} chooseHorse={chooseHorse} selectedPower={selectedPower} currentUserId={currentUserId} currentUser={currentUser}/> 
         </div>
-     
+        {/* coin */}
+        <div className="bg-white absolute bottom-[120px] right-8 flex justify-around items-center w-[100px] h-[30px] rounded-[23px]">
+              <RiCopperCoinFill size={18} className="text-yellow-400"/>
+              <p className="text-baseColor font-bold">{ctx?.currentUser?.coins}</p>
+        </div>
         <div className="absolute z-10 w-full h-[68px] bottom-[40px]">
           <Footer currentUser={currentUser} answerPlayerId={answeredPlayers[turn]?.authId} currentUserId={currentUserId} getPower={getPower} selectedPower={selectedPower} />
         </div> 

@@ -10,12 +10,17 @@ import {
 } from "react-icons/ai";
 import Loader from "../../UI/Loader";
 import Logo from "../../assets/logo/Logo Violet.svg"
+import {AiFillPhone} from "react-icons/ai"
+import { FaFacebook } from "react-icons/fa";
+import { SiGmail } from "react-icons/si";
 
 export default function Login() {
   const ctx = useContext(UserContext);
   const history = useHistory();
-  const [email, setEmail] = useState("curlets1123@gmail.com");
-  const [password, setPassword] = useState("123456Aa@");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  // curlets1123@gmail.com
+  // 123456Aa@
   const [showPass, setShowPass] = useState(false);
   const [rememberMe , setRememberMe] = useState(false)
 
@@ -24,8 +29,10 @@ export default function Login() {
     setRememberMe(rememberMeValue);
     if (rememberMeValue) {
       const storedUsername = localStorage.getItem('email');
-      if (storedUsername) {
+      const storedUserPassword = localStorage.getItem('password');
+      if (storedUsername ) {
         setEmail(storedUsername);
+        setPassword(storedUserPassword)
       }
     }
   }, []);
@@ -37,9 +44,6 @@ export default function Login() {
 // console.log(ctx.state.error)
   //TO DO
   // hooson input shalgah , ulaan  bichig gargah
-  // Нууц үг сэргээх phone
-  // login phone number
-  // Phone verifaction
 // remember me color change
 // log out shuud garahgvi bn 
 
@@ -49,11 +53,13 @@ export default function Login() {
   const login = async () => {
     if (rememberMe) {
       localStorage.setItem('email', email);
+      localStorage.setItem('password', password);
       localStorage.setItem('rememberMe', 'true');
-      console.log(localStorage.setItem)
+      // console.log(localStorage.setItem)
     } else {
       // If "Remember Me" is not checked, clear local storage
       localStorage.removeItem('email');
+      localStorage.removeItem('password');
       localStorage.removeItem('rememberMe');
   
       if (email.length === 0 || password.length === 0) {
@@ -136,10 +142,6 @@ export default function Login() {
             "
 
           />
-          
-
-         
-           
           <p className="text-sm text-gray-400">Remember me</p>
 
         </div>
@@ -150,6 +152,7 @@ export default function Login() {
           onClick={login}>
           Login
         </button>
+
       
         <button 
           onClick={forgotPassword}

@@ -242,10 +242,10 @@ const Game = () => {
             const logoutPlayer =  game?.players.find(item => item.id === authId)
             // console.log(logoutPlayer.logoutGame)
             return (
-              <div>
+              <div key={i}>
                {logoutPlayer?.logoutGame ? null : (
                 <div
-                  key={i}
+                  
                   className="relative bg-baseColor text-hpink w-[90px] h-[60px] flex flex-col justify-center items-center p-3 m-2 rounded-xl"
                 >
                   <div className="absolute bg-baseColor rounded-[50%] w-[25px] h-[25px] text-white left-0">{time}</div>

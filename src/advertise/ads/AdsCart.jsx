@@ -1,66 +1,60 @@
 import React , {useEffect, useState} from "react";
 import usePost from "../../hook/usePost";
-import { DefaultPlayer as Video } from "react-html5video";
-import "react-html5video/dist/styles.css";
-import moment from "moment"
-import { useHistory , useParams} from "react-router-dom"
+import { useHistory } from "react-router-dom"
+
 const AdsCart = ({data}) => {
-    const {getPost, posts, post} = usePost()
+    // console.log(data)
+    const adsId = data?.id
+    const postId = data?.postId
+    const { getPostAds , postDataAds} = usePost()
     const history = useHistory()
-    const [postData , setPostData] = useState([])
-    useEffect(() => {
-        if(posts) {
-            const dd = posts.find(
-                // item => console.log(item.id)
-                item => item.id === data.postId
-            );
-            setPostData(dd?.post)
+
+   const viewDetail = () => {
+     history.push(`/oneAds/${adsId}`)
+   }
+    useEffect (() => { 
+        if(postId){
+            getPostAds(postId) 
         }
-       },[posts])
-    // useEffect (() => {
-    //     getPost(data.postId) 
-    // },[])
-   
+    },[postId])
+    const totalPerson = (data.ads.totalBudget * 10)/100
    
     return (
-        <div className="text-white border w-1/2 border-gray-400 m-2">
-            <div className="border border-green-300 m-4">
-                {/* <p>{moment(data.createDate).format('YYYY-MM-DD HH:mm:ss:SSS')}</p> */}
-                <p> {moment(data.createDate.toDate()).calendar()}</p>
-                <p>Name: {data.userName}</p>
-                <p>Email: {data.userEmail}</p>
-                <p>Phone: {data.userPhone}</p>
-                <p>message: {data.message}</p>
-                {/* <button onClick={() => changeMessage("accept", data.id)} className="bg-green-500 p-2 mx-2" >Accept</button>
-                <button onClick={() => changeMessage("denied", data.id)} className="bg-red-500 p-2 mx-2">Denied</button> */}
-            </div>
-            <div className="border border-green-300 m-4">
-                <p>age: {data.ads.age}</p>
-                <p>Total day: {data.ads.durationDate}</p>
-                <p>Start date: {data.ads.startDate}</p>
-                <p>End Date: {data.ads.endDate}</p>
-                <p>Start time: {data.ads.startTime}</p>
-                <p>Total budget: {data.ads.totalBudget}</p>
-                <button onClick={() => history.push(`editads/${data.id}`)}>edit advertise</button>
+        <div className="border border-gray-400 m-2 w-[350px] flex flex-col p-2">
+            <div className="flex flex-col border border-baseColor w-full rounded-xl p-2 my-2">
+                <p>Advertise information</p>
+                <div className="border border-baseColor  w-full rounded-xl p-2 my-1">
+                    <p>age: {data.ads.age}</p>
+                </div>
+                <div className="border border-baseColor  w-full rounded-xl p-2 my-1">
+                    <p>gender: {data.ads.gender}</p>
+                </div>
+                <div className="flex justify-between border border-baseColor  w-full rounded-xl p-2 my-1">
+                    <p>budget: {data.ads.totalBudget}₮</p>
+                    <div className="flex">
+                    <p>goal  person</p>
+                    <p>{totalPerson}</p>
+                    </div>
+                </div>
+                
+                <div className="border border-baseColor  w-full rounded-xl p-2 my-1">
+                    <p>Ads: {data.message}</p>
+                </div>
             </div>
 
-            <div className="border border-green-300 m-4">
-                <div className="w-[200px] h-[200px]">
-                    <Video
-                    //  autoPlay loop
-                    // poster={photo}
-                    on
-                    >
-                    <source src={postData?.video} type="video/webm" />
-                 </Video>
-                 </div>
-                 <p>{postData?.title}</p>
-                 <p>{postData?.text}</p>
-                 <p>{postData?.address}</p>
-                 <p>{postData?.email}</p>
-                 <p>{postData?.phone}</p>
-                 <p>{postData?.link}</p>
-             </div>           
+            <div className="border border-baseColor w-full rounded-xl p-2 my-2">
+                <p>Post information</p>
+    
+                 <div className="border border-baseColor  w-full rounded-xl p-2 my-1">
+                   <p>title</p>
+                   <p> {postDataAds.post?.title}</p>
+                </div>
+                <div className="border border-baseColor  w-full rounded-xl p-2 my-1">
+                   <p>text</p>
+                   <p> {postDataAds.post?.text}</p>
+                </div>
+            </div>  
+            <button onClick={viewDetail}>View detail</button>          
         </div>
     )
 }
