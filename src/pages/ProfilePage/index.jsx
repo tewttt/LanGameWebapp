@@ -47,6 +47,12 @@ const ProfilePage = () => {
     const changePhone = (e) => {
         setState({...state, phone: e.target.value});
     }
+    const changeGender = (e) => {
+        setState({...state, gender: e.target.value});
+    }
+    const changeAge = (e) => {
+        setState({...state, age: e.target.value});
+    }
     const edit = () =>{
         setEdit(true)
     }
@@ -123,6 +129,26 @@ const ProfilePage = () => {
                             <div>Дугаар:</div>
                             <input className="text-black h-[20px] mr-0 w-[150px]" placeholder="утас" value={state.phone} onChange={changePhone}></input>
                         </div>
+                       
+                        <div className="border border-baseColor text-black w-full rounded-xl p-2 my-1">
+                            <p>gender {state.gender}</p>
+                            <select 
+                                onChange={changeGender}
+                                className="w-full ">
+                                <option>{state.gender}</option>
+                                <option>All</option>
+                                <option>Men</option>
+                                <option>Women</option>
+                            
+                            </select>
+                        </div>
+
+                        <div className="flex justify-between w-[200px] h-[30px] items-center my-3 ">
+                            <div>Age:</div>
+                            <input className="text-black h-[20px] mr-0 w-[150px]" placeholder="age" value={state.age} type="number" 
+                            onChange={changeAge}></input>
+                        </div>
+                       
 
                         <div className="flex">                                                        
                         <button className="w-[100px] h-[30px] flex justify-center items-center text-[12px] bg-red-500 mx-5 rounded-2xl" onClick={() => {setEdit(false)}}>Болих</button>

@@ -62,6 +62,7 @@ export const UserStore = (props) => {
   const [state, setState] = useState(initialState);
   const [transaction , setTransaction] = useState([])
   const [currentUser, setCurrentUser] = useState("");
+ 
   const [userList, setUserList] = useState([]);
   const userInfo = useRef()
   const [userIdCount, setUserIdCount] = useState("")
@@ -147,27 +148,6 @@ export const UserStore = (props) => {
       });
     console.log("update profile");
   };
-
-  const putTransaction =async (data) => {
-    const oneRef = collection(db, `users/${auth?.currentUser?.uid}/transaction` );
-    await addDoc(oneRef , {
-      data,
-      createDate: serverTimestamp(),
-      
-    } )
-    .then((res) => { 
-      alert("coin nemegdlee")
-      // console.log("add coin");
-      // addCoins(data.coin)
-
-    })
-    .catch((error) => {
-      console.log("error" + error);
-    });
-   
-  }
-  
- 
   const logout = () => {
     return signOut(auth);
     // auth
@@ -210,94 +190,8 @@ export const UserStore = (props) => {
        
     }
   }
-  async function loginUserPhone(phone, password) {
-    setState({ ...state, logginIn: true });
-    // try {
-    //   await signInWithEmailAndPassword(auth, email, password);
-    //   // console.log(auth?.currentUser.uid , email, password)
-    //   // alert("Амжилттай нэвтэрлээ")
-    //   setState({ ...state, error: "", logginIn: false });
-    //   // history.push("/lesson")
-    // } catch (error) {
-    //   console.log(error);
-    //   let message = error.message;
-    //   if (message === "Firebase: Error (auth/wrong-password).") {
-    //     message = "Нууц үг буруу байна"
-    //     setState({ ...state, error: message, logginIn: false });
-    //   }
-    //   else if (message === "Firebase: Error (auth/user-not-found).")
-    //   {
-    //     message = "Имэйл хаяг олдсонгүй";
-    //     setState({ ...state, error: message, logginIn: false });
-    //   }
-    //   else if (message === "Firebase: Error (auth/network-request-failed).")
-    //   {
-    //     message = "Интернетээ шалгана уу";
-    //     setState({ ...state, error: message, logginIn: false });
-    //   }
-        
-    //   else if (message === "Firebase: Error (auth/invalid-login-credentials).") {
-    //     message = "Алдаа"
-    //     setState({ ...state, error: message, logginIn: false });
-    //   }
-       
-    // }
-  }
-  async function signupUserPhone(password, phone,) {
-    // try {
-    //   const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-    //   // send email verification
-      
-    //   await sendEmailVerification(userCredential.user);
-    
-    //   setState({ ...state, error: "", logginIn: false });
-     
-    //   alert(" Амжилттай бүртгүүллээ");
-    //   // console.log(db)
-    //   setDoc(doc(db, "users", auth.currentUser?.uid), {
-    //     // addDoc(collection(db, "users"), {
-    //     email: email,
-    //     password: password,
-    //     phone: phone,
-    //     authId: auth.currentUser?.uid,  
-    //     name: name,
-    //     photo: "",
-    //     status: false,
-    //     coins: 0,
-    //     amount: 0,
-    //     statusCoin: false,
-    //     photo: "../assets/img/ironman.png",
-    //     winGame: 0,
-    //     matchGame: 0,
-      
-    //     // userID: increment(countUserID)
-    //   });
-
-    //   const oneRef = collection(db, `users/${auth?.currentUser?.uid}/transaction`);
-    //   await addDoc(oneRef , {
-    //     createDate: serverTimestamp(),  
-    //   })
-    //   alert("Email check")
-    //   history.push("/verification")
-
-    // } catch (error) {
-    //   console.log(error);
-    //   let message = error.message;
-    //   if (
-    //     message ===
-    //     "Firebase: Password should be at least 6 characters (auth/weak-password)."
-    //   )
-    //     message = "Нууц үг хамгийн багадаа 6 оронтой байх хэрэгтэй";
-    //   else if (message === "Firebase: Error (auth/invalid-email).")
-    //     message = "Зөв имэйл бичнэ.";
-    //   else if (message === "Firebase: Error (auth/email-already-in-use).")
-    //     message = "Бүртгэлтэй имэйл байна";
-    //   else if (message === "Firebase: Error (auth/network-request-failed).")
-    //     message = "Интернетээ шалгана уу";
-    //   setState({ ...state, error: message, logginIn: false });
-    // }
-  }
-
+ 
+  
   async function signupUser(email, password, phone, name) {
     try {
      const {user} = await createUserWithEmailAndPassword(auth, email, password);
@@ -319,6 +213,9 @@ export const UserStore = (props) => {
         photo: "../assets/img/ironman.png",
         winGame: 0,
         matchGame: 0,
+        gender: "man",
+        age: 14,
+        access: "user"
       });
 
       const oneRef = collection(db, `users/${auth?.currentUser?.uid}/transaction`);
@@ -344,64 +241,7 @@ export const UserStore = (props) => {
     }
   }
   
-const loginFacebook = async() => {
-  
-}
-  
-const signupFacebook = async() => {
-  console.log("facebook")
-  console.log(auth)
-  console.log(providerFacebook)
-  signInWithPopup(auth, providerFacebook)
-  .then((result) => {
-    console.log(result)
-    // The signed-in user info.
-    const user = result.user;
 
-    // This gives you a Facebook Access Token. You can use it to access the Facebook API.
-    const credential = FacebookAuthProvider.credentialFromResult(result);
-    const accessToken = credential.accessToken;
-
-    // IdP data available using getAdditionalUserInfo(result)
-    // ...
-  })
-  .catch((error) => {
-    console.log(error)
-    // Handle Errors here.
-    const errorCode = error.code;
-    const errorMessage = error.message;
-    // The email of the user's account used.
-    const email = error.customData.email;
-    // The AuthCredential type that was used.
-    const credential = FacebookAuthProvider.credentialFromError(error);
-
-    // ...
-  });
-}
-const signupGmail = async() => {
-  console.log("gmail")
-  signInWithPopup(auth, providerGoogle)
-  .then((result) => {
-    console.log(result)
-    // This gives you a Google Access Token. You can use it to access the Google API.
-    const credential = GoogleAuthProvider.credentialFromResult(result);
-    const token = credential.accessToken;
-    // The signed-in user info.
-    const user = result.user;
-    // IdP data available using getAdditionalUserInfo(result)
-    // ...
-  }).catch((error) => {
-    console.log(error)
-    // Handle Errors here.
-    const errorCode = error.code;
-    const errorMessage = error.message;
-    // The email of the user's account used.
-    const email = error.customData.email;
-    // The AuthCredential type that was used.
-    const credential = GoogleAuthProvider.credentialFromError(error);
-    // ...
-  });
-}
   const forgotPassword = async (email) => {
     try {
       // Send password reset email
@@ -438,9 +278,7 @@ const signupGmail = async() => {
         state,
         userList,
         signupUser,
-        signupUserPhone,
         loginUser,
-        loginUserPhone,
         logout,
         userInfo,
         currentUser,
@@ -448,16 +286,10 @@ const signupGmail = async() => {
         setProfile,
         setProfilePhoto,
         deleteUser,
-     
-        putTransaction,
         transaction,
         forgotPassword,
-        loginFacebook,
-        signupFacebook,
-        signupGmail
-        
-     
-        // addCoins
+       
+       
       }}
     >
       {props.children}
@@ -465,6 +297,156 @@ const signupGmail = async() => {
   );
 };
 export default UserContext;
+
+// async function loginUserPhone(phone, password) {
+//   setState({ ...state, logginIn: true });
+//   try {
+//     await signInWithEmailAndPassword(auth, email, password);
+//     // console.log(auth?.currentUser.uid , email, password)
+//     // alert("Амжилттай нэвтэрлээ")
+//     setState({ ...state, error: "", logginIn: false });
+//     // history.push("/lesson")
+//   } catch (error) {
+//     console.log(error);
+//     let message = error.message;
+//     if (message === "Firebase: Error (auth/wrong-password).") {
+//       message = "Нууц үг буруу байна"
+//       setState({ ...state, error: message, logginIn: false });
+//     }
+//     else if (message === "Firebase: Error (auth/user-not-found).")
+//     {
+//       message = "Имэйл хаяг олдсонгүй";
+//       setState({ ...state, error: message, logginIn: false });
+//     }
+//     else if (message === "Firebase: Error (auth/network-request-failed).")
+//     {
+//       message = "Интернетээ шалгана уу";
+//       setState({ ...state, error: message, logginIn: false });
+//     }
+      
+//     else if (message === "Firebase: Error (auth/invalid-login-credentials).") {
+//       message = "Алдаа"
+//       setState({ ...state, error: message, logginIn: false });
+//     }
+     
+//   }
+// }
+
+
+// async function signupUserPhone(password, phone,) {
+//   try {
+//     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+//     // send email verification
+    
+//     await sendEmailVerification(userCredential.user);
+  
+//     setState({ ...state, error: "", logginIn: false });
+   
+//     alert(" Амжилттай бүртгүүллээ");
+//     // console.log(db)
+//     setDoc(doc(db, "users", auth.currentUser?.uid), {
+//       // addDoc(collection(db, "users"), {
+//       email: email,
+//       password: password,
+//       phone: phone,
+//       authId: auth.currentUser?.uid,  
+//       name: name,
+//       photo: "",
+//       status: false,
+//       coins: 0,
+//       amount: 0,
+//       statusCoin: false,
+//       photo: "../assets/img/ironman.png",
+//       winGame: 0,
+//       matchGame: 0,
+    
+//       // userID: increment(countUserID)
+//     });
+
+//     const oneRef = collection(db, `users/${auth?.currentUser?.uid}/transaction`);
+//     await addDoc(oneRef , {
+//       createDate: serverTimestamp(),  
+//     })
+//     alert("Email check")
+//     history.push("/verification")
+
+//   } catch (error) {
+//     console.log(error);
+//     let message = error.message;
+//     if (
+//       message ===
+//       "Firebase: Password should be at least 6 characters (auth/weak-password)."
+//     )
+//       message = "Нууц үг хамгийн багадаа 6 оронтой байх хэрэгтэй";
+//     else if (message === "Firebase: Error (auth/invalid-email).")
+//       message = "Зөв имэйл бичнэ.";
+//     else if (message === "Firebase: Error (auth/email-already-in-use).")
+//       message = "Бүртгэлтэй имэйл байна";
+//     else if (message === "Firebase: Error (auth/network-request-failed).")
+//       message = "Интернетээ шалгана уу";
+//     setState({ ...state, error: message, logginIn: false });
+//   }
+// }
+
+// const loginFacebook = async() => {
+  
+// }
+  
+// const signupFacebook = async() => {
+//   console.log("facebook")
+//   console.log(auth)
+//   console.log(providerFacebook)
+//   signInWithPopup(auth, providerFacebook)
+//   .then((result) => {
+//     console.log(result)
+//     // The signed-in user info.
+//     const user = result.user;
+
+//     // This gives you a Facebook Access Token. You can use it to access the Facebook API.
+//     const credential = FacebookAuthProvider.credentialFromResult(result);
+//     const accessToken = credential.accessToken;
+
+//     // IdP data available using getAdditionalUserInfo(result)
+//     // ...
+//   })
+//   .catch((error) => {
+//     console.log(error)
+//     // Handle Errors here.
+//     const errorCode = error.code;
+//     const errorMessage = error.message;
+//     // The email of the user's account used.
+//     const email = error.customData.email;
+//     // The AuthCredential type that was used.
+//     const credential = FacebookAuthProvider.credentialFromError(error);
+
+//     // ...
+//   });
+// }
+// const signupGmail = async() => {
+//   console.log("gmail")
+//   signInWithPopup(auth, providerGoogle)
+//   .then((result) => {
+//     console.log(result)
+//     // This gives you a Google Access Token. You can use it to access the Google API.
+//     const credential = GoogleAuthProvider.credentialFromResult(result);
+//     const token = credential.accessToken;
+//     // The signed-in user info.
+//     const user = result.user;
+//     // IdP data available using getAdditionalUserInfo(result)
+//     // ...
+//   }).catch((error) => {
+//     console.log(error)
+//     // Handle Errors here.
+//     const errorCode = error.code;
+//     const errorMessage = error.message;
+//     // The email of the user's account used.
+//     const email = error.customData.email;
+//     // The AuthCredential type that was used.
+//     const credential = GoogleAuthProvider.credentialFromError(error);
+//     // ...
+//   });
+// }
+
 
 
 // const addCoins = async(coins) => {

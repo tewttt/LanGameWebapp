@@ -7,6 +7,7 @@ import "react-html5video/dist/styles.css";
 import video from "../../../src/assets/video/1.mp4"
 import useAds from "../../hook/useAds";
 import usePost from "../../hook/usePost";
+import Modal from "../../components/General/Modal"
 // TO DO
 // ads search 
 // start date
@@ -20,22 +21,18 @@ import usePost from "../../hook/usePost";
 // accept iin daraa amount baiwal start true bolgoh , start date ogoh
 // if amount hvrehgvi baiwal dansaa tsenegleh
 // dansaa honogiin dotor tseneglehgvi bol accept iig denied bolgoh
-// transaction vvsgeh
-// emoji send dr tnx vvsgeh
+
 // balance collection
-// heden vzseniig medeh
-// 1000 hvrwel ads zogsono
-// ads dr count vvsgene 
-// user tnx dr ads iin id nemne
-// 1000 person hvrwel ads zogsoooh
+// 1 hvn odort 5 ads vzne, omno vzsenee vzej bolno
+
 const TIME = 5
 let intervalIds = [];
 
 export default function WatchAdvertise () {
     const {id} = useParams();
-    const {getAds, ads } = useAds(id)
+    const {getAds, ads  , putTransaction , addCoinShow} = useAds(id)
     const { getPostAds , postDataAds} = usePost()
-    // console.log(ads?.ads)
+    // console.log(addCoinShow)
     // console.log(postDataAds?.post)
     const [time, setTime] = useState(TIME) 
     const [showTime , setShowTime] = useState(false)
@@ -74,7 +71,8 @@ export default function WatchAdvertise () {
 
     useEffect(() => {
         if (showTime)
-        ctx.putTransaction(data)
+        putTransaction(data, id)
+        // ctx.putTransaction(data , id)
      },[showTime])
 
     const startTimer = () => {
@@ -90,6 +88,9 @@ export default function WatchAdvertise () {
   
     return (
         <div className=" relative h-screen flex flex-col justify-center items-center">
+            <Modal show={addCoinShow}>
+                <div> add 100 coin </div>
+            </Modal>
             <div className="flex absolute top-0 left-0 w-full justify-between">
                 <div>
                  {showTime && <MdOutlineCancel size={30} color="blue" onClick={() =>history.push("/gameHome")}/>}   
@@ -106,10 +107,11 @@ export default function WatchAdvertise () {
                   visit {postDataAds?.post?.title}
                  </a>
             </div>
-
+ 
             {/* <button onClick={() => ctx.transaction(100, "ads" )}>add coin</button> */}
             <div className="flex bg-red-300">
                 <video src={postDataAds?.post?.video} width="320" height="240" type="video/mp4" controls autoPlay></video>
+            
             </div>
             <div className="w-[300px] ">
                 <div className="flex rounded-2xl py-2 px-4 m-2 border border-baseColor">

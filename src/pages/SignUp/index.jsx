@@ -10,15 +10,13 @@ import PhoneInput from "react-phone-input-2";
 import 'react-phone-input-2/lib/style.css'
 import {
     getAuth,
-    signInWithPhoneNumber,
-    RecaptchaVerifier
   } from "firebase/auth";
 const auth = getAuth();
 
 const SignUp = () => {
     const ctx = useContext(UserContext);
     const history = useHistory();
-    const [user , setUser] = useState(null)
+   
     const [email, setEmail] = useState("curlets1123@gmail.com");
     const [name, setName] = useState("curlets");
     const [password, setPassword] = useState("123456Aa@");
@@ -33,10 +31,6 @@ const SignUp = () => {
     const [valid, setValid] = useState(false)
     const [isStrongPassword, setIsStrongPassword] = useState(false)
     const [isStrongPassword2, setIsStrongPassword2] = useState(false)
-    const [otp, setOtp] = useState("")
-
-    const [verificationCode, setVerificationCode] = useState('');
-    const [confirmationResult, setConfirmationResult] = useState(null);
 
     const changePass =()=> {
      setShowPass(!showPass)  
@@ -53,56 +47,6 @@ const SignUp = () => {
         const phoneNumberPattern = /^\d{11}$/;
         return phoneNumberPattern.test(phone)
     }
-
-    const handleSendCode = async () => {
-        try {
-          const result = await auth.signInWithPhoneNumber(phone);
-          setConfirmationResult(result);
-        } catch (error) {
-          console.error('Error sending code:', error);
-        }
-      };
-
-      const handleVerifyCode = async () => {
-        try {
-          const user = await confirmationResult.confirm(verificationCode);
-          console.log('User successfully signed in:', user);
-        } catch (error) {
-          console.error('Error verifying code:', error);
-        }
-      };
-
-    const sendOtp = async() => {
-        try {
-            const recaptchaContainer = document.getElementById('recaptcha');
-            const recaptcha = new RecaptchaVerifier(recaptchaContainer, {
-                size: "normal",
-                callback: (response) => {
-                    console.log("recaptcha resolved", response)
-                },
-                "expired-callback" : () => {
-                    console.log("recaptcha expired")
-                }
-            })
-            // const recaptcha = new RecaptchaVerifier(auth, "recaptcha" , {})
-        
-            const confirmation = await signInWithPhoneNumber(auth, phone, recaptcha)
-            setUser(confirmation)
-        }catch (err) {
-            console.log(err)
-        }
-    }
-
-    const verifyOtp = async() => {
-        try{
-            await user.confirm(otp)
-        }catch(err){
-            console.log(err)
-        }
-    }
-// TO DO
-// phone verification
-
 
 const checkStrongPassword = (value) => {
     // Define your password policy rules
@@ -295,3 +239,27 @@ return (
 )
 }
 export default SignUp;
+
+// TO DO
+// region
+
+// import { getAuth, getIdTokenResult } from 'firebase/auth';
+
+// // Get the current user
+// const auth = getAuth();
+// const user = auth.currentUser;
+
+// // Get the ID token result for the user
+// getIdTokenResult(user)
+//   .then((idTokenResult) => {
+//     // Access the Firebase Auth ID token result object
+//     const region = idTokenResult.firebase?.sign_in_provider_data?.find(
+//       (data) => data.provider_id === 'firebase'
+//     )?.region;
+
+//     // region variable now contains the user's region (e.g., "us-central1")
+//     console.log('User region:', region);
+//   })
+//   .catch((error) => {
+//     console.error('Error getting ID token result:', error.message);
+//   });

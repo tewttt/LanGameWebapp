@@ -1,0 +1,35 @@
+
+  .loader {
+    z-index: 6;
+    animation: left 5s linear normal;
+   
+  }
+
+  @keyframes left {
+    0%{
+        background-color: red;
+        
+        transform: rotate(0deg);
+    }
+    20%{
+        background-color: red;
+        
+        transform: rotate(72deg);
+    }
+    40% {
+        transform: rotate(144deg);
+        background-color: pink;
+    }
+    60% {
+        transform: rotate(216deg);
+        background-color: yellow;
+    }
+    80% {
+        transform: rotate(288deg);
+        background-color: aqua;
+    }
+    100% {
+        transform: rotate(360deg);
+        background-color: white;
+    }
+}

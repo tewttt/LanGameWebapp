@@ -6,11 +6,11 @@ const AdsCart = ({data}) => {
     // console.log(data)
     const adsId = data?.id
     const postId = data?.postId
-    const { getPostAds , postDataAds} = usePost()
+    const { getPostAds , postDataAds , filterUsers} = usePost()
     const history = useHistory()
-
+// console.log(filterUsers)
    const viewDetail = () => {
-     history.push(`/oneAds/${adsId}`)
+     history.push(`/oneAds/${adsId}`) 
    }
     useEffect (() => { 
         if(postId){
@@ -24,22 +24,32 @@ const AdsCart = ({data}) => {
             <div className="flex flex-col border border-baseColor w-full rounded-xl p-2 my-2">
                 <p>Advertise information</p>
                 <div className="border border-baseColor  w-full rounded-xl p-2 my-1">
-                    <p>age: {data.ads.age}</p>
+                    <p>age: {data.ads.ageStart} to {data.ads.ageEnd}</p>
                 </div>
                 <div className="border border-baseColor  w-full rounded-xl p-2 my-1">
                     <p>gender: {data.ads.gender}</p>
                 </div>
                 <div className="flex justify-between border border-baseColor  w-full rounded-xl p-2 my-1">
                     <p>budget: {data.ads.totalBudget}₮</p>
-                    <div className="flex">
-                    <p>goal  person</p>
-                    <p>{totalPerson}</p>
-                    </div>
+                   
+                </div>
+                <div className="flex justify-between border border-baseColor  w-full rounded-xl p-2 my-1">
+                    <p>goal  person {totalPerson} / {data?.watchedPerson} </p>
+                   {/* bga{filterUsers.length} */}
                 </div>
                 
-                <div className="border border-baseColor  w-full rounded-xl p-2 my-1">
-                    <p>Ads: {data.message}</p>
+                <div className="flex justify-between border border-baseColor  w-full rounded-xl p-2 my-1">
+                    <p>message: {data.message}</p>
+                    {data.message === "accept" && 
+                    <div className="flex">
+                    <p>ads</p>
+                     {data?.doneAds ? <p className="bg-green-500 p-2 rounded-md"> done</p>
+                     : <p className="bg-orange-400 p-2 rounded-md"> continue</p>}
+                     </div>
+                    }
                 </div>
+                
+                
             </div>
 
             <div className="border border-baseColor w-full rounded-xl p-2 my-2">

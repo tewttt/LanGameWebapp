@@ -2,6 +2,7 @@ import {
   collection,
   deleteDoc,
   doc,
+  addDoc,
   orderBy,
   increment,
   onSnapshot,
@@ -301,15 +302,20 @@ export default function useGame(id ) {
  } ,[players])
    
 
-  const sendEmoji =async(e , currentUser , currentUserId , sendPlayerId , currentCoin) => {
-    const currentRef = doc(db, "users", currentUserId);
-    await updateDoc(currentRef, {coins : increment(-100)})
+  const sendEmoji =async(data, e , currentUser , currentUserId , sendPlayerId , currentCoin) => {
+    const oneRef = collection(db, `users/${currentUserId}/transaction` );
+    await addDoc(oneRef , {
+      data,
+      createDate: serverTimestamp(),
+    })
+    // const currentRef = doc(db, "users", currentUserId);
+    // await updateDoc(currentRef, {coins : increment(-100)})
    
     const gameRef = doc(db, `game/${id}/players`, sendPlayerId);
     await updateDoc(gameRef, {sendEmoji : e})
 
     setTimeout(() => {
-        updateDoc(gameRef, {sendEmoji : ''})
+        updateDoc(gameRef, {sendEmoji : ''})   
     }, 2000);
   }
 

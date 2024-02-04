@@ -117,6 +117,7 @@ const totalPerson = (ads?.ads?.totalBudget * 10)/100
                 <p>Post information</p>
                 <div className="w-full">
                    <video src={postDataAds.post?.video} width="320" height="240" type="video/mp4" controls></video>
+                
                 </div>
                  <div className="border border-baseColor  w-full rounded-xl p-2 my-1">
                    <p>title</p>

@@ -11,6 +11,7 @@ export default function AllAds () {
     return (
         <div className="">
             <MdOutlineCancel className="hover:text-red-500" onClick={() => history.push("/ads")} size={30}/>
+            total ads {allads.length}
             {allads.map((e, i) => (
                 <AdsCart data={e} key={i}/>
             ))}

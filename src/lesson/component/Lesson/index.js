@@ -20,7 +20,8 @@ const Lesson = (props) => {
     <div>
       {status === "Төлбөргүй" ? (
         <div
-          className={css.hoverButton}
+        // className="text-black"
+          className={`${css.hoverButton}`}
           // className="flex flex-col py-3 items-center border border-blue-500 w-[200px]  hover:border-blue-300  rounded-[5px] "
         >
           <span></span>
@@ -35,7 +36,7 @@ const Lesson = (props) => {
 
           <div
             onClick={view}
-            className="text-white w-[140px] h-[40px] bg-blue-500 rounded-[5px] my-3 flex justify-center items-center text-[20px] p-2 hover:bg-blue-600 hover:scale-110 "
+            className=" w-[140px] h-[40px] bg-blue-500 rounded-[5px] my-3 flex justify-center items-center text-[20px] p-2 hover:bg-blue-600 hover:scale-110 "
           >
             Үзэх
           </div>

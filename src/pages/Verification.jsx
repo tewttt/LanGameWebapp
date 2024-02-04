@@ -3,7 +3,7 @@ import Logo from "../assets/logo/Logo-Violet.png"
 import { useHistory } from "react-router-dom";
 import UserContext from "../context/UserContext";
 import {AiFillPhone} from "react-icons/ai";
-
+import OTPInput , {ResendOTP} from "otp-input-react"
 import {
   getAuth,
   signInWithPhoneNumber,
@@ -22,7 +22,7 @@ export default function Verification() {
   const [verId, setVerId] = useState(true)
   const [showCaptcha, setShowCaptcha] = useState(true)
   const [error , setError] = useState("")
-
+// console.log(code)
  useEffect(()=> {
     setPhone("+" + ctx?.currentUser?.phone)
     signUpdate("+" + ctx?.currentUser?.phone)
@@ -121,9 +121,32 @@ const sendCode = async() => {
          id="recaptcha-container">
         </div>
       ) : (
-        <input placeholder="code" onChange={(e) => setCode(e.target.value)}/>
-      )}
-
+        <div className="bg-baseColor h-[100px] w-full flex justify-center items-center">           
+        <OTPInput value={code} 
+        // onChange={setOTP} 
+        className=""
+        onChange={ setCode}
+        autoFocus 
+        OTPLength={6} 
+        otpType="number" 
+        disabled={false} 
+        // secure
+        />
+        </div>  
+        // <input placeholder="code" onChange={(e) => setCode(e.target.value)}/>
+      )}  
+      {/* <div className="bg-baseColor h-[100px] w-full flex justify-center items-center">           
+      <OTPInput value={code} 
+      // onChange={setOTP} 
+      className=""
+      onChange={ setCode}
+      autoFocus 
+      OTPLength={6} 
+      otpType="number" 
+      disabled={false} 
+      // secure
+      />
+      </div>   */}
        <button 
             onClick={sendCode}
             className="w-[276px] h-[40px] font-semibold text-center mt-6 bg-baseColor 

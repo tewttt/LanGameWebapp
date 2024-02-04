@@ -49,7 +49,7 @@ export const MemberStore = (props) => {
        
     //     const data = await getDocs(memberRef);
     //     const filteredData = data.docs.map((doc) => ({
-    //     ...doc.data(),
+    //     ...doc.data(), 
     //     id: doc.id
     //     }))
     //     setMemberList(filteredData)

@@ -238,7 +238,7 @@ export const LessonStore = (props) => {
   const [word, setWord] = useState([]);
   const [grammar, setGrammar] = useState([]);
   const [games, setGames] = useState([]);
-
+// console.log(lesson)
   // Lesson хичээл татаж авах
   const Lesson = (id, chLan, chLevel) => {
     // console.log(id)
@@ -323,6 +323,7 @@ export const LessonStore = (props) => {
       where("level", "==", chLevel),
       where("lesson", "==", chLesson)
     );
+    // console.log(q)
     unsubcribeGames = onSnapshot(q, (snapshot) => {
       setGames(() => {
         const list = snapshot.docs.map((doc) => {

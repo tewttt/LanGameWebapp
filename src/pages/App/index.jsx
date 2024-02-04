@@ -12,7 +12,7 @@ import ProfilePage from "../ProfilePage";
 import AddLesson from "../../lesson/add/AddLessonPage";
 import EditLesson from "../../lesson/edit/EditLessonPage";
 import Teacher from "../Teacher/Teacher";
-import GameDetail from "../../game/page/GameDetail";
+import GameDetail from "../../game/page/GameDetail/GameDetail";
 import BackgroundAnimation from "../../UI/BackgroundAnimation";
 import GameHome from "../../game/page/GameHome";
 import WatchAdvertise from "../../advertise/ads/watchAdvertise";
@@ -60,6 +60,7 @@ return (
           <Route path="/addLesson" component={AddLesson}/>
           <Route path="/teacher" component={Teacher}/>
           <Route path="/edit/:id" component={EditLesson}/>
+          {/* <Route path="/watchAds" component={WatchAdvertise}/> */}
           <Route path="/watchAds/:id" component={WatchAdvertise}/>
           <Route path="/ads" component={Advertise} />
           <Route path="/addAds/:id" component={AddAdvertise} />

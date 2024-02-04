@@ -1,41 +1,42 @@
 import React, { useState,  useEffect , useRef, useContext } from "react";
-import Dice from "../components/Dice";
-import Field from "../components/Field";
-import Modal from "../../components/General/Modal";
-import Spinner from "../../components/General/Spinner";
+import Dice from "../../components/Dice";
+import Field from "../../components/Field";
+import Modal from "../../../components/General/Modal";
+import Spinner from "../../../components/General/Spinner";
 import { useParams } from "react-router-dom";
 import { getAuth } from "firebase/auth";
-import useGame from "../../hook/useGame";
-import UserContext from "../../context/UserContext";
-import shield from "../../assets/game/Shield 1.png"
-import go from "../../assets/game/Go 1.png"
-import back from "../../assets/game/Back 1.png"
-import Footer from "../components/Footer/Footer";
+import useGame from "../../../hook/useGame";
+import UserContext from "../../../context/UserContext";
+import shield from "../../../assets/game/Shield 1.png"
+import go from "../../../assets/game/Go 1.png"
+import back from "../../../assets/game/Back 1.png"
+import Footer from "../../components/Footer/Footer";
 import { RiCopperCoinFill } from "react-icons/ri";
 import { IoIosArrowBack } from "react-icons/io";
 import { MdOutlineCancel } from "react-icons/md";
 import { LuCrown } from "react-icons/lu";
 import { IoMdWine } from "react-icons/io";
 import { FaHandsBubbles } from "react-icons/fa6";
-
-import e1 from "../../assets/emoji/e1.png"
-import e2 from "../../assets/emoji/e2.png"
-import e3 from "../../assets/emoji/e3.png"
-import e4 from "../../assets/emoji/e4.png"
-import e5 from "../../assets/emoji/e5.png"
-import e6 from "../../assets/emoji/e6.png"
-import e7 from "../../assets/emoji/e7.png"
-import e8 from "../../assets/emoji/e8.png"
-import e9 from "../../assets/emoji/e9.png"
-import e10 from "../../assets/emoji/e10.png"
-import e11 from "../../assets/emoji/e11.png"
-import e12 from "../../assets/emoji/e12.png"
+import css from "./style.module.css";
+import e1 from "../../../assets/emoji/e1.png"
+import e2 from "../../../assets/emoji/e2.png"
+import e3 from "../../../assets/emoji/e3.png"
+import e4 from "../../../assets/emoji/e4.png"
+import e5 from "../../../assets/emoji/e5.png"
+import e6 from "../../../assets/emoji/e6.png"
+import e7 from "../../../assets/emoji/e7.png"
+import e8 from "../../../assets/emoji/e8.png"
+import e9 from "../../../assets/emoji/e9.png"
+import e10 from "../../../assets/emoji/e10.png"
+import e11 from "../../../assets/emoji/e11.png"
+import e12 from "../../../assets/emoji/e12.png"
+import {motion} from "framer-motion"
 
 const auth = getAuth();
 let intervalIds = [];
 const TIME = 10
 // TO DO
-
+// google analytics
 // firebase security rule
 // waiting for other players Modal haruulah , spinner
 // sound oruulah 
@@ -318,15 +319,49 @@ const getPower = (power, diceNumber) => {
   }
 }
 
+
+  const data = {
+    coin: 100,
+    label: "send emoji",
+    labelType: "emoji",
+    type: "withdraw"
+  }
+
 const getEmoji = (e) => {
   if(ctx?.currentUser?.coins >= 100 ) {
-    sendEmoji(e , currentUser , currentUserId , showPlayer.playerID , ctx?.currentUser?.coins)
+    sendEmoji(data, e , currentUser , currentUserId , showPlayer.playerID , ctx?.currentUser?.coins)
     setShowPlayer({showPlayer: false, playerID: null})
   } else {
     setShowPlayer({showPlayer: false, playerID: null})
     setShowCoin(true)
     // alert("coin hvrehgvi bn")
   }
+}
+const containerStyle = {
+  position: 'relative',
+  width: '3rem',
+  height: "3rem"
+
+}
+
+const circleStyle = {
+  
+  width: 60,
+  height: 60,
+  borderRadius: "50%",
+  position: 'absolute',
+  boxSizing: "border-box",
+  border: "0.5rem solid white",
+  borderTop: "0.5rem solid red",
+top: 0,
+left: 0,
+
+ 
+}
+const spinTransition = {
+  loop: Infinity,
+  duration: 5,
+  ease: "linear"
 }
 
   return (
@@ -386,7 +421,7 @@ const getEmoji = (e) => {
                   >
                    
                     {e?.sendEmoji ? (
-                      <div className={`relative border border-${e?.color}-500`}>
+                      <div className={`relative `}>
                         <img src={e?.state?.photo} className={`border-[8px] p-0 border-${e?.color}-500  w-[60px] h-[60px] rounded-[50%]`} />
                         <img 
                           src={e?.sendEmoji} 
@@ -396,12 +431,25 @@ const getEmoji = (e) => {
                       <img src={go} className={`border-[8px] p-0 border-${e?.color}-500  w-[60px] h-[60px] rounded-[50%]`}/>
                     ) : (
                       <img src={e?.state?.photo} 
-                        className={`border-[8px] p-0 border-${e?.color}-500  w-[60px] h-[60px] rounded-[50%]`}
-                      />
+                      className={`${true && css.loader} border-[8px] p-0 border-${e?.color}-500  w-[60px] h-[60px] rounded-[50%]`}
+                    />
+
+                      // <div 
+                      // className={`relative`}
+                      // // style={containerStyle}
+                      // >
+                      //   <motion.span 
+                      //     style={circleStyle}
+                      //     animate={{rotate: 360}}
+                      //     transition={spinTransition}
+                      //     />
+                      //       <img src={e?.state?.photo} 
+                      //        className={` border-[8px] p-0 border-${e?.color}-500  w-[60px] h-[60px] rounded-[50%]`}
+                      //      />
+                      // </div>
+                    
                     )}
-                    {/* <img src={e?.state?.photo} 
-                        className={`border-[8px] p-0 border-${e?.color}-500  w-[60px] h-[60px] rounded-[50%]`}
-                      /> */}
+                   
                     
                   
                     <p className={`text-[14px] `}>{e?.state?.name}</p>
@@ -415,7 +463,7 @@ const getEmoji = (e) => {
           {/* show player information*/}
           <Modal show={showPlayer.showPlayer} closeConfirm={() => setShowPlayer({showPlayer: false, playerID: null})}>
             {showPlayer?.playerID === currentUserId ? (
-              <div className="text-baseColor ">
+            <div className="text-baseColor ">
                  <div className="flex justify-between">
                    <p className="bg-red-500 rounded-xl p-1 w-[40px] text-white text-sm">lv.</p>
                    <p className="text-baseColor font-bold">{playerData?.name}</p>

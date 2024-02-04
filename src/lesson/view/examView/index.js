@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import css from "./style.module.css";
+import LessonContext from "../../../context/LessonContext";
 import {
   Box,
   Checkbox,
@@ -11,6 +12,10 @@ import {
 } from "@mui/material";
 
 const ExamView = (props) => {
+  const ctx = useContext(LessonContext)
+  const exam = ctx?.exam?.exam
+  // console.log(exam)
+ 
   const [skills, setSkills] = useState([]);
   const handleSkillChange = (event) => {
     const index = skills.indexOf(event.target.value);
@@ -25,7 +30,7 @@ const ExamView = (props) => {
   return (
     <div className={css.body}>
       Exam view
-      {/* {props.exam.map((el) => (
+      {exam.map((el) => (
         <div className={css.answers}>
           {el.answer}
           <input placeholder={el.questionText} />
@@ -33,7 +38,7 @@ const ExamView = (props) => {
             <div className={css.answer}>{el.optionText}</div>
           ))}
         </div>
-      ))} */}
+      ))}
     </div>
   );
 };
