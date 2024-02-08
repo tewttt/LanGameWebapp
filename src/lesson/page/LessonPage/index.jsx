@@ -1,62 +1,16 @@
 import React from "react";
 import Choice from "../../component/Choice";
 import ToolSidebar from "../../../components/ToolSidebar";
-import Comment from "../../../components/Comment";
-
-import Ballball from "../../../UI/Ballball"
-import Ball from "../../../UI/Fire/fire";
-import GreenStar from "../../../UI/GreenStar";
-import Loader from "../../../UI/Loader";
-import Packman from "../../../UI/packman";
-import Planets from "../../../UI/planets";
-import Delhii3d from "../../../UI/delhii3d";
-import AnalogClock from "../../../UI/AnalogClock/AnalogClock";
-import DigitalClock from "../../../UI/DigitalClock/DigitalClock";
-import BackgroundAnimation from "../../../UI/BackgroundAnimation";
-import Ironman from "../../../UI/Ironman";
-import Profile from "../../../UI/PofileCard/ProfileCard";
-import FlipCard from "../../../UI/FlipCard";
-import SvgTest from "../../../UI/svgtest";
-import SvgAnimation from "../../../UI/SvgAnimationBorder";
-import SvgLoader from "../../../UI/SvgLoader";
-import Wave from "../../../UI/Wave";
-import Checkbox from "../../../UI/Checkbox";
-
-// TO DO
-// design oorchloh
-//  lesson view 
-// Төлбөртэй хичээл  ,amount or coin - r төлбөр төлж хичээл нээх
-// Nabvar том талбай дээр дарахад алга болгох
-
-// https://www.youtube.com/watch?v=50vgpBDhEkY&list=PLEVTJcDnFDm9lpEEHTftRa9JSRV4jY_p9&index=12  
-// Quiz app ийн заавар
-
+import backImage from "../../../assets/logo/backgroundSmall.png"
 const LessonPage = () => {
     return (
-        <div className="text-white flex flex-col justify-center">
+        <div className="relative flex flex-col bg-baseBlack h-screen">
+            {/* <div 
+                className="bg-cover absolute top-0 left-0 z-20 opacity-60 w-screen h-screen"
+                style={{backgroundImage: `url(${backImage})`}}>
+            </div> */}
             <ToolSidebar/>
             <Choice/>
-            {/* <Checkbox/> */}
-            {/* <Wave/> */}
-            {/* <SvgLoader/> */}
-            {/* <SvgAnimation/> */}
-           {/* <SvgTest/> */}
-            {/* <FlipCard/> */}
-            {/* <Profile/> */}
-            {/* <Ironman/> */}
-            {/* <BackgroundAnimation/> */}
-            {/* <GreenStar/> */}
-            {/* <Planets/> */}
-            {/* <Delhii3d/> */}
-            {/* <Ballball/> */}
-            {/* <AnalogClock/> */}
-            {/* <DigitalClock/> */}
-          
-            {/* <Packman/> */}
-            {/* <Loader/> */}
-            {/* <Ball/> */}
-            {/* <Hero/> */}
-            {/* <Comment/> */}
         </div>      
 )}
 export default LessonPage;

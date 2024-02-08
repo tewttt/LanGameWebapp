@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
-import Logo from "../assets/logo/Logo-Violet.png"
+import Logo from "../assets/logo/Symbol Logo SVG Blue.svg"
 import { useHistory } from "react-router-dom";
 import UserContext from "../context/UserContext";
 import {AiFillPhone} from "react-icons/ai";

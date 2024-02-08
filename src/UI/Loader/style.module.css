@@ -3,16 +3,16 @@
     position: relative;
     width: 100px;
     height: 100px;
-    border: 1px solid red;
-    animation: rotate-cont 5s linear infinite;
-    background-color: #0B0C0F;
+    border: 1px solid #EBEBEB;
+    animation: rotate-cont 5s linear infinite;  
+    background-color: #002233;
 }
 .ball1 {
     border-radius: 50%;
     width: 20px;
     height: 20px;
     position: absolute;
-    background-color: green;
+    background-color: #70E000;
     animation: ball-1 1.05s linear infinite alternate;
 
 }
@@ -21,7 +21,7 @@
     width: 20px;
     height: 20px;
     position: absolute;
-    background-color: yellow;
+    background-color: #70E000;
     animation: ball-2 0.65s linear infinite alternate;
 }
 @keyframes rotate-cont {

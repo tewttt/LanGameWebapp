@@ -24,10 +24,10 @@ import AllAds from "../../advertise/ads/allAds";
 import EditAdvertise from "../../advertise/ads/editAds";
 import Forgot from "../forgot";
 import Verification from "../Verification";
-import SignUpChoose from "../SignUpChoose";
-import LoginChoose from "../LoginChoose";
-import SignUpPhone from "../SignUpPhone";
-import LoginPhone from "../LoginPhone";
+
+
+
+
 import OneAds from "../../advertise/ads/oneAds";
 
 const App = () => { 
@@ -76,11 +76,7 @@ return (
      ) : (
      <Switch>
           <Route path="/signup" component={SignUp}/>
-          <Route path="/signupPhone" component={SignUpPhone}/>
-          {/* <Route path="/signupChoose" component={SignUpChoose}/> */}
           <Route path="/forgot" component={Forgot}/>
-          {/* <Route path="/login" component={Login}/> */}
-          {/* <Route path="/loginPhone" component={LoginPhone}/> */}
           <Route path="/verification" component={Verification}/>
           <Route path="/" component={Login}/>
      </Switch>

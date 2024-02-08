@@ -3,11 +3,7 @@ import ToolSidebar from "../../components/ToolSidebar";
 import UserContext from "../../context/UserContext";
 import { FaExchangeAlt } from "react-icons/fa";
 import usePayment from "../../hook/usePayment";
-// TO DO
-
-// Орлого хийх заавар
-// Зарлага хийх 
-
+import backImage from "../../assets/logo/backgroundSmall.png"
 const Payment = () => {
     const {exchange} = usePayment()
     const [from, setFrom] = useState("")
@@ -58,56 +54,77 @@ const chahngeExchange = () => {
  }
    
     return (
-        <div>
+        <div className="bg-baseBlack h-screen relative"> 
             <ToolSidebar/>
-            <div className="pt-14">
-                <p>name : {ctx?.currentUser?.name}</p>
-                <p>amount : {ctx?.currentUser?.amount}₮</p>
-                <p>coins : {ctx?.currentUser?.coins}</p>
-                <p>account ID : {ctx?.currentUser?.userID}</p>
+            <div 
+                className="bg-cover absolute top-0 left-0 -z-20 opacity-80 w-screen h-screen"
+                style={{backgroundImage: `url(${backImage})`}}>
             </div>
-            <div className="bg-hpink text-baseColor mt-6 flex flex-col items-center w-[300px] h-[300px] m-auto p-6">
-                <p className=" m-2">Currency converter</p>
-                <div className="">
-                    <p>Enter amount</p>
-                    <input onChange={(e) => setEnterValue(e.target.value)} placeholder="" type="number"/>
-                </div>
-                <div className="flex justify-around my-3 items-center">
-                    <div>
-                        <p>From</p>
-                    <select 
-                      onChange={changeFrom}
-                    >
-                        <option>choose</option>
-                        <option>coin</option>
-                        <option>₮</option>
-                    </select>
+            <div className="md:pt-14">
+                <div className="rounded-2xl text-white w-[300px] mt-4 px-10 py-4 flex flex-col m-auto">
+                    <div className="flex my-1 justify-between border py-2 px-6 rounded-xl border-helpGray">
+                        <p>name</p>
+                        <p className="font-bold">{ctx?.currentUser?.name}</p>
                     </div>
-                    <FaExchangeAlt size={20} color=""/>
-                    <div>
-                        <p>To</p>
-                        <p>{to}</p>
+                    <div className="flex my-1 justify-between border py-2 px-6 rounded-xl border-helpGray">
+                        <p>amount</p>
+                        <p className="font-bold">{ctx?.currentUser?.amount}₮</p>
                     </div>
+                    <div className="flex my-1 justify-between border py-2 px-6 rounded-xl border-helpGray">
+                        <p>coins</p>
+                        <p className="font-bold"> {ctx?.currentUser?.coins}</p>
+                    </div>
+                    <div className="flex my-1 justify-between border py-2 px-6 rounded-xl border-helpGray">
+                        <p>account ID</p>
+                        <p className="font-bold">{ctx?.currentUser?.userID}</p>
+                    </div>
+                    
                 </div>
-                {error ? (
-                    <p>{error}</p>
-                ): (
-                     <div className="m-2">
-                        {from === "coin" ? (
-                            <div>
-                                {enterValue} coin =   {totalValue} ₮
-                            </div>
-                        ) : (
-                            <div>
-                                {totalValue} coin = {enterValue} ₮
-                            </div>
-                        )}
-                   </div>
-                )}
-               
-                <button 
-                onClick={chahngeExchange}
-                className="w-[200px] bg-baseColor text-white m-auto rounded-2xl">Exchange</button>
+                <div className="text-white mt-6 flex flex-col items-center w-[300px] h-[300px] m-auto p-4">
+                    <p className="m-2 text-lg font-bold">Currency converter</p>
+                    <div className="border border-helpGray p-3 rounded-xl">
+                        <div className="flex flex-col">
+                            <p className="text-center mb-2">Enter amount</p>
+                            <input 
+                            className="rounded-lg py-1 text-center text-black px-10"
+                            onChange={(e) => setEnterValue(e.target.value)} placeholder="" type="number"/>
+                        </div>
+                        <div className="flex justify-around my-3 items-center w-[260px]">
+                            <p>From</p>
+                            <select 
+                                className="py-1 px-2 rounded-lg text-black"
+                                onChange={changeFrom}
+                            >
+                                <option>choose</option>
+                                <option>coin</option>
+                                <option>₮</option>
+                            </select>
+                            <FaExchangeAlt size={20} color=""/>
+                            <p>To</p>
+                            <p>{to}</p>
+                        </div>
+                    </div>
+
+                    {error ? (
+                        <p className="text-red-500">{error}</p>
+                    ): (
+                        <div className="m-2 text-lg font-bold">
+                            {from === "coin" ? (
+                                <div>
+                                    {enterValue} coin =   {totalValue} ₮
+                                </div>
+                            ) : (
+                                <div>
+                                    {totalValue} coin = {enterValue} ₮
+                                </div>
+                            )}
+                    </div>
+                    )}
+                
+                    <button 
+                    onClick={chahngeExchange}
+                    className="w-[200px] bg-baseBlue1 p-2 text-white m-auto rounded-2xl">Exchange</button>
+                </div>
             </div>
         </div>
     )

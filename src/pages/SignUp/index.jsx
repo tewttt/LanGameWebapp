@@ -5,13 +5,13 @@ import UserContext from "../../context/UserContext";
 import { Colors } from "../../constants/Colors";
 import Spinner from "../../components/General/Spinner";
 import {AiFillEye, AiFillEyeInvisible, AiFillLock, AiTwotoneMail, AiFillPhone} from "react-icons/ai"
-import Logo from "../../assets/logo/Logo Violet.svg"
+import Logo from "../../assets/logo/Typo Logo SVG Blue.svg"
 import PhoneInput from "react-phone-input-2";
 import 'react-phone-input-2/lib/style.css'
-import {
-    getAuth,
-  } from "firebase/auth";
-const auth = getAuth();
+import backImage from "../../assets/logo/backgroundSmall.png"
+
+// TO DO 
+// sign up loader color change
 
 const SignUp = () => {
     const ctx = useContext(UserContext);
@@ -126,8 +126,12 @@ const signupHandler = async() => {
 const login = () => {history.push("/")}
 
 return (
-    <div className="flex flex-col justify-center items-center w-screen h-screen ">
-        <img src={Logo} className="w-[190px] h-[90px] mb-10"/>
+    <div className="flex  flex-col relative text-baseBlack justify-center items-center w-screen h-screen ">
+       <div 
+        className="bg-cover absolute top-0 left-0 -z-10 opacity-90 w-screen h-screen"
+        style={{backgroundImage: `url(${backImage})`}}>
+      </div>
+        <img src={Logo} className="w-[300px] h-[100px] mb-10"/>
         {ctx.state.error && (
                 <div style={{color: "red"}}> {ctx.state.error}</div>
             )}
@@ -135,7 +139,7 @@ return (
         
             <div className="mb-5 flex flex-row relative justify-between items-center w-[276px] h-[40px] ">
                 <input 
-                    className="w-full h-full text-center border border-baseColor 
+                    className="w-full h-full text-center border border-baseBlue1 
                     rounded-[25px] transition ease-in-out duration-200
                         hover:bg-hpink/10"
                     type="text" placeholder="Нэр" value={name} onChange={e=> setName(e.target.value)} required/> 
@@ -144,42 +148,42 @@ return (
             <div className="mb-5 flex flex-col relative justify-between items-center w-[276px] h-[40px] ">
                 <PhoneInput
                     country={"mn"}
-                    className="absolute z-50"
+                    className="absolute z-50 "
                     placeholder="phone number"
                     value={phone}
                     onChange={changePhone}
                     inputProps={{
                         required: true
                     }}
-                    inputStyle={{width: "276px", borderColor: Colors.baseColor, borderRadius: "20px", height: "40px"}}
+                    inputStyle={{width: "276px", borderColor: Colors.baseBlue1, borderRadius: "20px", height: "40px"}}
                 />
                 {! valid && <p className="text-red-500 text-xs">Please enter a valid phone number</p>}
             </div>
 
             <div className="mb-5 flex flex-row relative justify-between items-center w-[276px] h-[40px] ">
-                <AiTwotoneMail size={20} className="text-baseColor/70 left-4 absolute z-10 "/>
+                <AiTwotoneMail size={20} className="text-baseBlue1 left-4 absolute z-10 "/>
                 <input 
-                        className="w-full h-full text-center border border-baseColor 
+                        className="w-full h-full text-center border border-baseBlue1 
                         rounded-[25px] transition ease-in-out duration-200
-                        hover:bg-hpink/10"
+                        hover:bg-blue-700"
                     type="email " placeholder="Email" value={email} onChange={e=> setEmail(e.target.value)}/> 
             </div>
             
             <div className=" flex flex-col mb-8 relative justify-center items-center w-[276px] h-[40px] ">
-                <AiFillLock size={20} className="text-baseColor/70 left-4 absolute z-10 " />
+                <AiFillLock size={20} className="text-baseBlue1 left-4 absolute z-10 " />
                 <input 
-                    className="w-full h-full text-center border border-baseColor 
+                    className="w-full h-full text-center border border-baseBlue1 
                     rounded-[25px] transition ease-in-out duration-200
-                    hover:bg-hpink/10"
+                    hover:bg-blue-700"
                     type={showPass ? "text" : "password"} 
                     placeholder="Нууц үг" 
                     value={password} 
                     onChange={handlePasswordChange}
                 />
                 {showPass ? (
-                    <AiFillEye size={20}  className="text-baseColor/70 right-4 absolute z-10 " onClick={changePass}/>
+                    <AiFillEye size={20}  className="text-baseBlue1 right-4 absolute z-10 " onClick={changePass}/>
                 ) : (
-                    <AiFillEyeInvisible size={20}  className="text-baseColor/70 right-4 absolute z-10 " onClick={changePass}/>
+                    <AiFillEyeInvisible size={20}  className="text-baseBlue1 right-4 absolute z-10 " onClick={changePass}/>
                 )}
                 {isStrongPassword ? (
                     <p className="text-green-600 text-center absolute top-10 text-sm">Strong Password</p>
@@ -189,9 +193,9 @@ return (
             </div>
             
             <div className="flex flex-col mb-8 relative justify-center items-center w-[276px] h-[40px] ">
-                <AiFillLock size={20} className="text-baseColor/70 left-4 absolute z-10 " />
+                <AiFillLock size={20} className="text-baseBlue1 left-4 absolute z-10 " />
                 <input
-                    className="w-full h-full text-center border border-baseColor 
+                    className="w-full h-full text-center border border-baseBlue1 
                     rounded-[25px] transition ease-in-out duration-200
                     hover:bg-hpink/10"
                     type={showPass2 ? "text" : "password"} 
@@ -201,11 +205,11 @@ return (
 
                 {showPass2 ? (
                     <AiFillEye size={20} 
-                        className="text-baseColor/70 right-4 absolute z-10 " 
+                        className="text-baseBlue1 right-4 absolute z-10 " 
                         onClick={changePass2}/>
                 ) : (
                     <AiFillEyeInvisible size={20} 
-                        className="text-baseColor/70 right-4 absolute z-10 " 
+                        className="text-baseBlue1 right-4 absolute z-10 " 
                         onClick={changePass2}/>
                 )}
                 {isStrongPassword2 ? (
@@ -224,15 +228,15 @@ return (
             <button onClick={verifyOtp}>verify otp</button> */}
 
             <button 
-                className="w-[276px] h-[40px] font-semibold text-center mt-6 bg-baseColor 
-                rounded-[25px] transition ease-in-out duration-200
+                className="w-[276px] h-[40px] font-semibold text-center mt-6 bg-baseBlue1 
+                rounded-[25px] transition ease-in-out duration-200 hover:bg-blue-700
                 text-hpink"
                 onClick={signupHandler} >Sign up</button>
             {/* <button className="btn p-2 bg-baseBlue  w-[200px] h-[40px] text-base hover:bg-blue-500 items-center" onClick={signupHandler} > Бүртгүүлэх</button> */}
             <button 
-                className="w-[276px] h-[40px] font-semibold text-center mt-2 bg-hpink 
-                rounded-[25px] transition ease-in-out duration-200
-                text-baseColor"
+                className="w-[276px] h-[40px] font-semibold text-center mt-2 bg-helpGray 
+                rounded-[25px] hover:bg-gray-200 transition ease-in-out duration-200
+               "
                 onClick={login} >Back</button>
         </div>
     

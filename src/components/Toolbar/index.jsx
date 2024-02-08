@@ -1,34 +1,16 @@
-import React, { useState, useEffect, useContext } from "react";
+import React from "react";
 import css from "./style.module.css";
-import { useHistory, useParams } from "react-router-dom";
+import { useHistory} from "react-router-dom";
 import Logo from "../General/Logo";
 import { HiUserCircle } from "react-icons/hi";
 import { FaWallet } from "react-icons/fa";
-import { getAuth } from "firebase/auth";
-import UserContext from "../../context/UserContext";
-import walletIcon from "../../assets/icon/wallet.svg";
-const auth = getAuth();
-
+import { MdHome } from "react-icons/md";
+import { IoGameController } from "react-icons/io5";
+import { MdOutlineMenuBook } from "react-icons/md";
 const Toolbar = (props) => {
-  const ctx = useContext(UserContext);
-  const [state, setState] = useState("");
-  const authId = auth.currentUser?.uid;
-
-  // console.log(state)z
-  // const id = state.id
-  // console.log(id)
-  // useEffect(() => {
-  //     const data = ctx.userList.find(
-  //         // item => console.log(item)
-  //         item => item.authId === authId
-  //     )
-  //     setState(data)
-  // },[])
-
   const history = useHistory();
   const game = () => {
     history.push("/gameHome");
-    // history.push(`/game/${id}`)
   };
   const view = () => {
     history.push("/lesson");
@@ -36,48 +18,63 @@ const Toolbar = (props) => {
   const wallet = () => {
     history.push("/wallet");
   };
-  const profile = () => {
-    history.push("/profile");
-  };
+
   return (
-    <header className="fixed flex h-[50px] bg-baseColor w-screen  z-10 items-center justify-between">
-      <Logo />
-      <div className="flex justify-between ">
-        <div
-          className={`${
-            history.location.pathname == "/lesson" ? css.neon : ""
-          } ${css.noneon} `}
-          // className={`${history.location.pathname == '/lesson' ? 'border border-blue-700 text-blue-500' : ''} w-[120px] h-full border border-blue-200 hover:border-blue-500 hover:text-blue-500 px-5 py-1 rounded-[5px] mx-1 text-sm sm:w-[190px] lg:text-[24px] sm:text-[18px]`}
-          onClick={view}
-        >
-          Хичээл
-        </div>
-        <div
-          className={`${history.location.pathname == "/gameHome" ? css.neon : ""} ${
-            css.noneon
-          } `}
-          // className={`${history.location.pathname == '/game' ? 'border border-blue-700 text-blue-500' : ''} w-[120px] h-full border border-blue-200 hover:border-blue-500 hover:text-blue-500 px-5 py-1 rounded-[5px] mx-1 text-sm sm:w-[190px] lg:text-[24px] sm:text-[18px]`}
-          onClick={game}
-        >
-          Тоглоом{" "}
-        </div>
-      </div>
-      <div className="flex items-center pr-2">
-        {/* <img src={walletIcon} /> */}
-        <FaWallet
-          onClick={wallet}
-          size={18}
-          color="white"
-          className=" md:w-[25px] md:h-[25px] mx-1 lg:mx-5 sm:mx-3 transform transition duration-500 ease-in-out hover:rotate-45 hover:translate-x-1 hover:text-blue-500  "
-        />
-        <HiUserCircle
-          onClick={props.toggleSidebar}
-          color="white"
-          size={22}
-          className="md:w-[30px] md:h-[30px] mx-1 lg:mx-5 hover:text-blue-500 transform duration-500 ease-in-out hover:scale-125"
-        />
-      </div>
-    </header>
+    <div className="flex justify-center">
+      <header className="hidden p-8 fixed md:flex h-[50px] text-gray-400 border-b-4 bg-baseBlack border-helpGray w-screen  z-10 items-center justify-around">
+          <div className={`${history.location.pathname == "/wallet" ? "bg-baseBlue1 p-3 rounded-[50%]" : ""} `}>
+            <FaWallet className={`${history.location.pathname == "/wallet" ? " text-white" : ""} `}
+              onClick={wallet} size={26}/>
+          </div>
+         
+          <div className={`${history.location.pathname == "/lesson" ? "bg-baseBlue1 p-3 rounded-[50%]" : ""} `}>
+            <MdOutlineMenuBook 
+              className={`${history.location.pathname == "/lesson" ? " text-white" : ""} `}
+              onClick={view} size={28}/>
+          </div>
+          <Logo/>
+          <div className={`${history.location.pathname == "/gameHome" ? "bg-baseBlue1 p-3 rounded-[50%]" : ""} `}>
+            <IoGameController onClick={game}  size={28} className={`${history.location.pathname == "/gameHome" ? " text-white" : ""} `}/>
+          </div >
+          <div className="hover:bg-baseBlue1 p-3 rounded-[50%]">
+            <HiUserCircle onClick={props.toggleSidebar} size={30} className="hover:text-white"/>
+          </div>
+      </header>
+      {/* mobile */}
+      <header className="bg-white fixed md:hidden bottom-10 rounded-full w-[340px] z-10 flex text-gray-400 justify-around p-2 items-center">
+          <div className={`${history.location.pathname == "/wallet" ? "bg-baseBlue1 p-3 rounded-[50%]" : ""} `}>
+            <FaWallet className={`${history.location.pathname == "/wallet" ? " text-white" : ""} `}
+              onClick={wallet} size={26}/>
+          </div>
+          <div className={`${history.location.pathname == "/lesson" ? "bg-baseBlue1 p-3 rounded-[50%]" : ""} `}>
+            <MdOutlineMenuBook 
+              className={`${history.location.pathname == "/lesson" ? " text-white" : ""} `}
+              onClick={view} size={28}/>
+          </div>
+          <Logo />
+          <div className={`${history.location.pathname == "/gameHome" ? "bg-baseBlue1 p-3 rounded-[50%]" : ""} `}>
+            <IoGameController onClick={game}  size={28} className={`${history.location.pathname == "/gameHome" ? " text-white" : ""} `}/>
+          </div >
+          <div className="hover:bg-baseBlue1 p-3 rounded-[50%]">
+            <HiUserCircle onClick={props.toggleSidebar} size={30} className="hover:text-white"/>
+          </div>
+      </header>
+    </div>
   );
 };
 export default Toolbar;
+
+
+ {/* <div
+            className={`${history.location.pathname == "/lesson" ? css.neon : ""} ${css.noneon} `}
+            onClick={view}
+          >
+            Хичээл
+          </div> */}
+
+          {/* <div
+            className={`${history.location.pathname == "/gameHome" ? css.neon : ""} ${css.noneon}`}
+            onClick={game}
+          >
+            Тоглоом
+          </div> */}

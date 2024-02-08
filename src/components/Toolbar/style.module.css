@@ -2,29 +2,28 @@
     position: relative;
     padding: 1px 35px;
     margin: 0px 30px;
-    color: #340472;
-    font-family: sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-size: 20px;
     letter-spacing: 2px;
-    border: 1px solid gray;
+    border: 1px solid #2650F4;
     border-radius: 10px;
+    color: #002233;
     background-color: white;
 }
-.neon{
+.neon{ 
     position: relative;
     padding: 1px 35px;
     margin: 0px 30px;
-    color: #340472;
-    background-color: #E2CFEA;
-    font-family: sans-serif;
+    color: white;
+    background-color: #2650F4;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-size: 20px;
     letter-spacing: 2px;
-    border: 0.1px solid #E2CFEA;
     border-radius: 10px;
     box-shadow: 0 0 20px white;
 }
 .noneon:hover {
-    background-color: #E2CFEA;
+    background-color: #2650F4;
     color: white;
     animation: blink 1s linear forwards;
 }
@@ -52,32 +51,31 @@
     92.1%,
     100% {
         color: white;
-        box-shadow: 0 0 5px #1974C7, 0 0 25px #1974C7,
-        0 0 50px #1974C7, 0 0 75px #1974C7,0 0 100px #1974C7, 0 0 200px #1974C7;
+        box-shadow: 0 0 5px #2650F4, 0 0 25px #2650F4,
+        0 0 50px #2650F4, 0 0 75px #2650F4,0 0 100px #2650F4, 0 0 200px #2650F4;
     }
 }
 @media (max-width: 400px) {
     .noneon{
         position: relative;
-        padding: 1px 10px;
         margin: 0px 5px;
-        color: gray;
-        font-family: sans-serif; 
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
         font-size: 16px;
-        border: 1px solid gray;
         border-radius: 10px;
-        background-color: transparent;
+        background-color: white;
+        padding: 1px 20px;
+        border: 1px solid #2650F4;
+        border-radius: 10px;
+        color:  #002233
     }
     .neon{
         position: relative;
-        padding: 1px 10px;
+        padding: 1px 20px;
         margin: 0px 5px;
+        background-color: #2650F4;
         color: white;
-        background-color: #1974C7;
-        font-family: sans-serif;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         font-size: 16px;
-      
-        border: 0.1px solid #569fe3;
         border-radius: 10px;
         box-shadow: 0 0 5px white;
     }

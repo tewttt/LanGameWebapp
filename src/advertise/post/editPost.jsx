@@ -1,8 +1,5 @@
 
 import React, { useState, useEffect } from "react"
-import { DefaultPlayer as Video } from "react-html5video";
-import "react-html5video/dist/styles.css";
-import video from "../../../src/assets/video/1.mp4"
 import { MdOutlineCancel } from "react-icons/md";
 import { useHistory, useParams } from "react-router-dom"
 import { ref,  getDownloadURL, uploadBytesResumable} from "firebase/storage";

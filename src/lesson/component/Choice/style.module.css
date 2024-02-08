@@ -26,28 +26,21 @@
 }
 .laan {
     position: relative;
-    width: 120px;
-    height: 40px;
     border: 1px solid white;
     background-color: #1974C7;
     color: white;
-    margin: 5px 10px;
     display: flex;
     justify-content: center;
     align-items: center;
     border-radius: 10px;
     cursor: pointer;
-  
     transition: all 0.3s ease-in-out;
 }
 .nolan{
     position: relative;
-    width: 120px;
-    height: 40px;
     border: 1px solid gray;
     font-family: sans-serif;
     color: gray;
-    margin: 0px 10px;
     display: flex;
     justify-content: center;
     align-items: center;

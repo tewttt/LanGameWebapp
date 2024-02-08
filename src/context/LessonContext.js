@@ -43,10 +43,9 @@ const getState = {
 let unsubcribeGames;
 export const LessonStore = (props) => {
   const history = useHistory();
-  const ctx = useContext(UserContext)
  
   const [state, setState] = useState(initialState);
-  const [lessons, setLessons] = useState([]);
+  // console.log(state)
 
   const saveBase = (base) => {
     setState({ ...state, base: base });
@@ -73,12 +72,13 @@ export const LessonStore = (props) => {
   const lessonsRef = collection(db, "lessons");
   const [lanId, setLanId] = useState([]);
   const [levelId, setLevelId] = useState([]);
-  const [lessonsId, setLessonsId] = useState([]);
+  const [lessonsId, setLessonId] = useState([]);
+  const [lessons, setLessons] = useState([]);
   const [userLesson, setUserLesson] = useState([])
-
+console.log(lessonsId)
   useEffect(() => {
     Language();
-
+   
     return () => {
       unsubcribeGames && unsubcribeGames();
     };
@@ -108,6 +108,7 @@ export const LessonStore = (props) => {
           userAuthId: auth.currentUser?.uid,
           name: state.base.name,
           price: state.base.price,
+          coin: state.base.coin,
           status: state.base.status,
           text: state.base.text,
           video: state.video,
@@ -160,6 +161,8 @@ export const LessonStore = (props) => {
     }
   };
 
+ 
+
   // Language ID
   const Language = (lan) => {
     const unsubcribe = onSnapshot(lessonsRef, (snapshot) => {
@@ -192,17 +195,56 @@ export const LessonStore = (props) => {
       unsubcribe();
     };
   };
-  // Lesson ID
+   // Lesson number ID
+  //  const getLessonId = (level , chLan) => {
+  //   console.log(level, chLan)
+  //   const levelRef = collection(db, `lessons/${chLan}/topics/${level}/lessons`);
+  //   const unsubcribe = onSnapshot(levelRef, (snapshot) => {
+  //     setLessonId(() => {
+  //       const list = snapshot.docs.map((doc) => {
+  //         return { id: doc.id };
+  //         // return { ...doc.data(), id: doc.id };
+  //       });
+  //       // console.log(list);
+  //       return [...list];
+  //     });
+  //   });
+  //   return () => {
+  //     unsubcribe();
+  //   };
+  // };
+  // filt Lessons
   const Lessons = (level, chLan) => {
+    console.log(level, chLan)
     const lessonsRef = collection(
       db,
       `lessons/${chLan}/topics/${level}/lessons`
     );
     const unsubcribe = onSnapshot(lessonsRef, (snapshot) => {
-      setLessonsId(() => {
+      setLessonId(() => {
         const list = snapshot.docs.map((doc) => {
-          return { id: doc.id };
+          return { ...doc.data(), id: doc.id };
         });
+        list.map((e, i) => {
+          console.log(e)
+          let user = [];
+
+          // const lesUserRef = collection(db, `lessons/${chLan}/topics/${level}/lessons/${e.id}/user`);
+          const lesUserRef = query(
+            collection(db, `lessons/${e.language}/topics/${e.level}/lessons/${e.id}/user`),
+            where("userId" , "==" , auth?.currentUser?.uid )
+          )
+         
+          onSnapshot(lesUserRef, (snapshot) => {
+            snapshot.docs.map((doc) =>
+            // console.log(doc.id) 
+            user.push({ ...doc.data(), id: doc.id })
+            );
+          });
+
+          list[i].user=user;
+        });
+
         return [...list];
       });
     });
@@ -237,8 +279,9 @@ export const LessonStore = (props) => {
   const [translate, setTranslate] = useState([]);
   const [word, setWord] = useState([]);
   const [grammar, setGrammar] = useState([]);
+ 
   const [games, setGames] = useState([]);
-// console.log(lesson)
+
   // Lesson хичээл татаж авах
   const Lesson = (id, chLan, chLevel) => {
     // console.log(id)
@@ -257,6 +300,7 @@ export const LessonStore = (props) => {
     examfun()
     grammarfun()
     wordfun()
+    
   };
   // Exam татаж авах
   const examfun = () => {
@@ -314,6 +358,7 @@ export const LessonStore = (props) => {
       setGrammar(doc.data());
     });
   };
+
 
   // Game page дээр Games харагдах
   const chGames = async (chLan, chLevel, chLesson) => {
@@ -553,7 +598,7 @@ const deleteDB = async (lan, level, number) => {
         lessons,
         lanId,
         levelId,
-        lessonsId,
+        
         lesson,
         Level,
         Lessons,
@@ -582,10 +627,10 @@ const deleteDB = async (lan, level, number) => {
         updateDB,
         deleteDB,
         userLessons,
-        userLesson
-       
-        // getQuestions,
-        // createQuestions,
+        userLesson,
+        // getLessonId,
+        lessonsId
+      
       }}
     >
       {props.children}

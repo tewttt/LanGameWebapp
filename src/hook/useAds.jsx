@@ -40,29 +40,29 @@ export default function useAds(id) {
 
   const getStatic =async (ads) => {
     console.log(ads.gender)
-    const stRef = doc(db, "static", "man")
-    const snap = await getDoc(stRef)
-    if(snap.exists()){
-      console.log(snap.data())
-    }
+    // const stRef = doc(db, "static", "man")
+    // const snap = await getDoc(stRef)
+    // if(snap.exists()){
+    //   console.log(snap.data())
+    // }
 
-    const womanRef = doc(db, "static", "woman")
-    const snaps = await getDoc(womanRef)
-    if(snaps.exists()){
-      console.log(snaps.data())
-    }
+    // const womanRef = doc(db, "static", "woman")
+    // const snaps = await getDoc(womanRef)
+    // if(snaps.exists()){
+    //   console.log(snaps.data())
+    // }
 
-    const allRef = doc(db, "static", "allUsers")
-    const all = await getDoc(womanRef)
-    if(all.exists()){
-      console.log(all.data())
-    }
+    // const allRef = doc(db, "static", "allUsers")
+    // const all = await getDoc(womanRef)
+    // if(all.exists()){
+    //   console.log(all.data())
+    // }
 
-    const ageRef = doc(db, "static", "age")
-    const age = await getDoc(ageRef)
-    if(age.exists()){
-      console.log(age.data())
-    }
+    // const ageRef = doc(db, "static", "age")
+    // const age = await getDoc(ageRef)
+    // if(age.exists()){
+    //   console.log(age.data())
+    // }
 
    
   }

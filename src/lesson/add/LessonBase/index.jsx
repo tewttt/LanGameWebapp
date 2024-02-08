@@ -18,8 +18,10 @@ const AddLesson = () => {
         lessonName: "", 
         price: "",
         status: "",
-        text: ""
+        text: "",
+        coin: ""
     }); 
+    // console.log(addlesson)
     
     const showConfirm = () => {setConfirm(true)};
     const closeConfirm = () => {setConfirm(false)};
@@ -40,7 +42,7 @@ const AddLesson = () => {
         setAddLesson({ ...addlesson, status: e.target.value});
     };
     const changePrice = (e) => {
-        setAddLesson({ ...addlesson, price: e.target.value});
+        setAddLesson({ ...addlesson, price: e.target.value , coin: e.target.value*40});
     };
     const changeText= (e) => {
         setAddLesson({ ...addlesson, text: e.target.value});
@@ -54,7 +56,8 @@ const AddLesson = () => {
                     name: addlesson.name, 
                     price: addlesson.price,
                     status: addlesson.status,
-                    text: addlesson.text
+                    text: addlesson.text,
+                    coin: addlesson.coin
         };
         alert("Үндсэн мэдээллийн хэсгийг амжилттай хадгаллаа"); 
         ctx.saveBase(base);
@@ -131,7 +134,7 @@ const AddLesson = () => {
 
                 <div className="flex justify-between my-1 mx-3 ">
                     <div> lessonNumber: {addlesson.lessonNumber}</div>
-                    <input className="w-[170px] h-[20px] rounded-[5px] mx-0 text-gray-900" onChange={changeLessonNumber} required type="text" name="Хичээлийн дугаар" placeholder="Хичээлийн дугаар"/>
+                    <input className="w-[170px] h-[20px] rounded-[5px] mx-0 text-gray-900" onChange={changeLessonNumber} required type="number" name="Хичээлийн дугаар" placeholder="Хичээлийн дугаар"/>
                 </div>
         
                 <div className="flex justify-between my-1 mx-3">
@@ -150,8 +153,11 @@ const AddLesson = () => {
                 </div>
 
                 <div className="flex justify-between my-1 mx-3">
-                    Үнэ: {addlesson.price} <br/>
+                    Amount: {addlesson.price} <br/>
                     <input className="w-[170px] h-[20px] rounded-[5px] mx-0 text-gray-900" onChange={changePrice} type="number" name="Хичээлийн үнэ" placeholder="Хичээлийн үнэ"/>
+                </div>   
+                <div className="flex justify-between my-1 mx-3">
+                    Coin: {addlesson.price * 40} <br/>
                 </div>   
                 <input className="w-[300px] m-3 h-[20px] rounded-[5px] flex justify-center items-center text-gray-900"
                     multline

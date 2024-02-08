@@ -1,5 +1,4 @@
 import React, { useState, useContext, useEffect } from "react";
-import Clock from "../../UI/clock";
 import { useHistory } from "react-router-dom";
 import UserContext from "../../context/UserContext";
 import {
@@ -9,10 +8,8 @@ import {
   AiTwotoneMail,
 } from "react-icons/ai";
 import Loader from "../../UI/Loader";
-import Logo from "../../assets/logo/Logo Violet.svg"
-import {AiFillPhone} from "react-icons/ai"
-import { FaFacebook } from "react-icons/fa";
-import { SiGmail } from "react-icons/si";
+import Logo from "../../assets/logo/Typo Logo SVG Blue.svg"
+import backImage from "../../assets/logo/backgroundSmall.png"
 
 export default function Login() {
   const ctx = useContext(UserContext);
@@ -41,7 +38,6 @@ export default function Login() {
     history.push("/signup");
   };
 
-// console.log(ctx.state.error)
   //TO DO
   // hooson input shalgah , ulaan  bichig gargah
 // remember me color change
@@ -81,7 +77,13 @@ export default function Login() {
   }
 
   return (
-    <div className="flex flex-col justify-center items-center w-screen h-screen relative ">
+    <div 
+      className="flex text-baseBlack flex-col
+      justify-center items-center w-screen h-screen relative ">
+      <div 
+        className="bg-cover absolute top-0 left-0 -z-10 opacity-90 w-screen h-screen"
+        style={{backgroundImage: `url(${backImage})`}}>
+      </div>
       {ctx.state.logginIn && (
         <div className="absolute z-10"> 
           <Loader />
@@ -93,13 +95,13 @@ export default function Login() {
           <div style={{ color: "red" }}>{ctx.state.error}</div>
         )}
         
-        <img src={Logo} className="w-[190px] h-[90px] mb-10"/>
+        <img src={Logo} className="w-[300px] h-[100px] mb-10"/>
         <div className="mb-5 flex flex-row relative justify-between items-center w-[276px] h-[40px] ">
-          <AiTwotoneMail size={20} className="text-baseColor/70 absolute ml-4" />
+          <AiTwotoneMail size={20} className="text-baseBlue1 absolute ml-4" />
           <input
-            className="w-full h-full text-center border border-baseColor 
+            className="w-full h-full text-center border border-baseBlue1 
             rounded-[25px] transition ease-in-out duration-200
-             hover:bg-hpink/10"
+             hover:bg-baseBlue1/5"
             type="email"
             placeholder="Email"
             value={email}
@@ -107,11 +109,11 @@ export default function Login() {
           />
         </div>
         <div className="mb-3 relative flex flex-row justify-between items-center w-[276px] h-[40px]">
-          <AiFillLock size={22} className="text-baseColor/70 absolute left-4" />
+          <AiFillLock size={22} className="text-baseBlue1 absolute left-4" />
           <input
-            className="w-full h-full text-center border border-baseColor 
+            className="w-full h-full text-center border border-baseBlue1 
             rounded-[25px] transition ease-in-out duration-200
-             hover:bg-hpink/10"
+             hover:bg-baseBlue1/5"
             type={showPass ? "text" : "password"} 
             placeholder="Password"
             value={password}
@@ -120,14 +122,14 @@ export default function Login() {
           {showPass ? (
             <AiFillEye
               size={24}
-              className="text-baseColor/70 absolute right-4"
+              className="text-baseBlue1 absolute right-4"
               onClick={() => setShowPass(!showPass)}
             />
           ) : (
 
             <AiFillEyeInvisible
               size={24}
-              className="text-baseColor/70 absolute right-4"
+              className="text-baseBlue1 absolute right-4"
               onClick={() => setShowPass(!showPass)}
             />
           )}
@@ -139,7 +141,7 @@ export default function Login() {
             onChange={() => setRememberMe(!rememberMe)}
             type="checkbox"
             className="mx-2 w-5 h-5 border border-gray-400 rounded-md appearance-none 
-             checked:bg-baseColor checked:border-baseColor
+             checked:bg-baseBlue1 checked:border-baseBlue1
             "
 
           />
@@ -147,9 +149,9 @@ export default function Login() {
 
         </div>
         <button 
-         className="w-[276px] h-[40px] mt-6 bg-baseColor text-hpink text-center border border-baseColor 
+         className="w-[276px] h-[40px] mt-6 bg-baseBlue1 text-white text-center border border-helpGray 
          rounded-[25px] transition ease-in-out duration-200
-         font-semibold"
+         font-semibold hover:bg-blue-700"
           onClick={login}>
           Login
         </button>
@@ -162,9 +164,9 @@ export default function Login() {
         </button>
        
         <button 
-         className="w-[276px] h-[40px] font-semibold text-center mt-6 bg-hpink 
-         rounded-[25px] transition ease-in-out duration-200
-         text-baseColor"
+         className="w-[276px] h-[40px] font-semibold text-center mt-6 bg-helpGray 
+         rounded-[25px] transition ease-in-out duration-200 hover:bg-gray-200
+        "
           onClick={signup}>
           Бүртгүүлэх
         </button>

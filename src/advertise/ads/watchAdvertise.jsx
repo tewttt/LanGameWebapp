@@ -1,19 +1,15 @@
 import { MdOutlineCancel } from "react-icons/md";
-import { useHistory, useParams ,Link } from "react-router-dom";
+import { useHistory, useParams} from "react-router-dom";
 import React, {useContext,  useEffect , useState} from "react"
 import UserContext from "../../context/UserContext";
-import { DefaultPlayer as Video } from "react-html5video";
-import "react-html5video/dist/styles.css";
-import video from "../../../src/assets/video/1.mp4"
 import useAds from "../../hook/useAds";
 import usePost from "../../hook/usePost";
 import Modal from "../../components/General/Modal"
+import backImage from "../../assets/logo/backgroundSmall.png"
 // TO DO
 // ads search 
-// start date
+
 // search age, gender, 
-// total bidget
-// start time
 // hedees heden hvn harsan ?
 // location sign up hiihed location awj bolohuu 
 // all users shvvlt hiih , haragdah hvmvvsiig songoh
@@ -21,7 +17,6 @@ import Modal from "../../components/General/Modal"
 // accept iin daraa amount baiwal start true bolgoh , start date ogoh
 // if amount hvrehgvi baiwal dansaa tsenegleh
 // dansaa honogiin dotor tseneglehgvi bol accept iig denied bolgoh
-
 // balance collection
 // 1 hvn odort 5 ads vzne, omno vzsenee vzej bolno
 
@@ -32,8 +27,6 @@ export default function WatchAdvertise () {
     const {id} = useParams();
     const {getAds, ads  , putTransaction , addCoinShow} = useAds(id)
     const { getPostAds , postDataAds} = usePost()
-    // console.log(addCoinShow)
-    // console.log(postDataAds?.post)
     const [time, setTime] = useState(TIME) 
     const [showTime , setShowTime] = useState(false)
     const ctx = useContext(UserContext)
@@ -87,24 +80,28 @@ export default function WatchAdvertise () {
     }
   
     return (
-        <div className=" relative h-screen flex flex-col justify-center items-center">
+        <div className="p-10 relative h-screen flex flex-col justify-center items-center">
+            <div 
+                className="bg-cover absolute top-0 left-0 -z-20 opacity-80 w-screen h-screen"
+                style={{backgroundImage: `url(${backImage})`}}>
+            </div>
             <Modal show={addCoinShow}>
                 <div> add 100 coin </div>
             </Modal>
-            <div className="flex absolute top-0 left-0 w-full justify-between">
+            <div className="flex  absolute top-0 left-0 w-full p-10 justify-between">
                 <div>
                  {showTime && <MdOutlineCancel size={30} color="blue" onClick={() =>history.push("/gameHome")}/>}   
                 </div>
                 {!showTime &&  <div>second {time}</div>}
                
-                <div>coin 100</div>
+                <div className="font-bold">collect coin 100</div>
             </div>
 
-            <div className="flex bg-baseColor justify-center text-hpink rounded-2xl py-2 px-4 m-2 border border-baseColor">
+            <div className="flex w-full text-white hover:bg-blue-700  bg-baseBlue1 justify-center rounded-2xl py-2 px-4 m-2 border border-baseColor">
                  <a 
                     // className="bg-baseColor text-hpink py-2 px-4 rounded-2xl"
                     href={postDataAds?.post?.link} target="_blank" rel="noopener noreferrer">
-                  visit {postDataAds?.post?.title}
+                  Visit {postDataAds?.post?.title}
                  </a>
             </div>
  

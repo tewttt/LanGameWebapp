@@ -31,6 +31,7 @@ const Game = () => {
   let arrLevel = Lessonctx.levelId;
   let arrLanguage = Lessonctx.lanId;
   let arrLesson = Lessonctx.lessonsId;
+  // console.log(arrLesson)
  
   const [chChoose, setChoose] = useState("");
   const [chooseActive, setChooseActive] = useState(0);

@@ -79,10 +79,26 @@ export default function useLesson(id) {
         });
           
     }
+    const cancelTeacher =async() => {
+        const teachRef = doc(db, "users", auth?.currentUser?.uid )
+        await updateDoc(teachRef , { 
+            createDate: serverTimestamp(),
+            teacherStatus: false,
+            teacherMessage: "cancel"
+        })
+        .then((res) => { 
+            alert("cancellation of request")
+        // console.log("request teacher");
+        })
+        .catch((error) => {
+        console.log("error" + error);
+        });
+    }
 
     return {
         addTeacher,
         teachers,
-        changeMessage
+        changeMessage,
+        cancelTeacher
     }
 }

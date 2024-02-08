@@ -4,6 +4,7 @@ import ToolSidebar from "../../components/ToolSidebar";
 import useAds from "../../hook/useAds";
 import moment from "moment";
 import GameNavbar from "../components/GameNavbar";
+import backImage from "../../assets/logo/backgroundSmall.png"
 
 const GameHome = () => {
     const time = new Date().getTime()
@@ -16,8 +17,12 @@ const GameHome = () => {
     }
     // console.log(filterAds.length === 0)
     return (
-        <div className="">
+        <div className="relative bg-baseBlack">
             <ToolSidebar/>
+            <div 
+                className="bg-cover absolute top-0 left-0 -z-20 opacity-60 w-screen h-screen"
+                style={{backgroundImage: `url(${backImage})`}}>
+            </div>
             <div className="pt-20 flex flex-col items-center justify-between h-screen w-screen">
                 <div className="flex flex-col h-[400px] w-[400px] border rounded-[20px] bg-hpink">
                     <GameNavbar/>
