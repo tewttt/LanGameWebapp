@@ -4,12 +4,12 @@ import shield from "../../../assets/game/Shield 1.png"
 import back from "../../../assets/game/Back 1.png"
 import css from './style.module.css'
 import Modal from "../../../components/General/Modal"
-import dice1 from "../../../assets/game/one.png"
-import dice2 from "../../../assets/game/two.png"
-import dice3 from "../../../assets/game/tree.png"
-import dice4 from "../../../assets/game/four.png"
-import dice5 from "../../../assets/game/five.png"
-import dice6 from "../../../assets/game/six.png"
+import dice1 from "../../../assets/game/1.png"
+import dice2 from "../../../assets/game/2.png"
+import dice3 from "../../../assets/game/3.png"
+import dice4 from "../../../assets/game/4.png"
+import dice5 from "../../../assets/game/5.png"
+import dice6 from "../../../assets/game/6.png"
 import useGame from "../../../hook/useGame";
 
 
@@ -55,7 +55,7 @@ const getGo = (i) => {
                     }
                   }} 
                   key={i}
-                  className="bg-baseColor w-[40px] my-3 h-[40px] hover:bg-hpink"
+                  className="bg-baseBlue1 w-[40px] my-3 h-[40px] hover:bg-hpink"
                 >
                   <img src={e} className="w-full h-full"/>
                 </div>
@@ -64,7 +64,7 @@ const getGo = (i) => {
           </div>
       </Modal>
       {answerPlayerId === currentUserId ? (
-      <div className="h-full m-auto rounded-[30px] flex justify-around items-center w-[350px] bg-hpink">
+      <div className="h-full m-auto rounded-[30px] flex justify-around items-center w-[350px] bg-baseBlue1/20">
         {/* shield */}
         <div className="flex flex-col items-center relative"
           onClick={() => {
@@ -74,7 +74,7 @@ const getGo = (i) => {
           }} 
         >
           <div 
-            className={`${selectedPower === "shield" ? css.neon : ""}   bg-baseColor flex justify-center items-center w-[52px] h-[35px] rounded-[23px]`}
+            className={`${selectedPower === "shield" ? css.neon : ""}   bg-baseBlue1 flex justify-center items-center w-[52px] h-[35px] rounded-[23px]`}
           >
             <img src={shield} 
             className=" h-[40px] w-[40px]"
@@ -94,7 +94,7 @@ const getGo = (i) => {
             }} 
           
             className="flex flex-col items-center relative">
-          <div  className={`${selectedPower === "go" ? css.neon : ""}  bg-baseColor flex justify-center items-center w-[52px] h-[35px] rounded-[23px]`}>
+          <div  className={`${selectedPower === "go" ? css.neon : ""}  bg-baseBlue1 flex justify-center items-center w-[52px] h-[35px] rounded-[23px]`}>
             <img src={go} className="h-[40px] w-[40px]"/>
           </div>
           <div className="absolute -top-1 -right-2 text-white bg-red-500 w-[20px] h-[20px] rounded-[50%] flex justify-center items-center">
@@ -111,7 +111,7 @@ const getGo = (i) => {
         }}  
         // onClick={getBack} 
         className="flex flex-col items-center relative">
-          <div  className={`${selectedPower === "back" ? css.neon : ""}  bg-baseColor flex justify-center items-center w-[52px] h-[35px] rounded-[23px]`}>
+          <div  className={`${selectedPower === "back" ? css.neon : ""}  bg-baseBlue1 flex justify-center items-center w-[52px] h-[35px] rounded-[23px]`}>
             <img src={back} className="h-[50px] w-[48px]"/>
           </div>
           <div className="absolute -top-1 -right-2 text-white bg-red-500 w-[20px] h-[20px] rounded-[50%] flex justify-center items-center">

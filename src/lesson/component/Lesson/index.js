@@ -1,109 +1,107 @@
-import React from "react";
-import css from "./style.module.css";
+import React, { useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { useState, useContext } from "react";
 import "react-toastify/dist/ReactToastify.css";
-import { AiFillLock } from "react-icons/ai";
 import LessonContext from "../../../context/LessonContext";
 import UserContext from "../../../context/UserContext";
 import usePayment from "../../../hook/usePayment";
-const Lesson = (props) => {
-  const {payLesson} = usePayment()
-  const userCtx = useContext(UserContext)
-  const ctx = useContext(LessonContext);
-  const [status, setStatus] = useState(props?.lesson?.status);
-  const history = useHistory();
-  // console.log(userCtx.currentUser.amount)
-  console.log(props.lesson.user)
+import useLesson from "../../../hook/useLesson";
 
-const lessonPaidUserId = props?.lesson?.user
-// console.log(lessonPaidUserId)
+const Lesson = (props) => {
+  const { getLessonUsers ,  lessonActiveUsers} = useLesson(props.lessons.language, props.lessons.level, props.lessons.lessonNumber)
+
+  const {payLesson } = usePayment()
+  const userCtx = useContext(UserContext)
+  const history = useHistory();
+  console.log(lessonActiveUsers)
+  console.log(props.lessons.lessonNumber)
+
+  // const data = lessonActiveUsers?.find(
+  //   item => item.number = props.lessons.lessonNumber
+  // );
+
+  // console.log(data.number === props.lessons.lessonNumber)
+
+  useEffect(() => {
+    getLessonUsers()
+    // console.log(data)
+  } ,[])
 
   const view = () => {
-    ctx.Lesson(props.chLesson, props.chLan, props.chLevel);
-    history.push(`/lesson/${props.chLan}/${props.chLevel}/${props.chLesson}`);
+    history.push(`/lesson/${props.lessons.language}/${props.lessons.level}/${props.lessons.lessonNumber}`);
   };
 
 
   const payCoin = () => {
-    if(props?.lesson?.coin > userCtx.currentUser.coins){
-      alert("coin hvrkv + dans tsenegle")
+    if(props?.lessons?.coin > userCtx.currentUser.coins){
+      alert("not enough coin ")
     }else {
       payLesson({
-        coin: props?.lesson?.coin,
+        coin: props?.lessons?.coin,
         label: "paid lesson",
         labelType: "lesson",
         type: "withdraw"
-      } , props?.lesson)
+      } , props?.lessons)
     }
    
   }
+
   const payPrice = () => {
-    if(userCtx.currentUser.amount < props?.lesson?.price){
+    if(userCtx.currentUser.amount < props?.lessons?.price){
       alert("amount hvrkv")
     } else {
       payLesson({
-        amount: props?.lesson?.price,
+        amount: props?.lessons?.price,
         label: "paid lesson",
         labelType: "lesson",
         type: "withdraw"
-      } , props?.lesson)
+      } , props?.lessons)
     }
    
   }
-  return (
-    <div>
-      {status === "Төлбөргүй" || props.lesson.user.length > 0 ? (
+
+// console.log(props)
+  return ( 
+  // <>dd</>
+    <div className="text-white mt-4">
+      {props?.lessons?.status === "Төлбөргүй"   ? (
         <div
-        // className="text-black"
-          className={`${css.hoverButton}`}
-          // className="flex flex-col py-3 items-center border border-blue-500 w-[200px]  hover:border-blue-300  rounded-[5px] "
+          className="flex flex-col relative py-3 items-center border border-blue-500 h-[160px] w-[200px]  rounded-[5px] "
         >
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
           <div className="flex mb-2">
-            <div className="mx-3"> {props.chLan}</div>
-            <div className="mx-3">{props.chLevel}</div>
-            <div className="mx-3">№{props.chLesson}</div>
+            <div className="mx-3"> {props.lessons.language}</div>
+            <div className="mx-3">{props.lessons.level}</div>
+            <div className="mx-3">№{props.lessons.lessonNumber}</div>
           </div>
 
           <div
             onClick={view}
-            className=" w-[140px] h-[40px] bg-blue-500 rounded-[5px] my-3 flex justify-center items-center text-[20px] p-2 hover:bg-blue-600 hover:scale-110 "
+            className=" bg-blue-500 rounded-[5px] my-3 flex justify-center items-center text-[20px] px-6 py-2 hover:bg-blue-600 hover:scale-110 "
           >
             Watch
           </div>
         </div>
       ) : (
         // Төлбөртэй
-      <div className="flex flex-col relative py-3 items-center border border-blue-500 w-[200px]  hover:border-blue-300 rounded-[5px] ">
+      <div className="flex flex-col py-3 items-center border border-blue-500 h-[160x] w-[200px]  rounded-[5px] ">
         <div className="flex mb-2">
-          <div className="mx-3"> {props.chLan}</div>
-          <div className="mx-3">{props.chLevel}</div>
-          <div className="mx-3">№{props.chLesson}</div>
+          <div className="mx-3"> {props.lessons.language}</div>
+          <div className="mx-3">{props.lessons.level}</div>
+          <div className="mx-3">№{props.lessons.lessonNumber}</div>
         </div>
-        <div>
-          <AiFillLock
-            size={25}
-            className="absolute mt-[50px] ml-[70px] text-red-500"
-          />
-        </div>
+       
         <div 
           onClick={payPrice}
-          className="flex flex-col w-[140px] bg-red-500 rounded-[5px] text-[16px]hover:bg-red-600 hover:scale-110">
-          <div className="flex">
-            Pay {props?.lesson?.price}₮
-          </div>
+          className="flex justify-center w-[140px] p-2 bg-green-500 rounded-[5px] text-[16px] hover:bg-green-600">
+            Pay {props?.lessons?.price}₮
         </div>
         <p>or</p>
         <div 
           onClick={payCoin}
-          className="flex flex-col w-[140px] bg-red-500 rounded-[5px] text-[16px]hover:bg-red-600 hover:scale-110">
-          <div className="flex">
-            Pay {props?.lesson?.coin}coin
-          </div>
+          className="flex justify-center w-[140px] p-2 bg-green-500 rounded-[5px] text-[16px] hover:bg-green-600 hover:scale-110">
+         
+            Pay {props?.lessons?.coin}coin
+         
           
         </div>
       </div>

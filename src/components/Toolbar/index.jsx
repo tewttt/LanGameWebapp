@@ -21,19 +21,19 @@ const Toolbar = (props) => {
 
   return (
     <div className="flex justify-center">
-      <header className="hidden p-8 fixed md:flex h-[50px] text-gray-400 border-b-4 bg-baseBlack border-helpGray w-screen  z-10 items-center justify-around">
-          <div className={`${history.location.pathname == "/wallet" ? "bg-baseBlue1 p-3 rounded-[50%]" : ""} `}>
+      <header className="hidden  p-8 fixed md:flex h-[50px] text-gray-400 border-b-4 bg-baseBlack border-helpGray w-screen  z-20 items-center justify-around">
+          <div className={`${history.location.pathname == "/wallet" ? "bg-baseBlue1 p-3 rounded-[50%]" : ""} hover:bg-baseBlue1 p-3 rounded-[50%] text-white`}>
             <FaWallet className={`${history.location.pathname == "/wallet" ? " text-white" : ""} `}
               onClick={wallet} size={26}/>
           </div>
          
-          <div className={`${history.location.pathname == "/lesson" ? "bg-baseBlue1 p-3 rounded-[50%]" : ""} `}>
+          <div className={`${history.location.pathname == "/lesson" ? "bg-baseBlue1 p-3 rounded-[50%]" : ""} hover:bg-baseBlue1 p-3 rounded-[50%] text-white `}>
             <MdOutlineMenuBook 
               className={`${history.location.pathname == "/lesson" ? " text-white" : ""} `}
               onClick={view} size={28}/>
           </div>
           <Logo/>
-          <div className={`${history.location.pathname == "/gameHome" ? "bg-baseBlue1 p-3 rounded-[50%]" : ""} `}>
+          <div className={`${history.location.pathname == "/gameHome" ? "bg-baseBlue1 p-3 rounded-[50%]" : ""} hover:bg-baseBlue1 p-3 rounded-[50%] text-white`}>
             <IoGameController onClick={game}  size={28} className={`${history.location.pathname == "/gameHome" ? " text-white" : ""} `}/>
           </div >
           <div className="hover:bg-baseBlue1 p-3 rounded-[50%]">
@@ -41,18 +41,21 @@ const Toolbar = (props) => {
           </div>
       </header>
       {/* mobile */}
-      <header className="bg-white fixed md:hidden bottom-10 rounded-full w-[340px] z-10 flex text-gray-400 justify-around p-2 items-center">
-          <div className={`${history.location.pathname == "/wallet" ? "bg-baseBlue1 p-3 rounded-[50%]" : ""} `}>
-            <FaWallet className={`${history.location.pathname == "/wallet" ? " text-white" : ""} `}
+      <header className="bg-white fixed md:hidden bottom-10 rounded-full w-[340px] z-10 flex text-gray-400 p-2 justify-between items-center">
+          <div className={`${history.location.pathname == "/wallet" ? "bg-baseBlue1 p-3 rounded-[50%]" : "p-3"} `}>
+            <FaWallet className={`${history.location.pathname == "/wallet" ? " text-white " : ""} `}
               onClick={wallet} size={26}/>
           </div>
-          <div className={`${history.location.pathname == "/lesson" ? "bg-baseBlue1 p-3 rounded-[50%]" : ""} `}>
+          <div className={`${history.location.pathname == "/lesson" ? "bg-baseBlue1 p-3 rounded-[50%]" : "p-3"} `}>
             <MdOutlineMenuBook 
               className={`${history.location.pathname == "/lesson" ? " text-white" : ""} `}
               onClick={view} size={28}/>
           </div>
-          <Logo />
-          <div className={`${history.location.pathname == "/gameHome" ? "bg-baseBlue1 p-3 rounded-[50%]" : ""} `}>
+          <div className=""> 
+            <Logo />
+          </div>
+          
+          <div className={`${history.location.pathname == "/gameHome" ? "bg-baseBlue1 p-3 rounded-[50%]" : "p-3"} `}>
             <IoGameController onClick={game}  size={28} className={`${history.location.pathname == "/gameHome" ? " text-white" : ""} `}/>
           </div >
           <div className="hover:bg-baseBlue1 p-3 rounded-[50%]">

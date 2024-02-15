@@ -1,71 +1,118 @@
-import React, { useState, useContext } from "react";
-import css from "./style.module.css";
-import LessonContext from "../../../context/LessonContext";
-import {
-  Box,
-  Checkbox,
-  FormControl,
-  FormLabel,
-  FormGroup,
-  FormHelperText,
-  FormControlLabel,
-} from "@mui/material";
+import React, { useState, useEffect , useRef} from "react";
+import useLesson from "../../../hook/useLesson";
+import { IoIosArrowBack ,IoIosSettings  } from "react-icons/io";
+import { useHistory ,useParams} from "react-router-dom";
+import Modal from "../../../components/General/Modal"
 
-const ExamView = (props) => {
-  const ctx = useContext(LessonContext)
-  const exam = ctx?.exam?.exam
-  // console.log(exam)
- 
-  const [skills, setSkills] = useState([]);
-  const handleSkillChange = (event) => {
-    const index = skills.indexOf(event.target.value);
-    if (index === -1) {
-      setSkills([...skills, event.target.value]);
-    } else {
-      setSkills(skills.filter((skill) => skill !== event.target.value));
+let intervalIds = [];
+const ExamView = () => {
+    const history = useHistory();
+    const {languageId, topicId, lessonId} = useParams()
+    const {exam , examfun} = useLesson(languageId, topicId, lessonId)
+    const [playerAnswer , setPlayerAnswer] =useState("")
+    const [endExam, setEndExam] = useState(false)
+    const [point , setPoint] = useState(0)
+    const [questionNumber, setQuestionNumber] = useState(0);
+    const questions = useRef([])
+    const question = questions?.current[questionNumber] || {}
+    
+   useEffect(() => {
+      examfun()
+    } ,[])
+
+    // асуултууд
+    useEffect(() => {
+      if (exam?.exam && questions.current.length === 0  ) {
+        const shuffledQ =  shuffleArray(exam?.exam);
+        questions.current = shuffledQ
+        }
+    },[exam?.exam])
+
+    // Асуултуудыг нийлүүлээд байрыг нь солих
+    function shuffleArray(questionsToShuffle) {
+      for (let i = questionsToShuffle.length - 1; i > 0; i--) {
+        let randomPosition = Math.floor(Math.random() * (i + 1));
+        let temp = questionsToShuffle[i];
+        questionsToShuffle[i] = questionsToShuffle[randomPosition];
+        questionsToShuffle[randomPosition] = temp;
+      }
+      return questionsToShuffle;
     }
-  };
-  // console.log(props.exam);
+
+    const saveAnswer = (answer) => {
+      setPlayerAnswer(answer)
+      if(answer === question.answerKey){
+        return setPoint(prev => prev + 1 )
+      } 
+    };
+ 
+    const addQuestionnumber = () => {
+      setQuestionNumber((prev) => {
+        let next= prev + 1
+        if(questions.current.length-1 < next){
+          clearIntervals()
+          setEndExam(true)
+        }
+        setPlayerAnswer("")
+        return next;
+      });
+    };
+
+    const clearIntervals = () => {
+      intervalIds.map(i=>clearInterval(i))
+      intervalIds = [];
+    }
+    const start = () => {
+      setQuestionNumber(0)
+      setEndExam(false)
+      setPoint(0)
+    }
 
   return (
-    <div className={css.body}>
-      Exam view
-      {exam.map((el) => (
-        <div className={css.answers}>
-          {el.answer}
-          <input placeholder={el.questionText} />
-          {el.options.map((el) => (
-            <div className={css.answer}>{el.optionText}</div>
-          ))}
+    <div className="text-white bg-baseBlack p-6 h-screen ">
+      <div className="flex py-2 justify-between pb-4">
+          <IoIosArrowBack size={20} onClick={() => history.push( history.push(`/lesson/${languageId}/${topicId}/${lessonId}`))}/>
+          <p></p>
+          <IoIosSettings size={20}/>
+      </div>
+      <p className="text-2xl font-bold my-1">Exam</p>
+
+      <div className="py-10 sm:w-[50%] m-auto">
+        <p className="pb-10 font-bold justify-center flex flex-wrap w-full">{question.questionText}</p>
+        {question?.options?.map((option , i) => {
+          return (
+            <button
+              key={i}
+              onClick={() => saveAnswer(option.optionText)}   
+              disabled={playerAnswer}                 
+              className={`${playerAnswer === option.optionText && (playerAnswer === question?.answerKey ? "bg-helpGreen" : "bg-red-500")} 
+              flex justify-center w-full my-5 border border-helpGray p-2 rounded-3xl hover:bg-blue-400` }
+            >
+               {option.optionText}
+            </button>
+          )
+        })}
+        {questions.current.length === 0 ? (
+          <button onClick={() => addQuestionnumber()} className="bg-baseBlue1 w-full rounded-3xl p-2">Start</button>
+        ) :  (
+          <button onClick={() => addQuestionnumber()} className="bg-baseBlue1 w-full rounded-3xl p-2">Next</button>
+        )  
+        }
+      </div>
+      <Modal show={endExam}>
+        <div className="p-4">
+          <p className="text-3xl my-6">Total point: {questions.current.length}  /  {point} </p>
+         
+          <button onClick={() => start()} className="bg-baseBlue1 my-2 text-white w-full rounded-2xl p-2">Restart exam</button>
+          <button 
+            onClick={() =>  history.push( history.push(`/lesson/${languageId}/${topicId}/${lessonId}`))} 
+            className="bg-helpGreen my-2 text-white w-full rounded-2xl p-2">Done</button>
         </div>
-      ))}
+      </Modal>
     </div>
   );
 };
 
 export default ExamView;
 
-{
-  /* <Box>
-                    <FormControl error>
-                        <FormLabel>харуилт</FormLabel>
-                        <FormGroup>
-                            <FormControlLabel 
-                                label="HTML"
-                                control={<Checkbox value='html' checked={skills.includes("html")} onChange={handleSkillChange}/>}
-                                />
-                        
-                            <FormControlLabel 
-                                label="CSS"
-                                control={<Checkbox value='css' checked={skills.includes("css")} onChange={handleSkillChange}/>}
-                                />
-                        
-                            <FormControlLabel 
-                                label="JavaScript"
-                                control={<Checkbox value='javascript' checked={skills.includes("javascript")} onChange={handleSkillChange}/>}
-                                />
-                        </FormGroup>
-                        <FormHelperText>хариулт сонгох</FormHelperText>
-                    </FormControl>
-                </Box> */
-}
+ 

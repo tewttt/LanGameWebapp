@@ -1,16 +1,22 @@
 import React from "react";
-import Choice from "../../component/Choice";
 import ToolSidebar from "../../../components/ToolSidebar";
-import backImage from "../../../assets/logo/backgroundSmall.png"
+import pattern from "../../../assets/logo/patternWhite.png"
+import Choice from "../../component/Choice"
 const LessonPage = () => {
+
     return (
-        <div className="relative flex flex-col bg-baseBlack h-screen">
-            {/* <div 
-                className="bg-cover absolute top-0 left-0 z-20 opacity-60 w-screen h-screen"
-                style={{backgroundImage: `url(${backImage})`}}>
-            </div> */}
-            <ToolSidebar/>
-            <Choice/>
+        <div className="relative flex bg-baseBlack flex-col p-6 md:p-0">
+            <div 
+                className="bg-cover absolute top-0 -left-4  z-10 "
+                style={{backgroundImage: `url(${pattern})`}}>
+            </div>
+            <div className="z-30">
+                <ToolSidebar />
+            </div>
+            
+            <div className="z-20 ">
+                <Choice/>
+            </div>
         </div>      
 )}
 export default LessonPage;

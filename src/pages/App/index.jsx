@@ -23,12 +23,14 @@ import EditPost from "../../advertise/post/editPost";
 import AllAds from "../../advertise/ads/allAds";
 import EditAdvertise from "../../advertise/ads/editAds";
 import Forgot from "../forgot";
-import Verification from "../Verification";
-
-
-
+import Verification from "../Verification"; 
 
 import OneAds from "../../advertise/ads/oneAds";
+import TranslateView from "../../lesson/view/translateView";
+import ExamView from "../../lesson/view/examView";
+import WordView from "../../lesson/view/wordView";
+import GrammarView from "../../lesson/view/grammarView";
+
 
 const App = () => { 
      // console.log(auth?.currentUser?.uid)
@@ -49,8 +51,12 @@ return (
 
      {authId ? (
      <Switch>
-          <Route path="/lesson/:id" component={LessonView}/>
+          <Route path="/lesson/:languageId/:topicId/:lessonId" component={LessonView}/>
           <Route path="/lesson" component={LessonPage}/>
+          <Route path="/translate/:languageId/:topicId/:lessonId" component={TranslateView}/>
+          <Route path="/exam/:languageId/:topicId/:lessonId" component={ExamView}/>
+          <Route path="/word/:languageId/:topicId/:lessonId" component={WordView}/>
+          <Route path="/grammar/:languageId/:topicId/:lessonId" component={GrammarView}/>
           <Route path="/wallet" component={Payment}/>
           <Route path="/gameHome" component={GameHome}/>
           <Route path="/game" component={Game}/>
@@ -60,7 +66,6 @@ return (
           <Route path="/addLesson" component={AddLesson}/>
           <Route path="/teacher" component={Teacher}/>
           <Route path="/edit/:id" component={EditLesson}/>
-          {/* <Route path="/watchAds" component={WatchAdvertise}/> */}
           <Route path="/watchAds/:id" component={WatchAdvertise}/>
           <Route path="/ads" component={Advertise} />
           <Route path="/addAds/:id" component={AddAdvertise} />

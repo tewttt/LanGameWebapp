@@ -1,17 +1,22 @@
-import React from "react";
+import React, {useContext} from "react";
 import css from "./style.module.css"
 import { useHistory } from "react-router-dom"
+import UserContext
+ from "../../context/UserContext";
 
+ // TO DO
+ // logout 
 const Navbar = (props) => {
+    const ctx = useContext(UserContext)
     const history = useHistory()
-  
+    // console.log(ctx.logout)
     return (
-        <div className="relative">
-            <div 
+        
+            <div  
                 onClick={props.toggleSidebar}
                 className={
                 props.showSidebar ? 
-                "overflow-y-hidden  left-0 top-0 z-10 ease-in duration-300 absolute h-screen w-[50%] md:w-[30%] xl border border-[#263968] bg-baseBlack"
+                "overflow-y-hidden bg-baseBlack border border-helpGray fixed left-0 top-0 z-40 ease-in duration-300  h-screen w-[50%] md:w-[20%] xl"
                 : "absolute  top-0 h-screen left-[-100%] ease-in duration-500"}
             >
                 <div className=" pt-12 flex flex-col items-center justify-center text-white">
@@ -24,12 +29,12 @@ const Navbar = (props) => {
                     <div onClick={()=> history.push("/ads")} className={css.towch}>
                        Advertise
                     </div>
-                    <div onClick={()=> history.push("/logout")} className={css.towch}>
+                    <div onClick={() =>ctx.logout()} className={css.towch}>
                         Log-out
                     </div>
                 </div>
             </div>
-        </div>
+       
     ) 
 }
 export default Navbar;

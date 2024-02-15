@@ -26,11 +26,11 @@
 }
 .laan {
     position: relative;
-    border: 1px solid white;
-    background-color: #1974C7;
-    color: white;
+    border: 1px solid red;
+   
+    color: red;
     display: flex;
-    justify-content: center;
+    justify-content: center; 
     align-items: center;
     border-radius: 10px;
     cursor: pointer;

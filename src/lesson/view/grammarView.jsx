@@ -1,13 +1,20 @@
-import React ,{useContext} from "react";
-import LessonContext from "../../context/LessonContext";
+import React ,{useEffect} from "react";
+import useLesson from "../../hook/useLesson";
+import { useHistory ,useParams} from "react-router-dom";
+
 const GrammarView = () => {
-  const ctx = useContext(LessonContext)
-  const grammar = ctx?.grammar?.grammar
-  
+  const {languageId, topicId, lessonId} = useParams()
+  const {grammar, grammarfun} = useLesson(languageId, topicId, lessonId)
+
+  useEffect(() => {
+    grammarfun()
+  } ,[])
+
+
   return (
     <div>
        <img
-          src={grammar}
+          src={grammar?.grammar}
           className="w-[300px] h-[300px] sm:w-[500px] sm:h-[500px]"
         />
     </div>

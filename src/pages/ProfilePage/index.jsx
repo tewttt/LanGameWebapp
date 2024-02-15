@@ -80,7 +80,7 @@ const ProfilePage = () => {
         <div className="relative text-helpGray bg-baseBlack h-screen">
             <ToolSidebar/>
             <div 
-                className="bg-cover absolute top-0 left-0 z-20 opacity-80 w-screen h-screen"
+                className="bg-cover absolute top-0 left-0 -z-20 opacity-80 w-screen h-screen"
                 style={{backgroundImage: `url(${backImage})`}}>
             </div>
             {pedit ? ( 

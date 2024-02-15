@@ -147,13 +147,11 @@ const startTimer = () => {
     // console.log(game?.questions && !questions.current,game?.questions , !questions.current)
     if (game?.questions && questions.current.length === 0  ) {
     const shuffledQ =  shuffleArray(game?.questions);
-    // console.log(shuffledQ)
     questions.current = shuffledQ
-    
-    // console.log(questions.current)
+
     }
   }, [game?.questions]);
-// }, [game.questions]);
+
 
   // Асуултуудыг нийлүүлээд байрыг нь солих
   function shuffleArray(questionsToShuffle) {
@@ -353,8 +351,8 @@ const circleStyle = {
   boxSizing: "border-box",
   border: "0.5rem solid white",
   borderTop: "0.5rem solid red",
-top: 0,
-left: 0,
+  top: 0,
+  left: 0,
 
  
 }
@@ -431,28 +429,14 @@ const spinTransition = {
                       <img src={go} className={`border-[8px] p-0 border-${e?.color}-500  w-[60px] h-[60px] rounded-[50%]`}/>
                     ) : (
                       <img src={e?.state?.photo} 
-                      className={`${true && css.loader} border-[8px] p-0 border-${e?.color}-500  w-[60px] h-[60px] rounded-[50%]`}
+                      className={` border-[8px] p-0 border-${e?.color}-500  w-[60px] h-[60px] rounded-[50%]`}
+                      // className={`${true && css.loader} border-[8px] p-0 border-${e?.color}-500  w-[60px] h-[60px] rounded-[50%]`}
                     />
-
-                      // <div 
-                      // className={`relative`}
-                      // // style={containerStyle}
-                      // >
-                      //   <motion.span 
-                      //     style={circleStyle}
-                      //     animate={{rotate: 360}}
-                      //     transition={spinTransition}
-                      //     />
-                      //       <img src={e?.state?.photo} 
-                      //        className={` border-[8px] p-0 border-${e?.color}-500  w-[60px] h-[60px] rounded-[50%]`}
-                      //      />
-                      // </div>
-                    
                     )}
                    
                     
                   
-                    <p className={`text-[14px] `}>{e?.state?.name}</p>
+                    <p className={`text-[14px] text-${e?.color}`}>{e?.state?.name}</p>
                   </div>
 
                   {answeredPlayers[turn]?.authId === e?.state?.authId && <Dice id={i} onDiceChange={onDiceChange} />}
@@ -460,6 +444,7 @@ const spinTransition = {
               </>
             );
           })}
+          
           {/* show player information*/}
           <Modal show={showPlayer.showPlayer} closeConfirm={() => setShowPlayer({showPlayer: false, playerID: null})}>
             {showPlayer?.playerID === currentUserId ? (
@@ -641,7 +626,6 @@ const spinTransition = {
                       // className ={`${answer?.authId === currentUser ? "hidden" : "mx-3 border border-hpink my-1 p-2 rounded-2xl"} `}
                       // className ={`${playerAnswer || playerAnswerData?.data ? "hidden" : "mx-3 border border-hpink my-1 p-2 rounded-2xl"} `}
                       className ={`${playerAnswer ? "hidden" : "mx-3 border border-hpink my-1 p-2 rounded-2xl"} hover:bg-orange-400`}
-                    
                     >
                     
                     <p > {choice.optionText}</p>

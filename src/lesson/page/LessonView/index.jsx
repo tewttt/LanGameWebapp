@@ -1,95 +1,88 @@
-import React, { useContext, useState } from "react";
-import css from "./style.module.css";
-import { Switch, Route , useHistory} from "react-router-dom";
-import StarIcon from "@mui/icons-material/Star";
-import TranslateView from "../../view/translateView";
-import ExamView from "../../view/examView";
-import GrammarView from "../../view/grammarView";
-import WordView from "../../view/wordView";
-import VideoView from "../../view/videoView";
+import React, {  useState } from "react";
+import {  useHistory ,useParams, useLocation} from "react-router-dom";
 import ToolSidebar from "../../../components/ToolSidebar";
-import LessonContext from "../../../context/LessonContext";
+import useLesson from "../../../hook/useLesson";
+import { useEffect } from "react";
+import pattern from "../../../assets/logo/Typo Logo SVG Black.svg"
+import { IoIosArrowBack ,IoIosSettings  } from "react-icons/io";
 
 const LessonView = () => {
+  const {languageId, topicId, lessonId} = useParams()
+  const {oneLesson , getOneLesson} = useLesson(languageId, topicId, lessonId)
   const history = useHistory();
   const [rating, setRating] = useState(null);
-  const ctx = useContext(LessonContext);
 
-  const lan = ctx?.lesson?.language
-  const level= ctx?.lesson?.level
-  const number = ctx?.lesson?.lessonNumber
+  useEffect(() => {
+    getOneLesson()
+  }, [])
 
- const word = () => {
-    history.push(`/lesson/${lan}${level}${number}/word`)
+ const changeWord = () => {
+    history.push(`/word/${languageId}/${topicId}/${lessonId}`)
  }
- const video = () => {
-    history.push(`/lesson/${lan}${level}${number}`)
+
+ const changeGrammar = () => {
+  history.push(`/grammar/${languageId}/${topicId}/${lessonId}`)
+   
  }
- const grammar = () => {
-    history.push(`/lesson/${lan}${level}${number}/grammar`)
+ const changeExam = () => {
+  history.push(`/exam/${languageId}/${topicId}/${lessonId}`)
+  
  }
- const exam = () => {
-    history.push(`/lesson/${lan}${level}${number}/exam`)
- }
- const translate = () => {
-    history.push(`/lesson/${lan}${level}${number}/translate`)
+ const changeTranslate = () => {
+    history.push(`/translate/${languageId}/${topicId}/${lessonId}`)
  }
  
   return (
-    <div>
+    <div className=" relative bg-baseBlack text-white pt-6 pb-48 px-6 md:pt-0">
       <ToolSidebar />
-      <div className="flex flex-col pt-[50px] text-sm text-[12px]">
-        <div className="flex flex-col md:flex-row md:mb-2">
-          <div className="flex mt-2 justify-around md:mt-0">
-            <div className="mx-3 ">Хэл: {ctx?.lesson?.language}</div>
-            <div className="mx-3">Түвшин: {ctx?.lesson?.level}</div>
-            <div className="mx-3 ">Хичээлийн дугаар:  {ctx?.lesson?.lessonNumber}</div>
-          </div>
-          <div className=" flex items-center mb-2 md:mb-0">
-            <p className=" mx-6 sm:mx-16">Хичээлийн нэр:</p>
-            <h1 className="text-blue-500 ">{ctx.lesson.name}</h1>
-          </div>
+      <div className="md:pt-20 md:w-full m-auto ">
+        <div className="flex py-2 justify-between pb-4">
+          <IoIosArrowBack size={20}/>
+          <p></p>
+          <IoIosSettings size={20}/>
         </div>
-        <div className="flex" >
-            <button 
-              onClick={video} 
-              className={`${history.location.pathname == `/lesson/${lan}${level}${number}` ? "bg-blue-700 text-white" : ""} mx-1  w-[70px] h-[30px]  flex justify-center items-center text-[12px] text text-black hover:bg-blue-500 rounded-sm`} 
-            >
-                Video
-            </button>
-            <button onClick={grammar}  
-                className={`${history.location.pathname == `/lesson/${lan}${level}${number}/grammar` ? "bg-blue-700 text-white" : ""} mx-1 w-[70px] h-[30px] bg-blue-50 flex justify-center items-center text-[12px] text text-black hover:bg-blue-500 rounded-sm`}
-                 >Дүрэм</button>
-            <button onClick={word} 
-                className={`${history.location.pathname ==`/lesson/${lan}${level}${number}/word` ? "bg-blue-700 text-white" : ""} mx-1 w-[70px] h-[30px] bg-blue-50 flex justify-center items-center text-[12px] text text-black hover:bg-blue-500 rounded-sm`}
-                 >
-                Шинэ үг
-            </button>
-            <button onClick={translate} 
-                className={`${history.location.pathname == `/lesson/${lan}${level}${number}/translate` ? "bg-blue-700 text-white" : ""} mx-1 w-[70px] h-[30px] flex justify-center items-center text-[12px] text text-black hover:bg-blue-500 rounded-sm`}
-                 >
-                Орчуулга
-            </button>
-            <button onClick={exam} 
-                className={`${history.location.pathname == `/lesson/${lan}${level}${number}/exam` ? "bg-blue-700 text-white" : ""} mx-1 w-[70px] h-[30px] bg-blue-50 flex justify-center items-center text-[12px] text text-black hover:bg-blue-500 rounded-sm`}
-                 >
-                Шалгалт
-            </button>
-           
-        </div>                
-        <Switch>
-          <Route path="/lesson/:id/translate" component={TranslateView}/>
-          <Route path="/lesson/:id/word" component={WordView}/>
-          <Route path="/lesson/:id/exam" component={ExamView}/>
-          <Route path="/lesson/:id/grammar" component={GrammarView}/>
-          <Route path='/lesson/:id' component={VideoView} />
-        </Switch>
+      
+        <p className="text-2xl font-bold my-1"> {oneLesson.language} {oneLesson.level} №{oneLesson.lessonNumber}</p>
+        
+        <div className="md:flex">
+          <video  
+            className="md:m-2 my-2 border-2 md:w-1/2 border-white rounded-2xl"
+            src={oneLesson.video}  type="video/mp4" controls></video>
+          <img src={oneLesson.image} className="md:w-1/2 w-full h-[200px] border-2 my-2 border-white md:m-2 rounded-2xl "/>
+        </div>
+
+        <div className="flex my-2">
+          <button onClick={changeGrammar}  
+            className="w-1/2 bg-white font-bold text-baseBlack p-2 rounded-2xl mx-2"
+            >Дүрэм
+          </button>
+          <button onClick={changeWord} 
+              className="w-1/2 bg-white font-bold text-baseBlack p-2 rounded-2xl mx-2"  
+              >
+              Шинэ үг
+          </button>
+        </div>
+        
+        <div className="md:flex h-[100px] md:h-[40px] md:my-2">
+          <button onClick={changeExam} 
+              className="w-full h-full md:w-1/2  bg-white font-bold text-baseBlack rounded-2xl my-2 md:mx-2"
+                >
+              Шалгалт
+          </button>
+          <button onClick={changeTranslate} 
+              className="w-full md:w-1/2 h-[40px] bg-white font-bold text-baseBlack my-2 rounded-2xl p-2 md:mx-2"
+                >
+              Орчуулга
+          </button>
+        </div>
       </div>
     </div>
   );
 };
 
 export default LessonView;
+
+
 
 {/* <div className={css.bodyStar}>
 <StarIcon onClick={() => setRating(1)} className={css.star} />

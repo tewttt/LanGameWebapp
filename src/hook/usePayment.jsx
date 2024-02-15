@@ -16,12 +16,11 @@ import { useHistory } from "react-router-dom"
 
 export default function usePayment(id) {
   const ctx = useContext(UserContext)
-  const history = useHistory()
+  
   const amount = ctx?.currentUser?.amount
   const coins = ctx?.currentUser?.coins
   const userId= ctx?.currentUser?.authId
-  // console.log(userId)
-  // console.log(coins)
+
  
   const exchange =async ( userId , enterValue, from , to) => {
     const userRef = doc(db, "users" , userId)
@@ -44,18 +43,30 @@ export default function usePayment(id) {
   }
  
   const payLesson = async(data , lesson) => {
-    // console.log(lesson)
     // console.log(lesson.language)
+    // console.log(lesson.level)
+    const lan = lesson.language
+    const level = lesson.level
+    const number = lesson.lessonNumber
     const userRef = collection(db, `users/${userId}/transaction`)
     await addDoc(userRef , {
       data,
       createDate: serverTimestamp(),
     })
 
-    await setDoc(
-      doc(db,`lessons/${lesson.language}/topics/${lesson.level}/lessons/${lesson.lessonNumber}/user`, userId),
-      {createDate: serverTimestamp()}
-    );
+    try{
+      // const lessonActiveUser =  doc(db, "lessonActiveUser", userId )
+      const lessonActiveUser =  doc(db, "lessonActiveUser", `${userId}${lesson.language}${lesson.level}${lesson.lessonNumber}` )
+      await setDoc(lessonActiveUser, 
+        {
+          userId , lan, level, number
+        } 
+        )
+    }catch (err) {
+      console.log(err)
+    }
+   
+   
   }
   
   

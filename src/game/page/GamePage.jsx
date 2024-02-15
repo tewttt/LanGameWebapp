@@ -8,11 +8,15 @@ import { IoAddCircle } from "react-icons/io5";
 import { FaCircleMinus } from "react-icons/fa6";
 import { FaCoins } from "react-icons/fa";
 import GameNavbar from "../components/GameNavbar";
-
+import useLesson from "../../hook/useLesson";
+import pattern from "../../assets/logo/patternWhite.png"
 const auth = getAuth();
 let intervalIds = [];
 const TIME = 600
+
 const Game = () => {
+  const {createGame, join, games, chGames, lanId , levelId, lessonsId,  getLevelId, getLessonId,} = useLesson()
+  // console.log(lanId)
   const bet = [
     {win: 1400, entry: 500, second: 500},
     {win: 5600, entry: 2000 , second: 2000},
@@ -27,25 +31,16 @@ const Game = () => {
   const Lessonctx = useContext(LessonContext);
   const Userctx = useContext(UserContext);
   const authId = auth.currentUser?.uid;
-  const [getPlayers, setGetPlayers] = useState([])
-  let arrLevel = Lessonctx.levelId;
-  let arrLanguage = Lessonctx.lanId;
-  let arrLesson = Lessonctx.lessonsId;
-  // console.log(arrLesson)
- 
-  const [chChoose, setChoose] = useState("");
-  const [chooseActive, setChooseActive] = useState(0);
+
+  let arrLevel = levelId;
+  let arrLanguage = lanId;
+  let arrLesson = lessonsId;
 
   const [chLan, setChLan] = useState("");
-  const [lanActive, setLanActive] = useState(0);
-
   const [chLevel, setChLevel] = useState("");
-  const [levelActive, setLevelActive] = useState(0);
-
   const [chLesson, setChLesson] = useState("");
-  const [lessonActive, setLessonActive] = useState(0);
 
-  const arrChoose = ["Online", "Friends"];
+
   const [show, setShow] = useState(false);
   const [showEnterGame, setShowEnterGame] = useState(false)
   const [betNumber, setBetNumber] = useState(0)
@@ -53,10 +48,6 @@ const Game = () => {
   const entry = bet[betNumber].entry
   const second = bet[betNumber].second
   const win = bet[betNumber].win
-
-  
-  // console.log(coinStatus)
-  // console.log(Userctx.currentUser.coins)
   
   useEffect(() => {
     intervalIds.push( setInterval(startTimer, 1000))
@@ -104,33 +95,27 @@ const Game = () => {
     setShow({ ...show, show: true, game: game });
   };
 
-  const selectChoose = (ch, i) => {
-    // console.log(ch);
-    setChooseActive(i);
-    setChoose(ch);
-  };
   const selectLan = (lan, i) => {
-    setLanActive(i);
     setChLan(lan);
-    Lessonctx.Level(lan);
+    getLevelId(lan);
   };
 
   const selectLevel = (level, i) => {
-    setLevelActive(i);
     setChLevel(level);
-    Lessonctx.Lessons(level, chLan);
+    getLessonId(level, chLan);
   };
-  // console.log(Lessonctx.chGames);
+ 
   const selectLesson = (lesson, i) => {
-    setLessonActive(i);
     setChLesson(lesson);
-    Lessonctx.chGames(chLan, chLevel, lesson);
+    chGames(chLan, chLevel, lesson)
+    
   };
-  const join = (game) => {
+
+  const joinGame = (game) => {
     game?.players.map((e, i) => {
       if(e?.state?.authId === authId || Userctx?.currentUser?.coins > entry) {
-      // if( Userctx?.currentUser?.coins > entry) {
-        Lessonctx.join(state, game, chLan, chLevel, chLesson, entry, win , second);
+        join(state, game, chLan, chLevel, chLesson, entry, win , second)
+        // Lessonctx.join(state, game, chLan, chLevel, chLesson, entry, win , second);
       } 
       else {
         setShowEnterGame(true)
@@ -141,7 +126,7 @@ const Game = () => {
   const newGame = () => {
    
     if(Userctx?.currentUser?.coins >= entry) {
-      Lessonctx.createGame(state, chLan, chLevel, chLesson , entry , authId, win, second );
+      createGame(state, chLan, chLevel, chLesson , entry , authId, win, second );
     } else {
       setShowEnterGame(true)
     }
@@ -168,20 +153,26 @@ const Game = () => {
 
   return (
     // <GameStore>
-    <div className="flex flex-col justify-center h-screen">
+    <div className="relative flex bg-baseBlack flex-col p-6 md:p-0">
+       {/* <div 
+          className="bg-cover absolute top-0 -left-4 opacity-30 z-10 "
+          style={{backgroundImage: `url(${pattern})`}}>
+      </div> */}
       <ToolSidebar />
-      {/* <GameNavbar/>  */}
-      <div className="flex flex-col mt-24 w-[400px] rounded-t-3xl bg-gradient-to-b from-baseColor to-hpink m-auto">
-      <GameNavbar className=""/> 
-          <div className="flex justify-center rounded-t-3xl py-5 w-full 
-          bg-gradient-to-b from-baseColor to-hpink
-          ">
+      <GameNavbar /> 
+      <div className="flex text-white flex-col w-full md:w-[40%] pt-2 pb-28 px-2 m-auto">
+          
+          <p className="text-center">Choose language</p>
+          <div className="flex my-1 justify-between rounded-2xl p-2 w-full bg-white ">
             {arrLanguage.map((lan, i) => (
               <div
                 className={`${
-                  lanActive === i ? "border border-baseColor bg-white text-baseColor" : ""
-                } text-[12px] transform hover:scale-110 hover:border-blue-500 hover:text-blue-500 border border-blue-200 rounded-[10px] py-1 px-2 mx-3 my-1 w-[95px] h-[30px] flex justify-center items-center`}
-                //    className={`${lanActive===i ? css.laan : ""} ${css.nolan}`}
+                  chLan === lan ? "bg-baseBlue1 text-white" 
+                  // lanActive === i ? "bg-baseBlue1 text-white" 
+
+                  : ""
+                } bg-helpGray text-baseBlack hover:text-white hover:bg-baseBlue1 rounded-[10px]  w-[90px] h-[30px] flex justify-center items-center`}
+                  //  className={`${lanActive===i ? css.laan : ""} ${css.nolan}`}
                 key={i}
                 onClick={() => selectLan(lan.id, i)}
               >
@@ -190,74 +181,78 @@ const Game = () => {
             ))}
           </div>
 
-          <div className=" flex justify-center bg-gradient-to-b from-baseColor to-hpink rounded-t-3xl py-5 w-full">
+          <p className="text-center mt-2">Choose level</p>
+          <div className=" flex justify-between my-1 rounded-2xl p-2 w-full bg-white">
             {arrLevel.map((level, i) => (
               <div
-                // className={`${levelActive===i ? css.newlevel : css.nolevel} ${css.nolevel}`}
                 className={`${
-                  levelActive === i
-                    ? "border border-baseColor bg-white text-baseColor"
+                  // levelActive === i
+                  chLevel === level
+                    ? " bg-baseBlue1 text-white"
                     : ""
-                } flex justify-center items-center tranform hover:scale-110 hover:border-blue-500 hover:text-blue-500 border w-[40px] h-[40px] rounded-[5px]  `}
+                } flex justify-center items-center bg-helpGray text-baseBlack hover:scale-110 hover:bg-baseBlue1 hover:text-white w-[40px] h-[40px] rounded-[5px]  `}
                 key={i}
                 onClick={() => selectLevel(level.id, i)}
-                $
+                
               >
                 {level.id}
               </div>
             ))} 
           </div>
 
-          <div className="grid grid-cols-10 rounded-t-3xl py-5 w-full bg-gradient-to-b from-baseColor to-hpink">
+          <p className="text-center mt-2">Choose lesson</p>
+          <div className="flex flex-wrap gap-1 rounded-2xl bg-white my-1 p-2 w-full">
             {arrLesson.map((lesson, i) => (
               <div
                 onClick={() => selectLesson(lesson.id, i)}
                 key={i}
                 className={`${
-                  lessonActive === i
-                    ? "border border-baseColor bg-white text-baseColor"
+                  chLesson === lesson
+                    ? " bg-baseBlue1 text-white"
                     : ""
-                } flex justify-center items-center tranform hover:scale-110 hover:border-blue-500 hover:text-blue-500 w-[40px] h-[40px] rounded-[5px]  `}
+                } flex justify-center items-center  bg-helpGray text-baseBlack hover:bg-baseBlue1 hover:text-white w-[40px] h-[40px] rounded-[5px]  `}
                 // className=" w-[20px] h-[20px] rounded-[5px] tranform hover:scale-110 hover:border-blue-500 hover:text-blue-500 border border-blue-200 m-2 text-blue-200"
               >
                 {lesson.id}
               </div>
             ))}
           </div>
+
             {/* bet choose */}
-          <div className="bg-gradient-to-b from-baseColor to-hpink">
+          <div className="border border-helpGray p-2 my-3 rounded-2xl ">
             <div className="flex justify-center mb-3 text-white">Choose Bet</div>
             <div className="flex justify-around">
-              <div><FaCircleMinus onClick={minusBet} className="text-baseColor" size={30}/></div>
-              <div>
-                < FaCoins size={20} color="yellow"/>
-                <div className="text-yellow-400">WIN: {bet[betNumber].win}</div>
-                <div className="">Entry: {bet[betNumber].entry}</div>
+              <div><FaCircleMinus onClick={minusBet} className="text-baseBlue1" size={30}/></div>
+              <div className="flex flex-col items-center">
+                <div className="flex my-1">
+                  <FaCoins size={20} color="yellow"/>
+                  <p className="text-yellow-400 mx-3">WIN: {bet[betNumber].win}</p>
+                </div>
+                <p className="">Entry: {bet[betNumber].entry}</p>
               </div>
-              <div><IoAddCircle onClick={addBet} className="text-baseColor" size={34}/></div>
+              <div><IoAddCircle onClick={addBet} className="text-baseBlue1" size={34}/></div>
             </div>
           </div>
 
-          <div className="grid grid-cols-4 bg-hpink rounded-2xl my-3 py-5 ">
-          {Lessonctx.games.map((game, i) => {
+          <div className="flex flex-wrap justify-center gap-2 text-baseBlack border border-helpGray rounded-2xl my-3 py-5 ">
+          {games.map((game, i) => {
             const logoutPlayer =  game?.players.find(item => item.id === authId)
             // console.log(logoutPlayer.logoutGame)
             return (
               <div key={i}>
                {logoutPlayer?.logoutGame ? null : (
                 <div
-                  
-                  className="relative bg-baseColor text-hpink w-[90px] h-[60px] flex flex-col justify-center items-center p-3 m-2 rounded-xl"
+                  className="relative bg-white w-[120px] h-[90px] flex flex-col justify-between items-center p-3 m-2 rounded-xl"
                 >
                   <div className="absolute bg-baseColor rounded-[50%] w-[25px] h-[25px] text-white left-0">{time}</div>
                   <div className="text-[12px]">Players 4/{game.count}</div>
                 
-                  <div
-                    className=" text-xl hover:text-red-500"
-                    onClick={() => join(game)}
+                  <button
+                    className="bg-baseBlue1 text-white text-sm p-2 rounded-lg"
+                    onClick={() => joinGame(game)}
                   >
-                    <p className="text-base text-center font-bold">Join game</p>
-                  </div>
+                   Join game
+                  </button>
                 </div>
                )}
               </div>
@@ -269,7 +264,7 @@ const Game = () => {
           <button
             // onClick={() => newGame(chLan, chLevel, chLesson )}
             onClick={() => newGame()}
-            className=" bg-black rounded-3xl p-3 border border-baseBlue text-white hover:border-blue-800 hover:bg-baseBlue "
+            className=" bg-baseBlue1 text-white  rounded-3xl p-3  hover:text-white hover:bg-baseBlue "
           >
             New Game
           </button>

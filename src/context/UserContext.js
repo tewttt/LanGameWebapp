@@ -22,28 +22,11 @@ import {
   signOut,
   signInWithPhoneNumber,
   sendPasswordResetEmail,
-  FacebookAuthProvider,
-  signInWithPopup,
-  GoogleAuthProvider,
-  updatePhoneNumber
+
 } from "firebase/auth";
 
 const auth = getAuth();
-// auth.languageCode = 'it';
 
-const providerFacebook = new FacebookAuthProvider();
-providerFacebook.addScope('user_birthday');
-providerFacebook.setCustomParameters({
-  'display': 'popup'
-});
-
-
-
-const providerGoogle = new GoogleAuthProvider();
-providerGoogle.addScope('https://www.googleapis.com/auth/contacts.readonly');
-providerGoogle.setCustomParameters({
-  'login_hint': 'user@example.com'
-});
 
 const UserContext = React.createContext();
 const initialState = {
@@ -149,7 +132,9 @@ export const UserStore = (props) => {
     console.log("update profile");
   };
   const logout = () => {
-    return signOut(auth);
+    signOut(auth);
+    history.push("/")
+    
     // auth
     // .signOut()
     // .then(() => {
