@@ -20,26 +20,32 @@ const AdsCart = ({data}) => {
     const totalPerson = (data.ads.totalBudget * 10)/100
    
     return (
-        <div className="border border-gray-400 m-2 w-[350px] flex flex-col p-2">
-            <div className="flex flex-col border border-baseColor w-full rounded-xl p-2 my-2">
-                <p>Advertise information</p>
-                <div className="border border-baseColor  w-full rounded-xl p-2 my-1">
-                    <p>age: {data.ads.ageStart} to {data.ads.ageEnd}</p>
+        <div className="w-full sm:w-[280px] md:w-[300px] m-2 border border-helpGray p-2 rounded-2xl">
+            <div className="flex flex-col w-full rounded-xl p-2 my-2">
+                <p className="text-xl text-center">Advertise information</p>
+                <div className="flex justify-between w-full  p-2 my-1">
+                    <p>Age</p>
+                    <p>from</p>
+                    <p>{data.ads.ageStart}</p>
+                    <p>to</p>
+                    <p>{data.ads.ageEnd}</p>
                 </div>
-                <div className="border border-baseColor  w-full rounded-xl p-2 my-1">
-                    <p>gender: {data.ads.gender}</p>
+                <div className="w-full flex justify-between p-2 my-1">
+                    <p>Gender</p>
+                    <p>{data.ads.gender}</p>
                 </div>
-                <div className="flex justify-between border border-baseColor  w-full rounded-xl p-2 my-1">
-                    <p>budget: {data.ads.totalBudget}₮</p>
-                   
+                <div className="w-full flex justify-between p-2 my-1">
+                    <p>Budget</p>
+                    <p>{data.ads.totalBudget}₮</p>
                 </div>
-                <div className="flex justify-between border border-baseColor  w-full rounded-xl p-2 my-1">
-                    <p>goal  person {totalPerson} / {data?.watchedPerson} </p>
-                   {/* bga{filterUsers.length} */}
+                <div className="w-full flex justify-between p-2 my-1">
+                    <p>Goal  person</p>
+                    <p> {totalPerson} / {data?.watchedPerson} </p>
                 </div>
                 
-                <div className="flex justify-between border border-baseColor  w-full rounded-xl p-2 my-1">
+                <div className="w-full flex justify-between p-2 my-1">
                     <p>message: {data.message}</p>
+
                     {data.message === "accept" && 
                     <div className="flex">
                     <p>ads</p>
@@ -52,19 +58,18 @@ const AdsCart = ({data}) => {
                 
             </div>
 
-            <div className="border border-baseColor w-full rounded-xl p-2 my-2">
-                <p>Post information</p>
-    
-                 <div className="border border-baseColor  w-full rounded-xl p-2 my-1">
+            <div className="flex flex-col  w-full p-2 my-2">
+                <p className="text-xl text-center">Post information</p>
+                 <div className="w-full flex justify-between p-2 my-1">
                    <p>title</p>
                    <p> {postDataAds.post?.title}</p>
                 </div>
-                <div className="border border-baseColor  w-full rounded-xl p-2 my-1">
+                <div className="w-full flex justify-between p-2 my-1">
                    <p>text</p>
                    <p> {postDataAds.post?.text}</p>
                 </div>
             </div>  
-            <button onClick={viewDetail}>View detail</button>          
+            <button className="bg-baseBlue1 rounded-2xl my-2 hover:bg-blue-600 p-2 w-full" onClick={viewDetail}>View detail</button>          
         </div>
     )
 }

@@ -11,23 +11,22 @@ import OutboundIcon from '@mui/icons-material/Outbound';
 import FilterNoneIcon from '@mui/icons-material/FilterNone';
 import RestoreFromTrashIcon from '@mui/icons-material/RestoreFromTrash';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
-import {useParams } from "react-router-dom";
 
 import ButtonCmp from "../../../components/Button"
 import Spinner from "../../../components/General/Spinner";
 import LessonContext from "../../../context/LessonContext";
 import Modal from "../../../components/General/Modal";
-import { useHistory,useLocation } from "react-router-dom";
-
+import { useHistory,useLocation, useParams } from "react-router-dom";
+import useLesson from "../../../hook/useLesson";
 
 const EditExam = (props) => {
     const history = useHistory()
-
+    const {languageId, topicId, lessonId} = useParams()
+    const {exam, examfun} = useLesson(languageId, topicId, lessonId)
+  
     const ctx = useContext(LessonContext);
     const [confirm , setConfirm] = useState(false);
-    const lan = ctx.lesson.language
-    const level = ctx.lesson.level
-    const number = ctx.lesson.lessonNumber
+
     const [ questions, setQuestions] = useState(
         [{questionText: "",
             questionType: "radio",
@@ -42,9 +41,14 @@ const EditExam = (props) => {
         }]
     )
     useEffect(() => {
-        
-        setQuestions(ctx?.exam.exam)
-    },[ctx?.exam])
+        examfun()
+    }, [])
+
+    useEffect(() => {
+        if(exam?.exam){
+            setQuestions(exam?.exam)
+        }
+    },[exam?.exam])
     
     const showConfirm = () => {
         setConfirm(true)
@@ -55,7 +59,7 @@ const EditExam = (props) => {
     const save = () => {
         // alert("Шалгалтын хэсгийг амжилттай хадгаллаа"); 
         ctx.saveExam(questions);
-        history.push(`/edit/${lan}${level}${number}/grammar`)
+        history.push(`/edit/${languageId}${topicId}${lessonId}/grammar`)
         closeConfirm()
     }
 
@@ -141,7 +145,7 @@ const EditExam = (props) => {
 
     
 return ( 
-<div>
+<div className="mt-4">
      {questions.map((ques, i) => (
     <div style={{width: "100%",  margin: "auto" }}> 
          <Modal closeConfirm={closeConfirm} show={confirm} >

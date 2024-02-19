@@ -2,49 +2,20 @@ import React, {useState, useContext, useEffect} from "react";
 import { storage} from "../../../firebase";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import LessonContext from "../../../context/LessonContext";
-import {useParams, useHistory, useLocation } from "react-router-dom";
-
-function useQuery() {
-    const { search } = useLocation();
-    return React.useMemo(() => new URLSearchParams(search), [search]);
-}
 
 const ImageUpload = (props) => {
-    // console.log(props.lessonId)
     const ctx = useContext(LessonContext)
     const [photo , setPhoto] = useState(""); 
-    const history = useHistory();
-    const {id} = useParams();
 
-    let query = useQuery();
-    
-    let lessonEditVideo = null
-   
-    
-    if(query.get("lang") == 'Англи хэл') {
-        lessonEditVideo = ctx.englishList.find(
-            // item => console.log(item + "item id")
-            item =>  item.id === id
-        );
-    }
-     else if(query.get("lang") == 'Солонгос хэл') {
-        lessonEditVideo = ctx.koreaList.find(
-            item =>  item.id === id
-        );
-    } else if(query.get("lang") == "Монгол хэл") {
-        lessonEditVideo = ctx.mongoliaList.find(
-            item =>  item.id === id
-        );
-    }
     useEffect(() => {
-        setPhoto(lessonEditVideo.state.image)
-    })
+        setPhoto(props.photo)
+    },[photo])
   
     const changePhoto = (e) => {
         setPhoto(e.target.files[0])
         // uploadImage();
     };
-    // console.log(photo)
+  
     const uploadImage = () =>{
         if (photo == null) return;
         // const imageRef = ref(storage, `images/${photo.name + v4()}`);
@@ -76,3 +47,28 @@ const ImageUpload = (props) => {
 )}
 
 export default ImageUpload;
+
+// function useQuery() {
+//     const { search } = useLocation();
+//     return React.useMemo(() => new URLSearchParams(search), [search]);
+// }
+
+  // let query = useQuery();
+    // let lessonEditVideo = null
+   
+    
+    // if(query.get("lang") == 'Англи хэл') {
+    //     lessonEditVideo = ctx.englishList.find(
+    //         // item => console.log(item + "item id")
+    //         item =>  item.id === id
+    //     );
+    // }
+    //  else if(query.get("lang") == 'Солонгос хэл') {
+    //     lessonEditVideo = ctx.koreaList.find(
+    //         item =>  item.id === id
+    //     );
+    // } else if(query.get("lang") == "Монгол хэл") {
+    //     lessonEditVideo = ctx.mongoliaList.find(
+    //         item =>  item.id === id
+    //     );
+    // }

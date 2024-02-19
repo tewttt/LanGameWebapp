@@ -31,20 +31,16 @@ const uploadImage = () =>{
     alert("photo amjilttai") 
 }
     return (
-    <div className="border border-gray-400 p-2 rounded-md h-[380px]">
+    <div className="my-3 py-2">
         <img src={photo} className="w-[300px] h-[300px] m-auto border border-gray-400"/>
-        <div className="flex flex-row items-center ">
+        <div className="flex flex-row items-center my-2">
             <input onChange={changePhoto} 
                 className="w-[180px] h-[20px] text-[10px] flex justify-center items-center"
                 required type="file" 
                 // hidden="hidden"  
                 id="imageInput" />
-                <button className="w-[150px] h-[20px] bg-blue-500 flex text-[12px] justify-center items-center" onClick={uploadImage}>Image upload</button>
-                {/* <Tooltip title="Edit" placement="top">
-                <IconButton onClick={editPicture} >
-                        <EditIcon color="primary"/>
-                    </IconButton>
-                </Tooltip> */}
+                <button className="w-[150px] p-1 bg-blue-500 flex text-[12px] justify-center items-center" onClick={uploadImage}>Image upload</button>
+             
         </div>          
     </div>
 )}

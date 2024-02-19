@@ -45,7 +45,7 @@ const VideoUpload = () => {
     }
 
 return (
-    <div className="flex flex-col border border-gray-400 md:w-[500px] md:mx-20 md:p-5 md:my-5 ">
+    <div className="my-3">
         <div className="border border-gray-400">
                 <Video autoPlay loop 
                     // poster={photo} 
@@ -56,16 +56,16 @@ return (
                         />
                 </Video>
         </div>
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between py-2">
             <input 
-                className="w-[180px] h-[30px] text-[10px]"
+                className="w-[180px] text-[10px] "
                 onChange={changeVideo} 
                     required type="file" 
                     name="video" 
                     id="videoInput" 
                     // hidden="hidden"
                     />
-            <button className="w-[150px] h-[20px] bg-blue-500 flex text-[12px] justify-center items-center" onClick={uploadVideo}>Video upload</button>
+            <button className="w-[150px] bg-blue-500 p-1 flex text-[12px] justify-center items-center" onClick={uploadVideo}>Video upload</button>
         </div>
               
         <div style={{

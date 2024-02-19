@@ -34,7 +34,7 @@ const Choice = () => {
           return (
             <div
             className={`${chLan === lan ?  "bg-baseBlue1 text-white" : "" } md:w-[140px] md:h-[60px] hover:bg-baseBlue1 hover:text-white md:text-2xl bg-white font-bold text-baseBlack p-5 flex items-center justify-center rounded-2xl m-2` }
-              // className={`${chLan === lan ? css.laan : ""} ${css.nolan} m-1 p-2`}
+             
               key={i}
               onClick={() => selectLan(lan.id)}
             >
@@ -49,7 +49,7 @@ const Choice = () => {
           return (
             <div
             className={`${chLevel === e ?  "bg-baseBlue1 text-white" : ""  }w-[40px] h-[40px] md:w-[60px] md:h-[60px] hover:bg-baseBlue1 hover:text-white md:text-2xl bg-white font-bold text-baseBlack md:p-5 flex items-center justify-center rounded-2xl m-1 md:m-2` }
-              // className={`${chLevel === e ? css.laan : ""} ${css.nolan} w-[40px] md:w-[60px] m-1 p-2 `}
+              
               key={i}
               onClick={() => selectLevel(e.id, i)}
             >
@@ -59,7 +59,7 @@ const Choice = () => {
         })}
       </div>
 
-      <div className="flex  flex-wrap gap-2 justify-center">
+      <div className="flex flex-wrap gap-x-6 gap-y-2 justify-center">
         {lessons.map((e, i) => {
           return (
             <div key={i}>

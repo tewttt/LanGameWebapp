@@ -2,7 +2,6 @@ import React, {useState, useEffect, useContext} from "react";
 import css from "./style.module.css";
 import { IconButton, MenuItem, Select} from "@mui/material";
 import AccordionDetails from '@mui/material/AccordionDetails';
-
 import FilterNoneIcon from '@mui/icons-material/FilterNone';
 import RestoreFromTrashIcon from '@mui/icons-material/RestoreFromTrash';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
@@ -10,10 +9,14 @@ import {useParams } from "react-router-dom";
 import Modal from "../../../components/General/Modal"
 import { useHistory, useLocation } from "react-router-dom";
 import LessonContext from "../../../context/LessonContext";
+import useLesson from "../../../hook/useLesson";
 
 const EditTranslate = (props) => {
     const history = useHistory()
     const ctx = useContext(LessonContext)
+    const {languageId, topicId, lessonId} = useParams()
+    const {translate , translatefun} = useLesson(languageId, topicId, lessonId)
+  
     const [confirm , setConfirm] = useState(false);
     const [ questions, setQuestions] = useState(
         [{  questionText: "",
@@ -21,16 +24,16 @@ const EditTranslate = (props) => {
             answerKey: "",
           }]
     )
-    
     useEffect(() => {
-        // ctx.translatefun()
-        setQuestions(ctx?.translate?.translate)
-    }, [ctx?.translate])
-    console.log(questions)
-    const lan = ctx.lesson.language
-    const level = ctx.lesson.level
-    const number = ctx.lesson.lessonNumber
+        translatefun()
+    } ,[])
 
+    useEffect(() => {
+        if(translate?.translate){
+            setQuestions(translate?.translate)
+        }
+       
+    }, [translate?.translate])
    
     const showConfirm = () => {
         setConfirm(true)
@@ -41,7 +44,7 @@ const EditTranslate = (props) => {
     const save = () => {
         // alert("Орчуулгын хэсгийг амжилттай хадгаллаа"); 
         ctx.saveTranslate(questions);
-        history.push(`/edit/${lan}${level}${number}/exam`)
+        history.push(`/edit/${languageId}${topicId}${lessonId}/exam`)
         closeConfirm()       
     }
     const changeQuestion = (text, i) => {
@@ -86,10 +89,10 @@ const EditTranslate = (props) => {
     }
    
     return (
-         <div className="">
-    {
+         <div className="mt-4">
+        {
          questions.map((ques, i) => (
-            // console.log(ques.questionText)
+          
             <div className="flex justify-center">
                 
                 <div className="text-white text-[20px]"> </div> 

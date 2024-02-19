@@ -34,9 +34,9 @@ const Grammar = () => {
         }}
 
     return (
-    <div className="text-white flex flex-col border border-gray-400 m-2 p-2 rounded-lg">
+    <div className="pt-6 px-6 pb-96 flex flex-col items-center">
         <div className="flex flex-col justify-center items-center">
-            <img src={images} className="w-[120px] h-[120px]"/>
+            <img src={images} className="w-[200px] h-[200px] "/>
             <input 
             className="w-[190px] h-[40px] text-[12px]"
                 onChange={(event) => {setImages(event.target.files)}}

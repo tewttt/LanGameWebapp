@@ -30,6 +30,7 @@ import TranslateView from "../../lesson/view/translateView";
 import ExamView from "../../lesson/view/examView";
 import WordView from "../../lesson/view/wordView";
 import GrammarView from "../../lesson/view/grammarView";
+import WordViewExam from "../../lesson/view/wordViewExam";
 
 
 const App = () => { 
@@ -56,6 +57,7 @@ return (
           <Route path="/translate/:languageId/:topicId/:lessonId" component={TranslateView}/>
           <Route path="/exam/:languageId/:topicId/:lessonId" component={ExamView}/>
           <Route path="/word/:languageId/:topicId/:lessonId" component={WordView}/>
+          <Route path="/wordExam/:languageId/:topicId/:lessonId" component={WordViewExam}/>
           <Route path="/grammar/:languageId/:topicId/:lessonId" component={GrammarView}/>
           <Route path="/wallet" component={Payment}/>
           <Route path="/gameHome" component={GameHome}/>
@@ -65,7 +67,7 @@ return (
           <Route path="/profile" component={ProfilePage}/>
           <Route path="/addLesson" component={AddLesson}/>
           <Route path="/teacher" component={Teacher}/>
-          <Route path="/edit/:id" component={EditLesson}/>
+          <Route path="/edit/:languageId/:topicId/:lessonId" component={EditLesson}/>
           <Route path="/watchAds/:id" component={WatchAdvertise}/>
           <Route path="/ads" component={Advertise} />
           <Route path="/addAds/:id" component={AddAdvertise} />

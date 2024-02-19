@@ -8,6 +8,7 @@ import {
   updateDoc,
   deleteDoc,
   setDoc,
+  query, where
 } from "firebase/firestore";
 import { getAuth} from "firebase/auth";
 
@@ -129,12 +130,13 @@ export const LessonStore = (props) => {
     }
   };
 
-  const userLessons = (level, chLan) => {
+  const getUserLessons = (level, chLan) => {
     // console.log(level , chLan)
-    const lessonsRef = collection(
-      db,
-      `lessons/${chLan}/topics/${level}/lessons`
-    );
+    const lessonsRef = query(
+      collection(db, `lessons/${chLan}/topics/${level}/lessons`),
+      where("userAuthId", "==" , auth?.currentUser?.uid),
+    )
+
     const unsubcribe = onSnapshot(lessonsRef, (snapshot) => {
       setUserLesson(() => {
         const list = snapshot.docs.map((doc) => {
@@ -189,6 +191,7 @@ export const LessonStore = (props) => {
 }
 
 const deleteDB = async (lan, level, number) => {
+  // console.log(lan , level , number)
     const LessonDoc = doc(db,`lessons/${lan}/topics/${level}/lessons`, number);
     await deleteDoc(LessonDoc);
 }
@@ -209,7 +212,7 @@ const deleteDB = async (lan, level, number) => {
         saveVideo,
         updateDB,
         deleteDB,
-        userLessons,
+        getUserLessons,
         userLesson,
       }}
     >

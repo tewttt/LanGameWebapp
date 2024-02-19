@@ -109,7 +109,7 @@ const Exam = (props) => {
    
 
 return ( 
-    <div>
+    <div className="pt-6 pb-96">
         { questions.map((ques, i) => (
             <div style={{width: "100%",  margin: "auto" }}> 
                 <Modal closeConfirm={closeConfirm} show={confirm} >

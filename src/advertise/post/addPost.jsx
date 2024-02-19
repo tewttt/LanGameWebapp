@@ -7,6 +7,7 @@ import { useHistory } from "react-router-dom"
 import { ref,  getDownloadURL, uploadBytesResumable} from "firebase/storage";
 import { storage } from "../../firebase";
 import usePost from "../../hook/usePost";
+import { IoIosArrowBack ,IoIosSettings  } from "react-icons/io";
 
 export default function AddPost() {
     const {addPost} = usePost();
@@ -58,14 +59,17 @@ export default function AddPost() {
         history.push("/ads")
     }
     return (
-        <div className="flex flex-col items-center justify-center m-auto py-4
-        w-[300px] sm:w-[450px] md:w-[600px] lg:w-[800px]">
-            <div>
-                <MdOutlineCancel 
-                className="hover:text-red-500"
-                onClick={() =>  history.push("/ads")} size={30}/>
+        <div className=" bg-baseBlack flex flex-col items-center px-6 p-6 pb-20 text-white">
+           
+            <div className="flex py-2 justify-between pb-4 w-full sm:w-[80%] md:w-[60%] xl:w-[40%]">
+                <div className="flex items-center">
+                    <IoIosArrowBack size={20} onClick={() => history.push("/ads")}/>
+                    <p>Add post</p>
+                </div>
+                <IoIosSettings size={20}/>
             </div>
-            <div className=" my-2 w-full">
+
+            <div className=" my-2 w-full sm:w-[80%] md:w-[60%] xl:w-[40%]">
                 <div className="flex flex-col  justify-between my-1 mx-3 ">
                     <div>Title</div>
                     <input  
@@ -136,7 +140,7 @@ export default function AddPost() {
                
             </div>
 
-            <div className="w-full">
+            <div className="w-full sm:w-[80%] md:w-[60%] xl:w-[40%]">
                 <Video className="w-full">
                     <source src={post?.video}/>
                 </Video>
@@ -159,14 +163,14 @@ export default function AddPost() {
                     <p >{prog}%</p>
                 </div>  
                 <button 
-                    className="w-[150px] h-[40px] bg-hpink hover:bg-pink-300 rounded-2xl m-auto flex justify-center items-center" 
+                    className="w-full bg-helpGray hover:bg-gray-400 text-baseBlack p-2 rounded-2xl m-auto flex justify-center items-center" 
                     onClick={uploadVideo}>
                     Video upload
                 </button>
             </div>
 
             <button 
-                className="bg-baseColor rounded-2xl font-bold text-hpink w-[150px] h-[40px] m-4 hover:bg-baseColor/80"
+                className="bg-baseBlue1 sm:w-[80%] md:w-[60%] xl:w-[40%] p-2 text-center rounded-2xl w-full font-bold m-4 hover:bg-blue-600"
                 onClick={ add}>Save Post
             </button>
         </div>

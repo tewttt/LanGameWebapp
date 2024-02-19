@@ -106,7 +106,7 @@ const chahngeExchange = () => {
                     </div>
 
                     {error ? (
-                        <p className="text-red-500">{error}</p>
+                        <p className="text-red-400">{error}</p>
                     ): (
                         <div className="m-2 text-lg font-bold">
                             {from === "coin" ? (
@@ -123,7 +123,7 @@ const chahngeExchange = () => {
                 
                     <button 
                     onClick={chahngeExchange}
-                    className="w-[200px] bg-baseBlue1 p-2 text-white m-auto rounded-2xl">Exchange</button>
+                    className="my-4 w-[200px] bg-baseBlue1 p-2 text-white m-auto rounded-2xl">Exchange</button>
                 </div>
             </div>
         </div>

@@ -14,10 +14,14 @@ import { storage} from "../../../firebase";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { SendAndArchiveSharp } from "@mui/icons-material";
 import { useEffect } from "react";
+import useLesson from "../../../hook/useLesson";
 
 const Word = (props) => {
-   const ctx = useContext(LessonContext);
+   const ctx = useContext(LessonContext)
    const [confirm , setConfirm] = useState(false);
+   const {languageId, topicId, lessonId} = useParams()
+   const {word, wordfun} = useLesson(languageId, topicId, lessonId)
+
    const history = useHistory();
    const [ questions, setQuestions] = useState(
     [{  word: "",
@@ -31,12 +35,13 @@ const Word = (props) => {
         sound: ""
     }]
 )
-    const lan = ctx.lesson.language
-    const level = ctx.lesson.level
-    const number = ctx.lesson.lessonNumber
+    useEffect(() => {wordfun()},[])
+
     useEffect(() => {
-        setQuestions(ctx?.word.word)
-    }, [ctx?.word])  
+        if(word?.word){
+            setQuestions(word?.word)
+        }
+    }, [word?.word])  
  
     const showConfirm = () => {
     setConfirm(true)
@@ -55,7 +60,7 @@ const Word = (props) => {
     }
    
     const send = () => {
-        ctx.updateDB(lan,level, number )
+        ctx.updateDB(languageId, topicId, lessonId )
         // if(query.get("lang") == 'Англи хэл') {
         //     ctx.updateEnglishDB(id)
         // } else if(query.get("lang") == 'Солонгос хэл') {
@@ -190,7 +195,7 @@ const Word = (props) => {
     }
 
 return ( 
-<div>
+<div className="mt-4">
     {questions.map((ques, i) => (
     <div > 
          <Modal closeConfirm={closeConfirm} show={confirm} >

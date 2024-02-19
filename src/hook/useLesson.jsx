@@ -25,6 +25,7 @@ const auth = getAuth();
 let unsubcribeGames;
 
 export default function useLesson(languageId, topicId, lessonId) {
+  // console.log(languageId, topicId,lessonId)
     const history = useHistory();
     const lessonsRef = collection(db, "lessons");
     const [lanId, setLanId] = useState([]);
@@ -37,7 +38,7 @@ export default function useLesson(languageId, topicId, lessonId) {
     const [translate, setTranslate] = useState([]);
     const [word, setWord] = useState([]);
     const [grammar, setGrammar] = useState([]);
-    const [lessonActiveUsers, setLessonActiveUsers] = useState({})
+    const [lessonActiveUsers, setLessonActiveUsers] = useState([])
 
 
   
@@ -352,12 +353,6 @@ export default function useLesson(languageId, topicId, lessonId) {
       setOneLesson({...snap.data() ,id: doc.id})
       // console.log(snap.data())
     }
-   
-    // translatefun()
-    // examfun()
-    // grammarfun()
-    // wordfun()
-    
   };
 
    // Exam татаж авах

@@ -4,11 +4,14 @@ import UserContext from "../../context/UserContext";
 import { IconButton } from "@mui/material";
 import Tooltip from "@mui/material/Tooltip";
 import EditIcon from '@mui/icons-material/Edit';
+import {  useHistory } from "react-router-dom";
 import SaveIcon from '@mui/icons-material/Save';
 import {storage} from "../../firebase";
 import { getAuth } from "firebase/auth";
 import { ref, uploadBytes,  getDownloadURL } from "firebase/storage";
 import backImage from '../../assets/logo/backgroundSmall.png'
+import { IoIosArrowBack ,IoIosSettings  } from "react-icons/io";
+
 const auth = getAuth();
 const initialState = {
     name: "",
@@ -16,6 +19,7 @@ const initialState = {
     photo: ""
 }
 const ProfilePage = () => {
+    const history = useHistory();
     const ctx = useContext(UserContext)
     const [state, setState] = useState(initialState);
     const [photo, setPhoto] = useState("")
@@ -58,7 +62,7 @@ const ProfilePage = () => {
    
     const save = () => {
         // uploadImage()
-        console.log(state)
+        // console.log(state)
         ctx.setProfile(state, id)
         setEdit(false)
     }
@@ -77,7 +81,7 @@ const ProfilePage = () => {
     }
 
     return (
-        <div className="relative text-helpGray bg-baseBlack h-screen">
+        <div className="relative text-helpGray bg-baseBlack px-6 pt-6 md:pt-0 pb-36">
             <ToolSidebar/>
             <div 
                 className="bg-cover absolute top-0 left-0 -z-20 opacity-80 w-screen h-screen"
@@ -85,7 +89,14 @@ const ProfilePage = () => {
             </div>
             {pedit ? ( 
                 // edit 
-            <div className="flex flex-col items-center pb-10 md:pt-20 px-6 pt-4">
+            <div className="flex flex-col items-center md:pt-20">
+                <div className="flex py-2 justify-between pb-4 w-full">
+                    <div className="flex items-center">
+                        <IoIosArrowBack size={20} onClick={() => history.push("/")}/>
+                        <p>Profile</p>
+                    </div>
+                    <IoIosSettings size={20}/>
+                </div>
                 {state?.photo ? (
                     <img src={state.photo} className="w-[150px] h-[150px] rounded-[18px] border border-baseBlack"/>
                 ) : (
@@ -106,32 +117,32 @@ const ProfilePage = () => {
                     </Tooltip>
                 </div>
         
-                <div className="bg-helpGray rounded-2xl w-[340px] p-4 flex flex-col justify-center items-center mt-4" >
-                    <div className="flex w-full border border-baseBlack rounded-2xl py-2 px-4 my-1 justify-between">
+                <div className=" rounded-2xl w-full md:w-1/2 flex flex-col justify-center items-center mt-4" >
+                    <div className="flex w-full border rounded-2xl py-2 px-4 my-1 justify-between">
                         <p>User ID </p>
                         <p className="font-bold">{state?.userID}</p>
                     </div>
                     
-                    <div  className="flex items-center w-full border border-baseBlack rounded-2xl py-2 px-4 my-1 justify-between">
+                    <div  className="flex items-center w-full rounded-2xl py-2 pl-4 my-1 justify-between">
                         <p>Email</p>
-                        <input className="p-2 rounded-2xl" value={state?.email} onChange={(e) =>setState({...state, email:e.target.value}) }/>
+                        <input className="w-3/4 p-2 text-baseBlack rounded-2xl" value={state?.email} onChange={(e) =>setState({...state, email:e.target.value}) }/>
                     </div>
                     
-                    <div  className="flex w-full items-center border border-baseBlack rounded-2xl py-2 px-4 my-1 justify-between" >
+                    <div  className="flex items-center w-full rounded-2xl py-2 pl-4 my-1 justify-between" >
                         <div>Name</div>
-                        <input className="p-2 rounded-2xl" placeholder="name" value={state.name} 
+                        <input className="w-3/4 p-2 text-baseBlack rounded-2xl" placeholder="name" value={state.name} 
                         onChange={changeName}/>
                     </div>
-                    <div className="flex items-center w-full border border-baseBlack rounded-2xl py-2 px-4 my-1 justify-between">
+                    <div className="flex items-center w-full rounded-2xl py-2 pl-4 my-1 justify-between">
                         <div>Phone</div>
-                        <input className="p-2 rounded-2xl" placeholder="утас" value={state.phone} onChange={changePhone}></input>
+                        <input className="w-3/4 p-2 text-baseBlack rounded-2xl" placeholder="утас" value={state.phone} onChange={changePhone}></input>
                     </div>
                     
-                    <div className="flex w-full items-center border border-baseBlack rounded-2xl py-2 px-4 my-1 justify-between">
+                    <div className="flex items-center w-full rounded-2xl py-2 pl-4 my-1 justify-between">
                         <p>Gender</p>
                         <select 
                             onChange={changeGender}
-                            className="p-2 rounded-2xl w-[200px]">
+                            className="w-3/4 p-2 text-baseBlack rounded-2xl">
                             <option>{state.gender}</option>
                             <option>All</option>
                             <option>Men</option>
@@ -140,9 +151,9 @@ const ProfilePage = () => {
                         </select>
                     </div>
 
-                    <div className="flex items-center w-full border border-baseBlack rounded-2xl py-2 px-4 my-1 justify-between">
+                    <div className="flex items-center w-full rounded-2xl py-2 pl-4 my-1 justify-between">
                         <div>Age</div>
-                        <input className="p-2 rounded-2xl" placeholder="age" value={state.age} type="number" 
+                        <input className="w-3/4 p-2 text-baseBlack rounded-2xl" placeholder="age" value={state.age} type="number" 
                         onChange={changeAge}></input>
                     </div>
                     
@@ -155,9 +166,16 @@ const ProfilePage = () => {
                 </div>
             </div>
             ) : (
-            <div className="flex flex-col relative text-helpGray items-center pt-20 md:pt-34 h-full px-6">
-                <p className="absolute top-10 left-10 md:top-36 md:hidden font-bold text-xl">Profile</p>
-                <p className="hidden md:flex font-bold text-xl mb-6">Profile</p>
+            <div className="flex flex-col items-center md:pt-20">
+                 <div className="flex py-2 justify-between pb-4 w-full">
+                    <div className="flex items-center">
+                        <IoIosArrowBack size={20} onClick={() => history.push("/")}/>
+                        <p>Profile</p>
+                    </div>
+                    <IoIosSettings size={20}/>
+                </div>
+              
+              
                 <img src={state?.photo} className="w-[100px] h-[100px] rounded-[18px]"/>
                 <div className="w-[340px] p-2 flex flex-col justify-center items-center mt-4" >
                     <div className="flex w-full border border-helpGray rounded-2xl py-2 px-4 my-1 justify-between">

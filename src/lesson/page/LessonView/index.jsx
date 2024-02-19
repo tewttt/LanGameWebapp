@@ -6,14 +6,16 @@ import { useEffect } from "react";
 import pattern from "../../../assets/logo/Typo Logo SVG Black.svg"
 import { IoIosArrowBack ,IoIosSettings  } from "react-icons/io";
 
+
 const LessonView = () => {
   const {languageId, topicId, lessonId} = useParams()
-  const {oneLesson , getOneLesson} = useLesson(languageId, topicId, lessonId)
+  const {oneLesson , getOneLesson , grammar, grammarfun} = useLesson(languageId, topicId, lessonId)
   const history = useHistory();
   const [rating, setRating] = useState(null);
 
   useEffect(() => {
     getOneLesson()
+    grammarfun()
   }, [])
 
  const changeWord = () => {
@@ -35,27 +37,36 @@ const LessonView = () => {
   return (
     <div className=" relative bg-baseBlack text-white pt-6 pb-48 px-6 md:pt-0">
       <ToolSidebar />
-      <div className="md:pt-20 md:w-full m-auto ">
+      <div className="md:pt-20 md:w-full m-auto h-screen">
         <div className="flex py-2 justify-between pb-4">
-          <IoIosArrowBack size={20}/>
+          <IoIosArrowBack size={20} onClick={() => history.push("/")}/>
           <p></p>
           <IoIosSettings size={20}/>
         </div>
       
-        <p className="text-2xl font-bold my-1"> {oneLesson.language} {oneLesson.level} №{oneLesson.lessonNumber}</p>
+        <p className="text-2xl font-bold my-1"> {oneLesson?.language} {oneLesson?.level} №{oneLesson?.lessonNumber}</p>
         
         <div className="md:flex">
           <video  
             className="md:m-2 my-2 border-2 md:w-1/2 border-white rounded-2xl"
-            src={oneLesson.video}  type="video/mp4" controls></video>
-          <img src={oneLesson.image} className="md:w-1/2 w-full h-[200px] border-2 my-2 border-white md:m-2 rounded-2xl "/>
+            src={oneLesson?.video}  type="video/mp4" controls>
+          </video>
+          <div className="md:m-2 my-2 border-2 md:w-1/2 border-white rounded-2xl">
+            <img src={oneLesson?.image}/>
+          </div>
+          <div className="md:m-2 my-2 border-2 md:w-1/2 border-white rounded-2xl">
+            <img src={grammar?.grammar} controls/>
+          </div>
+        
         </div>
 
         <div className="flex my-2">
-          <button onClick={changeGrammar}  
-            className="w-1/2 bg-white font-bold text-baseBlack p-2 rounded-2xl mx-2"
-            >Дүрэм
+          <button onClick={changeTranslate} 
+              className="w-1/2 bg-white font-bold text-baseBlack p-2 rounded-2xl mx-2"
+                >
+              Орчуулга
           </button>
+          
           <button onClick={changeWord} 
               className="w-1/2 bg-white font-bold text-baseBlack p-2 rounded-2xl mx-2"  
               >
@@ -65,15 +76,11 @@ const LessonView = () => {
         
         <div className="md:flex h-[100px] md:h-[40px] md:my-2">
           <button onClick={changeExam} 
-              className="w-full h-full md:w-1/2  bg-white font-bold text-baseBlack rounded-2xl my-2 md:mx-2"
+              className="w-full h-full md:full  bg-white font-bold text-baseBlack rounded-2xl my-2 md:mx-2"
                 >
               Шалгалт
           </button>
-          <button onClick={changeTranslate} 
-              className="w-full md:w-1/2 h-[40px] bg-white font-bold text-baseBlack my-2 rounded-2xl p-2 md:mx-2"
-                >
-              Орчуулга
-          </button>
+         
         </div>
       </div>
     </div>

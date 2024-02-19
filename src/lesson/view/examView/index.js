@@ -80,13 +80,23 @@ const ExamView = () => {
       <div className="py-10 sm:w-[50%] m-auto">
         <p className="pb-10 font-bold justify-center flex flex-wrap w-full">{question.questionText}</p>
         {question?.options?.map((option , i) => {
+          const isSelected = playerAnswer === option.optionText
+          const isRight = playerAnswer === question?.answerKey
+
+          const test =
+            playerAnswer ?
+              isSelected ? isRight? 'bg-helpGreen' : 'bg-red-500'
+                         : option.optionText == question?.answerKey  ? 'bg-helpGreen' : ''  
+          : ''
           return (
             <button
               key={i}
               onClick={() => saveAnswer(option.optionText)}   
               disabled={playerAnswer}                 
-              className={`${playerAnswer === option.optionText && (playerAnswer === question?.answerKey ? "bg-helpGreen" : "bg-red-500")} 
-              flex justify-center w-full my-5 border border-helpGray p-2 rounded-3xl hover:bg-blue-400` }
+              className={
+                `${test} 
+              flex justify-center w-full my-5 border border-helpGray p-2 rounded-3xl hover:bg-blue-400 transition-all` }
+            
             >
                {option.optionText}
             </button>

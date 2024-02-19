@@ -2,143 +2,107 @@ import React, { useEffect ,useState, useRef }  from "react";
 import useLesson from "../../hook/useLesson";
 import { IoIosArrowBack ,IoIosSettings  } from "react-icons/io";
 import { useHistory ,useParams} from "react-router-dom";
-import Modal from "../../components/General/Modal";
+import { HiMiniSpeakerWave } from "react-icons/hi2";
 
 let intervalIds = [];
 const WordView = () => {
   const history = useHistory();
   const {languageId, topicId, lessonId} = useParams()
   const {word , wordfun} = useLesson(languageId, topicId, lessonId)
-  const [playerAnswer , setPlayerAnswer] =useState("")
-  const [endWord, setEndWord] = useState(false)
-  const [point , setPoint] = useState(0)
   const [questionNumber, setQuestionNumber] = useState(0);
   const questions = useRef([])
   const question = questions?.current[questionNumber] || {}
-  console.log(question)
-// console.log(questions)
+
+
   useEffect(() => {
     wordfun()
+    setQuestionNumber(0)
   } ,[])
 
   // асуултууд
   useEffect(() => {
     if (word?.word && questions.current.length === 0  ) {
-      // const shuffledQ =  shuffleArray(word?.word);
       questions.current = word?.word
       }
   },[word?.word])
-
-  // Асуултуудыг нийлүүлээд байрыг нь солих
-  function shuffleArray(questionsToShuffle) {
-    for (let i = questionsToShuffle.length - 1; i > 0; i--) {
-      let randomPosition = Math.floor(Math.random() * (i + 1));
-      let temp = questionsToShuffle[i];
-      questionsToShuffle[i] = questionsToShuffle[randomPosition];
-      questionsToShuffle[randomPosition] = temp;
-    }
-    return questionsToShuffle;
-  }
-
-  const saveAnswer = (answer) => {
-    setPlayerAnswer(answer)
-    if(answer === question.answerKey){
-      return setPoint(prev => prev + 1 )
-    } 
-  };
 
   const addQuestionnumber = () => {
     setQuestionNumber((prev) => {
       let next= prev + 1
       if(questions.current.length-1 < next){
         clearIntervals()
-        setEndWord(true)
+        next = 0
       }
-      setPlayerAnswer("")
       return next;
     });
+    
   };
 
   const clearIntervals = () => {
     intervalIds.map(i=>clearInterval(i))
     intervalIds = [];
   }
-  const start = () => {
-    setQuestionNumber(0)
-    setEndWord(false)
-    setPoint(0)
+ 
+  const exam = () => {
+    history.push(`/wordExam/${languageId}/${topicId}/${lessonId}`)
   }
 
+  const playAudio = () => {
+    const audio = new Audio(question?.sound); // Create a new Audio object with the sound file
+    audio.play(); // Play the audio
+  };
+
   return (
-    <div className="text-white bg-baseBlack p-6 h-screen "> 
+    <div className="text-white bg-baseBlack px-6 pt-6 pb-24 h-screen"> 
       <div className="flex py-2 justify-between pb-4">
-          <IoIosArrowBack size={20} onClick={() => history.push( history.push(`/lesson/${languageId}/${topicId}/${lessonId}`))}/>
+          <IoIosArrowBack size={20} onClick={() => history.push(`/lesson/${languageId}/${topicId}/${lessonId}`)}/>
           <p></p>
           <IoIosSettings size={20}/>
       </div>
       <p className="text-2xl font-bold my-1">Word</p>
-      <div>
-       
-        <p>{question?.word}</p>
-        <p>{question?.trans}</p>
-        <p>{question?.desc}</p>
-        <img src={question?.image}/>
-        <audio src={question?.sound}/>
-      </div>
-
-      {/* exam  */}
-      <div className="py-10 sm:w-[50%] m-auto">
-        <p className="pb-10 font-bold justify-center flex flex-wrap w-full">{question.questionText}</p>
-        {question?.options?.map((option , i) => {
-          // console.log(option)
-          return (
-            <button
-              key={i}
-              onClick={() => saveAnswer(option.optionText)}   
-              disabled={playerAnswer}                 
-              className={`${playerAnswer === option.optionText && (playerAnswer === question?.answerKey ? "bg-helpGreen" : "bg-red-500")} 
-              flex justify-center w-full my-5 border border-helpGray p-2 rounded-3xl hover:bg-blue-400` }
-            >
-               {option.optionText}
+    
+      {questions.current.length === 0 ? 
+        (
+          <div className="flex flex-col my-4 md:w-[50%] m-auto">
+            <button onClick={ addQuestionnumber} className="bg-baseBlue1 my-2 w-full rounded-3xl p-2">Word start</button>
+            <button onClick={ exam} className="bg-baseBlue1 my-2 w-full rounded-3xl p-2">
+              Word exam start
             </button>
-          )
-        })}
-        {questions.current.length === 0 ? (
-          <button onClick={() => addQuestionnumber()} className="bg-baseBlue1 w-full rounded-3xl p-2">Start</button>
-          ) :  (
-            <button onClick={() => addQuestionnumber()} className="bg-baseBlue1 w-full rounded-3xl p-2">Next</button>
-          )  
-        }
-      </div>
+          </div>
+        ) : 
+        (
+          <div className="m-auto flex flex-col md:w-[50%] justify-center">
+            <img src={question?.image} className="border w-full border-helpGray rounded-2xl"/>
+            <div className="flex justify-start my-3 items-center">
+              <HiMiniSpeakerWave onClick={playAudio} size={36} className="mr-3 p-1 bg-baseBlue1 rounded-[50%]  text-white"/>
+              <p className="text-3xl mx-3">{question?.word}</p>
+              <p className="text-3xl mx-3">{question?.trans}</p>
+            </div>
+            <p className="w-full border border-helpGray p-2 text-center rounded-3xl my-2">{question?.desc}</p>
+           
+            {/* <audio controls className="my-2 m-auto">
+              <source src={question?.sound} type="audio/mp3"/>play
+            </audio> */}
+            
 
-      <Modal show={endWord}>
-        <div className="p-4">
-          <p className="text-3xl my-6">Total point: {questions.current.length}  /  {point} </p>
-         
-          <button onClick={() => start()} className="bg-baseBlue1 my-2 text-white w-full rounded-2xl p-2">Restart exam</button>
-          <button 
-            onClick={() =>  history.push( history.push(`/lesson/${languageId}/${topicId}/${lessonId}`))} 
-            className="bg-helpGreen my-2 text-white w-full rounded-2xl p-2">Done</button>
-        </div>
-      </Modal>
+            {questionNumber === 0 ? (
+              <div className="flex flex-col my-4 w-full">
+                <button onClick={ addQuestionnumber} className="bg-baseBlue1 my-2 w-full rounded-3xl p-2">Word start</button>
+                <button onClick={ exam} className="bg-baseBlue1 my-2 w-full rounded-3xl p-2">
+                  Word exam start
+                </button>
+              </div>
+            ) : (
+              <button onClick={() => addQuestionnumber()} className="w-full bg-baseBlue1 w-full rounded-3xl p-2">Next</button>
+            )}
 
-      {/* {word?.word?.map((w, i) => {
-        console.log(w)
-        return (
-          <div className="border border-gray-500 m-1 p-1">
-            <p>{w.word}</p>
-            <p>{w.trans}</p>
-            <p>{w.desc}</p>
-            <img src={w.image}/>
-            <audio controls>
-              <source src={w.sound} type="audio/mpeg" />
-              aii
-            </audio>
           </div>
         )
-      })} */}
-    
+      }
     </div>
   )
 }
 export default WordView
+
+
+  

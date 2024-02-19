@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useHistory } from "react-router-dom"
 import usePost from "../../hook/usePost";
 import Modal from "../../components/General/Modal"
+
 const PostCard = ({data}) => {
     const history = useHistory()
     const { deletePost} = usePost();
@@ -9,13 +10,13 @@ const PostCard = ({data}) => {
     const edit = () => {
         history.push(`/editpost/${data.id}`)
     }
-    
+    // console.log(data)
     const remove = () => {
         deletePost(data.id)
     }
    
     return (
-        <div className="w-72 m-2 bg-baseColor/40 p-2 rounded-2xl">
+        <div className="w-full sm:w-[300px] m-2 border border-helpGray p-2 rounded-2xl">
             <Modal show={show} >
                 <div className="flex flex-col">
                     <p className="text-red-500 text-lg my-3 text-center">Are you sure delete the post ?</p>
@@ -30,19 +31,41 @@ const PostCard = ({data}) => {
                 </div>
             </Modal>
             <button 
-                className="bg-baseColor rounded-2xl p-2 text-hpink hover:bg-baseColor/70" 
+                className="bg-baseBlue1 w-full rounded-2xl p-2 font-semibold hover:bg-blue-600" 
                 onClick={() =>history.push(`/addAds/${data.id}`)}>Add advertise
             </button>
-            <div className="bg-hpink rounded-2xl my-2 w-full p-2">
-                <div>
-                    <p>title: {data.post.title}</p>
-                    <p>text: {data.post.text}</p>
-                    <p>link: {data.post.link}</p>
-                    <p>phone: {data.post.phone}</p>
-                    <p>address: {data.post.address}</p>
-                    <p>email: {data.post.email}</p>
-                    <video src={data?.post?.video} width="320" height="240" type="video/mp4" controls></video>
-                    <div className="flex justify-between text-[10px] text-gray-500">
+            <div className="rounded-2xl my-2 w-full p-2">
+                <p className="text-xl text-center">Post information</p>
+                <div className="my-2">
+                    <div className="my-2">
+                        <div className="flex justify-between my-1 py-1">
+                            <p className="">Title</p>
+                            <p>{data.post.title}</p>
+                        </div>
+                        <div className="flex justify-between my-1 py-1">
+                            <p className="">Text</p>
+                            <p>{data.post.text}</p>
+                        </div>
+                        <div className="flex justify-between my-1 py-1">
+                            <p className="">Phone</p>
+                            <p>{data.post.phone}</p>
+                        </div>
+                        <div className="flex justify-between my-1 py-1">
+                            <p className="">Address</p>
+                            <p>{data.post.address}</p>
+                        </div>
+                        <div className="flex justify-between my-1 py-1">
+                            <p className="">Email</p>
+                            <p>{data.post.email}</p>
+                        </div>
+                        
+                    </div>
+
+                    <video 
+                        className="my-2 w-full"
+                        src={data?.post?.video}  type="video/mp4" controls>
+                    </video>
+                    {/* <div className="flex justify-between text-[12px] text-helpGray">
                         <div className="flex w-[70px] justify-between">
                             <p>100</p>
                             <p>Reach</p>
@@ -51,16 +74,18 @@ const PostCard = ({data}) => {
                             <p>$10</p>
                             <p>Spent</p>
                         </div>
-                    </div>
+                    </div> */}
                 </div>
            
-                <div className="flex justify-between my-2">
+                <div className="flex justify-between my-2 w-full">
                     <button 
-                    className="bg-green-600 py-1 px-3 text-white rounded-xl hover:bg-green-800"
-                    onClick={edit}>Post edit</button>
+                        className="bg-green-500 mr-1 w-1/2 py-2 px-3 font-semibold rounded-xl hover:bg-green-800"
+                        onClick={edit}>Post 
+                    </button>
                     <button 
-                    className="bg-red-600 py-1 px-3 text-white rounded-xl hover:bg-red-800"
-                    onClick={() => setShow(true)}>Post delete</button>
+                        className="bg-red-600 ml-1 py-2 w-1/2 px-3 font-semibold rounded-xl hover:bg-red-800"
+                        onClick={() => setShow(true)}>Post delete
+                    </button>
                 </div>
             </div>
         </div>

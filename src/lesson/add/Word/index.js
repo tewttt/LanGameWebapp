@@ -175,7 +175,7 @@ const Word = () => {
     }
 
 return ( 
-<div>
+<div className="pt-6 pb-96">
     { questions.map((ques, i) => (
     <div> 
         <Modal closeConfirm={closeConfirm} show={confirm} >

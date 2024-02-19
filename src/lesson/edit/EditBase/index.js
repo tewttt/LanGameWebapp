@@ -5,11 +5,12 @@ import { useHistory, useParams, useLocation} from "react-router-dom";
 import LessonContext from "../../../context/LessonContext";
 import EditVideo from "../EditVideo";
 import EditImage from "../EditImage";
+import useLesson from "../../../hook/useLesson";
 
 const EditBase = () => {
     const ctx = useContext(LessonContext)
-    const [errors, setErrors] = useState();
-    const {id} = useParams()
+    const {languageId, topicId, lessonId} = useParams()
+    const {oneLesson , getOneLesson} = useLesson(languageId, topicId, lessonId)
     const history = useHistory();
     const [confirm , setConfirm] = useState(false);
     const [addlesson, setAddLesson] = useState(
@@ -23,12 +24,14 @@ const EditBase = () => {
             text: ""
     });
    
-    const lan = ctx.lesson.language
-    const level = ctx.lesson.level
-    const number = ctx.lesson.lessonNumber
+   
     useEffect(() => {
-        setAddLesson(ctx.lesson)
+        getOneLesson()
     }, [])
+
+    useEffect(() => {
+        setAddLesson(oneLesson)
+    } ,[oneLesson])
 
     const updateDB = () => {
         const base = {
@@ -49,9 +52,7 @@ const EditBase = () => {
     const save = (e) => {
         e.preventDefault();
        updateDB();
-       history.push(`/edit/${lan}${level}${number}/translate`)
-    //    history.push(`/edit/${id}/translate?lang=${query.get("lang")}`)
-   
+       history.push(`/edit/${languageId}/${topicId}/${lessonId}/translate`)
     }
    const showConfirm = () => {
     setConfirm(true)
@@ -59,11 +60,7 @@ const EditBase = () => {
    const closeConfirm = () => {
     setConfirm(false)
    };
-   const back = () => {
-    history.push('/dashboard')
-   }
-
-
+ 
     const changeLanguage = (e) => {
         setAddLesson({ ...addlesson, language: e.target.value});
     };
@@ -87,25 +84,24 @@ const EditBase = () => {
     };
     
     return (
-    <div className="flex flex-col  items-center">
-        <div className=" flex flex-col items-center xl:flex-row justify-center py-3 text-gray-200 ">
+    <div className="md:pb-10 text-white">
+        <div className="mt-3 md:w-1/2 m-auto">
             <Modal closeConfirm={closeConfirm} show={confirm} >
-                <div style={{display: "flex", flexDirection: "column"}}>
-                Засварыг Хадгалахдаа итгэлтэй байна уу
-                    <div >
-                        <ButtonCmp btn="Cont" text="Тийм" daragdsan={save}/>
-                        <ButtonCmp  text="Үгүй" daragdsan={closeConfirm}/>
+                <div className="text-baseBlack ">
+                    <p className="text-center">Are you sure you want to save the edit?</p>
+                    <div className="flex justify-around mt-4">
+                        <button className="py-2 px-10 bg-green-500 text-white rounded-2xl" onClick={save}>Yes</button> 
+                        <button className="py-2 px-10 bg-red-500 text-white rounded-2xl" onClick={closeConfirm}>No</button>
                     </div>
                 </div>
             </Modal>
-            <div className="bg-baseColor w-[350px]  mx-5 p-3 rounded-lg border border-gray-500">
+            <div className=" my-3 w-full">
                 <div className="text-center mb-5"> МЭДЭЭЛЭЛ</div>
                 <div className="flex justify-between my-2 mx-3 "  >
-                    <div> language: {addlesson.language} </div>
+                    <p>Language</p>
                     <select 
-                        // onChange={hadnleChange} 
                         onChange={changeLanguage} 
-                        className="text-black rounded-[5px] h-[30px] w-[170px]">
+                        className="text-black rounded-[5px] w-3/4 p-1">
                         <option>{addlesson.language}</option>
                         <option>Англи хэл</option>
                         <option>Солонгос хэл</option>
@@ -114,9 +110,9 @@ const EditBase = () => {
                 </div>
 
                 <div className="flex justify-between my-1 mx-3">
-                    <div> level: {addlesson.level}</div>
+                    <div> Level</div>
                     <select 
-                        className="text-black rounded-[5px] w-[170px] h-[30px]" 
+                        className="text-black rounded-[5px] w-3/4 p-1" 
                         onChange={changeLevel}
                     >
                         {/* <option value={lessonEditbase.state.base.level}>{lessonEditbase.state.base.level}</option>  */}
@@ -130,40 +126,35 @@ const EditBase = () => {
                     </select>
                 </div>
 
-                <div className="flex justify-between  items-center my-0 mx-3">
-                    <div> lessonNumber: {addlesson.lessonNumber}</div>
+                <div className="flex justify-between  items-center my-1 mx-3">
+                    <div> lessonNumber</div>
                     <input 
-                        className="w-[170px] h-[15px] rounded-[5px] mx-0 text-black" 
+                        className="w-2/4 p-1 rounded-[5px] mx-0 text-black" 
                         onChange={changeLessonNumber} 
-                        // onChange={hadnleChange} 
                         value={addlesson.lessonNumber}
-                        // defaultValue={lessonEditbase.state.base.lessonNumber}  
                         type="text" name="Хичээлийн дугаар" 
                         placeholder="Хичээлийн дугаар" 
                     />
-                    {}
+    
                 </div>
         
-                <div className="flex justify-between items-center my-0 mx-3">
-                    <div>name: {addlesson.name} </div>
-                    <input className="w-[170px] h-[20px] rounded-[5px] mx-0 text-black" 
+                <div className="flex justify-between items-center my-1 mx-3">
+                    <div>name </div>
+                    <input className="w-3/4 p-1 rounded-[5px] mx-0 text-black" 
                         onChange={changeName}  
-                        // onChange={hadnleChange} 
                         type="text" 
-                       value={addlesson.name}
-                        // defaultValue={lessonEditbase.state.base.name} 
+                        value={addlesson.name}
                         placeholder="хичээлийн нэр"
                     />
                 </div>
 
                 <div className="flex justify-between my-1 mx-3">
-                    <div> Төлөв: {addlesson.status}</div>
+                    <div> Төлөв</div>
                     <select 
-                        className="text-black rounded-[5px] w-[170px] h-[30px]" 
+                        className="text-black rounded-[5px] w-3/4 p-1" 
                         onChange={changeStatus}
-                        // onChange={hadnleChange} 
                         >
-                        {/* <option>{lessonEditbase.state.base.status}</option>  */}
+                      
                        <option>{addlesson.status}</option>
                         <option>Төлбөртэй</option>
                         <option>Төлбөргүй</option>
@@ -173,32 +164,29 @@ const EditBase = () => {
                 <div className="flex justify-between my-1 mx-3">
                     Үнэ: {addlesson.price} <br/>
                     <input 
-                        className="w-[170px] h-[20px] rounded-[5px] mx-0 text-black" 
+                        className="w-3/4 p-1 rounded-[5px] mx-0 text-black" 
                         onChange={changePrice}  
-                        // onChange={hadnleChange} 
                         type="number" 
                         value={addlesson.price}
-                        // defaultValue={lessonEditbase.state.base.price} 
                         name="Хичээлийн үнэ" 
                         placeholder="Хичээлийн үнэ"
                     />
                 </div>   
-                <input className="w-[90%] m-3 h-[20px] rounded-[5px] flex justify-center items-center text-black"
+                <input className="w-[90%] m-3 p-1 rounded-[5px] flex justify-center items-center text-black"
                     multline
                     numberOfLines={10}
                     placeholder="text"
                     onChange={changeText}
                     // onChange={hadnleChange} 
                    value={addlesson.text}
-                    // defaultValue={lessonEditbase.state.base.text}
                 />
             </div>
             <div className="flex flex-col xl:flex-row">
-                <EditVideo video = {ctx.lesson.video}/>
-                {/* <EditImage/> */}
+                <EditVideo video = {oneLesson.video}/>
+                <EditImage photo={oneLesson.image}/>
             </div>
         </div>
-        <button className="my-1 w-[150px] h-[20px] bg-blue-500 flex text-[12px] justify-center items-center m-auto" onClick={showConfirm} >Мэдээлэл засах</button>
+        <button className="my-4 w-full md:w-1/2 bg-baseBlue1 hover:bg-blue-500 flex p-3 justify-center items-center m-auto" onClick={showConfirm} >Мэдээлэл засах</button>
     </div>
 )}
 

@@ -13,14 +13,12 @@ const Lesson = (props) => {
   const {payLesson } = usePayment()
   const userCtx = useContext(UserContext)
   const history = useHistory();
-  console.log(lessonActiveUsers)
-  console.log(props.lessons.lessonNumber)
+  // console.log(lessonActiveUsers)
+  // console.log(props.lessons.lessonNumber)
 
-  // const data = lessonActiveUsers?.find(
-  //   item => item.number = props.lessons.lessonNumber
-  // );
-
-  // console.log(data.number === props.lessons.lessonNumber)
+  const data = lessonActiveUsers?.find(
+    item => item.number == props.lessons.lessonNumber
+  );
 
   useEffect(() => {
     getLessonUsers()
@@ -60,49 +58,42 @@ const Lesson = (props) => {
    
   }
 
-// console.log(props)
   return ( 
-  // <>dd</>
     <div className="text-white mt-4">
-      {props?.lessons?.status === "Төлбөргүй"   ? (
-        <div
-          className="flex flex-col relative py-3 items-center border border-blue-500 h-[160px] w-[200px]  rounded-[5px] "
-        >
-          <div className="flex mb-2">
-            <div className="mx-3"> {props.lessons.language}</div>
-            <div className="mx-3">{props.lessons.level}</div>
-            <div className="mx-3">№{props.lessons.lessonNumber}</div>
+      {props?.lessons?.status === "Төлбөргүй" || data ? (
+        <div className="flex flex-col p-2 items-center justify-around border border-blue-500 h-[140px] w-[140px]  rounded-[5px] ">
+          <div className="flex w-full justify-between">
+            <div className=""> {props.lessons.language}</div>
+            <div className="">{props.lessons.level}</div>
+            <div className="">№{props.lessons.lessonNumber}</div>
           </div>
 
           <div
             onClick={view}
-            className=" bg-blue-500 rounded-[5px] my-3 flex justify-center items-center text-[20px] px-6 py-2 hover:bg-blue-600 hover:scale-110 "
+            className=" bg-blue-500 rounded-[5px] w-full flex justify-center items-center text-[20px] px-6 py-2 hover:bg-blue-600 hover:scale-110 "
           >
             Watch
           </div>
         </div>
       ) : (
         // Төлбөртэй
-      <div className="flex flex-col py-3 items-center border border-blue-500 h-[160x] w-[200px]  rounded-[5px] ">
-        <div className="flex mb-2">
-          <div className="mx-3"> {props.lessons.language}</div>
-          <div className="mx-3">{props.lessons.level}</div>
-          <div className="mx-3">№{props.lessons.lessonNumber}</div>
+      <div className="flex flex-col p-2 justify-between items-center border border-blue-500 h-[140px] w-[140px]  rounded-[5px] ">
+        <div className="flex w-full justify-between">
+          <div className=""> {props.lessons.language}</div>
+          <div className="">{props.lessons.level}</div>
+          <div className="">№{props.lessons.lessonNumber}</div>
         </div>
        
         <div 
           onClick={payPrice}
-          className="flex justify-center w-[140px] p-2 bg-green-500 rounded-[5px] text-[16px] hover:bg-green-600">
+          className="flex justify-center w-full p-1 bg-green-500 rounded-[5px]  hover:bg-green-600">
             Pay {props?.lessons?.price}₮
         </div>
         <p>or</p>
         <div 
           onClick={payCoin}
-          className="flex justify-center w-[140px] p-2 bg-green-500 rounded-[5px] text-[16px] hover:bg-green-600 hover:scale-110">
-         
+          className="flex justify-center w-full p-1 bg-green-500 rounded-[5px] hover:bg-green-600 hover:scale-110">
             Pay {props?.lessons?.coin}coin
-         
-          
         </div>
       </div>
       )}

@@ -8,38 +8,36 @@ import LessonContext from "../../context/LessonContext";
 import { getAuth } from "firebase/auth";
 import Modal from "../../components/General/Modal";
 import backImage from "../../assets/logo/backgroundSmall.png"
+import useLesson from "../../hook/useLesson"
+import { MdDelete } from "react-icons/md";
+import { AiFillEdit } from "react-icons/ai";
 
 const auth = getAuth();
 const Teacher = () => {
+    const [chLan, setChLan] = useState("");
+    const [chLevel, setChLevel] = useState("");
+    const [chLessonId, setChLessonId] = useState("")
+  
+    const [show, setShow] = useState(false)
+    const [showDelete, setShowDelete] = useState(false)
+    const {lanId, levelId, getLevelId , getLessonId , getOneLesson} = useLesson(chLan, chLevel, chLessonId)
     const { addTeacher , cancelTeacher} = useTeacher()
     const ctx = useContext(UserContext)
     const LessonCtx = useContext(LessonContext)
-    let arrLevel =  LessonCtx.levelId;
-    let arrLanguage =  LessonCtx.lanId;
-    let Lesson =  LessonCtx.userLesson;
-
-    const arrLesson = Lesson.filter(
-        // item => console.log(item?.userAuthId)
-     item =>  item?.userAuthId === auth?.currentUser?.uid
-    );
-    const [lanActive, setLanActive] = useState("");
-    const [chLan, setChLan] = useState("");
-    const [levelActive, setLevelActive] = useState("");
-    const [chLevel, setChLevel] = useState("");
-    const [show, setShow] = useState(false)
-  
+    let arrLevel =  levelId;
+    let arrLanguage = lanId;
+    let userLesson =  LessonCtx.userLesson;
+   
 
     const selectLan = (lan, i) => {
-        setLanActive(i);
         setChLan(lan);
-        LessonCtx.Level(lan);
+        getLevelId(lan)
       };
     
       const selectLevel = (level, i) => {
-        setLevelActive(i);
         setChLevel(level);
-        LessonCtx.Lessons(level, chLan); 
-        LessonCtx.userLessons(level, chLan); 
+        getLessonId(level, chLan)
+        LessonCtx.getUserLessons(level, chLan); 
       };
   
     const history = useHistory();
@@ -57,18 +55,20 @@ const Teacher = () => {
     }
 
     const view = (number) => {
-        LessonCtx.Lesson(number, chLan, chLevel);
-        // console.log(id)
-        history.push(`/lesson/${chLan}${chLevel}${number}`);
+        setChLessonId(number)
+        getOneLesson()
+        history.push(`/lesson/${chLan}/${chLevel}/${number}`);
     };
     const edit = (number) => {
-        LessonCtx.Lesson(number, chLan, chLevel);
-        // console.log(id)
-        history.push(`/edit/${chLan}${chLevel}${number}`);
+        setChLessonId(number)
+        getOneLesson()
+        history.push(`/edit/${chLan}/${chLevel}/${number}`);
     };
     const remove = (number) => {
-        LessonCtx.deleteDB(chLan, chLevel, number );
+        setChLessonId(number)
+        setShowDelete(true)
     };
+ 
     
     return (
         <div className="bg-baseBlack text-white h-screen relative">
@@ -82,14 +82,17 @@ const Teacher = () => {
             {ctx?.currentUser?.teacherStatus ? 
             (
                 <div className="flex flex-col pt-10 px-6 items-center h-full md:pt-20">
-                    <div 
-                        className="bg-baseBlue1 hover:bg-blue-700 py-2 px-4 text-white rounded-2xl text-2xl font-bold "
-                        onClick={() => history.push("/addlesson")}>Хичээл нэмэх</div>
+                    <button 
+                        className="w-full md:w-1/2 bg-baseBlue1 hover:bg-blue-700 py-2 px-4 text-white rounded-2xl text-2xl font-bold "
+                        onClick={() => history.push("/addlesson")}>
+                        Хичээл нэмэх
+                    </button>
+                    <p className="text-2xl font-bold mt-6">Lessons you have entered</p>
                     <div className="flex justify-center  my-2">
                         {arrLanguage.map((lan, i) => {
                         return (
                             <div
-                            className={`${lanActive === i ? css.laan : ""} ${css.nolan}`}
+                            className={`${chLan === lan ?  "bg-baseBlue1 text-white" : "" } md:w-[140px] md:h-[60px] hover:bg-baseBlue1 hover:text-white md:text-2xl bg-white font-bold text-baseBlack p-5 flex items-center justify-center rounded-2xl m-2` }
                             key={i}
                             onClick={() => selectLan(lan.id, i)}
                             >
@@ -102,7 +105,7 @@ const Teacher = () => {
                         {arrLevel.map((e, i) => {
                             return (
                             <div
-                                className={`${levelActive === i ? css.laan : ""} ${css.nolan}`}
+                                className={`${chLevel === e ?  "bg-baseBlue1 text-white" : ""  }w-[40px] h-[40px] md:w-[60px] md:h-[60px] hover:bg-baseBlue1 hover:text-white md:text-2xl bg-white font-bold text-baseBlack md:p-5 flex items-center justify-center rounded-2xl m-1 md:m-2` }
                                 key={i}
                                 onClick={() => selectLevel(e.id, i)}
                                 >
@@ -111,59 +114,50 @@ const Teacher = () => {
                             );
                             })}
                     </div>
-                    <div className="flex justify-center ">
-                        {arrLesson.map((e, i) => {
-                            // setNumber(e.lessonNumber)
-                            // console.log(e)
+                    <div className="flex flex-wrap gap-2 justify-center">
+                        {userLesson.map((e, i) => {
+                           
                             return (
-                                <div
-                                className="m-1"
-                                // className={`${levelActive === i ? css.laan : ""} ${css.nolan}`}
-                                key={i}
-                                >
-                                    <div
-                                        className={css.hoverButton}
-                                        // className="flex flex-col py-3 items-center border border-blue-500 w-[200px]  hover:border-blue-300  rounded-[5px] "
-                                        >
-                                        <div className="flex mb-2">
-                                            <div className="mx-3"> {e.language}</div>
-                                            <div className="mx-3">{e.level}</div>
-                                            <div className="mx-3">№{e.lessonNumber}</div>
-                                        </div>
-
-                                        <div
-                                            onClick={() => view(e.lessonNumber)}
-                                            className="text-white w-[140px] h-[40px] bg-blue-500 rounded-[5px] my-3 flex justify-center items-center text-[20px] p-2 hover:bg-blue-600 hover:scale-110 "
-                                        >
-                                            Үзэх
-                                        </div>
-                                        <div
-                                            onClick={() => edit(e.lessonNumber)}
-                                            className="text-white w-[140px] h-[40px] bg-blue-500 rounded-[5px] my-3 flex justify-center items-center text-[20px] p-2 hover:bg-blue-600 hover:scale-110 "
-                                        >
-                                            Edit
-                                        </div>
-                                        <div
-                                            onClick={() => remove(e.lessonNumber)}
-                                            className="text-white w-[140px] h-[40px] bg-blue-500 rounded-[5px] my-3 flex justify-center items-center text-[20px] p-2 hover:bg-blue-600 hover:scale-110 "
-                                        >
-                                            Delete
-                                        </div>
+                                <div className="flex w-[320px] items-center justify-between border border-helpGray p-2 rounded-2xl" key={i}>
+                                    <div className="flex justify-between w-[130px]">
+                                        <div> {e.language}</div>
+                                        <div>{e.level}</div>
+                                        <div>№{e.lessonNumber}</div>
+                                    </div>
+                                    <button
+                                        onClick={() => view(e.lessonNumber)}
+                                        className=" bg-blue-500 rounded-[5px] flex justify-center items-center px-4 py-1 hover:bg-blue-600 hover:scale-110 "
+                                    >
+                                        Watch
+                                    </button>
+                                    <div className="flex w-[60px] justify-between">
+                                        <AiFillEdit size={20} onClick={() => edit(e.lessonNumber)}/>
+                                        <MdDelete size={20}  onClick={() => remove(e.lessonNumber) }/>
                                     </div>
                                 </div>
+                               
                             );
                         })}
                     </div>
+                    <Modal show={showDelete}>
+                        <div className="p-6 flex flex-col justify-center">
+                            <p>Are you sure you want to delete a lesson?</p>
+                            <div className="flex my-2 justify-between">
+                                <button className="py-2 px-6 rounded-2xl bg-red-500 text-white" onClick={() => LessonCtx.deleteDB(chLan, chLevel, chLessonId )}>Yes, delete</button>
+                                <button className="py-2 px-6 rounded-2xl bg-green-500 text-white" onClick={() => setShowDelete(false)}>No </button>
+                            </div>
+                        </div>
+                    </Modal>
                 </div>
             ) : ( 
                 //request  teacher 
             <div className="md:pt-20 pt-10 px-6 flex flex-col w-[80%] m-auto">
                 <Modal show={show} >
                     <div className="flex flex-col justify-between">
-                        <p className="text-red-500 text-lg my-3 text-center">Submit a request to become a teacher</p>
+                        <p className="text-baseBlack text-lg my-3 text-center">Submit a request to become a teacher</p>
                         <div className="flex justify-between">
                             <button  
-                                className="bg-green-500 py-3 px-5 rounded-2xl text-white"
+                                className="bg-green-500 py-3 px-10 rounded-2xl text-white"
                                 onClick={() => setShow(false)}>NO</button>
                             <button 
                             className="bg-red-500 text-white py-3 px-5 rounded-2xl"
