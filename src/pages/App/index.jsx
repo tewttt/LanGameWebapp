@@ -13,7 +13,6 @@ import AddLesson from "../../lesson/add/AddLessonPage";
 import EditLesson from "../../lesson/edit/EditLessonPage";
 import Teacher from "../Teacher/Teacher";
 import GameDetail from "../../game/page/GameDetail/GameDetail";
-import BackgroundAnimation from "../../UI/BackgroundAnimation";
 import GameHome from "../../game/page/GameHome";
 import WatchAdvertise from "../../advertise/ads/watchAdvertise";
 import Advertise from "../../advertise/ads/Advertise";
@@ -24,7 +23,6 @@ import AllAds from "../../advertise/ads/allAds";
 import EditAdvertise from "../../advertise/ads/editAds";
 import Forgot from "../forgot";
 import Verification from "../Verification"; 
-
 import OneAds from "../../advertise/ads/oneAds";
 import TranslateView from "../../lesson/view/translateView";
 import ExamView from "../../lesson/view/examView";
@@ -34,21 +32,15 @@ import WordViewExam from "../../lesson/view/wordViewExam";
 
 
 const App = () => { 
-     // console.log(auth?.currentUser?.uid)
      const [authId, setAuthId] = useState()
-     // console.log(authId)
      auth?.onAuthStateChanged((user) => {
-          // console.log(user?.uid)
           if (user) {
                setAuthId(user?.uid)
           }
      });
-//     console.log(authId)
+
 return (
 <div className="relatvie z-10" >   
-     <div className="absolute -z-10">  
-          <BackgroundAnimation/> 
-     </div>
 
      {authId ? (
      <Switch>
@@ -74,7 +66,6 @@ return (
           <Route path="/allAds" component={AllAds} />
           <Route path="/post" component={AddPost} />
           <Route path="/editpost/:id" component={EditPost} />
-          
           <Route path="/verification" component={Verification}/>
           <Route path="/oneAds/:id" component={OneAds}/>
           <Route path="/oneEdit/:id" component={EditAdvertise} />
@@ -84,7 +75,7 @@ return (
      <Switch>
           <Route path="/signup" component={SignUp}/>
           <Route path="/forgot" component={Forgot}/>
-          <Route path="/verification" component={Verification}/>
+          {/* <Route path="/verification" component={Verification}/> */}
           <Route path="/" component={Login}/>
      </Switch>
      )}    

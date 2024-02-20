@@ -7,7 +7,7 @@ import useTeacher from "../../hook/useTeacher";
 import LessonContext from "../../context/LessonContext";
 import { getAuth } from "firebase/auth";
 import Modal from "../../components/General/Modal";
-import backImage from "../../assets/logo/backgroundSmall.png"
+import pattern from "../../assets/logo/patternWhite.png"
 import useLesson from "../../hook/useLesson"
 import { MdDelete } from "react-icons/md";
 import { AiFillEdit } from "react-icons/ai";
@@ -71,87 +71,91 @@ const Teacher = () => {
  
     
     return (
-        <div className="bg-baseBlack text-white h-screen relative">
-            <ToolSidebar/>
-            <div 
-                className="bg-cover absolute top-0 left-0 -z-20 opacity-80 w-screen h-screen"
-                style={{backgroundImage: `url(${backImage})`}}>
+        <div className="bg-baseBlack flex flex-col text-white h-screen relative">
+             <div 
+                className="bg-cover bg-center opacity-30 absolute top-0 left-0 bg-repeat w-screen h-full"
+                style={{backgroundImage: `url(${pattern})`}}>
             </div>
+            <div className="z-30">
+                <ToolSidebar />
+            </div>
+            
 
             {/* add lesson */}
             {ctx?.currentUser?.teacherStatus ? 
             (
-                <div className="flex flex-col pt-10 px-6 items-center h-full md:pt-20">
-                    <button 
-                        className="w-full md:w-1/2 bg-baseBlue1 hover:bg-blue-700 py-2 px-4 text-white rounded-2xl text-2xl font-bold "
-                        onClick={() => history.push("/addlesson")}>
-                        Хичээл нэмэх
-                    </button>
-                    <p className="text-2xl font-bold mt-6">Lessons you have entered</p>
-                    <div className="flex justify-center  my-2">
-                        {arrLanguage.map((lan, i) => {
+            <div className="z-20 flex flex-col pt-10 px-6 items-center h-full md:pt-20">
+                <button 
+                    className="w-full md:w-1/2 bg-baseBlue1 hover:bg-blue-700 py-2 px-4 text-white rounded-2xl text-2xl font-bold "
+                    onClick={() => history.push("/addlesson")}>
+                    Хичээл нэмэх
+                </button>
+
+                <p className="text-2xl font-bold mt-6">Lessons you have entered</p>
+                <div className="flex md:mt-10 justify-between mb-2  w-full sm:w-[80%] xl:w-[60%]">
+                    {arrLanguage.map((lan, i) => {
+                    return (
+                        <div
+                        className={`${chLan === lan ?  "bg-baseBlue1 text-white" : "" } w-[90px] sm:w-1/3 mx-1 hover:bg-baseBlue1 hover:text-white md:text-2xl bg-white font-bold text-baseBlack p-5 flex items-center justify-center rounded-2xl m-2` }
+                        key={i}
+                        onClick={() => selectLan(lan.id, i)}
+                        >
+                        {lan.id}
+                        </div>
+                    );
+                    })}
+                </div>
+                <div className="flex flex-wrap justify-between w-full sm:w-[80%] xl:w-[60%]">
+                    {arrLevel.map((e, i) => {
                         return (
-                            <div
-                            className={`${chLan === lan ?  "bg-baseBlue1 text-white" : "" } md:w-[140px] md:h-[60px] hover:bg-baseBlue1 hover:text-white md:text-2xl bg-white font-bold text-baseBlack p-5 flex items-center justify-center rounded-2xl m-2` }
+                        <div
+                            className={`${chLevel === e ?  "bg-baseBlue1 text-white" : ""  }w-[40px] h-[40px] sm:w-[60px] sm:h-[50px] hover:bg-baseBlue1 hover:text-white md:text-2xl bg-white font-bold text-baseBlack md:p-5 flex items-center justify-center rounded-2xl m-1 md:m-2` }
                             key={i}
-                            onClick={() => selectLan(lan.id, i)}
+                            onClick={() => selectLevel(e.id, i)}
                             >
-                            {lan.id}
-                            </div>
+                            {e.id}
+                        </div>
                         );
                         })}
-                    </div>
-                    <div className="flex justify-center my-2">
-                        {arrLevel.map((e, i) => {
-                            return (
-                            <div
-                                className={`${chLevel === e ?  "bg-baseBlue1 text-white" : ""  }w-[40px] h-[40px] md:w-[60px] md:h-[60px] hover:bg-baseBlue1 hover:text-white md:text-2xl bg-white font-bold text-baseBlack md:p-5 flex items-center justify-center rounded-2xl m-1 md:m-2` }
-                                key={i}
-                                onClick={() => selectLevel(e.id, i)}
-                                >
-                                {e.id}
-                            </div>
-                            );
-                            })}
-                    </div>
-                    <div className="flex flex-wrap gap-2 justify-center">
-                        {userLesson.map((e, i) => {
-                           
-                            return (
-                                <div className="flex w-[320px] items-center justify-between border border-helpGray p-2 rounded-2xl" key={i}>
-                                    <div className="flex justify-between w-[130px]">
-                                        <div> {e.language}</div>
-                                        <div>{e.level}</div>
-                                        <div>№{e.lessonNumber}</div>
-                                    </div>
-                                    <button
-                                        onClick={() => view(e.lessonNumber)}
-                                        className=" bg-blue-500 rounded-[5px] flex justify-center items-center px-4 py-1 hover:bg-blue-600 hover:scale-110 "
-                                    >
-                                        Watch
-                                    </button>
-                                    <div className="flex w-[60px] justify-between">
-                                        <AiFillEdit size={20} onClick={() => edit(e.lessonNumber)}/>
-                                        <MdDelete size={20}  onClick={() => remove(e.lessonNumber) }/>
-                                    </div>
-                                </div>
-                               
-                            );
-                        })}
-                    </div>
-                    <Modal show={showDelete}>
-                        <div className="p-6 flex flex-col justify-center">
-                            <p>Are you sure you want to delete a lesson?</p>
-                            <div className="flex my-2 justify-between">
-                                <button className="py-2 px-6 rounded-2xl bg-red-500 text-white" onClick={() => LessonCtx.deleteDB(chLan, chLevel, chLessonId )}>Yes, delete</button>
-                                <button className="py-2 px-6 rounded-2xl bg-green-500 text-white" onClick={() => setShowDelete(false)}>No </button>
-                            </div>
-                        </div>
-                    </Modal>
                 </div>
+                <div className="flex flex-wrap gap-2 justify-center w-full">
+                    {userLesson.map((e, i) => {
+                        
+                        return (
+                            <div className="flex w-full sm:w-[300px] my-2 items-center justify-between border border-helpGray p-2 rounded-2xl" key={i}>
+                                <div className="flex justify-between w-[130px]">
+                                    <div> {e.language}</div>
+                                    <div>{e.level}</div>
+                                    <div>№{e.lessonNumber}</div>
+                                </div>
+                                <button
+                                    onClick={() => view(e.lessonNumber)}
+                                    className=" bg-blue-500 rounded-[5px] flex justify-center items-center px-4 py-1 hover:bg-blue-600 hover:scale-110 "
+                                >
+                                    Watch
+                                </button>
+                                <div className="flex w-[60px] justify-between">
+                                    <AiFillEdit size={20} onClick={() => edit(e.lessonNumber)}/>
+                                    <MdDelete size={20}  onClick={() => remove(e.lessonNumber) }/>
+                                </div>
+                            </div>
+                            
+                        );
+                    })}
+                </div>
+                <Modal show={showDelete}>
+                    <div className="p-6 flex flex-col justify-center">
+                        <p>Are you sure you want to delete a lesson?</p>
+                        <div className="flex my-2 justify-between">
+                            <button className="py-2 px-6 rounded-2xl bg-red-500 text-white" onClick={() => LessonCtx.deleteDB(chLan, chLevel, chLessonId )}>Yes, delete</button>
+                            <button className="py-2 px-6 rounded-2xl bg-green-500 text-white" onClick={() => setShowDelete(false)}>No </button>
+                        </div>
+                    </div>
+                </Modal>
+            </div>
             ) : ( 
                 //request  teacher 
-            <div className="md:pt-20 pt-10 px-6 flex flex-col w-[80%] m-auto">
+            <div className="z-20 md:pt-20 pt-10 px-6 flex flex-col w-[80%] m-auto">
                 <Modal show={show} >
                     <div className="flex flex-col justify-between">
                         <p className="text-baseBlack text-lg my-3 text-center">Submit a request to become a teacher</p>

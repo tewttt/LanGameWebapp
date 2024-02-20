@@ -1,5 +1,4 @@
 import React, {useState, useContext} from "react";
-import Button from "../../../components/Button";
 import Modal from "../../../components/General/Modal";
 import { useHistory } from "react-router-dom";
 import LessonContext from "../../../context/LessonContext";

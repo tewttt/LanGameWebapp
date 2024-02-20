@@ -1,7 +1,5 @@
 import React, {useState} from "react";
-
 import Toolbar from "../Toolbar";
-
 import Navbar from "../Navbar/Navbar";
 
 const ToolSidebar = () => {
@@ -11,11 +9,9 @@ const ToolSidebar = () => {
         setShowSidebar(!showSidebar)
     }
     return (
-        <div className="">
+        <div >
              <Toolbar toggleSidebar={toggleSidebar}/>
              <Navbar toggleSidebar={toggleSidebar} showSidebar={showSidebar}/>
-            {/* <Sidebar toggleSidebar={toggleSidebar} showSidebar={showSidebar}/> */}
-
         </div>
     )
 }

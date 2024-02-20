@@ -7,7 +7,7 @@ const LessonPage = () => {
     return (
         <div className="relative flex bg-baseBlack flex-col p-6 md:p-0">
             <div 
-                className="bg-cover absolute top-0 -left-4  z-10 "
+                className="bg-cover bg-center opacity-30 absolute top-0 left-0 bg-repeat w-screen h-full"
                 style={{backgroundImage: `url(${pattern})`}}>
             </div>
             <div className="z-30">
@@ -16,7 +16,7 @@ const LessonPage = () => {
             
             <div className="z-20 ">
                 <Choice/>
-            </div>
+            </div> 
         </div>      
 )}
 export default LessonPage;

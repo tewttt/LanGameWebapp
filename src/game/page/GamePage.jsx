@@ -153,12 +153,9 @@ const Game = () => {
 
   return (
     // <GameStore>
-    <div className="relative flex bg-baseBlack flex-col p-6 md:p-0">
-       {/* <div 
-          className="bg-cover absolute top-0 -left-4 opacity-30 z-10 "
-          style={{backgroundImage: `url(${pattern})`}}>
-      </div> */}
+    <div className="relative flex bg-baseBlack flex-col px-6 pt-6 pb-20 md:p-0">
       <ToolSidebar />
+      
       <GameNavbar /> 
       <div className="flex text-white flex-col w-full md:w-[40%] pt-2 pb-28 px-2 m-auto">
           
@@ -287,7 +284,7 @@ const Game = () => {
         </div>
       </Modal>
     </div>
-    // </GameStore>
+   
   );
 };
 

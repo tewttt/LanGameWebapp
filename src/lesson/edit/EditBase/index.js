@@ -1,5 +1,4 @@
 import React, {useState, useContext, useEffect} from "react";
-import ButtonCmp from "../../../components/Button";
 import Modal from "../../../components/General/Modal";
 import { useHistory, useParams, useLocation} from "react-router-dom";
 import LessonContext from "../../../context/LessonContext";

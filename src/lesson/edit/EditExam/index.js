@@ -12,8 +12,6 @@ import FilterNoneIcon from '@mui/icons-material/FilterNone';
 import RestoreFromTrashIcon from '@mui/icons-material/RestoreFromTrash';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 
-import ButtonCmp from "../../../components/Button"
-import Spinner from "../../../components/General/Spinner";
 import LessonContext from "../../../context/LessonContext";
 import Modal from "../../../components/General/Modal";
 import { useHistory,useLocation, useParams } from "react-router-dom";

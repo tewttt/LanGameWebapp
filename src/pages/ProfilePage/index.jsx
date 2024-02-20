@@ -9,7 +9,7 @@ import SaveIcon from '@mui/icons-material/Save';
 import {storage} from "../../firebase";
 import { getAuth } from "firebase/auth";
 import { ref, uploadBytes,  getDownloadURL } from "firebase/storage";
-import backImage from '../../assets/logo/backgroundSmall.png'
+import pattern from '../../assets/logo/patternWhite.png'
 import { IoIosArrowBack ,IoIosSettings  } from "react-icons/io";
 
 const auth = getAuth();
@@ -81,15 +81,16 @@ const ProfilePage = () => {
     }
 
     return (
-        <div className="relative text-helpGray bg-baseBlack px-6 pt-6 md:pt-0 pb-36">
-            <ToolSidebar/>
+        <div className="flex flex-col relative text-helpGray bg-baseBlack px-6 pt-6 md:pt-0 pb-36">
             <div 
-                className="bg-cover absolute top-0 left-0 -z-20 opacity-80 w-screen h-screen"
-                style={{backgroundImage: `url(${backImage})`}}>
+                className="bg-cover bg-center opacity-30 absolute top-0 left-0 bg-repeat w-screen h-full"
+                style={{backgroundImage: `url(${pattern})`}}>
             </div>
+            <div className="z-30"> <ToolSidebar/> </div>
+            
             {pedit ? ( 
                 // edit 
-            <div className="flex flex-col items-center md:pt-20">
+            <div className="z-20 flex flex-col items-center md:pt-20">
                 <div className="flex py-2 justify-between pb-4 w-full">
                     <div className="flex items-center">
                         <IoIosArrowBack size={20} onClick={() => history.push("/")}/>
@@ -166,7 +167,7 @@ const ProfilePage = () => {
                 </div>
             </div>
             ) : (
-            <div className="flex flex-col items-center md:pt-20">
+            <div className="z-20 flex flex-col items-center md:pt-20">
                  <div className="flex py-2 justify-between pb-4 w-full">
                     <div className="flex items-center">
                         <IoIosArrowBack size={20} onClick={() => history.push("/")}/>

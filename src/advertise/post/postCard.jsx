@@ -19,13 +19,13 @@ const PostCard = ({data}) => {
         <div className="w-full sm:w-[300px] m-2 border border-helpGray p-2 rounded-2xl">
             <Modal show={show} >
                 <div className="flex flex-col">
-                    <p className="text-red-500 text-lg my-3 text-center">Are you sure delete the post ?</p>
+                    <p className="text-lg my-3 text-center">Are you sure delete the post ?</p>
                     <div className="flex justify-between">
                         <button  
-                            className="bg-green-500 py-3 px-10 rounded-2xl text-white"
+                            className="bg-green-500 w-1/2 rounded-2xl p-2 mx-1 text-white"
                             onClick={() => setShow(false)}>NO</button>
                         <button 
-                        className="bg-red-500 text-white py-3 px-6 rounded-2xl"
+                        className="bg-red-500 w-1/2 text-white  p-2 mx-1 rounded-2xl"
                         onClick={remove}>Yes, delete post</button>
                     </div>
                 </div>
@@ -80,11 +80,11 @@ const PostCard = ({data}) => {
                 <div className="flex justify-between my-2 w-full">
                     <button 
                         className="bg-green-500 mr-1 w-1/2 py-2 px-3 font-semibold rounded-xl hover:bg-green-800"
-                        onClick={edit}>Post 
+                        onClick={edit}>Edit post 
                     </button>
                     <button 
                         className="bg-red-600 ml-1 py-2 w-1/2 px-3 font-semibold rounded-xl hover:bg-red-800"
-                        onClick={() => setShow(true)}>Post delete
+                        onClick={() => setShow(true)}>Delete Post
                     </button>
                 </div>
             </div>

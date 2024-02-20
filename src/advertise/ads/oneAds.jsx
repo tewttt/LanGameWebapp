@@ -44,14 +44,14 @@ const OneAds = () => {
             </div>
            <Modal show={show} >
                 <div className="flex flex-col">
-                    <p className="text-red-500 text-lg my-3 text-center">Are you sure delete the post ?</p>
+                    <p className=" text-lg my-3 text-center">Are you sure delete the post ?</p>
                     <div className="flex justify-between">
                         <button  
-                            className="bg-green-500 py-3 px-10 rounded-2xl text-white"
+                            className="bg-green-500 p-2 w-1/2 mx-1 rounded-2xl text-white"
                             onClick={() => setShow(false)}>NO</button>
                         <button 
-                        className="bg-red-500 text-white py-3 px-6 rounded-2xl"
-                        onClick={remove}>Yes, delete advertise</button>
+                        className="bg-red-500 text-white p-2 w-1/2 mx-1 rounded-2xl"
+                        onClick={remove}>Yes, delete</button>
                     </div>
                 </div>
             </Modal>

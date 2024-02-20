@@ -59,9 +59,9 @@ const Lesson = (props) => {
   }
 
   return ( 
-    <div className="text-white mt-4">
+    <div className="text-white mt-4 w-[140px] sm:w-[160px] lg:w-[200px] aspect-square">
       {props?.lessons?.status === "Төлбөргүй" || data ? (
-        <div className="flex flex-col p-2 items-center justify-around border border-blue-500 h-[140px] w-[140px]  rounded-[5px] ">
+        <div className="flex flex-col p-2 lg:p-4 items-center justify-around border border-blue-500 w-full h-full  rounded-[5px] ">
           <div className="flex w-full justify-between">
             <div className=""> {props.lessons.language}</div>
             <div className="">{props.lessons.level}</div>
@@ -77,7 +77,7 @@ const Lesson = (props) => {
         </div>
       ) : (
         // Төлбөртэй
-      <div className="flex flex-col p-2 justify-between items-center border border-blue-500 h-[140px] w-[140px]  rounded-[5px] ">
+      <div className="flex flex-col p-2 lg:p-4 justify-between items-center border border-blue-500 w-full h-full  rounded-[5px] ">
         <div className="flex w-full justify-between">
           <div className=""> {props.lessons.language}</div>
           <div className="">{props.lessons.level}</div>

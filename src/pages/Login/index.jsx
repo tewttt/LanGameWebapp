@@ -1,5 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
 import { useHistory } from "react-router-dom";
+
 import UserContext from "../../context/UserContext";
 import {
   AiFillEye,
@@ -7,7 +8,8 @@ import {
   AiFillLock,
   AiTwotoneMail,
 } from "react-icons/ai";
-import Loader from "../../UI/Loader";
+
+import Loader from "../../components/General/Loader"
 import Logo from "../../assets/logo/Typo Logo SVG Blue.svg"
 import backImage from "../../assets/logo/backgroundSmall.png"
 
@@ -16,8 +18,6 @@ export default function Login() {
   const history = useHistory();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  // curlets1123@gmail.com
-  // 123456Aa@
   const [showPass, setShowPass] = useState(false);
   const [rememberMe , setRememberMe] = useState(false)
 
@@ -37,13 +37,6 @@ export default function Login() {
   const signup = () => {
     history.push("/signup");
   };
-
-  //TO DO
-  // hooson input shalgah , ulaan  bichig gargah
-// remember me color change
-// log out shuud garahgvi bn 
-
-
 
   // const year = new Date().getFullYear()
   const login = async () => {
@@ -65,7 +58,6 @@ export default function Login() {
     try {
       ctx.loginUser(email, password);
       history.push("/lesson");
-      // Your login logic here
     } catch (error) {
       alert('Error during login:', error);
      
@@ -77,13 +69,12 @@ export default function Login() {
   }
 
   return (
-    <div 
-      className="flex text-baseBlack flex-col
-      justify-center items-center w-screen h-screen relative ">
+    <div className="flex text-baseBlack flex-col justify-center items-center w-screen h-screen relative ">
       <div 
         className="bg-cover absolute top-0 left-0 -z-10 opacity-90 w-screen h-screen"
         style={{backgroundImage: `url(${backImage})`}}>
       </div>
+
       {ctx.state.logginIn && (
         <div className="absolute z-10"> 
           <Loader />
@@ -141,22 +132,19 @@ export default function Login() {
             onChange={() => setRememberMe(!rememberMe)}
             type="checkbox"
             className="mx-2 w-5 h-5 border border-gray-400 rounded-md appearance-none 
-             checked:bg-baseBlue1 checked:border-baseBlue1
-            "
-
+             checked:bg-baseBlue1 checked:border-baseBlue1"
           />
           <p className="text-sm text-gray-400">Remember me</p>
 
         </div>
         <button 
-         className="w-[276px] h-[40px] mt-6 bg-baseBlue1 text-white text-center border border-helpGray 
-         rounded-[25px] transition ease-in-out duration-200
-         font-semibold hover:bg-blue-700"
-          onClick={login}>
-          Login
+            className="w-[276px] h-[40px] mt-6 bg-baseBlue1 text-white text-center border border-helpGray 
+            rounded-[25px] transition ease-in-out duration-200
+            font-semibold hover:bg-blue-700"
+            onClick={login}>
+            Login
         </button>
 
-      
         <button 
           onClick={forgotPassword}
           className="w-[276px] h-[40px] text-sm font-300 text-gray-400 hover:text-gray-500 ">
@@ -164,13 +152,14 @@ export default function Login() {
         </button>
        
         <button 
-         className="w-[276px] h-[40px] font-semibold text-center mt-6 bg-helpGray 
-         rounded-[25px] transition ease-in-out duration-200 hover:bg-gray-200
-        "
+          className="w-[276px] h-[40px] font-semibold text-center mt-6 bg-helpGray 
+          rounded-[25px] transition ease-in-out duration-200 hover:bg-gray-200
+          "
           onClick={signup}>
           Бүртгүүлэх
         </button>
       </div>
+
     </div>
   );
 }

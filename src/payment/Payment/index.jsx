@@ -3,7 +3,7 @@ import ToolSidebar from "../../components/ToolSidebar";
 import UserContext from "../../context/UserContext";
 import { FaExchangeAlt } from "react-icons/fa";
 import usePayment from "../../hook/usePayment";
-import backImage from "../../assets/logo/backgroundSmall.png"
+import pattern from "../../assets/logo/patternWhite.png"
 const Payment = () => {
     const {exchange} = usePayment()
     const [from, setFrom] = useState("")
@@ -54,13 +54,14 @@ const chahngeExchange = () => {
  }
    
     return (
-        <div className="bg-baseBlack h-screen relative"> 
-            <ToolSidebar/>
+        <div className="relative flex bg-baseBlack flex-col h-screen"> 
             <div 
-                className="bg-cover absolute top-0 left-0 -z-20 opacity-80 w-screen h-screen"
-                style={{backgroundImage: `url(${backImage})`}}>
+                className="bg-cover bg-center opacity-30 absolute top-0 left-0 bg-repeat w-screen h-full"
+                style={{backgroundImage: `url(${pattern})`}}>
             </div>
-            <div className="md:pt-14">
+            <div className="z-30"><ToolSidebar/></div>
+            
+            <div className="md:pt-14 z-20">
                 <div className="rounded-2xl text-white w-[300px] mt-4 px-10 py-4 flex flex-col m-auto">
                     <div className="flex my-1 justify-between border py-2 px-6 rounded-xl border-helpGray">
                         <p>name</p>
@@ -126,6 +127,7 @@ const chahngeExchange = () => {
                     className="my-4 w-[200px] bg-baseBlue1 p-2 text-white m-auto rounded-2xl">Exchange</button>
                 </div>
             </div>
+            
         </div>
     )
 }

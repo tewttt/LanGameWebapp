@@ -2,6 +2,7 @@ import React, {useState, useEffect} from "react"
 import { useHistory , useParams} from "react-router-dom"
 import { MdOutlineCancel } from "react-icons/md";
 import useAds from "../../hook/useAds";
+import { IoIosArrowBack ,IoIosSettings  } from "react-icons/io";
 
 export default function EditAdvertise() {
     const {id} = useParams();
@@ -38,15 +39,22 @@ export default function EditAdvertise() {
         setAds({...ads, totalBudget: e.target.value})
     }
     return (
-        <div className="flex flex-col justify-center items-center my-5">
-              <MdOutlineCancel className="mb-10" onClick={() => history.push(`/oneAds/${id}`)} size={30}/>
-            
-            <div className="w-[300px]">
-                <div className="border border-baseColor  w-full rounded-xl p-2 my-1">
+        <div className=" bg-baseBlack flex flex-col items-center px-6 p-6 pb-72 text-white">
+             
+            <div className="flex py-2 justify-between pb-4 w-full sm:w-[80%] md:w-[60%] xl:w-[40%]">
+                <div className="flex items-center">
+                    <IoIosArrowBack size={20} onClick={() => history.push(`/oneAds/${id}`)}/>
+                    <p>Edit ads </p>
+                </div>
+                <IoIosSettings size={20}/>
+            </div>
+
+            <div className="w-full sm:w-[80%] md:w-[60%] xl:w-[40%]">
+                <div className="flex justify-between my-1 py-1">
                     <p>gender {ads?.gender}</p>
                     <select 
                         onChange={changeGender}
-                        className="w-full ">
+                        className="w-3/4 p-1 rounded-xl ">
                         <option>{ads?.gender}</option>
                         <option>All</option>
                         <option>Men</option>
@@ -54,23 +62,31 @@ export default function EditAdvertise() {
                        
                     </select>
                 </div>
-                <div className="border border-baseColor  w-full rounded-xl p-2 my-1">
-                    <p>age </p>
+
+                <div className="flex justify-between my-1 py-1">
+                    <p className="">Age</p>
+                    <p>{}</p>
                 </div>
+                <div className="flex justify-between my-1 py-1">
+                    <p className="">Name</p>
+                    <p>{}</p>
+                </div>
+
+                
                
-                <div className="border border-baseColor  w-full rounded-xl p-2 my-1">
+                <div className="flex justify-between my-1 py-1">
                     <p>Location</p>
                 </div>
                
-                <div className="border border-baseColor  w-full rounded-xl p-2 my-1">
+                <div className="flex justify-between my-1 py-1">
                     <p>days duration</p>
                 </div>
-                <div className="flex justify-between border border-baseColor  w-full rounded-xl p-2 my-1">
+                <div className="flex justify-between my-1 py-1">
                     <p>total budget</p>
                     <input onChange={changeBudget} value={ads?.totalBudget} type="number" className="w-[100px]" placeholder="budget" type="number"/>
                     <p>₮</p>
                 </div>
-                <div className="flex justify-end">
+                <div className="flex justify-between my-1 py-1">
                    <p>goal  person</p>
                    <p> {totalPerson}</p>
                 </div>
@@ -78,12 +94,10 @@ export default function EditAdvertise() {
             </div>
             <button 
                 onClick={() => editAds(ads, id)} 
-                className="mt-10 border bg-green-500 text-white border-baseColor rounded-2xl w-[200px] h-[40px]">
-                    Edit save ads</button>
-            {/* <button 
-                onClick={() => deleteAds( id)} 
-                className="mt-10 border bg-red-500 text-white border-baseColor rounded-2xl w-[200px] h-[40px]">
-                    Delete ads</button> */}
+                className="mt-10  bg-baseBlue1 hover:bg-blue-600 text-white  rounded-2xl p-2 w-full sm:w-[80%] md:w-[60%] xl:w-[40%]">
+                    Edit save 
+            </button>
+          
         </div>
     )
 }

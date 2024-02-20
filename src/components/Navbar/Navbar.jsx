@@ -1,15 +1,15 @@
 import React, {useContext} from "react";
 import css from "./style.module.css"
 import { useHistory } from "react-router-dom"
-import UserContext
- from "../../context/UserContext";
+import UserContext from "../../context/UserContext";
 
- // TO DO
- // logout 
 const Navbar = (props) => {
     const ctx = useContext(UserContext)
     const history = useHistory()
-    // console.log(ctx.logout)
+    const signOut = () => {
+        // history.push("/")
+        ctx.logout()
+    }
     return (
         
             <div  
@@ -29,7 +29,7 @@ const Navbar = (props) => {
                     <div onClick={()=> history.push("/ads")} className={css.towch}>
                        Advertise
                     </div>
-                    <div onClick={() =>ctx.logout()} className={css.towch}>
+                    <div onClick={signOut} className={css.towch}>
                         Log-out
                     </div>
                 </div>
