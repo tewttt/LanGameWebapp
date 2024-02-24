@@ -2,10 +2,12 @@ import React, { useState } from "react";
 import { useHistory } from "react-router-dom"
 import usePost from "../../hook/usePost";
 import Modal from "../../components/General/Modal"
+import useAds from "../../hook/useAds"
 
 const PostCard = ({data}) => {
     const history = useHistory()
     const { deletePost} = usePost();
+    const {deletePostAds} = useAds()
     const [show, setShow] = useState(false)
     const edit = () => {
         history.push(`/editpost/${data.id}`)
@@ -13,6 +15,7 @@ const PostCard = ({data}) => {
     // console.log(data)
     const remove = () => {
         deletePost(data.id)
+        deletePostAds(data.id)
     }
    
     return (

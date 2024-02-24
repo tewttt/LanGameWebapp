@@ -31,7 +31,7 @@ const Choice = () => {
         {lanId.map((lan, i) => {
           return (
             <div
-            className={`${chLan === lan ?  "bg-baseBlue1 text-white" : "" } w-[90px] sm:w-1/3 mx-1 hover:bg-baseBlue1 hover:text-white md:text-2xl bg-white font-bold text-baseBlack p-4 flex items-center justify-center rounded-2xl` }
+            className={`${chLan === lan ?  "bg-baseBlue1 text-white" : "" } w-[30%] hover:bg-baseBlue1 hover:text-white md:text-2xl bg-white font-bold text-baseBlack p-4 flex items-center justify-center rounded-2xl` }
              
               key={i}
               onClick={() => selectLan(lan.id)}
@@ -46,7 +46,7 @@ const Choice = () => {
         {levelId.map((e, i) => {
           return (
             <div
-            className={`${chLevel === e ?  "bg-baseBlue1 text-white" : ""  }w-[40px] h-[40px] sm:w-[60px] sm:h-[50px] hover:bg-baseBlue1 hover:text-white md:text-2xl bg-white font-bold text-baseBlack md:p-5 flex items-center justify-center rounded-2xl m-1 md:m-2` }
+            className={`${chLevel === e ?  "bg-baseBlue1 text-white" : ""  } h-[40px] w-[14%] aspect-square hover:bg-baseBlue1 hover:text-white bg-white font-bold text-baseBlack  flex items-center justify-center rounded-2xl` }
               
               key={i}
               onClick={() => selectLevel(e.id, i)}

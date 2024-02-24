@@ -96,7 +96,7 @@ const ProfilePage = () => {
                         <IoIosArrowBack size={20} onClick={() => history.push("/")}/>
                         <p>Profile</p>
                     </div>
-                    <IoIosSettings size={20}/>
+                    <IoIosSettings onClick={() => history.push("/settings")} size={20}/>
                 </div>
                 {state?.photo ? (
                     <img src={state.photo} className="w-[150px] h-[150px] rounded-[18px] border border-baseBlack"/>
@@ -173,7 +173,7 @@ const ProfilePage = () => {
                         <IoIosArrowBack size={20} onClick={() => history.push("/")}/>
                         <p>Profile</p>
                     </div>
-                    <IoIosSettings size={20}/>
+                    <IoIosSettings onClick={() => history.push("/settings")} size={20}/>
                 </div>
               
               
@@ -220,4 +220,4 @@ const ProfilePage = () => {
         </div>
 )}
 
-export default ProfilePage;
+export default ProfilePage; 

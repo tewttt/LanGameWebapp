@@ -39,7 +39,7 @@ export default function useAds(id) {
   // ads iin data awah
 
   const getStatic =async (ads) => {
-    console.log(ads.gender)
+    // console.log(ads.gender)
     // const stRef = doc(db, "static", "man")
     // const snap = await getDoc(stRef)
     // if(snap.exists()){
@@ -98,10 +98,6 @@ export default function useAds(id) {
           }
         });
         setFilterUsers(filteredUsers);
-
-        filterAds.map((ads, i) => {
-          console.log(ads.ads?.ageStart)
-        })
     });
 
 
@@ -135,9 +131,6 @@ export default function useAds(id) {
           }) 
         })
     });
-
-   
-
      
   }, [])
 
@@ -150,6 +143,7 @@ export default function useAds(id) {
   }
 
   const sendAds = async (ads , goalPerson) => {
+    // console.log(ads)
       const adsRef = collection(db, "ads")
       await addDoc(adsRef , {
           ads,
@@ -188,9 +182,26 @@ export default function useAds(id) {
       console.log("error" + error);
     });
   }
-  const deleteAds = async(id) => {
+  const deleteAds = async() => {
+    // console.log(id)
     const Doc = doc(db,`ads`, id);
     await deleteDoc(Doc);
+  }
+
+  const deletePostAds = (postId) => {   
+    const adsRef = query(
+      collection(db, "ads"),
+      where("postId" , "==" , postId),
+    )
+    onSnapshot(adsRef, (snapshot) => {
+      let list = [];
+      snapshot.docs.map((doc) => list.push({ ...doc.data(), id: doc.id }));
+  
+      list.map((e, i) => {
+        const Doc = doc(db,`ads`, e?.id);
+        deleteDoc(Doc);
+      })
+    });
   }
 
   const putTransaction =async (data , adsId) => {
@@ -226,7 +237,8 @@ export default function useAds(id) {
       filterAds,
       allads,
       filterUsers,
-      getStatic
+      getStatic,
+      deletePostAds
   }
 }
 

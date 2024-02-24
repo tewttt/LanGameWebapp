@@ -96,21 +96,21 @@ export default function WatchAdvertise () {
                 </video>
             
                 <div className="w-full sm:w-[80%] md:w-[50%] xl:w-[30%] my-4">
-                    <div className="flex justify-between my-1 py-1">
+                    <div className="flex  my-1 py-1">
                         <p className="w-[100px]">address: </p>
                         <p>{postDataAds?.post?.address} </p>
                     </div>
-                    <div className="flex justify-between my-1 py-1">
-                        <p>Email:</p>
+                    <div className="flex  my-1 py-1">
+                        <p className="w-[100px]">Email:</p>
                         <p> {postDataAds?.post?.email} </p>
                     </div>
                 
-                    <div className="flex justify-between my-1 py-1">
-                    <p >Title</p>
+                    <div className="flex  my-1 py-1">
+                    <p className="w-[100px]">Title</p>
                     <p> {postDataAds?.post?.title} </p>
                     </div>
-                    <div className="flex justify-between my-1 py-1">
-                        <p>Text</p>
+                    <div className="flex  my-1 py-1">
+                        <p className="w-[100px]">Text</p>
                         <p>{postDataAds?.post?.text} </p>
                     </div>
                 

@@ -17,7 +17,7 @@ export default function AllAds () {
                 </div>
                 <IoIosSettings size={20}/>
             </div>
-           <div className="flex flex-wrap justify-center mt-4">
+            <div className="flex flex-wrap justify-center mt-4">
                 {allads.map((e, i) => (
                     <AdsCart data={e} key={i}/>
                 ))}

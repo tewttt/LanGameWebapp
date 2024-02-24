@@ -7,11 +7,10 @@ import usePost from "../../hook/usePost";
 import { IoIosArrowBack ,IoIosSettings  } from "react-icons/io";
 
 export default function AddAdvertise() {
-   
     const {posts} = usePost();
     const history = useHistory()
     return (
-        <div className=" bg-baseBlack flex flex-col items-center px-6 p-6 pb-52 text-white">
+        <div className=" bg-baseBlack flex flex-col items-center px-6 pt-6 pb-96 text-white">
             <div className="flex py-2 justify-between pb-4 w-full sm:w-[80%]">
                 <div className="flex items-center">
                     <IoIosArrowBack size={20} onClick={() => history.push("/gameHome")}/>

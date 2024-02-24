@@ -78,7 +78,7 @@ export default function EditPost() {
                 <div className="flex justify-between my-1 py-1">
                     <p>Title</p>
                     <input  
-                        className="w-3/4 p-1 rounded-xl" 
+                        className="w-3/4 p-1 rounded-xl text-baseBlack" 
                         onChange={handleChange} 
                         required 
                         type="text" 
@@ -91,7 +91,7 @@ export default function EditPost() {
                 <div className="flex justify-between my-1 py-1">
                     <div>Text</div>
                     <input  
-                        className="w-3/4 p-1 rounded-xl" 
+                        className="w-3/4 p-1 rounded-xl text-baseBlack" 
                         onChange={handleChange} 
                         required 
                         type="text" 
@@ -103,7 +103,7 @@ export default function EditPost() {
                 <div className="flex justify-between my-1 py-1">
                     <div>Link</div>
                     <input  
-                        className="w-3/4 p-1 rounded-xl" 
+                        className="w-3/4 p-1 rounded-xl text-baseBlack" 
                         onChange={handleChange} 
                         required 
                         type="text" 
@@ -115,7 +115,7 @@ export default function EditPost() {
                 <div className="flex justify-between my-1 py-1">
                     <div>Address</div>
                     <input  
-                        className="w-3/4 p-1 rounded-xl" 
+                        className="w-3/4 p-1 rounded-xl text-baseBlack" 
                         onChange={handleChange} 
                         required 
                         type="text" 
@@ -127,7 +127,7 @@ export default function EditPost() {
                 <div className="flex justify-between my-1 py-1">
                     <div>Phone</div>
                     <input  
-                        className="w-3/4 p-1 rounded-xl" 
+                        className="w-3/4 p-1 rounded-xl text-baseBlack" 
                         onChange={handleChange} 
                         required 
                         type="text" 
@@ -139,7 +139,7 @@ export default function EditPost() {
                 <div className="flex justify-between my-1 py-1">
                     <div>Email</div>
                     <input  
-                        className="w-3/4 p-1 rounded-xl" 
+                        className="w-3/4 p-1 rounded-xl text-baseBlack" 
                         onChange={handleChange} 
                         required 
                         type="text" 

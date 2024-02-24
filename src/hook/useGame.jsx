@@ -255,10 +255,6 @@ export default function useGame(id ) {
     
   }
 
-  // begin player , end player, end game
-
-  
-  // console.log(doublePlayer)
  useEffect(() => {
   const otherPlayers = players?.filter(item => !(item?.id === userCtx?.currentUser?.id))
   const currentPlayer = players?.find(item => (item?.id === userCtx?.currentUser?.id))
@@ -308,8 +304,6 @@ export default function useGame(id ) {
       data,
       createDate: serverTimestamp(),
     })
-    // const currentRef = doc(db, "users", currentUserId);
-    // await updateDoc(currentRef, {coins : increment(-100)})
    
     const gameRef = doc(db, `game/${id}/players`, sendPlayerId);
     await updateDoc(gameRef, {sendEmoji : e})

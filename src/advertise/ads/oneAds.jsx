@@ -8,7 +8,7 @@ import { IoIosArrowBack ,IoIosSettings  } from "react-icons/io";
 
 const OneAds = () => {
     const {id} = useParams();
-    const {ads , getAds} = useAds(id)
+    const {ads , getAds , deleteAds} = useAds(id)
     const { getPostAds , postDataAds} = usePost()
     const history = useHistory()
     const [show, setShow] = useState(false)
@@ -28,8 +28,11 @@ const OneAds = () => {
     },[ads?.postId])
 
    const remove = () => {
-    alert("delete")
+        deleteAds()
+        history.push("/allAds")
+    // alert("delete")
    }
+//    console.log(ads?.ads)
  
     return (
        
@@ -80,25 +83,18 @@ const OneAds = () => {
             <div className="flex flex-col border border-helpGray  rounded-xl p-2 my-2 w-full sm:w-[80%] md:w-[50%] xl:w-[30%]">
                 <p className="text-xl text-center">Advertise information</p>
                 <div className="flex justify-between my-1 py-1">
-                    <p className="">Age</p>
-                    <p>{ads?.ads?.age}</p>
+                    <p className="">Age from {ads?.ads?.startAge} to {ads?.ads?.endAge}</p>
                 </div>
                 <div className="flex justify-between my-1 py-1">
                     <p className="">Gender</p>
                     <p>{ads?.ads?.gender}</p>
                 </div>
-                <div className="flex justify-between my-1 py-1">
-                    <p className="">Total day</p>
-                    <p>{ads?.ads?.durationDate}</p>
-                </div>
+              
                 
                 <div className="flex justify-between my-1 py-1">
                    <p> {moment(ads?.createDate?.toDate()).calendar()}</p>    
                 </div>
-                <div className="flex justify-between my-1 py-1">
-                    <p className="">Start date</p>
-                    <p>{moment(ads?.startDate?.toDate()).calendar()}</p>
-                </div>
+                
                 <div className="flex justify-between my-1 py-1">
                     <p className="">Start date</p>
                     <p>{moment(ads?.startDate?.toDate()).calendar()}</p>

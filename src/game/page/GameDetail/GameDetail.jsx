@@ -4,7 +4,6 @@ import Field from "../../components/Field";
 import Modal from "../../../components/General/Modal";
 import Spinner from "../../../components/General/Spinner";
 import { useParams } from "react-router-dom";
-import { getAuth } from "firebase/auth";
 import useGame from "../../../hook/useGame";
 import UserContext from "../../../context/UserContext";
 import shield from "../../../assets/game/Shield 1.png"
@@ -17,36 +16,23 @@ import { MdOutlineCancel } from "react-icons/md";
 import { LuCrown } from "react-icons/lu";
 import { IoMdWine } from "react-icons/io";
 import { FaHandsBubbles } from "react-icons/fa6";
-import css from "./style.module.css";
-import e1 from "../../../assets/emoji/e1.png"
-import e2 from "../../../assets/emoji/e2.png"
-import e3 from "../../../assets/emoji/e3.png"
-import e4 from "../../../assets/emoji/e4.png"
-import e5 from "../../../assets/emoji/e5.png"
-import e6 from "../../../assets/emoji/e6.png"
-import e7 from "../../../assets/emoji/e7.png"
-import e8 from "../../../assets/emoji/e8.png"
-import e9 from "../../../assets/emoji/e9.png"
-import e10 from "../../../assets/emoji/e10.png"
-import e11 from "../../../assets/emoji/e11.png"
-import e12 from "../../../assets/emoji/e12.png"
-import {motion} from "framer-motion"
 
-const auth = getAuth();
+import e1 from "../../../assets/emoji/Love.svg"
+import e2 from "../../../assets/emoji/Баас.svg"
+import e3 from "../../../assets/emoji/Бүүр инээх.svg"
+import e4 from "../../../assets/emoji/Гайхах.svg"
+import e5 from "../../../assets/emoji/Гал.svg"
+import e6 from "../../../assets/emoji/Чамайг харах.svg"
+import e7 from "../../../assets/emoji/Ирмэлт.svg"
+import e8 from "../../../assets/emoji/Салхи.svg"
+import e9 from "../../../assets/emoji/Таалагдах.svg"
+import e10 from "../../../assets/emoji/Уйлах.svg"
+import e11 from "../../../assets/emoji/Хараал.svg"
+import e12 from "../../../assets/emoji/Чулуу.svg"
+
 let intervalIds = [];
 const TIME = 10
-// TO DO
-// google analytics
-// firebase security rule
-// waiting for other players Modal haruulah , spinner
-// sound oruulah 
-
-
-// if toglolt 2 toglochtoi vldsen bol ehnii toglogch ylhad 2 dah ylalt shuud onoogdoj togloom duusna
-// SHooo hayhad 5s time zaana,hugatsaandaa shoo hayhgvi bol automateer shoo buuna
-// point ygaad NAN bolood bn
-// wifi salsan , genet garsan playeriig 4 , 3 bairand oruulah
-
+const STARTTIME = 5
 const emoji = [e1, e2, e3, e4, e5,e6, e7, e8, e9, e10, e11, e12]
 
 const GameDetail = () => {
@@ -64,24 +50,25 @@ const GameDetail = () => {
   const {randomPower, queryPlayer, sendEmoji, isGo, isShield, isBack, addAnswer, game, players, addPoint, logoutPlayer ,isGameEnded, showGameEnd} = useGame(id);
   const [loader, setLoader] = useState(false);
   const [time, setTime] = useState(TIME)
-  const [questionShow, setQuestionShow] = useState(true); 
+  const [startTime, setStartTime] = useState(STARTTIME)
+  const [questionShow, setQuestionShow] = useState(false); 
+  const [showStartGame , setShowStartGame] = useState(true)
   const [answerShow, setAnswerShow] = useState(false)
+  const [waitPlayers , setWaitPlayers] = useState(true)
   const [showPlayer , setShowPlayer] = useState(false)
   const [questionNumber, setQuestionNumber] = useState(0);
   const [turn, setTurn] = useState(0);
   const [answeredPlayers, setAnsweredPlayers] = useState([])
   const questions = useRef([])
   const question = questions.current[questionNumber] || {} 
-// console.log(showPlayer)
+console.log(showStartGame)
   const [playerAnswer, setPlayerAnswer] = useState("")
-  const [playerAnswerData, setPlayerAnswerData] = useState("")
-
   const [logoutGame , setLogoutGame] = useState(false)
   const [selectedPower, setSelectedPower] = useState("")
-
   const currentUser = players?.find((item) => item.id === currentUserId)
   const [showCoin  ,setShowCoin] = useState(false)
   const power = {[game?.go] : go , [game?.shield] : shield , [game?.back] : back}
+  // console.log(players.length === 2)
   // create random number of powers
   useEffect(() => {
     const generateUniqueRandomNumber = (exclude = []) => {
@@ -101,18 +88,64 @@ const GameDetail = () => {
  
   // logout game
   const logout = () => {
-  // alert("yes")
     logoutPlayer(id, currentUserId , game);
   };
 
+
   useEffect(() => {
-    // Асуултын харагдах хугацаа
-    intervalIds.push( setInterval(startTimer, 1000))
-     return ()=>{
-      // console.log(intervalId);
+    //show start game modal
+    // Дараа нь асуулт харагдана
+
+    if(players.length === 4){
+      setWaitPlayers(false)
+      // setShowStartGame(true)
+      intervalIds.push( setInterval(startGameTime, 500))
+      
+      // intervalIds.push( setInterval(startTimer, 1000))
+      return ()=>{
+        // console.log(intervalId);
+        clearIntervals()
+      }
+    } 
+  })
+
+  // Тоглогчын ээлжийг 1000ms дараа автоматаар солих
+  const autoTurn = () => {
+    setTimeout(() => {
+      setTurn((prev) => {
+        let next = prev + 1;
+        // console.log(next > answeredPlayers.length, next , answeredPlayers.length);
+        if (next == answeredPlayers.length )
+        {      
+          //Бүх тоглогчид шоо хаяж, морь нүүсний дараа, дараагийн асуултыг харуулах
+          // console.log(next)
+          next = 0;    
+          getQuestionShow()   
+          addQuestionnumber()
+          clearIntervals()
+          intervalIds.push( setInterval(startTimer, 1000))
+        }   
+        return next;
+      });
+  }, 1000)};
+
+  const startGameTime = () => {
+    // setShowStartGame(false)
+    setTimeout(() => {
       clearIntervals()
-    }
-  }, []);
+      intervalIds.push( setInterval(startTimer, 1000))
+    }, 500)
+
+    setStartTime(prev => {
+      let next = prev - 1;
+      if(next <=0){
+        next = 5
+        setShowStartGame(false)
+        getQuestionShow()
+      }
+      return next;
+    })
+  }
   
   // clear
   const clearIntervals = () => {
@@ -137,32 +170,21 @@ const startTimer = () => {
       }, 1000)
       next = 10
     }
-
     return next;
   }) 
 }
- 
+
   // асуултууд
   useEffect(() => {
     // console.log(game?.questions && !questions.current,game?.questions , !questions.current)
     if (game?.questions && questions.current.length === 0  ) {
-    const shuffledQ =  shuffleArray(game?.questions);
-    questions.current = shuffledQ
+    questions.current = game?.questions
 
     }
   }, [game?.questions]);
 
 
-  // Асуултуудыг нийлүүлээд байрыг нь солих
-  function shuffleArray(questionsToShuffle) {
-    for (let i = questionsToShuffle.length - 1; i > 0; i--) {
-      let randomPosition = Math.floor(Math.random() * (i + 1));
-      let temp = questionsToShuffle[i];
-      questionsToShuffle[i] = questionsToShuffle[randomPosition];
-      questionsToShuffle[randomPosition] = temp;
-    }
-    return questionsToShuffle;
-  }
+ 
 
 // Нийт хариулсан тоглогчдын хариултыг зөв болон хугацаагаар шүүгээд setAnsweredPlayers хийсэн
 // AnsweredPlayers дээр Шоо харагдана
@@ -174,18 +196,17 @@ const playerCheck = () => {
     const allAnswer = question?.answers
     let correctAnswers=  allAnswer?.filter(el => el.answer === oneCorrectAnswer)
 
-    let answerData = allAnswer?.find(el => el.authId === currentUserId)
-    setPlayerAnswerData(answerData)
-
+    // let answerData = allAnswer?.find(el => el.authId === currentUserId)
     let sort = correctAnswers?.sort((a , b) => a.time.localeCompare(b.time))
     sort && setAnsweredPlayers(sort)
 
     // Зөв хариулт байхгүй бол дараагийн асуултыг харуулах
-    if (sort?.length === 0 ) {
-      // if (sort?.length === 0 || "undefined" ) {
+    // if (sort?.length === 0 ) {
+      if (sort?.length === 0 || "undefined" ) {
       setTimeout(() => {
         getQuestionShow()   
         addQuestionnumber()
+
       }, 1000)
 
        // clearIntervals()
@@ -211,25 +232,7 @@ const onDiceChange =async (val) => {
   }
 };
 
-// Тоглогчын ээлжийг 1000ms дараа автоматаар солих
-const autoTurn = () => {
-  setTimeout(() => {
-    setTurn((prev) => {
-      let next = prev + 1;
-      // console.log(next > answeredPlayers.length, next , answeredPlayers.length);
-      if (next == answeredPlayers.length )
-      {      
-        //Бүх тоглогчид шоо хаяж, морь нүүсний дараа, дараагийн асуултыг харуулах
-        // console.log(next)
-        next = 0;    
-        getQuestionShow()   
-        addQuestionnumber()
-        clearIntervals()
-        intervalIds.push( setInterval(startTimer, 1000))
-      }   
-      return next;
-    });
-  }, 1000)};
+
 
 
 // Асуултын хариултыг хадгалах
@@ -289,7 +292,7 @@ const chooseHorse = (e) => {
 }
 
 const getPower = (power, diceNumber) => {
-  console.log(diceNumber , power)
+  // console.log(diceNumber , power)
   if(power === "back") {
     setSelectedPower(selectedPower === power ? '' : power)
     
@@ -318,12 +321,12 @@ const getPower = (power, diceNumber) => {
 }
 
 
-  const data = {
-    coin: 100,
-    label: "send emoji",
-    labelType: "emoji",
-    type: "withdraw"
-  }
+const data = {
+  coin: 100,
+  label: "send emoji",
+  labelType: "emoji",
+  type: "withdraw"
+}
 
 const getEmoji = (e) => {
   if(ctx?.currentUser?.coins >= 100 ) {
@@ -335,32 +338,9 @@ const getEmoji = (e) => {
     // alert("coin hvrehgvi bn")
   }
 }
-const containerStyle = {
-  position: 'relative',
-  width: '3rem',
-  height: "3rem"
 
-}
 
-const circleStyle = {
-  
-  width: 60,
-  height: 60,
-  borderRadius: "50%",
-  position: 'absolute',
-  boxSizing: "border-box",
-  border: "0.5rem solid white",
-  borderTop: "0.5rem solid red",
-  top: 0,
-  left: 0,
 
- 
-}
-const spinTransition = {
-  loop: Infinity,
-  duration: 5,
-  ease: "linear"
-}
 
   return (
     <div className="bg-[#6e8426] flex justify-center items-center w-screen h-screen">
@@ -382,6 +362,24 @@ const spinTransition = {
               className="text-white md:w-[30px] md:h-[30px] mx-1 lg:mx-5 hover:text-blue-500 transform duration-500 ease-in-out hover:scale-125"
             />
           </div>
+          {/* wait other players */}
+          <Modal show={waitPlayers}>
+            <div>WAIT OTHER PLAYERS</div>
+          </Modal>
+
+          {/* start game */}
+          {waitPlayers ? (
+            null
+          ) : (
+            <Modal show={showStartGame}>
+            <div className="flex flex-col items-center text-xl">
+              <p className="my-2">THE GAME BEGINS </p>
+              <p className="my-2 text-red-500">Are you ready !!</p>
+              <p className="rounded-[50%] my-2 text-white text-3xl font-bold bg-baseBlue1 w-[70px] h-[70px] flex justify-center items-center"> {startTime}</p>
+            </div>
+          </Modal>
+          )}
+         
 
             {/* not enough coin */}
           <Modal show={showCoin} closeConfirm={() => setShowCoin(false)}>
@@ -398,8 +396,6 @@ const spinTransition = {
               </div>
             </div>
           </Modal>
-
-         
 
           {/* Тоглогчдыг харуулж байна */}
           {players?.map((e, i) => {
@@ -420,19 +416,24 @@ const spinTransition = {
                    
                     {e?.sendEmoji ? (
                       <div className={`relative `}>
-                        <img src={e?.state?.photo} className={`border-[8px] p-0 border-${e?.color}-500  w-[60px] h-[60px] rounded-[50%]`} />
+                        <img src={e?.state?.photo} 
+                        className={`border-[8px] p-0  w-[60px] h-[60px] rounded-[50%]`} 
+                        style={{borderColor: `${e.color}`  }}
+                        />
                         <img 
                           src={e?.sendEmoji} 
                           className="absolute top-0 -right-4 w-[40px] h-[40px] rounded-[50%] " />
                        </div>
                     ) : e?.logoutGame ? (
-                      <img src={go} className={`border-[8px] p-0 border-${e?.color}-500  w-[60px] h-[60px] rounded-[50%]`}/>
+                      <img src={go} style={{borderColor:`${e.color}`}} className={`border-[8px] p-0  w-[60px] h-[60px] rounded-[50%]`}/>
                     ) : (
                       <img src={e?.state?.photo} 
-                      className={` border-[8px] p-0 border-${e?.color}-500  w-[60px] h-[60px] rounded-[50%]`}
+                      style={{borderColor: `${e.color}` }}
+                      className={` border-[8px] p-0 w-[60px] h-[60px] rounded-[50%]`}
                       // className={`${true && css.loader} border-[8px] p-0 border-${e?.color}-500  w-[60px] h-[60px] rounded-[50%]`}
                     />
                     )}
+                   
                    
                     
                   
@@ -597,16 +598,16 @@ const spinTransition = {
           </Modal>
 
           {/* Асуултыг харуулж байна */}
-          <Modal show={questionShow}>
+          {/* <Modal show={questionShow}>
             <div 
             className="flex flex-col h-full w-full"
             // style={{ display: "flex", flexDirection: "column" }}
             >
-              <div className="text-white m-auto flex flex-col justify-center items-center w-[70px] h-[70px] bg-baseColor rounded-[50%]">
+              <div className="text-white m-auto flex flex-col justify-center items-center w-[70px] h-[70px] bg-baseBlue1 rounded-[50%]">
                 <p className="text-sm">time </p>
                 <p className="text-[22px] font-bold">{time}</p>
               </div>
-              <div className="flex my-2 w-full bg-hpink border border-baseColor rounded-[10px] h-full p-2">
+              <div className="flex my-2 w-full border border-baseBlue1 rounded-[10px] h-full p-2">
                 <p>{question?.questionText} </p>
               </div>
 
@@ -617,15 +618,7 @@ const spinTransition = {
                   <button
                       key={i}
                       onClick={() => saveAnswer(choice.optionText)}
-
-                      // disabled={playerAnswer?.answer}
-                      // className= {`${
-                      //   (choice.optionText === playerAnswer?.answer &&  playerAnswer?.answer === question?.answerKey) ? 
-                      //     'bg-green-600 ' : ""} hover:bg-orange-400 my-1 p-2 border border-baseColor rounded-2xl`}
-                      
-                      // className ={`${answer?.authId === currentUser ? "hidden" : "mx-3 border border-hpink my-1 p-2 rounded-2xl"} `}
-                      // className ={`${playerAnswer || playerAnswerData?.data ? "hidden" : "mx-3 border border-hpink my-1 p-2 rounded-2xl"} `}
-                      className ={`${playerAnswer ? "hidden" : "mx-3 border border-hpink my-1 p-2 rounded-2xl"} hover:bg-orange-400`}
+                      className ={`${playerAnswer ? "hidden" : "mx-3 border border-baseBlue1 my-1 p-2 rounded-2xl"} hover:bg-orange-400`}
                     >
                     
                     <p > {choice.optionText}</p>
@@ -634,15 +627,16 @@ const spinTransition = {
                 })}
               </div>
             </div>
-          </Modal>
+          </Modal> */}
 
           {/* Харилутыг харуулж байна */}
-          <Modal show={answerShow}>
+          {/* <Modal show={answerShow}>
             <div className="flex flex-col justify-center">
               <p className="text-center">Correct answer</p>
-              <p className="text-center my-2 w-full bg-hpink border border-baseColor rounded-[10px] h-full p-2"> {question?.answerKey}</p>
+              <p className="text-center my-2 w-full  border border-baseBlue1 rounded-[10px] h-full p-2">
+                 {question?.answerKey}</p>
             </div>
-          </Modal>
+          </Modal> */}
 
         <div className="absolute w-full h-full">
           <Field   power={power} chooseHorse={chooseHorse} selectedPower={selectedPower} currentUserId={currentUserId} currentUser={currentUser}/> 
@@ -662,19 +656,24 @@ const spinTransition = {
 
 export default GameDetail;
 
+// useEffect(() => {
+//   console.log(game?.questions && !questions.current,game?.questions , !questions.current)
+//   if (game?.questions && questions.current.length === 0  ) {
+//   const shuffledQ =  shuffleArray(game?.questions);
+//   questions.current = shuffledQ
   
 
-// const location = useLocation();
-  // const queryParams = new URLSearchParams(location.search);
-// const chLan = queryParams.get("lan")
-// const chLevel = queryParams.get("level")
-// const chLesson = queryParams.get("lesson")
+//   }
+// }, [game?.questions]);
 
- {/* <button onClick={() => Lessonctx.examfun()}>exam</button> */}
-   {/* <Body exam={exam} translate={translate} word={word} /> */}
-
-// let query = useQuery();
-  // function useQuery() {
-  // const { search } = useLocation();
-  // return React.useMemo(() => new URLSearchParams(search), [search]);
+   // Асуултуудыг нийлүүлээд байрыг нь солих
+  //  function shuffleArray(questionsToShuffle) {
+  //   for (let i = questionsToShuffle.length - 1; i > 0; i--) {
+  //     let randomPosition = Math.floor(Math.random() * (i + 1));
+  //     let temp = questionsToShuffle[i];
+  //     questionsToShuffle[i] = questionsToShuffle[randomPosition];
+  //     questionsToShuffle[randomPosition] = temp;
+  //   }
+  //   return questionsToShuffle;
   // }
+

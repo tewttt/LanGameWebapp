@@ -17,10 +17,10 @@ import GameHome from "../../game/page/GameHome";
 import WatchAdvertise from "../../advertise/ads/watchAdvertise";
 import Advertise from "../../advertise/ads/Advertise";
 import AddPost from "../../advertise/post/addPost";
-import AddAdvertise from "../../advertise/ads/addAdvertise";
+import AddAdvertise from "../../advertise/ads/addAdvertise/addAdvertise";
 import EditPost from "../../advertise/post/editPost";
 import AllAds from "../../advertise/ads/allAds";
-import EditAdvertise from "../../advertise/ads/editAds";
+import EditAdvertise from "../../advertise/ads/editAdvertise/editAds";
 import Forgot from "../forgot";
 import Verification from "../Verification"; 
 import OneAds from "../../advertise/ads/oneAds";
@@ -29,6 +29,7 @@ import ExamView from "../../lesson/view/examView";
 import WordView from "../../lesson/view/wordView";
 import GrammarView from "../../lesson/view/grammarView";
 import WordViewExam from "../../lesson/view/wordViewExam";
+import Settings from "../Settings";
 
 
 const App = () => { 
@@ -69,6 +70,8 @@ return (
           <Route path="/verification" component={Verification}/>
           <Route path="/oneAds/:id" component={OneAds}/>
           <Route path="/oneEdit/:id" component={EditAdvertise} />
+          <Route path="/settings" component={Settings} />
+
           <Route path="/" component={LessonPage}/>
      </Switch>
      ) : (

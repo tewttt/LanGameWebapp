@@ -12,7 +12,7 @@ const Dice = (props) => {
   var dices = [dice1, dice2, dice3, dice4, dice5, dice6];
   const [newDice, setNewDice] = useState(zur);
   const rollDice = () => {
-    var random = Math.floor(Math.random() * 3);
+    var random = Math.floor(Math.random() * 6);
     setNewDice(dices[random]);
     // props.onDiceChange(dices[random])
     props.onDiceChange(random);

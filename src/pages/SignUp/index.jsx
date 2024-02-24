@@ -156,8 +156,7 @@ return (
             <AiTwotoneMail size={20} className="text-baseBlue1 left-4 absolute z-10 "/>
             <input 
                     className="w-full h-full text-center border border-baseBlue1 
-                    rounded-[25px] transition ease-in-out duration-200
-                    hover:bg-blue-700"
+                    rounded-[25px] transition ease-in-out duration-200"
                 type="email " placeholder="Email" value={email} onChange={e=> setEmail(e.target.value)}/> 
         </div>
         

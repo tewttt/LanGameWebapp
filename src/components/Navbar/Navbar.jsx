@@ -29,6 +29,9 @@ const Navbar = (props) => {
                     <div onClick={()=> history.push("/ads")} className={css.towch}>
                        Advertise
                     </div>
+                    <div onClick={()=> history.push("/settings")} className={css.towch}>
+                       Settings
+                    </div>
                     <div onClick={signOut} className={css.towch}>
                         Log-out
                     </div>

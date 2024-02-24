@@ -6,9 +6,8 @@ const GameNavbar = () => {
     const ctx = useContext(UserContext)
   
 return (
-    <div className="flex w-full md:w-[50%] md:pt-20  
-    border-2 border-helpGray text-white
-    m-auto justify-between rounded-xl px-6 py-2 items-center">
+    <div className="m-auto flex w-full justify-around items-center my-4 sm:w-[80%] md:w-[50%] xl:w-[30%] p-2 border-2 border-helpGray rounded-2xl">
+
         <div className="h-14 w-14 flex items-center rounded-[50%]">
             <img src={ctx?.currentUser?.photo} className=" w-full h-full rounded-[50%]" />
             <p className="text-[10px] ">{ctx?.currentUser?.name}</p>

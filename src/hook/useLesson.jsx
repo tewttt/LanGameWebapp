@@ -206,24 +206,36 @@ export default function useLesson(languageId, topicId, lessonId) {
     };
 
     const createGame = async (state, chLan, chLevel, chLesson , entry , authId, win , second) => {
-        const questions = await examfunGame(chLan, chLevel, chLesson);
+        const getQuestions = await examfunGame(chLan, chLevel, chLesson);
+
+        const questions =  shuffleArray(getQuestions);
+        // Асуултуудыг хольж байна
+        function shuffleArray(questionsToShuffle) {
+          for (let i = questionsToShuffle.length - 1; i > 0; i--) {
+            let randomPosition = Math.floor(Math.random() * (i + 1));
+            let temp = questionsToShuffle[i];
+            questionsToShuffle[i] = questionsToShuffle[randomPosition];
+            questionsToShuffle[randomPosition] = temp;
+          }
+          return questionsToShuffle;
+        }
+
         await chGames(chLan, chLevel, chLesson)
         try {
-
-        const GameRef = collection(db, "game");
-        // Тоглооом үүсгэж байна
-        const game = await addDoc(GameRef, {
-            count: 0,
-            createDate: serverTimestamp(),
-            language: chLan,
-            level: chLevel,
-            lesson: chLesson,
-            questions,
-            endGame: false,
-            winCoin: win,
-            secondCoin: second,
-            entryCoin: entry
-        });
+          const GameRef = collection(db, "game");
+          // Тоглооом үүсгэж байна
+          const game = await addDoc(GameRef, {
+              count: 0,
+              createDate: serverTimestamp(),
+              language: chLan,
+              level: chLevel,
+              lesson: chLesson,
+              questions,
+              endGame: false,
+              winCoin: win,
+              secondCoin: second,
+              entryCoin: entry
+          });
 
         // Тоглогчын мэдээллийг нэмж байна
         const PlayersRef = doc(
@@ -253,9 +265,9 @@ export default function useLesson(languageId, topicId, lessonId) {
             type: "withdraw"
         }
 
-        
-            const oneRef = collection(db, `users/${authId}/transaction` );
-            await addDoc(oneRef , {
+        // Add tnx in user information
+        const oneRef = collection(db, `users/${authId}/transaction` );
+        await addDoc(oneRef , {
             data,
             createDate: serverTimestamp(),
             
@@ -269,21 +281,12 @@ export default function useLesson(languageId, topicId, lessonId) {
             .catch((error) => {
             console.log("error" + error);
             });
-        
-        // Тоглогчдыг тоог авж байна
-        // const PlRef = collection(db, `game/${game.id}/players`);
-        // const snapshot = await getCountFromServer(PlRef);
-        // const count = snapshot.data().count;
-        // const GameNewRef = doc(db, "game", game.id);
-        // await updateDoc(GameNewRef, { count: count });
+            
 
-        // history.push(
-        //   `/newGame/${game.id}?lan=${chLan}&level=${chLevel}&lesson=${chLesson}`
-        // );
-        } catch (err) {
-        console.log(err);
-        }
-    };
+            } catch (err) {
+            console.log(err);
+            }
+        };
 
     const examfunGame = async (chLan, chLevel, chLesson) => {
         const examRef = collection(
@@ -316,15 +319,13 @@ export default function useLesson(languageId, topicId, lessonId) {
     };
   };
 
-  const getLessonUsers = () => {
-    // console.log(languageId , topicId, lessonId)
-    const lesUsRef = (collection(db, "lessonActiveUser"))
-  //   const lesUsRef = query(collection(db, "lessonActiveUser"),
-  //   where("userId" , "==" , auth?.currentUser?.uid),
-  //   where("lan" , "==", languageId ),
-  //   where("level" , "==", topicId ),
-  //   where("number" , "==", lessonId )
-  // )
+  const getLessonUsers = async() => {
+    const lesUsRef = query(collection(db, "lessonActiveUser"),
+    where("userId" , "==" , auth?.currentUser?.uid),
+    where("lan" , "==", languageId ),
+    where("level" , "==", topicId ),
+    where("number" , "==", lessonId )
+  )
     const unsubcribe = onSnapshot(lesUsRef, (snapshot) => {
       setLessonActiveUsers(() => {
         const list = snapshot.docs.map((doc) => {
@@ -337,12 +338,7 @@ export default function useLesson(languageId, topicId, lessonId) {
     return () => {
       unsubcribe();
     };
-  //  onSnapshot(lesUsRef ,(snapshot) => {
-  //   snapshot.forEach((doc) => {
-  //      const data= doc.data()
-  //      setLessonActiveUsers(data)
-  //   })
-  //  })
+
 
   }
 

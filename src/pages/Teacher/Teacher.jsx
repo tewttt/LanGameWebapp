@@ -19,10 +19,12 @@ const Teacher = () => {
     const [chLessonId, setChLessonId] = useState("")
   
     const [show, setShow] = useState(false)
+    const [showInfo, setShowInfo] = useState(false)
     const [showDelete, setShowDelete] = useState(false)
     const {lanId, levelId, getLevelId , getLessonId , getOneLesson} = useLesson(chLan, chLevel, chLessonId)
     const { addTeacher , cancelTeacher} = useTeacher()
     const ctx = useContext(UserContext)
+    // console.log(ctx.currentUser.name === "")
     const LessonCtx = useContext(LessonContext)
     let arrLevel =  levelId;
     let arrLanguage = lanId;
@@ -68,7 +70,14 @@ const Teacher = () => {
         setChLessonId(number)
         setShowDelete(true)
     };
- 
+    const sendRequest = () => {
+        if(ctx?.currentUser?.name === "" || ctx?.currentUser?.age === "" || ctx?.currentUser?.phone === "" || ctx?.currentUser?.gender === ""){
+            setShowInfo(true)
+        } else {
+            setShow(true)
+        }
+        
+    }
     
     return (
         <div className="bg-baseBlack flex flex-col text-white h-screen relative">
@@ -84,7 +93,7 @@ const Teacher = () => {
             {/* add lesson */}
             {ctx?.currentUser?.teacherStatus ? 
             (
-            <div className="z-20 flex flex-col pt-10 px-6 items-center h-full md:pt-20">
+            <div className="z-20 flex flex-col pt-10 px-6 items-center h-full md:pt-20 m-auto w-full sm:w-[80%] md:w-[60%] xl:w-[40%]">
                 <button 
                     className="w-full md:w-1/2 bg-baseBlue1 hover:bg-blue-700 py-2 px-4 text-white rounded-2xl text-2xl font-bold "
                     onClick={() => history.push("/addlesson")}>
@@ -155,7 +164,7 @@ const Teacher = () => {
             </div>
             ) : ( 
                 //request  teacher 
-            <div className="z-20 md:pt-20 pt-10 px-6 flex flex-col w-[80%] m-auto">
+            <div className="z-20 flex flex-col pt-10 px-6 items-center h-full md:pt-20 m-auto w-full sm:w-[80%] md:w-[60%] xl:w-[40%]">
                 <Modal show={show} >
                     <div className="flex flex-col justify-between">
                         <p className="text-baseBlack text-lg my-3 text-center">Submit a request to become a teacher</p>
@@ -169,44 +178,59 @@ const Teacher = () => {
                         </div>
                     </div>
                 </Modal>
+                <Modal show={showInfo} >
+                    <div className="">
+                        <p className="mb-4 text-center">Please complete your profile information</p>
+                        <div className="flex justify-between">
+                            <button className="bg-green-500 p-2 w-1/2 mx-1 rounded-2xl text-white" onClick={() => history.push("/profile")}>Fill in information</button>
+                            <button className="bg-red-600 text-white p-2 w-1/2 mx-1 rounded-xl" onClick={()=> setShowInfo(false)}> Close</button>
+                        </div>
+                    </div>
+                </Modal>
                 {ctx?.currentUser?.teacherMessage === "request" ? (
                     null
                 ) : (
-                    <div className="flex flex-col justify-center">
+                    <div className="flex flex-col justify-center w-full">
                         <p className="text-center pb-4 font-bold">TEACHER</p>
-                        <div className="mb-2 text-justify w-full">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Laudantium hic magni nemo dolore assumenda architecto perferendis vitae vero omnis! Quam!</div>
-                            <div className=" w-full mt-4">
-                                <p>Хичээл заах хэл: </p>
-                                <select name="language" onChange={handleChange} className="w-full text-baseBlack p-1 rounded-xl">
-                                    <option>choose</option>
-                                    <option>English</option>
-                                    <option>Mongolia</option>
-                                    <option>Korea</option>
-                                </select>
-                            </div>
-                            <div className=" w-full  ">
-                                <p>Хичээл заасан туршлага</p>
-                                <input 
-                                    className="p-1 my-1 rounded-xl w-full"
-                                    type="text" 
-                                    name="experience" 
-                                    placeholder="wrire..." 
-                                    onChange={handleChange}/>
-                            </div>
-                            <div className=" w-full ">
-                                <p>Хэлний түвшин</p>
-                                <input 
-                                    className="p-1 my-1 rounded-xl w-full"
-                                    type="text" 
-                                    name="experience" 
-                                    placeholder="write..." 
-                                    onChange={handleChange}/>
-                            </div>
+                        <p className="mb-2 text-lg font-bold w-full text-center">
+                            Гэрээт багшаар ажиллах нөхцөл
+                        </p>
+                        <p>
+                            Зааврын дагуу хичээл бэлдэж оруулна. Таны мэдээллэлтэй танилцаны дараа холбогдож , гэрээ байгуулна. 
+                            Гэрээт багшаар ажиллах сонирхолтой бол МЭДЭЭЛЛЭЭ ГҮЙЦЭТ БӨГЛӨН ИЛГЭЭНЭ ҮҮ. БАЯРЛАЛАА
+                        </p>
+                        <div className=" w-full mt-4">
+                            <p>Хичээл заах хэл: </p>
+                            <select name="language" onChange={handleChange} className="w-full text-baseBlack p-1 rounded-xl">
+                                <option>choose</option>
+                                <option>English</option>
+                                <option>Mongolia</option>
+                                <option>Korea</option>
+                            </select>
+                        </div>
+                        <div className=" w-full  ">
+                            <p>Хичээл заасан туршлага</p>
+                            <input 
+                                className="p-1 my-1 rounded-xl w-full"
+                                type="text" 
+                                name="experience" 
+                                placeholder="wrire..." 
+                                onChange={handleChange}/>
+                        </div>
+                        <div className=" w-full ">
+                            <p>Хэлний түвшин</p>
+                            <input 
+                                className="p-1 my-1 rounded-xl w-full"
+                                type="text" 
+                                name="experience" 
+                                placeholder="write..." 
+                                onChange={handleChange}/>
+                        </div>
                     </div>          
                 )}
                     
                 {ctx?.currentUser?.teacherMessage === "request" ? (
-                <div className="bg-helpGray text-baseBlack p-4 my-2 rounded-2xl font-bold">
+                <div className="bg-helpGray text-baseBlack p-4 my-2 rounded-2xl font-bold w-full">
                     <p className="text-center pb-4 font-bold">TEACHER</p>
                     <p>Sent a request to become a teacher</p>
                     <button 
@@ -214,7 +238,7 @@ const Teacher = () => {
                     className="bg-red-500 w-full py-2 px-4 text-white rounded-2xl my-2">Cancellation of request</button>
                 </div>) 
                 : (
-                    <button onClick={() => setShow(true)} className={css.towch}>
+                    <button onClick={sendRequest} className={css.towch}>
                         <p className="text-sm">Send request a teacher</p>
                     </button>
                 )}

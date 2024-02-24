@@ -3,7 +3,6 @@ import {
   collection,
   addDoc,
   serverTimestamp,
-  getDocs,
   setDoc,
   doc,
   getDoc,
@@ -39,8 +38,6 @@ const initialState = {
 };
 
 export const UserStore = (props) => {
-  // const user = auth?.currentUser
-  // console.log(user)
   const history = useHistory();
   const [state, setState] = useState(initialState);
   const [transaction , setTransaction] = useState([])
@@ -63,7 +60,7 @@ export const UserStore = (props) => {
       unsubscribe();
     };
   }, []);
-  //current user data
+
   // curretUSer iin Posts data
   useEffect(() => {
     if (auth?.currentUser?.uid) {
@@ -198,8 +195,8 @@ export const UserStore = (props) => {
         photo: "../assets/img/ironman.png",
         winGame: 0,
         matchGame: 0,
-        gender: "man",
-        age: 14,
+        gender: "",
+        age: "",
         access: "user"
       });
 

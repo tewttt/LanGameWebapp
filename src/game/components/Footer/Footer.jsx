@@ -122,7 +122,7 @@ const getGo = (i) => {
      ) : (
       <div className="h-full m-auto rounded-[30px] flex justify-around items-center w-[350px] bg-white">
         <div className="flex flex-col items-center relative">
-          <div className="bg-baseColor flex justify-center items-center w-[52px] h-[35px] rounded-[23px]">
+          <div className="bg-baseBlue1 flex justify-center items-center w-[52px] h-[35px] rounded-[23px]">
             <img src={shield} className="h-[40px] w-[40px]"/>
           </div>
           <div className="absolute -top-1 -right-2 text-white bg-red-500 w-[20px] h-[20px] rounded-[50%] flex justify-center items-center">
@@ -131,7 +131,7 @@ const getGo = (i) => {
         </div>
         
         <div className="flex flex-col items-center relative">
-          <div className="bg-baseColor flex justify-center items-center w-[52px] h-[35px] rounded-[23px]">
+          <div className="bg-baseBlue1 flex justify-center items-center w-[52px] h-[35px] rounded-[23px]">
             <img src={go} className="h-[40px] w-[40px]"/>
           </div>
           <div className="absolute -top-1 -right-2 text-white bg-red-500 w-[20px] h-[20px] rounded-[50%] flex justify-center items-center">
@@ -140,7 +140,7 @@ const getGo = (i) => {
         </div>
 
         <div className="flex flex-col items-center relative">
-          <div className="bg-baseColor flex justify-center items-center w-[52px] h-[35px] rounded-[23px]">
+          <div className="bg-baseBlue1 flex justify-center items-center w-[52px] h-[35px] rounded-[23px]">
             <img src={back} className="h-[50px] w-[48px]"/>
           </div>
           <div className="absolute -top-1 -right-2 text-white bg-red-500 w-[20px] h-[20px] rounded-[50%] flex justify-center items-center">

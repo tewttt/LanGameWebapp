@@ -27,6 +27,7 @@
     "react-phone-input-2": "^2.15.1",
     "react-router-dom": "^5.3.4",
     "react-scripts": "5.0.1",
+    "react-slider": "^2.0.6",
     "react-toastify": "^9.1.2",
     "sass": "^1.67.0",
     "stripe": "^12.1.1",

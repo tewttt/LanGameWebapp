@@ -1,4 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
+import { useHistory } from "react-router-dom";
 import ToolSidebar from "../../components/ToolSidebar";
 import UserContext from "../../context/UserContext";
 import LessonContext from "../../context/LessonContext";
@@ -9,6 +10,7 @@ import { FaCircleMinus } from "react-icons/fa6";
 import { FaCoins } from "react-icons/fa";
 import GameNavbar from "../components/GameNavbar";
 import useLesson from "../../hook/useLesson";
+import { IoIosArrowBack ,IoIosSettings  } from "react-icons/io";
 import pattern from "../../assets/logo/patternWhite.png"
 const auth = getAuth();
 let intervalIds = [];
@@ -25,7 +27,7 @@ const Game = () => {
     {win: 560000, entry: 200000 , second: 200000},
   ]
 
-  
+  const history = useHistory();
   const [time, setTime] = useState(TIME)
   const [state, setState] = useState({});
   const Lessonctx = useContext(LessonContext);
@@ -153,14 +155,22 @@ const Game = () => {
 
   return (
     // <GameStore>
-    <div className="relative flex bg-baseBlack flex-col px-6 pt-6 pb-20 md:p-0">
-      <ToolSidebar />
+    <div className="relative flex text-white bg-baseBlack flex-col px-6 pt-6 pb-20 md:p-0">
+       <ToolSidebar />
+      <div className="flex m-auto py-2 md:mt-20 justify-between pb-4 w-full sm:w-[80%] md:w-[50%] xl:w-[30%]">
+          <div className="flex items-center">
+              <IoIosArrowBack size={20} onClick={() => history.push("/gameHome")}/>
+              <p>Choose game</p>
+          </div>
+          <IoIosSettings size={20}/>
+      </div>
+     
       
       <GameNavbar /> 
       <div className="flex text-white flex-col w-full md:w-[40%] pt-2 pb-28 px-2 m-auto">
           
           <p className="text-center">Choose language</p>
-          <div className="flex my-1 justify-between rounded-2xl p-2 w-full bg-white ">
+          <div className="h-[60px] flex my-1 justify-between rounded-2xl p-2 w-full bg-white ">
             {arrLanguage.map((lan, i) => (
               <div
                 className={`${
@@ -168,7 +178,7 @@ const Game = () => {
                   // lanActive === i ? "bg-baseBlue1 text-white" 
 
                   : ""
-                } bg-helpGray text-baseBlack hover:text-white hover:bg-baseBlue1 rounded-[10px]  w-[90px] h-[30px] flex justify-center items-center`}
+                } bg-helpGray text-baseBlack hover:text-white hover:bg-baseBlue1 rounded-[10px]  w-[90px] h-full flex justify-center items-center`}
                   //  className={`${lanActive===i ? css.laan : ""} ${css.nolan}`}
                 key={i}
                 onClick={() => selectLan(lan.id, i)}
@@ -179,7 +189,7 @@ const Game = () => {
           </div>
 
           <p className="text-center mt-2">Choose level</p>
-          <div className=" flex justify-between my-1 rounded-2xl p-2 w-full bg-white">
+          <div className="h-[60px] flex justify-between my-1 rounded-2xl p-2 w-full bg-white">
             {arrLevel.map((level, i) => (
               <div
                 className={`${
@@ -187,7 +197,7 @@ const Game = () => {
                   chLevel === level
                     ? " bg-baseBlue1 text-white"
                     : ""
-                } flex justify-center items-center bg-helpGray text-baseBlack hover:scale-110 hover:bg-baseBlue1 hover:text-white w-[40px] h-[40px] rounded-[5px]  `}
+                } flex justify-center items-center bg-helpGray text-baseBlack hover:scale-110 hover:bg-baseBlue1 hover:text-white w-[40px] full rounded-[5px]  `}
                 key={i}
                 onClick={() => selectLevel(level.id, i)}
                 
@@ -198,7 +208,7 @@ const Game = () => {
           </div>
 
           <p className="text-center mt-2">Choose lesson</p>
-          <div className="flex flex-wrap gap-1 rounded-2xl bg-white my-1 p-2 w-full">
+          <div className="h-[60px] flex flex-wrap gap-1 rounded-2xl bg-white my-1 p-2 w-full">
             {arrLesson.map((lesson, i) => (
               <div
                 onClick={() => selectLesson(lesson.id, i)}
@@ -207,7 +217,7 @@ const Game = () => {
                   chLesson === lesson
                     ? " bg-baseBlue1 text-white"
                     : ""
-                } flex justify-center items-center  bg-helpGray text-baseBlack hover:bg-baseBlue1 hover:text-white w-[40px] h-[40px] rounded-[5px]  `}
+                } flex justify-center items-center  bg-helpGray text-baseBlack hover:bg-baseBlue1 hover:text-white w-[40px] h-full rounded-[5px]  `}
                 // className=" w-[20px] h-[20px] rounded-[5px] tranform hover:scale-110 hover:border-blue-500 hover:text-blue-500 border border-blue-200 m-2 text-blue-200"
               >
                 {lesson.id}
@@ -239,11 +249,11 @@ const Game = () => {
               <div key={i}>
                {logoutPlayer?.logoutGame ? null : (
                 <div
-                  className="relative bg-white w-[120px] h-[90px] flex flex-col justify-between items-center p-3 m-2 rounded-xl"
+                  className="relative bg-white w-[120px] h-[90px] flex flex-col justify-between items-center p-1 m-2 rounded-xl"
                 >
-                  <div className="absolute bg-baseColor rounded-[50%] w-[25px] h-[25px] text-white left-0">{time}</div>
+                  {/* <div className="absolute bg-baseColor rounded-[50%] w-[25px] h-[25px] text-white left-0">{time}</div> */}
                   <div className="text-[12px]">Players 4/{game.count}</div>
-                
+                  <div className="text-[12px]">{chLan} {chLevel} {chLesson}</div>
                   <button
                     className="bg-baseBlue1 text-white text-sm p-2 rounded-lg"
                     onClick={() => joinGame(game)}

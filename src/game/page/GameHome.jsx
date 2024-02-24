@@ -7,6 +7,7 @@ import GameNavbar from "../components/GameNavbar";
 import pattern from "../../assets/logo/patternWhite.png"
 import { FaCoins } from "react-icons/fa";
 
+
 const GameHome = () => {
     const time = new Date().getTime()
     const watchDate = moment(time).format('YYYY-MM-DD')
@@ -20,9 +21,11 @@ const GameHome = () => {
     return (
         <div className="relative flex bg-baseBlack flex-col h-screen">
             <div 
-                className="bg-cover bg-center opacity-30 absolute top-0 left-0 bg-repeat w-screen h-full"
+                className="bg-cover bg-center opacity-20 absolute top-0 left-0 bg-repeat w-screen h-full"
                 style={{backgroundImage: `url(${pattern})`}}>
             </div>
+
+            
             <div className="z-30"> <ToolSidebar/></div>
            
             <div className="md:pt-20 z-20 m-6 flex flex-col h-full text-white items-center justify-between">

@@ -15,8 +15,8 @@ import yellowOneTree from "../../assets/game/yellowOneTree.png"
 import smallGrass from "../../assets/game/smallOneGrass.png"
 import trianleTwoTree from "../../assets/game/triangleTwoTree.png"
 import yellowTwoTree from "../../assets/game/yellowTwotree.png"
-import { CloseFullscreen } from "@mui/icons-material";
 import { FaFlagCheckered } from "react-icons/fa";
+
 const positions = [
   { position: "absolute", top: 60, right: 120},
   { position: "absolute", top: 60, right: 80},
@@ -112,7 +112,7 @@ const Field = ({ power , chooseHorse , selectedPower , currentUserId , currentUs
               className={`${
                 playersHorsePosition.length > 1 ? "grid grid-cols-2" 
                : 'flex justify-center items-center'} 
- w-[40px] h-[40px] bg-[#4C3F1C] relative border border-[#5b5032]`}
+          w-[40px] h-[40px] bg-[#4C3F1C] relative border border-[#5b5032]`}
             >
               {/* {i} */}
               {playersHorsePosition.length === 0 && currentPower ? <img className="w-full h-full" src={currentPower} alt="power"/> : null}
@@ -152,71 +152,4 @@ const Field = ({ power , chooseHorse , selectedPower , currentUserId , currentUs
 };
 export default Field;
 
-  // <div>
-                //   {i ?  <img src={horses[e.color]} className="w-20 h-18 p-0" key={i} /> :  <img src={horses} className="w-20 h-18 p-0" key={i} />}
-                // </div>
-
-// const power = {
-  //   1: go,
-  //   5: shield,
-  //   10: back
-  // }
-
-
-// <div className=" grid grid-cols-5 w-[300px] pl-3 ml-2">
-    //   {field.map((value, i) => {
-    //     const players = fieldUsers(i);
-    //     return (
-    //       <div 
-    //       key={i}
-    //       // style={{...position[i]}} 
-    //       className="w-[40px] h-[40px] bg-green-800 shadow hover:shadow-gray-900 text-white text-sm  rounded-[50%]">
-    //         {i}
-    //         {players?.map((e, i) => {
-    //           return (
-    //             <img src={horses[e.color]} className="w-20 h-18 p-0" key={i} />
-    //           );
-    //         })}
-    //       </div>
-    //     );
-    //   })}
-    // </div>
-
-    // ... (other imports and code)
-
-// const Field = ({ power }) => {
-//   // ... (existing code)
-
-//   return (
-//     <div className="w-full h-full relative">
-//       {/* ... (existing code for background images) */}
-      
-//       <div className="relative ml-28 w-[245px]">
-//         {field.map((value, i) => {
-//           const playersHorsePosition = horsePosition(i);
-//           const currentPower = power[i];
-
-//           return (
-//             <div
-//               key={i}
-//               style={{ ...positions[i] }}
-//               className={`${
-//                 playersHorsePosition.length === 2 ? "bg-yellow-300 "
-//                   : playersHorsePosition.length === 3 ? "bg-pink-300"
-//                     : playersHorsePosition.length === 4 ? "to-blue-300" : ''
-//                 } w-[35px] h-[35px] bg-[#4C3F1C]`}
-//             >
-//               {playersHorsePosition.length === 0 && currentPower ? <img src={currentPower} alt="power" /> : null}
-
-//               {playersHorsePosition?.map((player, index) => (
-//                 <img src={horses[player.color]} key={index} alt={`horse_${index}`} />
-//               ))}
-//             </div>
-//           );
-//         })}
-//       </div>
-//     </div>
-//   );
-// };
-
-
+  

@@ -27,8 +27,17 @@ TO DO
 2. Logout 
 3. ads search , region , age, gender
 4. bigquery
-5. dans tsengeleh zaawar
+5. 
+6. google analytics
+7. firebase security rule
+8. DOMAIN NAME
+9. sound oruulah 
+10. express js - EC2
+11. game zereg asuult haragdahgvi bn
 
 
-
+// if toglolt 2 toglochtoi vldsen bol ehnii toglogch ylhad 2 dah ylalt shuud onoogdoj togloom duusna
+// SHooo hayhad 5s time zaana,hugatsaandaa shoo hayhgvi bol automateer shoo buuna
+// point ygaad NAN bolood bn
+// wifi salsan , genet garsan playeriig 4 , 3 bairand oruulah
 

@@ -1,20 +1,16 @@
 import React, { useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import { useState, useContext } from "react";
+import { useContext } from "react";
 import "react-toastify/dist/ReactToastify.css";
-import LessonContext from "../../../context/LessonContext";
 import UserContext from "../../../context/UserContext";
 import usePayment from "../../../hook/usePayment";
 import useLesson from "../../../hook/useLesson";
 
 const Lesson = (props) => {
   const { getLessonUsers ,  lessonActiveUsers} = useLesson(props.lessons.language, props.lessons.level, props.lessons.lessonNumber)
-
   const {payLesson } = usePayment()
   const userCtx = useContext(UserContext)
   const history = useHistory();
-  // console.log(lessonActiveUsers)
-  // console.log(props.lessons.lessonNumber)
 
   const data = lessonActiveUsers?.find(
     item => item.number == props.lessons.lessonNumber
@@ -22,7 +18,6 @@ const Lesson = (props) => {
 
   useEffect(() => {
     getLessonUsers()
-    // console.log(data)
   } ,[])
 
   const view = () => {
