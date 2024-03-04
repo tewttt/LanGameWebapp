@@ -43,7 +43,7 @@ const OneAds = () => {
                     <IoIosArrowBack size={20} onClick={() => history.push("/allAds")}/>
                     <p>Ads detail</p>
                 </div>
-                <IoIosSettings size={20}/>
+                <IoIosSettings onClick={() => history.push("/settings")} size={20}/>
             </div>
            <Modal show={show} >
                 <div className="flex flex-col">

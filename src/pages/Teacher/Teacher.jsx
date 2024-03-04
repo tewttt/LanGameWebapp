@@ -82,7 +82,7 @@ const Teacher = () => {
     return (
         <div className="bg-baseBlack flex flex-col text-white h-screen relative">
              <div 
-                className="bg-cover bg-center opacity-30 absolute top-0 left-0 bg-repeat w-screen h-full"
+                className="bg-cover bg-center opacity-10 absolute top-0 left-0 bg-repeat w-screen h-full"
                 style={{backgroundImage: `url(${pattern})`}}>
             </div>
             <div className="z-30">

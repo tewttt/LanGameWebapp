@@ -13,7 +13,7 @@ export default function Forgot() {
   const [email, setEmail] = useState("curlets1123@gmail.com");
  
   return (
-    <div className="flex relative text-baseBlack flex-col justify-center items-center w-screen h-screen">
+    <div className="flex relative bg-white text-baseBlack flex-col justify-center items-center w-screen h-screen">
       <div 
         className="bg-cover absolute top-0 left-0 -z-10 opacity-90 w-screen h-screen"
         style={{backgroundImage: `url(${backImage})`}}>

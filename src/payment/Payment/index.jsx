@@ -54,15 +54,15 @@ const chahngeExchange = () => {
  }
    
     return (
-        <div className="relative flex text-white bg-baseBlack flex-col pt-6 px-6 pb-56 md:pt-0"> 
+        <div className="relative flex text-white bg-baseBlack flex-col pt-6 px-6 pb-44 md:pt-0"> 
             <div 
-                className="bg-cover bg-center opacity-20 absolute top-0 left-0 bg-repeat w-screen h-full"
+                className="bg-cover bg-center opacity-10 absolute top-0 left-0 bg-repeat w-screen h-full"
                 style={{backgroundImage: `url(${pattern})`}}>
             </div>
             <div className="z-30"><ToolSidebar/></div>
             
-            <div className="md:pt-20 z-20 md:w-[80%] lg:w-[60%] xl:w-[50%] w-full items-center m-auto">
-                <div className="border border-helpGray rounded-2xl my-2 w-full p-2">
+            <div className="md:pt-20 z-20 md:w-[80%] lg:w-[60%] xl:w-[46%] w-full items-center m-auto">
+                <div className="border border-helpGray rounded-2xl mt-2 w-full p-2">
                     <p className="text-lg text-center ">Орлого хийх заавар</p>
                     <div className="text-gray-400 p-2 ">
                         <p className="">Данс эзэмшигч: <span className="font-bold text-white text-lg">ГЭРЭЛМАА РАГЧАА</span></p>
@@ -72,13 +72,13 @@ const chahngeExchange = () => {
                         <p className="text-gray-400">Жишээ:   998xxx88 97600099</p>
                         
                     </div>
-                    <div className="bg-helpGray p-4  rounded-2xl text-baseBlack my-2">
+                    <div className="bg-helpGray py-2 px-6 rounded-2xl text-baseBlack my-2">
                         <p className="text-red-500 text-2xl text-center">АНХААР </p>
-                        <p>6000 ₮ доош гүйлгээ орохгүй тул 6000 ₮ буюу түүнээс дээш гүйлгээ хийнэ үү!!!</p>
+                        <p className="text-center">6000₮ доош гүйлгээ орохгүй тул 6000₮ буюу түүнээс дээш гүйлгээ хийнэ үү!!!</p>
                     </div>
                 </div>
                 <div className="sm:flex justify-center items-center w-full">
-                    <div className="rounded-2xl w-full flex flex-col mx-2">
+                    <div className="rounded-2xl w-full flex flex-col sm:mx-2">
                         <div className="flex my-1 justify-between border py-2 px-6 rounded-xl border-helpGray">
                             <p>name</p>
                             <p className="font-bold">{ctx?.currentUser?.name}</p>
@@ -97,7 +97,7 @@ const chahngeExchange = () => {
                         </div>
                         
                     </div>
-                    <div className=" mt-6 flex flex-col w-full">
+                    <div className="flex flex-col w-full">
                         <p className="m-2 text-lg font-bold text-center">Currency converter</p>
                         <div className="border border-helpGray p-3 rounded-xl">
                             <div className="flex flex-col">
@@ -106,7 +106,7 @@ const chahngeExchange = () => {
                                 className="rounded-lg py-1 text-center text-black px-10"
                                 onChange={(e) => setEnterValue(e.target.value)} placeholder="" type="number"/>
                             </div>
-                            <div className="flex justify-around my-3 items-center w-[260px]">
+                            <div className="flex justify-around my-3 items-center w-full">
                                 <p>From</p>
                                 <select 
                                     className="py-1 px-2 rounded-lg text-black"
@@ -125,7 +125,7 @@ const chahngeExchange = () => {
                         {error ? (
                             <p className="text-helpGreen mt-2 text-center">{error}</p>
                         ): (
-                            <div className="m-2 text-lg font-bold">
+                            <div className="m-2 text-2xl text-center font-bold">
                                 {from === "coin" ? (
                                     <div>
                                         {enterValue} coin =   {totalValue} ₮

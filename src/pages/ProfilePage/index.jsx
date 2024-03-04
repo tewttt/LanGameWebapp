@@ -83,7 +83,7 @@ const ProfilePage = () => {
     return (
         <div className="flex flex-col relative text-helpGray bg-baseBlack px-6 pt-6 md:pt-0 pb-36">
             <div 
-                className="bg-cover bg-center opacity-30 absolute top-0 left-0 bg-repeat w-screen h-full"
+                className="bg-cover bg-center opacity-10 absolute top-0 left-0 bg-repeat w-screen h-full"
                 style={{backgroundImage: `url(${pattern})`}}>
             </div>
             <div className="z-30"> <ToolSidebar/> </div>

@@ -15,7 +15,7 @@ export default function AllAds () {
                     <p>Total ads </p>
                     <p className="mx-2"> {allads.length}</p>
                 </div>
-                <IoIosSettings size={20}/>
+                <IoIosSettings onClick={() => history.push("/settings")} size={20}/>
             </div>
             <div className="flex flex-wrap justify-center mt-4">
                 {allads.map((e, i) => (

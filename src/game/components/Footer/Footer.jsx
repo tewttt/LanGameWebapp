@@ -16,6 +16,7 @@ import useGame from "../../../hook/useGame";
 const dices = [dice1, dice2, dice3, dice4, dice5, dice6]
 
 const Footer = ({currentUser, answerPlayerId , currentUserId , getPower, selectedPower}) => {
+// console.log(answerPlayerId)
  const [showGo ,setShowGo] = useState(false)
   
  const getShield = () => {

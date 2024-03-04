@@ -1,6 +1,6 @@
 import React, { useState,  useEffect , useRef, useContext } from "react";
 import Dice from "../../components/Dice";
-import Field from "../../components/Field";
+import Field from "../../components/Field/Field";
 import Modal from "../../../components/General/Modal";
 import Spinner from "../../../components/General/Spinner";
 import { useParams } from "react-router-dom";
@@ -16,6 +16,7 @@ import { MdOutlineCancel } from "react-icons/md";
 import { LuCrown } from "react-icons/lu";
 import { IoMdWine } from "react-icons/io";
 import { FaHandsBubbles } from "react-icons/fa6";
+import css from "./style.module.css"
 
 import e1 from "../../../assets/emoji/Love.svg"
 import e2 from "../../../assets/emoji/Баас.svg"
@@ -31,8 +32,7 @@ import e11 from "../../../assets/emoji/Хараал.svg"
 import e12 from "../../../assets/emoji/Чулуу.svg"
 
 let intervalIds = [];
-const TIME = 10
-const STARTTIME = 5
+
 const emoji = [e1, e2, e3, e4, e5,e6, e7, e8, e9, e10, e11, e12]
 
 const GameDetail = () => {
@@ -47,29 +47,31 @@ const GameDetail = () => {
   const ctx = useContext(UserContext)
   const currentUserId = ctx?.currentUser?.authId
   const { id } = useParams();
-  const {randomPower, queryPlayer, sendEmoji, isGo, isShield, isBack, addAnswer, game, players, addPoint, logoutPlayer ,isGameEnded, showGameEnd} = useGame(id);
-  const [loader, setLoader] = useState(false);
-  const [time, setTime] = useState(TIME)
-  const [startTime, setStartTime] = useState(STARTTIME)
-  const [questionShow, setQuestionShow] = useState(false); 
-  const [showStartGame , setShowStartGame] = useState(true)
-  const [answerShow, setAnswerShow] = useState(false)
-  const [waitPlayers , setWaitPlayers] = useState(true)
+  const {addRightAnswers,  randomPower, queryPlayer, 
+    sendEmoji, isGo, isShield, isBack, addAnswer, 
+    game, players, addPoint, logoutPlayer , getEndGame,
+    getWaitPlayers, getShowStartGame,  getQuestionShow , getAnswerShow,
+    getShowPlayer ,  getLogoutGame, getShowCoin ,  getStartTime , getQuestionTime,
+    getQuestionNumber , getTurn,getDiceTime , getShowDiceTime
+  
+  } = useGame(id);
+
+  const [time, setQuestionTime] = useState()
+  const [startTime, setStartTime] = useState()
+  const [diceTime, setDiceTime] = useState()
   const [showPlayer , setShowPlayer] = useState(false)
   const [questionNumber, setQuestionNumber] = useState(0);
   const [turn, setTurn] = useState(0);
-  const [answeredPlayers, setAnsweredPlayers] = useState([])
   const questions = useRef([])
+
   const question = questions.current[questionNumber] || {} 
-console.log(showStartGame)
   const [playerAnswer, setPlayerAnswer] = useState("")
-  const [logoutGame , setLogoutGame] = useState(false)
   const [selectedPower, setSelectedPower] = useState("")
   const currentUser = players?.find((item) => item.id === currentUserId)
   const [showCoin  ,setShowCoin] = useState(false)
   const power = {[game?.go] : go , [game?.shield] : shield , [game?.back] : back}
-  // console.log(players.length === 2)
-  // create random number of powers
+ 
+
   useEffect(() => {
     const generateUniqueRandomNumber = (exclude = []) => {
       let randomNumber;
@@ -84,69 +86,64 @@ console.log(showStartGame)
     const random3 = generateUniqueRandomNumber([random1, random2]);
     // setPower({  [random1]: go , [random2]: shield  , [random3]: back  })
     randomPower(random1, random2, random3)
+
+
   }, []);
  
   // logout game
   const logout = () => {
     logoutPlayer(id, currentUserId , game);
   };
-
+  useEffect(() => {
+    if(game?.diceTime){
+     setDiceTime(game?.diceTime)
+   }
+ } , [game?.diceTime])
 
   useEffect(() => {
-    //show start game modal
-    // Дараа нь асуулт харагдана
+    if(game?.startTime){
+      setStartTime(game?.startTime)
+    }
+  } ,[game?.startTime])
 
-    if(players.length === 4){
-      setWaitPlayers(false)
-      // setShowStartGame(true)
-      intervalIds.push( setInterval(startGameTime, 500))
-      
-      // intervalIds.push( setInterval(startTimer, 1000))
+  
+
+  useEffect(() => {
+   
+    if(game?.questionTime){
+      setQuestionTime(game?.questionTime)
+    }
+  } ,[game?.questionTime])
+
+  useEffect(() => {
+     // console.log(game?.questionNumber)
+    if(game?.questionNumber){
+      setQuestionNumber(game?.questionNumber)
+    }
+  } ,[game?.questionNumber])
+
+  useEffect(() => {
+    if(game?.turn){
+      setTurn(game?.turn)
+    }
+  } ,[game?.turn])
+
+  // 1
+  useEffect(() => {
+    // show start game modal
+    // Дараа нь асуулт харагдана
+    if(game?.count === 4){
+      getWaitPlayers(false)
+      getShowStartGame(true)
+
+      intervalIds.push( setInterval(startGameTime, 1000))
       return ()=>{
         // console.log(intervalId);
         clearIntervals()
       }
     } 
-  })
+  } , [game?.count])
 
-  // Тоглогчын ээлжийг 1000ms дараа автоматаар солих
-  const autoTurn = () => {
-    setTimeout(() => {
-      setTurn((prev) => {
-        let next = prev + 1;
-        // console.log(next > answeredPlayers.length, next , answeredPlayers.length);
-        if (next == answeredPlayers.length )
-        {      
-          //Бүх тоглогчид шоо хаяж, морь нүүсний дараа, дараагийн асуултыг харуулах
-          // console.log(next)
-          next = 0;    
-          getQuestionShow()   
-          addQuestionnumber()
-          clearIntervals()
-          intervalIds.push( setInterval(startTimer, 1000))
-        }   
-        return next;
-      });
-  }, 1000)};
-
-  const startGameTime = () => {
-    // setShowStartGame(false)
-    setTimeout(() => {
-      clearIntervals()
-      intervalIds.push( setInterval(startTimer, 1000))
-    }, 500)
-
-    setStartTime(prev => {
-      let next = prev - 1;
-      if(next <=0){
-        next = 5
-        setShowStartGame(false)
-        getQuestionShow()
-      }
-      return next;
-    })
-  }
-  
   // clear
   const clearIntervals = () => {
     // console.log('====Clear',intervalIds)
@@ -155,85 +152,147 @@ console.log(showStartGame)
     intervalIds = [];
   }
 
-  // Асуултанд хариулах хугацаа харагдана
-const startTimer = () => {
-  setTime(prev =>{
+   // 2
+   const startGameTime = () => {
+    setStartTime(prev => {
+      let next = prev - 1;
+      getStartTime(next)
+      if(next <=0){
+        getShowStartGame(false)
+        // setPlayerAnswer("")
+        getQuestionShow(true)
+      
+        next = 5
+        getStartTime(next)
+      }
+      return next;
+    })
+  }
+
+  // 3
+  // асуултууд
+  useEffect(() => {
+    // console.log(game?.questions && !questions.current,game?.questions , !questions.current)
+    // if (game?.questions   ) {
+    // if (game?.questions && questions.current.length === 0  ) {
+      if (game?.questions && (questions.current.length === 0 || game?.questions[questionNumber]?.answers)  ) {
+
+    questions.current = game?.questions
+
+    } 
+}, [game?.questions  ]);
+ 
+
+  // 4
+  useEffect(() => {
+    if(game?.showQuestion){
+      // Асуултын харагдах хугацаа
+      intervalIds.push( setInterval(startQuestionTimer, 1000))
+      return ()=>{
+        // console.log(intervalId);
+        clearIntervals()
+      }
+    }
+  }, [game?.showQuestion]);
+
+  
+
+
+  // 5
+// Асуултанд хариулах хугацаа харагдана
+const startQuestionTimer = () => {
+  setQuestionTime(prev =>{
     let next = prev - 1; 
+    getQuestionTime(next)
     // console.log('=========='+next , next <= 0);
     if(next <= 0) {
       clearIntervals()
-      questionClose()
-      playerCheck()
-      ansShow()
+      getQuestionShow(false)
+      filterRightAnswers()
+      getAnswerShow(true)
       setTimeout(() => {
-        answerClose()
-      }, 1000)
+        getAnswerShow(false)
+         setPlayerAnswer("")
+      }, 3000)
       next = 10
+      getQuestionTime(next)
     }
     return next;
   }) 
 }
 
-  // асуултууд
-  useEffect(() => {
-    // console.log(game?.questions && !questions.current,game?.questions , !questions.current)
-    if (game?.questions && questions.current.length === 0  ) {
-    questions.current = game?.questions
 
-    }
-  }, [game?.questions]);
-
-
- 
-
-// Нийт хариулсан тоглогчдын хариултыг зөв болон хугацаагаар шүүгээд setAnsweredPlayers хийсэн
-// AnsweredPlayers дээр Шоо харагдана
-const playerCheck = () => {
-  const question = questions.current[questionNumber]
-  
-  if(question){
-    const oneCorrectAnswer = question?.answerKey
-    const allAnswer = question?.answers
-    let correctAnswers=  allAnswer?.filter(el => el.answer === oneCorrectAnswer)
-
-    // let answerData = allAnswer?.find(el => el.authId === currentUserId)
-    let sort = correctAnswers?.sort((a , b) => a.time.localeCompare(b.time))
-    sort && setAnsweredPlayers(sort)
-
-    // Зөв хариулт байхгүй бол дараагийн асуултыг харуулах
-    // if (sort?.length === 0 ) {
-      if (sort?.length === 0 || "undefined" ) {
+  // Зөв хариулт байхгүй бол дараагийн асуултыг харуулах
+const getNotAnswers = () => {
+  // console.log(game?.answeredPlayers?.length <= 1)
+    if(game?.answeredPlayers?.length <= 1 ){
       setTimeout(() => {
-        getQuestionShow()   
+        getQuestionShow(true)
         addQuestionnumber()
+      }, 4000)  
+      clearIntervals()
+      intervalIds.push( setInterval(startQuestionTimer, 1000))
+  } 
+}
 
-      }, 1000)
 
-       // clearIntervals()
-      intervalIds.push( setInterval(startTimer, 1000))
-      onDiceChange()
-      autoTurn()
-      sort && setAnsweredPlayers(sort)
+// Зөв хариултыг шүүж авах
+const filterRightAnswers = () => {
+  const question = questions.current[questionNumber]
+    if(question){
+    const correctAnswer = question?.answerKey
+    const allAnswer = question?.answers
+    let playersCorrectAnswers = allAnswer?.filter(el => el.answer === correctAnswer)
+    // let answerData = allAnswer?.find(el => el.authId === currentUserId)
+    let rightAnswers = playersCorrectAnswers?.sort((a , b) => a.time.localeCompare(b.time))
+   
+    if(rightAnswers === undefined){
+      // Зөв хариулт байхгүй бол дараагийн асуултыг харуулах
+      addRightAnswers([])
+      getNotAnswers()
+      getShowDiceTime(false) 
+      
+    } else {
+      // Зөв хариултыг game?.answeredPlayers рүү хийх
+        addRightAnswers(rightAnswers)
+        getShowDiceTime(true) 
+      
+       
     }
-}}
-
-// Шоо хаях
-const onDiceChange =async (val) => {
-  const pointCount = currentUser.pointCount
-  const horsePoint = currentUser.point
-  const updateHorsePoint = horsePoint + val
- 
-  if(val === 2 && pointCount < 2  ) {  
-    addPoint(false, game?.go, game?.shield, game?.back, updateHorsePoint, id, val)
-  } else {
-    addPoint(false, game?.go, game?.shield, game?.back, updateHorsePoint, id, val, true);
-    // addPoint(false, ran1, ran2, ran3, updateHorsePoint, id, val, true);
-    autoTurn();
   }
-};
+}
 
+console.log(game?.showDiceTime)
 
+useEffect(() => {
+  setTimeout(() => {
+    if(game?.showDiceTime){
+      intervalIds.push( setInterval(startDiceTime, 1000))
+      return ()=>{
+        clearIntervals()
+      }
+    }
+  },3000)
+  
+}, [game?.showDiceTime]);
 
+// console.log(diceTime)
+const startDiceTime = () => {
+  setDiceTime(prev =>{
+    // console.log(prev)
+    let next = prev - 1; 
+    getDiceTime(next)
+    console.log('=========='+next , next <= 0);
+    if(next <= 0) {
+      clearIntervals()
+      getShowDiceTime(false)
+      autoTurn()
+      next = 5
+      getDiceTime(next)
+    }
+    return next;
+  }) 
+}
 
 // Асуултын хариултыг хадгалах
 const saveAnswer = (answer) => {
@@ -241,12 +300,61 @@ const saveAnswer = (answer) => {
   setPlayerAnswer(answer)
 };
 
+// 7
+// Шоо хаях
+const onDiceChange =async (val) => {
+  const pointCount = currentUser.pointCount
+  const horsePoint = currentUser.point
+  const updateHorsePoint = horsePoint + val
+
+  // game?.showDiceTime === false && autoTurn
+ 
+  if(val === 5 && pointCount < 2  ) {  
+    addPoint(false, game?.go, game?.shield, game?.back, updateHorsePoint, id, val)
+   
+  } else {
+    addPoint(false, game?.go, game?.shield, game?.back, updateHorsePoint, id, val, true);
+    autoTurn()
+   
+  }
+};
+
+// 8
+// Тоглогчын ээлжийг 1000ms дараа автоматаар солих
+ const autoTurn = () => {
+  // console.log(turn)
+  setTimeout(() => {
+    setTurn((prev) => {
+      let next = prev + 1;
+      console.log(next)
+      getTurn(next)
+      // getDiceTime(5)
+      // console.log(game?.answeredPlayers.length + "lengh")
+      // console.log(next + "next length" )
+      // console.log(game?.answeredPlayers)
+      // console.log(next >= game?.answeredPlayers.length)
+      if (next === game?.answeredPlayers.length)
+      //Бүх тоглогчид шоо хаяж, морь нүүсний дараа, дараагийн асуултыг харуулах
+      // if (next === game?.answeredPlayers.length || game?.answeredPlayers === undefined)
+        {      
+          addQuestionnumber()
+          getQuestionShow(true)
+          clearIntervals()
+          intervalIds.push( setInterval(startQuestionTimer, 1000))
+          next = 0;   
+          getTurn(next) 
+        }   
+      return next;
+    });
+  }, 1000)
+};
+
 
 // Асуултыг нэг нэгээр нэмэгдүүлж байна
 const addQuestionnumber = () => {
   setQuestionNumber((prev) => {
     let next= prev + 1
-   
+     getQuestionNumber (next)
     if(questions.current.length-1 < next){
       // next=0;
       gameEnd()
@@ -256,27 +364,12 @@ const addQuestionnumber = () => {
 };
 
 const gameEnd = () => {
-  //  console.log(win)
-  answerClose()
-  questionClose()
+  getAnswerShow(false)
+  getQuestionShow(false)
   clearIntervals()
-  // showGameEnd()
+  getEndGame(true)
 }
 
-// Асуулт харуулах Modal
-const getQuestionShow = () => {
-  setQuestionShow(true);
-};
-const questionClose = () => {
-  setQuestionShow(false); 
-};
-// Хариулт харуулах Modal
-const ansShow = () => {
-  setAnswerShow(true); 
-};
-const answerClose = () => {
-  setAnswerShow(false); 
-};
 
 const playerData = ctx?.userList.find(
   item => item.id === showPlayer.playerID
@@ -284,11 +377,10 @@ const playerData = ctx?.userList.find(
 
 const chooseHorse = (e) => {
   // console.log(e)
-  if(selectedPower === "back" && currentUserId === answeredPlayers[turn]?.authId) {
+  if(selectedPower === "back" && currentUserId === game?.answeredPlayers[turn]?.authId) {
     isBack(true, e , currentUserId , selectedPower , currentUser)
     setSelectedPower("")
   } 
- 
 }
 
 const getPower = (power, diceNumber) => {
@@ -320,7 +412,6 @@ const getPower = (power, diceNumber) => {
   }
 }
 
-
 const data = {
   coin: 100,
   label: "send emoji",
@@ -338,44 +429,39 @@ const getEmoji = (e) => {
     // alert("coin hvrehgvi bn")
   }
 }
-
-
-
+// console.log(game?.showDiceTime)
+// console.log(game?.diceTime)
 
   return (
     <div className="bg-[#6e8426] flex justify-center items-center w-screen h-screen">
       <div className="flex m-auto relative w-[400px] h-[700px] bg-[#97B62E]">
-        {loader && (
-          <div className="absolute bg-baseColor">
-            <Spinner />
-            <div className="text-sm w-full text-center">
-              Waiting for other players... 30sec
-            </div>
-          </div>
-        )}
 
           {/* logout game */}
           <div className="h-[30px] left-0 top-14 px-6 z-10 absolute flex items-center justify-between w-full">
             <IoIosArrowBack
-              onClick={() => setLogoutGame(true)}
+              onClick={() => getLogoutGame(true)}
               size={30}
               className="text-white md:w-[30px] md:h-[30px] mx-1 lg:mx-5 hover:text-blue-500 transform duration-500 ease-in-out hover:scale-125"
             />
           </div>
+
           {/* wait other players */}
-          <Modal show={waitPlayers}>
+          <Modal show={game?.waitPlayers}>
             <div>WAIT OTHER PLAYERS</div>
           </Modal>
 
           {/* start game */}
-          {waitPlayers ? (
+          {game?.waitPlayers ? (
             null
           ) : (
-            <Modal show={showStartGame}>
+          <Modal show={game?.showStartGame}>
             <div className="flex flex-col items-center text-xl">
               <p className="my-2">THE GAME BEGINS </p>
               <p className="my-2 text-red-500">Are you ready !!</p>
-              <p className="rounded-[50%] my-2 text-white text-3xl font-bold bg-baseBlue1 w-[70px] h-[70px] flex justify-center items-center"> {startTime}</p>
+              <p className="rounded-[50%] my-2 text-white text-3xl font-bold bg-baseBlue1 w-[70px] h-[70px] flex justify-center items-center"> 
+              {startTime}
+              {/* {game?.startTime} */}
+              </p>
             </div>
           </Modal>
           )}
@@ -387,11 +473,11 @@ const getEmoji = (e) => {
           </Modal>
 
           {/* logout modal */}
-          <Modal show={logoutGame}>
+          <Modal show={game?.logoutGame}>
             <div>
               <p className="text-center">Are you sure about exiting the game ?</p>
               <div className="flex justify-around mt-4 text-white font-semibold">
-                <button className="bg-green-500 rounded-2xl p-2 w-16" onClick={() => setLogoutGame(false)}>NO</button>
+                <button className="bg-green-500 rounded-2xl p-2 w-16" onClick={() =>getLogoutGame(false)}>NO</button>
                 <button className="bg-red-500 rounded-2xl p-2 " onClick={logout}>Yes , logout game</button>
               </div>
             </div>
@@ -426,25 +512,41 @@ const getEmoji = (e) => {
                        </div>
                     ) : e?.logoutGame ? (
                       <img src={go} style={{borderColor:`${e.color}`}} className={`border-[8px] p-0  w-[60px] h-[60px] rounded-[50%]`}/>
+                    ) : game?.showDiceTime == true && game?.answeredPlayers[turn]?.authId === e?.state?.authId ? (
+                      <div 
+                        className={`${css.loader} border-[8px] p-0  w-[60px] h-[60px] rounded-[50%]`} 
+                      ></div>
+                    ): e?.endGamePlayer ? (
+                      <div  className={` border-[8px] p-0 w-[60px] h-[60px] rounded-[50%]`}>done</div>
                     ) : (
                       <img src={e?.state?.photo} 
                       style={{borderColor: `${e.color}` }}
                       className={` border-[8px] p-0 w-[60px] h-[60px] rounded-[50%]`}
-                      // className={`${true && css.loader} border-[8px] p-0 border-${e?.color}-500  w-[60px] h-[60px] rounded-[50%]`}
+                    
                     />
                     )}
-                   
-                   
-                    
-                  
                     <p className={`text-[14px] text-${e?.color}`}>{e?.state?.name}</p>
                   </div>
-
-                  {answeredPlayers[turn]?.authId === e?.state?.authId && <Dice id={i} onDiceChange={onDiceChange} />}
+{/*  
+                  { game?.answeredPlayers[turn]?.authId === e?.state?.authId && 
+                    <Dice id={i} 
+                        onDiceChange={onDiceChange} 
+                        answeredPlayers={game?.answeredPlayers}
+                    />
+                  }     */}
+                  { game?.answeredPlayers[turn]?.authId === e?.state?.authId && game?.showDiceTime === true ?
+                    ( 
+                      <Dice id={i} 
+                          onDiceChange={onDiceChange} 
+                          answeredPlayers={game?.answeredPlayers}
+                      />
+                    ) : (null)
+                  }                     
                 </div>
               </>
             );
           })}
+         
           
           {/* show player information*/}
           <Modal show={showPlayer.showPlayer} closeConfirm={() => setShowPlayer({showPlayer: false, playerID: null})}>
@@ -510,12 +612,12 @@ const getEmoji = (e) => {
           </Modal>   
         
           {/* game end  */}
-          <Modal show={isGameEnded}>
+          <Modal show={game?.endGame}>
             <div className="">
               
               <div className="flex justify-center relative m-2">
                 <p className="text-center ">WIN</p>
-                <MdOutlineCancel onClick={() => showGameEnd(false)} size={25} className="absolute top-0 right-0"/>
+                <MdOutlineCancel onClick={() => getEndGame(false)} size={25} className="absolute top-0 right-0"/>
               </div>
              
               {queryPlayer?.map((e, i) => {
@@ -598,7 +700,7 @@ const getEmoji = (e) => {
           </Modal>
 
           {/* Асуултыг харуулж байна */}
-          {/* <Modal show={questionShow}>
+          <Modal show={game?.showQuestion}>
             <div 
             className="flex flex-col h-full w-full"
             // style={{ display: "flex", flexDirection: "column" }}
@@ -627,27 +729,38 @@ const getEmoji = (e) => {
                 })}
               </div>
             </div>
-          </Modal> */}
+          </Modal>
 
           {/* Харилутыг харуулж байна */}
-          {/* <Modal show={answerShow}>
+          <Modal show={game?.showAnswer}>
             <div className="flex flex-col justify-center">
-              <p className="text-center">Correct answer</p>
+              <p className="text-center">Answer</p>
               <p className="text-center my-2 w-full  border border-baseBlue1 rounded-[10px] h-full p-2">
-                 {question?.answerKey}</p>
+                 correct answer : {question?.answerKey}
+              </p>
+              <p className="text-center my-2 w-full  border border-baseBlue1 rounded-[10px] h-full p-2">
+                your answer :  {playerAnswer}
+              </p>
+              {}
             </div>
-          </Modal> */}
+          </Modal>
 
         <div className="absolute w-full h-full">
           <Field   power={power} chooseHorse={chooseHorse} selectedPower={selectedPower} currentUserId={currentUserId} currentUser={currentUser}/> 
         </div>
         {/* coin */}
         <div className="bg-white absolute bottom-[120px] right-8 flex justify-around items-center w-[100px] h-[30px] rounded-[23px]">
-              <RiCopperCoinFill size={18} className="text-yellow-400"/>
-              <p className="text-baseColor font-bold">{ctx?.currentUser?.coins}</p>
+          <p> {ctx?.currentUser?.name}</p>
+          {/* <p> {ctx?.currentUser?.authId}</p> */}
+          <RiCopperCoinFill size={18} className="text-yellow-400"/>
+          <p className="text-baseColor font-bold">{ctx?.currentUser?.coins}</p>
         </div>
+
         <div className="absolute z-10 w-full h-[68px] bottom-[40px]">
-          <Footer currentUser={currentUser} answerPlayerId={answeredPlayers[turn]?.authId} currentUserId={currentUserId} getPower={getPower} selectedPower={selectedPower} />
+          <Footer currentUser={currentUser} 
+          answerPlayerId={game?.answeredPlayers ? (game?.answeredPlayers[turn]?.authId) : (null)}
+          // answerPlayerId={game?.answeredPlayers[turn]?.authId} 
+          currentUserId={currentUserId} getPower={getPower} selectedPower={selectedPower} />
         </div> 
       </div>  
     </div>

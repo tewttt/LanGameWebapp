@@ -142,7 +142,7 @@ export default function useLesson(languageId, topicId, lessonId) {
         if (game.count <= 4) {
         const data = game.players.find((e, i) => e.id === auth?.currentUser?.uid);
         if (data) {
-            alert("Тоглоом руу буцлаа");
+            // alert("Тоглоом руу буцлаа");
 
             return history.push(
             `/newGame/${id}?lan=${chLan}&level=${chLevel}&lesson=${chLesson}`
@@ -165,7 +165,7 @@ export default function useLesson(languageId, topicId, lessonId) {
         
         });
         
-        alert("Тоглогч нэмэгдлээ");
+        // alert("Тоглогч нэмэгдлээ");
         history.push(
             `/newGame/${id}?lan=${chLan}&level=${chLevel}&lesson=${chLesson}`
         );
@@ -234,7 +234,20 @@ export default function useLesson(languageId, topicId, lessonId) {
               endGame: false,
               winCoin: win,
               secondCoin: second,
-              entryCoin: entry
+              entryCoin: entry,
+              waitPlayers: true,
+              showStartGame: false,
+              showQuestion: false,
+              showAnswer: false,
+              showPlayer: false,
+              logoutGame: false,
+              showDiceTime: false,
+              startTime: 5, 
+              questionTime: 10,
+              questionNumber: 0,
+              diceTime: 5,
+              turn: 0,
+              answeredPlayers: []
           });
 
         // Тоглогчын мэдээллийг нэмж байна
@@ -273,7 +286,7 @@ export default function useLesson(languageId, topicId, lessonId) {
             
             } )
             .then((res) => { 
-            alert("togloom ru newterlee")
+            // alert("togloom ru newterlee")
             history.push(
                 `/newGame/${game.id}?lan=${chLan}&level=${chLevel}&lesson=${chLesson}`
             );

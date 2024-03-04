@@ -69,7 +69,7 @@ export default function Login() {
   }
 
   return (
-    <div className="flex text-baseBlack flex-col justify-center items-center w-screen h-screen relative ">
+    <div className="flex bg-white text-baseBlack flex-col justify-center items-center w-screen h-screen relative ">
       <div 
         className="bg-cover absolute top-0 left-0 -z-10 opacity-90 w-screen h-screen"
         style={{backgroundImage: `url(${backImage})`}}>

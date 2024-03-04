@@ -34,14 +34,18 @@ const Word = () => {
  
     const showConfirm = () => {
         setConfirm(true)
-       };
-       const closeConfirm = () => {
+    };
+    const closeConfirm = () => {
         setConfirm(false)
-       };
+    };
   
-       const save = () => {      
-        alert("Шалгалтын хэсгийг амжилттай хадгаллаа"); 
-        ctx.saveNewWord(questions);
+    const save = () => {      
+    alert("Шалгалтын хэсгийг амжилттай хадгаллаа"); 
+    ctx.saveNewWord(questions);
+    }
+    const send = () => {
+        ctx.createLesson()
+        history.push("/teacher")
     }
 
     const changeWord = (text, i) => {
@@ -175,7 +179,7 @@ const Word = () => {
     }
 
 return ( 
-<div className="pt-6 pb-96">
+<div className="pt-6 pb-96 md:w-[50%] text-baseBlack">
     { questions.map((ques, i) => (
     <div> 
         <Modal closeConfirm={closeConfirm} show={confirm} >
@@ -284,7 +288,7 @@ return (
         )
         } */}
 
-        <button className="w-[150px] h-[20px] bg-green-500 hover:bg-green-700 flex text-[12px] justify-center items-center m-auto" onClick={ctx.createLesson}>Илгээх</button>
+        <button className="w-[150px] h-[20px] bg-green-500 hover:bg-green-700 flex text-[12px] justify-center items-center m-auto" onClick={send}>Илгээх</button>
     </div>
 </div>
 )

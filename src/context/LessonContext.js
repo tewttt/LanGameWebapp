@@ -10,6 +10,7 @@ import {
   setDoc,
   query, where
 } from "firebase/firestore";
+import { useHistory } from "react-router-dom";
 import { getAuth} from "firebase/auth";
 
 const auth = getAuth();
@@ -26,6 +27,7 @@ const initialState = {
 
 
 export const LessonStore = (props) => {
+  const history = useHistory();
   const [state, setState] = useState(initialState);
 
   const saveBase = (base) => {
@@ -53,6 +55,7 @@ export const LessonStore = (props) => {
   const [userLesson, setUserLesson] = useState([])
 // console.log(userLesson)
   const createLesson = async () => {
+    // alert("lll")
     try {
       const lessRef = doc(db, "lessons", state.base.language);
       const add = await setDoc(lessRef, {
@@ -124,6 +127,8 @@ export const LessonStore = (props) => {
           grammar: state.grammar,
         }
       );
+      alert("success add lesson")
+      // history.push("/teacher")
      
     } catch (err) {
       console.log(err);

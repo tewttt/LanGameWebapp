@@ -52,7 +52,7 @@ export default function AddAdvertise() {
                     <IoIosArrowBack size={20} onClick={() => history.push("/ads")}/>
                     <p>Add advertise</p>
                 </div>
-                <IoIosSettings size={20}/>
+                <IoIosSettings onClick={() => history.push("/settings")} size={20}/>
             </div>
            
             <div className="h-[400px] flex flex-col border border-helpGray rounded-2xl p-2 w-full sm:w-[80%] md:w-[60%] xl:w-[40%]">

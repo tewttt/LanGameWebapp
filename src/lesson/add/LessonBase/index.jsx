@@ -57,7 +57,7 @@ const AddLesson = () => {
                     text: addlesson.text,
                     coin: addlesson.coin
         };
-        alert("Үндсэн мэдээллийн хэсгийг амжилттай хадгаллаа"); 
+        // alert("Үндсэн мэдээллийн хэсгийг амжилттай хадгаллаа"); 
         ctx.saveBase(base);
         history.push("/addlesson/translate");
     }

@@ -7,7 +7,7 @@ import pattern from "../assets/logo/patternWhite.png"
   return (
     <div className="relative flex bg-baseBlack flex-col pt-6 px-6 pb-96 md:p-0 text-white">
         <div 
-                className="bg-cover bg-center opacity-20 absolute top-0 left-0 bg-repeat w-screen h-full"
+                className="bg-cover bg-center opacity-10 absolute top-0 left-0 bg-repeat w-screen h-full"
                 style={{backgroundImage: `url(${pattern})`}}>
             </div>
         <div className="z-30"> <ToolSidebar/> </div>

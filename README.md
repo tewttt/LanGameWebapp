@@ -34,6 +34,22 @@ TO DO
 9. sound oruulah 
 10. express js - EC2
 11. game zereg asuult haragdahgvi bn
+12. lesson payment hiihed MOdal haruulah , alert arilgah
+13. lesson view dr zurag darhad tomruulah
+14. game page ui ynzlah
+15. togloom ru oroh alert arilgah
+16. game detail ui view ynzlah
+17. game asuult haragdahgvi bn , NAN
+18. opacity bagasga
+19. phone verification
+20. all ads ui view ynzlah
+21. settings click tawih
+22. add ads dr age button
+23. add post dr olon link oruulah
+24. profile ui
+25. loader change color
+26. profile image
+27. add lesson dr lesson number  oruulsan hicheeliig oruulahgvi bh
 
 
 // if toglolt 2 toglochtoi vldsen bol ehnii toglogch ylhad 2 dah ylalt shuud onoogdoj togloom duusna

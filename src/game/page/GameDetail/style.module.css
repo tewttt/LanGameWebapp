@@ -1,35 +1,25 @@
 
-  .loader {
-    z-index: 6;
-    animation: left 5s linear normal;
-   
-  }
 
-  @keyframes left {
-    0%{
-        background-color: red;
-        
-        transform: rotate(0deg);
-    }
-    20%{  
-        background-color: red;
-        
-        transform: rotate(72deg);
+  .loader {
+    z-index: 10;
+    animation:  go 5s infinite linear;
+  }
+  @keyframes go {
+   
+    20% {
+        background: conic-gradient(green 0% , green 20% , transparent 20%);
     }
     40% {
-        transform: rotate(144deg);
-        background-color: pink;
+        background: conic-gradient(green 0% , green 40% , transparent 40%);
     }
     60% {
-        transform: rotate(216deg);
-        background-color: yellow;
+        background: conic-gradient(green 0% , green 60% , transparent 60%);
     }
     80% {
-        transform: rotate(288deg);
-        background-color: aqua;
+        background: conic-gradient(green 0% , green 80% , transparent 80%);
     }
     100% {
-        transform: rotate(360deg);
-        background-color: white;
+        background: conic-gradient(green 0% , green 100% , transparent 100%);
     }
-}
+
+  }

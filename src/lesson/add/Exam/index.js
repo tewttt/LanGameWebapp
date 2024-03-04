@@ -109,9 +109,9 @@ const Exam = (props) => {
    
 
 return ( 
-    <div className="pt-6 pb-96">
+    <div className="pt-6 pb-96 md:w-[60%] text-baseBlack">
         { questions.map((ques, i) => (
-            <div style={{width: "100%",  margin: "auto" }}> 
+            <div className="w-full m-auto"> 
                 <Modal closeConfirm={closeConfirm} show={confirm} >
                         <div style={{display: "flex", flexDirection: "column"}}>
                         Хадгалахдаа итгэлтэй байна уу

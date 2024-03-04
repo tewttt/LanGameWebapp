@@ -55,13 +55,13 @@ const LessonView = () => {
 
         <div className="flex my-2">
           <button onClick={changeTranslate} 
-              className="w-1/2 bg-white font-bold text-baseBlack p-2 rounded-2xl mx-2"
+              className="w-1/2 bg-white font-bold text-baseBlack p-2 rounded-2xl mx-2 hover:bg-baseBlue1 hover:text-white"
                 >
               Орчуулга
           </button>
           
           <button onClick={changeWord} 
-              className="w-1/2 bg-white font-bold text-baseBlack p-2 rounded-2xl mx-2"  
+              className="w-1/2 bg-white font-bold text-baseBlack p-2 rounded-2xl mx-2 hover:bg-baseBlue1 hover:text-white"  
               >
               Шинэ үг
           </button>
@@ -69,7 +69,7 @@ const LessonView = () => {
         
         <div className="md:flex h-[100px] md:h-[40px] md:my-2">
           <button onClick={changeExam} 
-              className="w-full h-full md:full  bg-white font-bold text-baseBlack rounded-2xl my-2 md:mx-2"
+              className="w-full h-full md:full  bg-white font-bold text-baseBlack rounded-2xl my-2 md:mx-2 hover:bg-baseBlue1 hover:text-white"
                 >
               Шалгалт
           </button>

@@ -162,7 +162,7 @@ const Game = () => {
               <IoIosArrowBack size={20} onClick={() => history.push("/gameHome")}/>
               <p>Choose game</p>
           </div>
-          <IoIosSettings size={20}/>
+          <IoIosSettings onClick={() => history.push("/settings")} size={20}/>
       </div>
      
       

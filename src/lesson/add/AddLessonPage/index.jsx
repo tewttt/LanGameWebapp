@@ -28,11 +28,12 @@ const AddLesson = () => {
     return (   
     <div className="text-white relative flex bg-baseBlack flex-col p-6 pb-60 md:p-0 ">
         <div 
-            className="bg-cover absolute top-0 -left-4  z-10 "
+            className="bg-cover absolute top-0 -left-4  z-10"
             style={{backgroundImage: `url(${pattern})`}}>
         </div>
+        <div className="z-30"> <ToolSidebar/></div>
        
-        <div className="flex py-2 justify-between pb-4 w-full">
+        <div className="flex py-2 md:pt-20 justify-between pb-4 w-full">
             <div className="flex items-center">
                 <IoIosArrowBack size={20} onClick={() => history.push("/teacher")}/>
                 <p className="font-bold">Add lesson</p>

@@ -80,7 +80,7 @@ const Translate = (props) => {
     }
 
     return ( 
-    <div className="pt-6 pb-96 ">
+    <div className="pt-6 pb-96 text-baseBlack md:w-[50%]">
         {
         questions.map((ques, i) => (
             <div className="flex my-1">

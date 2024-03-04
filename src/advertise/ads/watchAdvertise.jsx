@@ -81,7 +81,7 @@ export default function WatchAdvertise () {
                         {!showTime &&  <div>second {time}</div>}
                         <p>Watch ads</p>
                     </div>
-                    <IoIosSettings size={20}/>
+                    <IoIosSettings onClick={() => history.push("/settings")} size={20}/>
                 </div>
 
                 <div className="flex w-full sm:w-[80%] md:w-[50%] xl:w-[30%] text-white hover:bg-blue-700  bg-baseBlue1 justify-center rounded-2xl py-2 px-4 my-6 border border-baseColor">

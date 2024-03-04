@@ -24,24 +24,33 @@ export default function useGame(id ) {
   const history = useHistory();
   const [game, setGame] = useState("");
   const [players, setPlayers] = useState([]);
-  const [isGameEnded, setIsGameEnded] = useState(false);
   const [queryPlayer , setQueryPlayer] = useState([])
+
 // console.log(game)
   useEffect(() => {
     oneGame();
     // queryPlayerData()
   }, [id]);
 
+
   useEffect(() => {
-    if(isGameEnded){
+    if(game?.endGame){
       queryPlayerData()
     }
-  },[isGameEnded])
+  },[game?.endGame])
 
   useEffect(() => {  
+    const endPlayers = players?.filter(
+      (item) => item.endGamePlayer === true
+    )
+
+    if(endPlayers.length >= 2){
+      getEndGame(true)
+    }
+   
     players?.map((e, i) => {
       if(e?.endGamePlayer === true) {
-        setIsGameEnded(true)
+        // setIsGameEnded(true)
       }
     })
       
@@ -75,7 +84,8 @@ export default function useGame(id ) {
         if(endGame.length >= 2) {
           const gameRef = doc(db, "game", id);
           updateDoc(gameRef, {endGame : true})
-          setIsGameEnded(true)
+          getEndGame(true)
+       
         }
         return [...list];
       });
@@ -119,16 +129,21 @@ export default function useGame(id ) {
     };
   }
 
-  const showGameEnd = (status) => {
-    // console.log(status)
-    setIsGameEnded(status)
+  const getEndGame =async (status) => {
+    const gameRef = doc(db, "game", id)
+    await updateDoc(gameRef , {endGame : status} )
   }
 
   // Тоглогчын оноо цуглуулах
   const addPoint = async (status, go, shield, back, updateHorsePoint, id, val, isZeroCnt = false) => {
+   
+    
     // add powers
     const gameRef = doc(db, "game", id);
-    const playerRef = doc(db, `game/${id}/players`, auth.currentUser?.uid)
+    const playerRef = doc(db, `game/${id}/players`, auth?.currentUser?.uid)
+
+    // await updateDoc(gameRef, {activePlayerId: activePlayerId, activeDice: val + 1})
+
     await updateDoc(playerRef, { activatedShield : status, activatedBack : status, activatedGo : status  })
 
     const generateUniqueRandomNumber = (exclude = []) => {
@@ -159,6 +174,7 @@ export default function useGame(id ) {
     else {
       // console.log("hooson")
     }
+    
     // add point
    if( updateHorsePoint > 40) {
     await updateDoc(playerRef, { point: 40 , pointCount: 0});
@@ -186,8 +202,10 @@ export default function useGame(id ) {
     history.push("/game");
   };
 
+
   // Тоглогчидын асуултын хариулт
   const addAnswer = async (answer, authId, questionNumber) => {
+    
     const question = game.questions[questionNumber]
     const prevAnswers = question.answers || []
     const time = new Date().getTime()
@@ -204,6 +222,8 @@ export default function useGame(id ) {
     });
    
   };
+
+  
 
   const isBack = async(status, e , currentUserId , selectedPower , currentUser) => {
     const total = currentUser.point - 6 
@@ -281,13 +301,15 @@ export default function useGame(id ) {
       } else { 
         updateDoc(userRef, {coins : increment(0),  })
         updateDoc(currentRef, {endGamePlayer : true})
-        setIsGameEnded(true)
+        // setIsGameEnded(true)
+        getEndGame(true)
       }
 
       // when ponit = 0 , logout player from the game
       if (backUser?.coins <= 0) {
          updateDoc(currentRef, {endGamePlayer : true})
-        setIsGameEnded(true)
+        // setIsGameEnded(true)
+        getEndGame(true)
         return
       } 
      } catch (err) {
@@ -318,6 +340,73 @@ export default function useGame(id ) {
     const gameRef = doc(db, "game", id);
     updateDoc(gameRef, {go : ranGo, shield: ranShield, back: ranBack})
   }
+
+  const addRightAnswers =async (answeredPlayers ) => {
+    // console.log(answeredPlayers)
+    const gameRef = doc(db, "game", id);
+    await updateDoc(gameRef, {answeredPlayers})
+  }
+
+  const getWaitPlayers = async(value) => {
+    // console.log(value)
+    const gameRef = doc(db, "game", id)
+    await updateDoc(gameRef, {waitPlayers: value})
+  }
+
+  const getShowStartGame = async(value) => {
+    const gameRef = doc(db, "game", id)
+    await updateDoc(gameRef, {showStartGame: value})
+
+  }
+  const  getQuestionShow =async(value)=> {
+    const gameRef = doc(db, "game", id)
+    await updateDoc(gameRef, {showQuestion: value})
+  }
+  const  getAnswerShow =async(value)=> {
+    const gameRef = doc(db, "game", id)
+    await updateDoc(gameRef, {showAnswer: value})
+  }
+  const  getShowPlayer =async(value)=> {
+    const gameRef = doc(db, "game", id)
+    await updateDoc(gameRef, {showPlayer: value})
+  }
+  const  getLogoutGame =async(value)=> {
+    const gameRef = doc(db, "game", id)
+    await updateDoc(gameRef, {logoutGame: value})
+  }
+
+  const getShowCoin =async(value) =>{
+    const gameRef = doc(db, "game", id)
+    await updateDoc(gameRef, {showCoin: value})
+  }
+  const getShowDiceTime = async(value) => {
+    const gameRef = doc(db, "game", id)
+    await updateDoc(gameRef, {showDiceTime: value})
+  }
+
+  const getStartTime = async (next) => {
+    const gameRef = doc(db, "game", id)
+    await updateDoc(gameRef, {startTime : next})
+  }
+
+  const getDiceTime = async(next) =>{
+    const gameRef = doc(db, "game", id)
+    await updateDoc(gameRef, {diceTime : next})
+  }
+  const getQuestionTime = async (next) => {
+    const gameRef = doc(db, "game", id)
+    await updateDoc(gameRef, {questionTime : next})
+  }
+  const  getQuestionNumber  =async(next) => {
+    const gameRef = doc(db, "game", id)
+    await updateDoc(gameRef, {questionNumber : next})
+  }
+
+  const  getTurn  =async(next) => {
+    const gameRef = doc(db, "game", id)
+    await updateDoc(gameRef, {turn : next})
+  }
+
   
 
   return { 
@@ -326,8 +415,6 @@ export default function useGame(id ) {
     addPoint,
     logoutPlayer,
     addAnswer,
-    isGameEnded,
-    showGameEnd,
     isBack,
     isShield,
     isGo,
@@ -335,7 +422,21 @@ export default function useGame(id ) {
     sendEmoji,
     queryPlayer,
     queryPlayerData,
-   
+    getDiceTime,
+    getShowDiceTime,
+    addRightAnswers,
+    getWaitPlayers,
+    getShowStartGame,
+    getQuestionShow,
+    getAnswerShow,
+    getShowPlayer,
+    getLogoutGame,
+    getShowCoin,
+    getStartTime,
+    getQuestionTime,
+    getQuestionNumber,
+    getEndGame,
+    getTurn
   
    
    

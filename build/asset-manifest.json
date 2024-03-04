@@ -1,0 +1,35 @@
+{
+  "files": {
+    "main.css": "/static/css/main.56e9428c.css",
+    "main.js": "/static/js/main.8d0cdcaf.js",
+    "static/js/787.a8f6fc5e.chunk.js": "/static/js/787.a8f6fc5e.chunk.js",
+    "static/media/patternWhite.png": "/static/media/patternWhite.4bf48faf5308cf78b6c7.png",
+    "static/media/backgroundSmall.png": "/static/media/backgroundSmall.9239a5f7bfca1d3c8e67.png",
+    "static/media/Love.svg": "/static/media/Love.753f2fc99b0cc9be2e50e1099e872202.svg",
+    "static/media/Гайхах.svg": "/static/media/Гайхах.00c88a8a8c9b901b86fd6e2cf50a4592.svg",
+    "static/media/Гал.svg": "/static/media/Гал.c5f571618cf4d63902a0b618a6b37f4b.svg",
+    "static/media/Чулуу.svg": "/static/media/Чулуу.b3d1b2425ef86a6b9e7ce3ff9fc52976.svg",
+    "static/media/Таалагдах.svg": "/static/media/Таалагдах.edfde57965fc04f049e1a5b42960821e.svg",
+    "static/media/Чамайг харах.svg": "/static/media/Чамайг харах.825b7903a9830f101124c82f598a3556.svg",
+    "static/media/Бүүр инээх.svg": "/static/media/Бүүр инээх.1a14d70fca8e5efd3503be4083433a3f.svg",
+    "static/media/Хараал.svg": "/static/media/Хараал.409288a2062aa47a3dceddd5ab2287de.svg",
+    "static/media/Баас.svg": "/static/media/Баас.45bde965f9088361b983749641d6549c.svg",
+    "static/media/Уйлах.svg": "/static/media/Уйлах.19587938918ca371c5fe175101179316.svg",
+    "static/media/Ирмэлт.svg": "/static/media/Ирмэлт.d6de7e19f5dd76963b93cd318c2d0e4b.svg",
+    "static/media/Салхи.svg": "/static/media/Салхи.fa8d24fe67693be46950209e8b63a1ac.svg",
+    "static/media/red.svg": "/static/media/red.700b1f508c15abbe0ef9e1a8b6acdec7.svg",
+    "static/media/orange.svg": "/static/media/orange.e6db1a049a1b5d78645d10432a01487b.svg",
+    "static/media/purple.svg": "/static/media/purple.ccc983bd653f41e6dcc5e9a8b8dbc8b2.svg",
+    "static/media/blue.svg": "/static/media/blue.67e77e6a8a8aa617b218cdcec75e5338.svg",
+    "static/media/Typo Logo SVG Blue.svg": "/static/media/Typo Logo SVG Blue.f8519bd8c8d4374c4518b9ea2df52ce4.svg",
+    "static/media/Symbol Logo SVG Blue.svg": "/static/media/Symbol Logo SVG Blue.d8fe5c4027f874407c4584e7bdd84110.svg",
+    "index.html": "/index.html",
+    "main.56e9428c.css.map": "/static/css/main.56e9428c.css.map",
+    "main.8d0cdcaf.js.map": "/static/js/main.8d0cdcaf.js.map",
+    "787.a8f6fc5e.chunk.js.map": "/static/js/787.a8f6fc5e.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.56e9428c.css",
+    "static/js/main.8d0cdcaf.js"
+  ]
+}
