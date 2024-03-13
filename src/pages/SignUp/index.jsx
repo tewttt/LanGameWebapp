@@ -1,30 +1,34 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import {useHistory} from "react-router-dom";
 
 import UserContext from "../../context/UserContext";
 import {AiFillEye, AiFillEyeInvisible, AiFillLock, AiTwotoneMail, AiFillPhone} from "react-icons/ai"
 import PhoneInput from "react-phone-input-2";
 import 'react-phone-input-2/lib/style.css'
-
+import { ref, uploadBytes,  getDownloadURL } from "firebase/storage";
+import {storage} from "../../firebase";
 import Spinner from "../../components/General/Spinner";
 import Logo from "../../assets/logo/Typo Logo SVG Blue.svg"
 import { Colors } from "../../constants/Colors";
 import backImage from "../../assets/logo/backgroundSmall.png"
 
+
 const SignUp = () => {
     const ctx = useContext(UserContext);
     const history = useHistory();
-    const [email, setEmail] = useState("");
-    const [name, setName] = useState("");
-    const [password, setPassword] = useState("");
-    const [password2, setPassword2] = useState("");
-    const [phone, setPhone] = useState("");
+    
+    const [email, setEmail] = useState("shine@gmail.com");
+    const [name, setName] = useState("shine");
+    const [password, setPassword] = useState("123456Aa@a");
+    const [password2, setPassword2] = useState("123456Aa@a");
+    const [phone, setPhone] = useState("97690909090");
     const [error, setError] = useState("");
     const [showPass, setShowPass] = useState(false)
     const [showPass2, setShowPass2] = useState(false)
     const [valid, setValid] = useState("")
     const [isStrongPassword, setIsStrongPassword] = useState("")
     const [isStrongPassword2, setIsStrongPassword2] = useState(false)
+  
 
     const changePass =()=> {
      setShowPass(!showPass)  
@@ -107,7 +111,8 @@ const signupHandler = async() => {
         return;
         }
     else {
-        ctx.signupUser(email, password, phone, name);
+        ctx.signupUser(email, password, phone, name );
+     
         // alert("email check")
         // history.push("/verification")
     } 

@@ -22,38 +22,19 @@ See the section about [running tests](https://facebook.github.io/create-react-ap
 ### `npm run build`
 
 
-TO DO 
-1. region
-2. Logout 
-3. ads search , region , age, gender
-4. bigquery
-5. 
-6. google analytics
-7. firebase security rule
-8. DOMAIN NAME
-9. sound oruulah 
-10. express js - EC2
-11. game zereg asuult haragdahgvi bn
-12. lesson payment hiihed MOdal haruulah , alert arilgah
-13. lesson view dr zurag darhad tomruulah
-14. game page ui ynzlah
-15. togloom ru oroh alert arilgah
-16. game detail ui view ynzlah
-17. game asuult haragdahgvi bn , NAN
-18. opacity bagasga
-19. phone verification
-20. all ads ui view ynzlah
-21. settings click tawih
-22. add ads dr age button
-23. add post dr olon link oruulah
-24. profile ui
-25. loader change color
-26. profile image
-27. add lesson dr lesson number  oruulsan hicheeliig oruulahgvi bh
 
+# domain name SSL connect
 
-// if toglolt 2 toglochtoi vldsen bol ehnii toglogch ylhad 2 dah ylalt shuud onoogdoj togloom duusna
-// SHooo hayhad 5s time zaana,hugatsaandaa shoo hayhgvi bol automateer shoo buuna
-// point ygaad NAN bolood bn
-// wifi salsan , genet garsan playeriig 4 , 3 bairand oruulah
+https://www.youtube.com/watch?v=AmREvaxgsQI   AWS SSL connect
 
+https://www.youtube.com/watch?v=YEIuuVKIy8U  Cloud front
+
+https://www.youtube.com/watch?v=ZmEnhRKMG3E  full last 
+
+# other 
+1. html converter  https://www.freeformatter.com/html-formatter.html#before-
+2. AWS ROUTE 53  https://www.youtube.com/watch?v=E-EYNk5KlPg&list=PLjZkEuUg_hgjI4d20k_H-V6xlnM_L3gtC&index=34
+3. AWS S3   
+How to host a static website on AWS S3 | 
+https://www.youtube.com/watch?v=-l83oqcaTHg   /   Host your static website on AWS S3 in 5 minutes (youtube.com) 
+4. BIG QUERY  https://www.youtube.com/watch?v=CCQOMPXWFcc

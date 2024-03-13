@@ -30,6 +30,7 @@ import WordView from "../../lesson/view/wordView";
 import GrammarView from "../../lesson/view/grammarView";
 import WordViewExam from "../../lesson/view/wordViewExam";
 import Settings from "../Settings";
+import ListenView from "../../lesson/view/listenView";
 
 
 const App = () => { 
@@ -52,6 +53,7 @@ return (
           <Route path="/word/:languageId/:topicId/:lessonId" component={WordView}/>
           <Route path="/wordExam/:languageId/:topicId/:lessonId" component={WordViewExam}/>
           <Route path="/grammar/:languageId/:topicId/:lessonId" component={GrammarView}/>
+          <Route path="/listen/:languageId/:topicId/:lessonId" component={ListenView}/>
           <Route path="/wallet" component={Payment}/>
           <Route path="/gameHome" component={GameHome}/>
           <Route path="/game" component={Game}/>

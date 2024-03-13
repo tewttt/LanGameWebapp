@@ -150,7 +150,7 @@ const AddLesson = () => {
                 </div>
 
                 <div className="flex justify-between my-1 mx-3">
-                    Amount: {addlesson.price} <br/>
+                    Amount : {addlesson.price}₮ <br/>
                     <input className="p-1 w-3/4 rounded-[5px] mx-0 text-gray-900" onChange={changePrice} type="number" name="Хичээлийн үнэ" placeholder="Хичээлийн үнэ"/>
                 </div>   
                 <div className="flex justify-between my-1 mx-3">

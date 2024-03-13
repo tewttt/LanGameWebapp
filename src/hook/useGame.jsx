@@ -212,9 +212,14 @@ export default function useGame(id ) {
     const value = moment(time).format('YYYY-MM-DD HH:mm:ss:SSS')
    
     question.answers = [
-      ...prevAnswers,
+      ...prevAnswers, 
       { answer, authId , time : value},
     ];
+
+    // question.answers = [
+    //   ...prevAnswers,
+    //   { answer, authId , time : value},
+    // ];
 
     const gameRef = doc(db, "game", id);
     await updateDoc(gameRef, {
@@ -223,13 +228,45 @@ export default function useGame(id ) {
    
   };
 
+  const [backPoint, setBackPoint] = useState(0)
+ 
+  const backHorse = async(e ) => {
+    // console.log(e)
+    // console.log(backPoint)
+    
+    // const total= e?.point - backPoint
+    // console.log(total)
+  
+    // const currentRef = doc(db, `game/${id}/players`, e.id);
+    // if(e.endGamePlayer === false && total <= 0 ){
+    //   await updateDoc(currentRef, {point : 0})
+    // } else if (e.endGamePlayer === false && total > 0 ) {
+    //   await updateDoc(currentRef, {point : increment(-backPoint)})
+    // } else {
+    //   console.log("done")
+    // }
+
+    try {
+      if(e.endGamePlayer === false) {
+        const currentRef = doc(db, `game/${id}/players`, e.id);
+        await updateDoc(currentRef, {point : 0})
+      }
+     } catch (err) {
+
+    } finally{
+      
+    }
+    
+    
+  }
+
   
 
   const isBack = async(status, e , currentUserId , selectedPower , currentUser) => {
-    const total = currentUser.point - 6 
+    const total = e?.point - 6 
     const playerRef = doc(db, `game/${id}/players`, e.id);
     
-    if (total < 0) {
+    if (total <= 0) {
       await updateDoc(playerRef, {point : 0})
     } else {
       await updateDoc(playerRef, {point : increment(-6)})
@@ -263,9 +300,13 @@ export default function useGame(id ) {
   const isGo = async(status, currentUser , selectedPower, currentUserId , diceNumber , go) => {
     try {
       const currentRef = doc(db, `game/${id}/players`, currentUserId);
-      if( currentUser.go > 0 ) {
+      if( currentUser?.go > 0 ) {
         await updateDoc(currentRef, {point : increment(diceNumber + 1)})
         await updateDoc(currentRef, {go : increment(-1), activatedGo : status})
+      }
+
+      if(diceNumber === 5 ){
+        await updateDoc(currentRef, { pointCount: increment(1) });
       }
     } catch (err) {
 
@@ -403,6 +444,7 @@ export default function useGame(id ) {
   }
 
   const  getTurn  =async(next) => {
+    // console.log(next)
     const gameRef = doc(db, "game", id)
     await updateDoc(gameRef, {turn : next})
   }
@@ -436,7 +478,10 @@ export default function useGame(id ) {
     getQuestionTime,
     getQuestionNumber,
     getEndGame,
-    getTurn
+    getTurn,
+    backHorse,
+  
+    setBackPoint
   
    
    

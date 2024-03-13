@@ -14,11 +14,12 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import {useParams } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 import LessonContext from "../../../context/LessonContext";
-
+import Modal from "../../../components/General/Modal";
 
 const Translate = (props) => {
     const history = useHistory()
     const ctx = useContext(LessonContext)
+    const [confirm , setConfirm] = useState(false);
     const {id} = useParams();
     const [ questions, setQuestions] = useState(
         [{  questionText: "",
@@ -29,6 +30,13 @@ const Translate = (props) => {
             // required: false
         }]
     )
+
+    const showConfirm = () => {
+        setConfirm(true)
+    };
+    const closeConfirm = () => {
+        setConfirm(false)
+    };
     const save = () => {
         alert("Орчуулгын хэсгийг амжилттай хадгаллаа"); 
         ctx.saveTranslate(questions);
@@ -81,6 +89,15 @@ const Translate = (props) => {
 
     return ( 
     <div className="pt-6 pb-96 text-baseBlack md:w-[50%]">
+         <Modal closeConfirm={closeConfirm} show={confirm} >
+                <div className="text-baseBlack ">
+                    <p className="text-center">Are you sure you want to save?</p>
+                    <div className="flex justify-around mt-4">
+                        <button className="py-2 px-10 bg-green-500 text-white rounded-2xl" onClick={save}>Yes</button> 
+                        <button className="py-2 px-10 bg-red-500 text-white rounded-2xl" onClick={closeConfirm}>No</button>
+                    </div>
+                </div>
+            </Modal> 
         {
         questions.map((ques, i) => (
             <div className="flex my-1">
@@ -105,7 +122,7 @@ const Translate = (props) => {
                 </div>                                                                                          
             </div>                                            
         ))}
-        <button className="w-full md:w-1/2 bg-baseBlue1 hover:bg-blue-500 flex p-3 justify-center items-center m-auto" onClick={save}>Хадгалах</button> 
+        <button className="w-full md:w-1/2 bg-baseBlue1 hover:bg-blue-500 flex p-3 justify-center items-center m-auto" onClick={showConfirm}>Хадгалах</button> 
     </div>
 )}
 export default Translate;

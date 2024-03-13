@@ -37,11 +37,11 @@ const Dice = (props) => {
 
   // console.log(diceTime )
 
-  useEffect(() => {
-     if(game?.diceTime){
-      setDiceTime(game?.diceTime)
-    }
-  } , [game?.diceTime])
+  // useEffect(() => {
+  //    if(game?.diceTime){
+  //     setDiceTime(game?.diceTime)
+  //   }
+  // } , [game?.diceTime])
 
 
   // useEffect(() => {

@@ -197,6 +197,9 @@ const ProfilePage = () => {
                         <p>Phone</p>
                         <p className="font-bold">{state?.phone}</p>
                     </div>
+                    <button
+                        onClick={() => history.push("/verification")} 
+                        className="bg-helpGreen p-2 font-bold text-black rounded-2xl my-2">Verification phone number</button>
                     <div className="flex w-full border border-helpGray rounded-2xl py-2 px-4 my-1 justify-between">
                         <p>Age</p>
                         <p className="font-bold">{state?.age}</p>

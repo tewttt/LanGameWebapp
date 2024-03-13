@@ -8,6 +8,8 @@ import Grammar from "../Grammar/index.js";
 import { IoIosArrowBack ,IoIosSettings  } from "react-icons/io";
 import ToolSidebar from "../../../components/ToolSidebar/index.jsx";
 import pattern from "../../../assets/logo/patternWhite.png"
+import Listen from "../Listen/index.js";
+
 const AddLesson = () => {
     const history = useHistory();
     const baseInfo = () => {
@@ -21,6 +23,9 @@ const AddLesson = () => {
     };
     const word= () => {
         history.push("/addlesson/word");
+    };
+    const listen= () => {
+        history.push("/addlesson/listen");
     };
     const grammar= () => {
         history.push("/addlesson/grammar");
@@ -40,27 +45,32 @@ const AddLesson = () => {
             </div>
             <IoIosSettings size={20}/>
         </div>
-        <div className="flex justify-center sm:m-auto md:pt-10" >
+        <div className="flex  justify-center sm:m-auto md:pt-10" >
             <button onClick={baseInfo} 
-                className={`${history.location.pathname == "/addlesson" ? "bg-blue-700 text-white" : ""} mx-1  w-[70px] h-[30px] bg-blue-50 flex justify-center items-center text-[12px] text text-black hover:bg-blue-500 rounded-sm`} >
-                Мэдээлэл</button>
+                className={`${history.location.pathname == "/addlesson" ? "bg-blue-700 text-white" : ""} mx-1  p-2 bg-blue-50 flex justify-center items-center text-[12px] text text-black hover:bg-blue-500 rounded-sm`} >
+                Base</button>
             <button onClick={translate} 
-                className={`${history.location.pathname == "/addlesson/translate" ? "bg-blue-700 text-white" : ""} mx-1 w-[70px] h-[30px] bg-blue-50 flex justify-center items-center text-[12px] text text-black hover:bg-blue-500 rounded-sm`} >
-                Орчуулга</button>
+                className={`${history.location.pathname == "/addlesson/translate" ? "bg-blue-700 text-white" : ""}  mx-1 p-2 bg-blue-50 flex justify-center items-center text-[12px] text text-black hover:bg-blue-500 rounded-sm`} >
+                Translate</button>
             <button onClick={exam} 
-                className={`${history.location.pathname == "/addlesson/exam" ? "bg-blue-700 text-white" : ""} mx-1 w-[70px] h-[30px] bg-blue-50 flex justify-center items-center text-[12px] text text-black hover:bg-blue-500 rounded-sm`} >
-                Шалгалт</button>
+                className={`${history.location.pathname == "/addlesson/exam" ? "bg-blue-700 text-white" : ""}  mx-1 p-2 bg-blue-50 flex justify-center items-center text-[12px] text text-black hover:bg-blue-500 rounded-sm`} >
+                Exam</button>
             <button onClick={grammar}  
-                className={`${history.location.pathname == "/addlesson/grammar" ? "bg-blue-700 text-white" : ""} mx-1 w-[70px] h-[30px] bg-blue-50 flex justify-center items-center text-[12px] text text-black hover:bg-blue-500 rounded-sm`} >Дүрэм</button>
+                className={`${history.location.pathname == "/addlesson/grammar" ? "bg-blue-700 text-white" : ""}  mx-1 p-2 bg-blue-50 flex justify-center items-center text-[12px]  text-black hover:bg-blue-500 rounded-sm`} >
+                Grammar</button>
+            <button onClick={listen}  
+                className={`${history.location.pathname == "/addlesson/listen" ? "bg-blue-700 text-white" : ""}  mx-1 p-2 bg-blue-50 flex justify-center items-center text-[12px] text text-black hover:bg-blue-500 rounded-sm`} >
+                Listen</button>
             <button onClick={word} 
-                className={`${history.location.pathname == "/addlesson/word" ? "bg-blue-700 text-white" : ""} mx-1 w-[70px] h-[30px] bg-blue-50 flex justify-center items-center text-[12px] text text-black hover:bg-blue-500 rounded-sm`} >
-                Шинэ үг</button>
+                className={`${history.location.pathname == "/addlesson/word" ? "bg-blue-700 text-white" : ""}  mx-1 p-2 bg-blue-50 flex justify-center items-center text-[12px] text text-black hover:bg-blue-500 rounded-sm`} >
+                Word</button>
         </div>                             
         <Switch>
             <Route path="/addlesson/translate"  component={Translate}/>
             <Route path="/addlesson/exam" component={Exam}/>
             <Route path="/addlesson/grammar" component={Grammar} />
             <Route path="/addlesson/word" component={Word} />
+            <Route path="/addlesson/listen" component={Listen} />
             <Route path="/addlesson" component={LessonBase} />
         </Switch>
     </div>       

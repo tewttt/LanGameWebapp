@@ -35,6 +35,7 @@ export default function useLesson(languageId, topicId, lessonId) {
     const [lessons, setLessons] = useState([]);
     const [oneLesson , setOneLesson] = useState({})
     const [exam, setExam] = useState([]);
+    const [listen ,setListen] = useState([])
     const [translate, setTranslate] = useState([]);
     const [word, setWord] = useState([]);
     const [grammar, setGrammar] = useState([]);
@@ -392,6 +393,14 @@ export default function useLesson(languageId, topicId, lessonId) {
       setWord(snap.data())
     }
   };
+  // listen download
+  const listenfun =async () => {
+    const wordRef = doc(db, `lessons/${languageId}/topics/${topicId}/lessons/${lessonId}/listen`, lessonId);
+    const snap = await getDoc(wordRef)
+    if(snap.exists()){
+      setListen(snap.data())
+    }
+  };
 
   // Grammar татаж авах
   const grammarfun = async() => {
@@ -421,12 +430,14 @@ export default function useLesson(languageId, topicId, lessonId) {
        translate,
        exam,
        word,
+       listen,
        grammar,
        lessonActiveUsers,
        examfun,
        wordfun,
        translatefun,
-       grammarfun
+       grammarfun,
+       listenfun
 
         
     }

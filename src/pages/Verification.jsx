@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
-import Logo from "../assets/logo/Symbol Logo SVG Blue.svg"
+import Logo from "../assets/logo/Typo Logo SVG Blue.svg"
 import { useHistory } from "react-router-dom";
 import UserContext from "../context/UserContext";
 import {AiFillPhone} from "react-icons/ai";
@@ -49,18 +49,18 @@ export default function Verification() {
     } 
   }
 
-const sendCode = async() => {
-  try{
-    await updatePhoneNumber(
-      auth.currentUser,
-      PhoneAuthProvider.credential(verId, code));
-      alert("lucky")
-  } catch (error) {
-    let message = error.message
-    setError(message)
+  const sendCode = async() => {
+    try{
+      await updatePhoneNumber(
+        auth.currentUser,
+        PhoneAuthProvider.credential(verId, code));
+        alert("lucky")
+    } catch (error) {
+      let message = error.message
+      setError(message)
+    }
+    
   }
-  
-}
 
   // sign in phone number
   const signin = async() => {
@@ -94,19 +94,21 @@ const sendCode = async() => {
     });  
 };
 
+// console.log(showCaptcha)
 
   return (
-    <div className="flex flex-col justify-center items-center w-screen h-screen">
+    <div className="flex flex-col bg-white justify-center items-center w-screen h-screen">
      <img src={Logo} className="w-[190px] h-[80px] mb-10"/>
         {error && (
           <div style={{color: "red"}}> {error}</div>
         )}
-        <div className="mb-5 border
-         border-baseColor flex flex-row relative rounded-2xl items-center w-[276px] h-[40px] ">
-          <AiFillPhone size={20} className="text-baseColor/70 absolute left-4" />
+
+        <div className="my-5 border
+         border-baseBlue1 flex flex-row relative rounded-2xl items-center w-[276px] h-[40px] ">
+          <AiFillPhone size={20} className=" absolute left-4 text-baseBlue1" />
           {/* <p className="text-black text-center absolute left-[60px]">{phone}</p> */}
           <input
-            className="w-full h-full text-center border border-baseColor 
+            className="w-full h-full text-center border border-baseBlue1 
             rounded-[25px] transition ease-in-out duration-200
              hover:bg-hpink/10"
             type="text"
@@ -115,44 +117,40 @@ const sendCode = async() => {
             onChange={(e) => setPhone(e.target.value)}
           />
         </div>
-      {showCaptcha ? (
+
+      {showCaptcha === true ? (
         <div 
          className="w-[276px]"
-         id="recaptcha-container">
+         id="recaptcha-container"
+         >
         </div>
       ) : (
-        <div className="bg-baseColor h-[100px] w-full flex justify-center items-center">           
-        <OTPInput value={code} 
-        // onChange={setOTP} 
-        className=""
-        onChange={ setCode}
-        autoFocus 
-        OTPLength={6} 
-        otpType="number" 
-        disabled={false} 
-        // secure
-        />
+        <div className="bg-helpGray m-2 p-1 w-[300px]">           
+          <OTPInput value={code} 
+          // onChange={setOTP} 
+          className=""
+          onChange={ setCode}
+          autoFocus 
+          OTPLength={6} 
+          otpType="number" 
+          disabled={false} 
+            // secure
+          />
         </div>  
-        // <input placeholder="code" onChange={(e) => setCode(e.target.value)}/>
       )}  
-      {/* <div className="bg-baseColor h-[100px] w-full flex justify-center items-center">           
-      <OTPInput value={code} 
-      // onChange={setOTP} 
-      className=""
-      onChange={ setCode}
-      autoFocus 
-      OTPLength={6} 
-      otpType="number" 
-      disabled={false} 
-      // secure
-      />
-      </div>   */}
+     
        <button 
             onClick={sendCode}
-            className="w-[276px] h-[40px] font-semibold text-center mt-6 bg-baseColor 
-            rounded-[25px] transition ease-in-out duration-200
-            text-hpink"
+            className="w-[276px] h-[40px] font-semibold text-center mt-6 bg-baseBlue1 
+            rounded-[25px] transition ease-in-out duration-200 text-white"
         >Send verification code 
+       </button>
+
+       <button 
+            onClick={() => history.push("/profile")}
+            className="w-[276px] h-[40px] font-semibold text-center mt-6 bg-baseBlue1 
+            rounded-[25px] transition ease-in-out duration-200 text-white"
+        >Back
        </button>
     </div>
   );

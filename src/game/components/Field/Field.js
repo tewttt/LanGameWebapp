@@ -71,7 +71,7 @@ const Field = ({ power , chooseHorse , selectedPower , currentUserId , currentUs
   };
  
   const { id } = useParams();
-  const { players } = useGame(id );
+  const { players , backHorse } = useGame(id );
   const [field, setField] = useState(Array(41).fill(null));
   // console.log(currentUserData.entryCoin)
   // player's horse's position
@@ -81,6 +81,26 @@ const Field = ({ power , chooseHorse , selectedPower , currentUserId , currentUs
     );
     return playersFil;
   };
+  // console.log(horsePosition)
+
+  
+
+  const getBackHorse = (e) => {
+    const currentPlayer = players?.find(
+      item => item.id === currentUserId
+    )
+
+    // console.log(e)
+    const data = players?.filter(
+      item => !(item.id === currentUserId)
+    )
+    data.map((e,i) => {
+      // console.log(e.point)
+      if (currentPlayer?.point === e.point) {
+        backHorse(e)
+    }
+    })
+  }
  
   const getHorse= (e) => {
     chooseHorse(e)
@@ -103,14 +123,11 @@ const Field = ({ power , chooseHorse , selectedPower , currentUserId , currentUs
       <div className="relative ml-28 w-[240px]">
         {field.map((value, i) => {
           const playersHorsePosition = horsePosition(i);
-          // console.log(playersHorsePosition)
           const currentPower = power[i]    
-          // console.log(currentPower)
           return (
             <div 
               key={i}
               style={{...positions[i]}} 
-              // className="w-[45px] h-[45px] bg-[#4C3F1C] relative"
               className={`${
                 playersHorsePosition.length > 1 ? "grid grid-cols-2" 
                : 'flex justify-center items-center'} 
@@ -119,7 +136,8 @@ const Field = ({ power , chooseHorse , selectedPower , currentUserId , currentUs
               {/* {i} */}
               {playersHorsePosition.length === 0 && currentPower ? <img className="w-full h-full" src={currentPower} alt="power"/> : null}
               {playersHorsePosition.map((e, index) => {
-                // beginHorse(e)
+                // console.log(e)
+                getBackHorse(e)
                 return (
                 <div  
                 //when no shield , choose back horse  
@@ -145,9 +163,11 @@ const Field = ({ power , chooseHorse , selectedPower , currentUserId , currentUs
         })}
        
       </div>
+
       <FaFlagCheckered 
         size={30}
-        className="absolute z-10 text-red-700 right-[176px] bottom-[140px]"/>
+        className="absolute z-10 text-red-700 right-[176px] bottom-[140px]"
+      />
     </div>
   );
 };

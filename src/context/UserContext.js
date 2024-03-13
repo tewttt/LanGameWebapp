@@ -11,7 +11,8 @@ import {
   onSnapshot,
   increment,
 } from "firebase/firestore";
-import { db } from "../firebase";
+import { db, storage } from "../firebase";
+import { ref, uploadBytes,  getDownloadURL } from "firebase/storage";
 import { useHistory } from "react-router-dom";
 import {
   getAuth,
@@ -23,6 +24,7 @@ import {
   sendPasswordResetEmail,
 
 } from "firebase/auth";
+
 
 const auth = getAuth();
 
@@ -42,7 +44,7 @@ export const UserStore = (props) => {
   const [state, setState] = useState(initialState);
   const [transaction , setTransaction] = useState([])
   const [currentUser, setCurrentUser] = useState("");
- 
+ const [photo, setPhoto] = useState()
   const [userList, setUserList] = useState([]);
   const userInfo = useRef()
   const [userIdCount, setUserIdCount] = useState("")
@@ -93,6 +95,8 @@ export const UserStore = (props) => {
     alert(" update");
     // getUserList();
   };
+
+ 
  
   const setProfilePhoto = async (state, id) => {
     // console.log(state)
@@ -172,11 +176,31 @@ export const UserStore = (props) => {
        
     }
   }
+
+  const download = () => {
+    const photoname = "profile.jpg"
+    const photoRef = ref(storage, `test/${photoname}`);
+   
+    getDownloadURL(photoRef)
+      .then((url) => {
+        setPhoto(url)
+        // console.log(url);
+      })
+      .catch((error) => {
+        console.error('Error getting download URL:', error);
+      });
+  };
+
  
-  
-  async function signupUser(email, password, phone, name) {
+  useEffect(() => {
+    download()
+  } ,[])
+ 
+ 
+  async function signupUser(email, password, phone, name ) {
     try {
      const {user} = await createUserWithEmailAndPassword(auth, email, password);
+      // download()
       // send email verification
      
       await sendEmailVerification(user);
@@ -189,15 +213,15 @@ export const UserStore = (props) => {
         authId: auth.currentUser?.uid,  
         name: name,
         status: false,
-        coins: 0,
+        coins: 2000,  
         amount: 0,
         statusCoin: false,
-        photo: "../assets/img/ironman.png",
+        photo,
         winGame: 0,
         matchGame: 0,
         gender: "",
         age: "",
-        access: "user"
+        role: "user"
       });
 
       const oneRef = collection(db, `users/${auth?.currentUser?.uid}/transaction`);

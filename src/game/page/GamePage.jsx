@@ -167,66 +167,75 @@ const Game = () => {
      
       
       <GameNavbar /> 
-      <div className="flex text-white flex-col w-full md:w-[40%] pt-2 pb-28 px-2 m-auto">
+      <div className="flex text-white flex-col w-full md:w-[40%] lg:w-[20%] pt-2 pb-28 px-2 m-auto">
           
-          <p className="text-center">Choose language</p>
-          <div className="h-[60px] flex my-1 justify-between rounded-2xl p-2 w-full bg-white ">
-            {arrLanguage.map((lan, i) => (
-              <div
-                className={`${
-                  chLan === lan ? "bg-baseBlue1 text-white" 
-                  // lanActive === i ? "bg-baseBlue1 text-white" 
+         
+          <div className=" flex flex-col my-1 justify-between rounded-2xl p-2 w-full  border-t-2">
+            <p className="text-center">Choose language</p>
+            <div className="flex justify-around my-2">
+              {arrLanguage.map((lan, i) => (
+                <div
+                  className={`${
+                    chLan === lan ? "bg-baseBlue1 text-white" 
+                    // lanActive === i ? "bg-baseBlue1 text-white" 
 
-                  : ""
-                } bg-helpGray text-baseBlack hover:text-white hover:bg-baseBlue1 rounded-[10px]  w-[90px] h-full flex justify-center items-center`}
-                  //  className={`${lanActive===i ? css.laan : ""} ${css.nolan}`}
-                key={i}
-                onClick={() => selectLan(lan.id, i)}
-              >
-                {lan.id}
-              </div>
-            ))}
+                    : ""
+                  } bg-helpGray text-baseBlack hover:text-white hover:bg-baseBlue1 active:bg-baseBlue1 rounded-[10px]  w-[90px] h-[50px] flex justify-center items-center`}
+                    //  className={`${lanActive===i ? css.laan : ""} ${css.nolan}`}
+                  key={i}
+                  onClick={() => selectLan(lan.id, i)}
+                >
+                  {lan.id}
+                </div>
+              ))}
+            </div>
           </div>
 
-          <p className="text-center mt-2">Choose level</p>
-          <div className="h-[60px] flex justify-between my-1 rounded-2xl p-2 w-full bg-white">
-            {arrLevel.map((level, i) => (
-              <div
-                className={`${
-                  // levelActive === i
-                  chLevel === level
-                    ? " bg-baseBlue1 text-white"
-                    : ""
-                } flex justify-center items-center bg-helpGray text-baseBlack hover:scale-110 hover:bg-baseBlue1 hover:text-white w-[40px] full rounded-[5px]  `}
-                key={i}
-                onClick={() => selectLevel(level.id, i)}
-                
-              >
-                {level.id}
-              </div>
-            ))} 
+         
+          <div className=" flex flex-col justify-between my-1 rounded-2xl p-2 w-full border-t-2">
+            <p className="text-center">Choose level</p>
+            <div className="flex justify-around my-2">
+              {arrLevel.map((level, i) => (
+                <div
+                  className={`${
+                    // levelActive === i
+                    chLevel === level
+                      ? " bg-baseBlue1 text-white"
+                      : ""
+                  } flex justify-center items-center bg-helpGray text-baseBlack hover:scale-110 hover:bg-baseBlue1 hover:text-white w-[40px] h-[40px] rounded-[5px]  `}
+                  key={i}
+                  onClick={() => selectLevel(level.id, i)}
+                  
+                >
+                  {level.id}
+                </div>
+              ))} 
+            </div>
           </div>
 
-          <p className="text-center mt-2">Choose lesson</p>
-          <div className="h-[60px] flex flex-wrap gap-1 rounded-2xl bg-white my-1 p-2 w-full">
-            {arrLesson.map((lesson, i) => (
-              <div
-                onClick={() => selectLesson(lesson.id, i)}
-                key={i}
-                className={`${
-                  chLesson === lesson
-                    ? " bg-baseBlue1 text-white"
-                    : ""
-                } flex justify-center items-center  bg-helpGray text-baseBlack hover:bg-baseBlue1 hover:text-white w-[40px] h-full rounded-[5px]  `}
-                // className=" w-[20px] h-[20px] rounded-[5px] tranform hover:scale-110 hover:border-blue-500 hover:text-blue-500 border border-blue-200 m-2 text-blue-200"
-              >
-                {lesson.id}
-              </div>
-            ))}
+         
+          <div className=" flex flex-col flex-wrap gap-1 rounded-2xl my-1 p-2 w-full border-t-2">
+            <p className="text-center">Choose lesson</p>
+            <div className="flex justify-around my-2">
+              {arrLesson.map((lesson, i) => (
+                <div
+                  onClick={() => selectLesson(lesson.id, i)}
+                  key={i}
+                  className={`${
+                    chLesson === lesson
+                      ? " bg-baseBlue1 text-white"
+                      : ""
+                  } flex justify-center items-center  bg-helpGray text-baseBlack hover:bg-baseBlue1 hover:text-white w-[40px] h-[40px] rounded-[5px]  `}
+                  // className=" w-[20px] h-[20px] rounded-[5px] tranform hover:scale-110 hover:border-blue-500 hover:text-blue-500 border border-blue-200 m-2 text-blue-200"
+                >
+                  {lesson.id}
+                </div>
+              ))}
+            </div>
           </div>
 
             {/* bet choose */}
-          <div className="border border-helpGray p-2 my-3 rounded-2xl ">
+          <div className="border-t-2 p-2 my-3 rounded-2xl ">
             <div className="flex justify-center mb-3 text-white">Choose Bet</div>
             <div className="flex justify-around">
               <div><FaCircleMinus onClick={minusBet} className="text-baseBlue1" size={30}/></div>
@@ -241,7 +250,7 @@ const Game = () => {
             </div>
           </div>
 
-          <div className="flex flex-wrap justify-center gap-2 text-baseBlack border border-helpGray rounded-2xl my-3 py-5 ">
+          <div className="flex flex-wrap justify-center gap-2 text-baseBlack border-t-2 rounded-2xl my-3 py-5 ">
           {games.map((game, i) => {
             const logoutPlayer =  game?.players.find(item => item.id === authId)
             // console.log(logoutPlayer.logoutGame)

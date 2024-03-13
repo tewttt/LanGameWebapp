@@ -31,14 +31,14 @@ const Exam = (props) => {
     )
     const showConfirm = () => {
         setConfirm(true)
-       };
-       const closeConfirm = () => {
-        setConfirm(false)
-       };
-       const save = () => {      
-        alert("Шалгалтын хэсгийг амжилттай хадгаллаа"); 
-        ctx.saveExam(questions);
-        history.push("/addlesson/grammar");
+    };
+    const closeConfirm = () => {
+    setConfirm(false)
+    };
+    const save = () => {      
+    alert("Шалгалтын хэсгийг амжилттай хадгаллаа"); 
+    ctx.saveExam(questions);
+    history.push("/addlesson/listen");
     }
 
     const changeQuestion = (text, i) => {
@@ -113,15 +113,14 @@ return (
         { questions.map((ques, i) => (
             <div className="w-full m-auto"> 
                 <Modal closeConfirm={closeConfirm} show={confirm} >
-                        <div style={{display: "flex", flexDirection: "column"}}>
-                        Хадгалахдаа итгэлтэй байна уу
-                        <div >
-                            <Button btn="Cont" text="Тийм" daragdsan={save}/>
-                            <Button  text="Үгүй" daragdsan={closeConfirm}/>
+                    <div className="text-baseBlack ">
+                        <p className="text-center">Are you sure you want to save?</p>
+                        <div className="flex justify-around mt-4">
+                            <button className="py-2 px-10 bg-green-500 text-white rounded-2xl" onClick={save}>Yes</button> 
+                            <button className="py-2 px-10 bg-red-500 text-white rounded-2xl" onClick={closeConfirm}>No</button>
                         </div>
-                    
-                        </div>
-                    </Modal>
+                    </div>
+                </Modal>
                 <div style={{color: "white", fontSize: "30px"}}></div>         
                 <div className={css.questionBox}>
                     <AccordionDetails className={css.addQuestion}>
@@ -194,7 +193,7 @@ return (
                 </div>                             
             </div>
         ))}
-          <button className="w-[150px] h-[20px] mb-10 bg-blue-400 hover:bg-blue-500 flex text-[12px] justify-center items-center m-auto" onClick={save}>Хадгалах</button> 
+          <button className="w-[150px] h-[20px] mb-10 bg-blue-400 hover:bg-blue-500 flex text-[12px] justify-center items-center m-auto" onClick={showConfirm}>Хадгалах</button> 
       
     </div>
 )}

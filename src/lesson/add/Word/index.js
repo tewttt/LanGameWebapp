@@ -40,8 +40,9 @@ const Word = () => {
     };
   
     const save = () => {      
-    alert("Шалгалтын хэсгийг амжилттай хадгаллаа"); 
+    // alert("Шалгалтын хэсгийг амжилттай хадгаллаа"); 
     ctx.saveNewWord(questions);
+    closeConfirm()
     }
     const send = () => {
         ctx.createLesson()
@@ -182,16 +183,15 @@ return (
 <div className="pt-6 pb-96 md:w-[50%] text-baseBlack">
     { questions.map((ques, i) => (
     <div> 
-        <Modal closeConfirm={closeConfirm} show={confirm} >
-            <div style={{display: "flex", flexDirection: "column"}}>
-            Хадгалахдаа итгэлтэй байна уу
-                <div >
-                    <Button btn="Cont" text="Тийм" daragdsan={save}/>
-                    <Button  text="Үгүй" daragdsan={closeConfirm}/>
+         <Modal closeConfirm={closeConfirm} show={confirm} >
+                <div className="text-baseBlack ">
+                    <p className="text-center">Are you sure you want to save?</p>
+                    <div className="flex justify-around mt-4">
+                        <button className="py-2 px-10 bg-green-500 text-white rounded-2xl" onClick={save}>Yes</button> 
+                        <button className="py-2 px-10 bg-red-500 text-white rounded-2xl" onClick={closeConfirm}>No</button>
+                    </div>
                 </div>
-        
-            </div>
-        </Modal>        
+            </Modal>
         <div className={css.questionBox}>
             <AccordionDetails className={css.addQuestion}>
                 <div className={css.addQuestionTop}>
@@ -278,7 +278,7 @@ return (
     ))}
     <div className="flex mb-10">
 
-        <button className="w-[150px] h-[20px] bg-blue-400 hover:bg-blue-500 flex text-[12px] justify-center items-center m-auto" onClick={save}>Save</button> 
+        <button className="w-[150px] h-[20px] bg-blue-400 hover:bg-blue-500 flex text-[12px] justify-center items-center m-auto" onClick={showConfirm}>Save</button> 
         {/* {ctx.state.base.language === "Англи хэл" ? (
              <button className="w-[150px] h-[20px] bg-green-500 hover:bg-green-700 flex text-[12px] justify-center items-center m-auto" onClick={ctx.createEnglishDB}>Англи хэл илгээх</button>
         ) : ctx.state.base.language === "Солонгос хэл" ?  (

@@ -26,6 +26,12 @@ const LessonView = () => {
  const changeTranslate = () => {
     history.push(`/translate/${languageId}/${topicId}/${lessonId}`)
  }
+ const changeGrammar = () => {
+  history.push(`/grammar/${languageId}/${topicId}/${lessonId}`)
+}
+const changeListen = () => {
+  history.push(`/listen/${languageId}/${topicId}/${lessonId}`)
+}
  
   return (
     <div className=" relative bg-baseBlack text-white pt-6 pb-48 px-6 md:pt-0">
@@ -40,42 +46,59 @@ const LessonView = () => {
         <p className="text-2xl font-bold my-1"> {oneLesson?.language} {oneLesson?.level} №{oneLesson?.lessonNumber}</p>
         
         <div className="md:flex">
-          <video  
-            className="md:m-2 my-2 border-2 md:w-1/2 border-white rounded-2xl"
-            src={oneLesson?.video}  type="video/mp4" controls>
-          </video>
-          <div className="md:m-2 my-2 border-2 md:w-1/2 border-white rounded-2xl">
-            <img src={oneLesson?.image}/>
+            <video  
+              className="w-full my-2 border-2 md:w-[70%] border-white rounded-2xl"
+              src={oneLesson?.video}  type="video/mp4" controls>
+            </video>
+            {/* <div className="md:m-2 my-2 border-2 md:w-1/2 border-white rounded-2xl">
+              <img src={oneLesson?.image}/>
+            </div>
+            <div className="md:m-2 my-2 border-2 md:w-1/2 border-white rounded-2xl">
+              <img src={grammar?.grammar} controls/>
+            </div> */}
+       
+          
+          <div className="font-bold text-baseBlack md:w-[30%] px-2">
+            <div className="">
+                <button onClick={changeGrammar} 
+                    className="w-full bg-white font-bold text-baseBlack rounded-2xl p-2 my-2 hover:bg-baseBlue1 hover:text-white"
+                      >
+                    Grammar
+                </button>
+            </div>
+
+            <div className="">
+              <button onClick={changeExam} 
+                    className="w-full   bg-white  rounded-2xl p-2 my-2 hover:bg-baseBlue1 hover:text-white"
+                      >
+                    Exam
+                </button>
+                <button onClick={changeTranslate} 
+                    className="w-full  bg-white rounded-2xl p-2  my-2  hover:bg-baseBlue1 hover:text-white"
+                      >
+                    Translate
+                </button>
+            </div>
+
+            <div className="">
+                <button onClick={changeListen} 
+                    className="w-full  bg-white rounded-2xl p-2  my-2  hover:bg-baseBlue1 hover:text-white"
+                      >
+                    Listen
+                </button>
+                <button onClick={changeWord} 
+                    className="w-full  bg-white  rounded-2xl p-2  my-2  hover:bg-baseBlue1 hover:text-white"  
+                    >
+                    Word
+                </button>
+            </div>
           </div>
-          <div className="md:m-2 my-2 border-2 md:w-1/2 border-white rounded-2xl">
-            <img src={grammar?.grammar} controls/>
-          </div>
-        
         </div>
 
-        <div className="flex my-2">
-          <button onClick={changeTranslate} 
-              className="w-1/2 bg-white font-bold text-baseBlack p-2 rounded-2xl mx-2 hover:bg-baseBlue1 hover:text-white"
-                >
-              Орчуулга
-          </button>
-          
-          <button onClick={changeWord} 
-              className="w-1/2 bg-white font-bold text-baseBlack p-2 rounded-2xl mx-2 hover:bg-baseBlue1 hover:text-white"  
-              >
-              Шинэ үг
-          </button>
-        </div>
-        
-        <div className="md:flex h-[100px] md:h-[40px] md:my-2">
-          <button onClick={changeExam} 
-              className="w-full h-full md:full  bg-white font-bold text-baseBlack rounded-2xl my-2 md:mx-2 hover:bg-baseBlue1 hover:text-white"
-                >
-              Шалгалт
-          </button>
-         
-        </div>
+
+
       </div>
+
     </div>
   );
 };

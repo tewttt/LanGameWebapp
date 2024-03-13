@@ -23,6 +23,7 @@ const initialState = {
   video: [],
   grammar: [],
   newWord: [],
+  listen: []
 };
 
 
@@ -45,11 +46,14 @@ export const LessonStore = (props) => {
   const saveVideo = (downloadURL) => {
     setState({ ...state, video: downloadURL });
   };
-  const saveGrammar = (downloadURL) => {
-    setState({ ...state, grammar: downloadURL });
+  const saveGrammar = (questions) => {
+    setState({ ...state, grammar: questions });
   };
   const saveNewWord = (questions) => {
     setState({ ...state, newWord: questions });
+  };
+  const saveListen = (questions) => {
+    setState({ ...state, listen: questions });
   };
  
   const [userLesson, setUserLesson] = useState([])
@@ -125,6 +129,16 @@ export const LessonStore = (props) => {
         ),
         {
           grammar: state.grammar,
+        }
+      );
+      await setDoc(
+        doc(
+          db,
+          `lessons/${state.base.language}/topics/${state.base.level}/lessons/${state.base.lessonNumber}/listen`,
+          state.base.lessonNumber
+        ),
+        {
+          listen: state.listen,
         }
       );
       alert("success add lesson")
@@ -214,6 +228,7 @@ const deleteDB = async (lan, level, number) => {
         saveImage,
         saveNewWord,
         saveTranslate,
+        saveListen,
         saveVideo,
         updateDB,
         deleteDB,

@@ -41,7 +41,7 @@ const Lesson = (props) => {
 
   const payPrice = () => {
     if(userCtx.currentUser.amount < props?.lessons?.price){
-      alert("amount hvrkv")
+      alert("not enough amount")
     } else {
       payLesson({
         amount: props?.lessons?.price,

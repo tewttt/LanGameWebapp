@@ -11,13 +11,16 @@ import dice4 from "../../../assets/game/4.png"
 import dice5 from "../../../assets/game/5.png"
 import dice6 from "../../../assets/game/6.png"
 import useGame from "../../../hook/useGame";
-
+import { useParams } from "react-router-dom";
 
 const dices = [dice1, dice2, dice3, dice4, dice5, dice6]
 
 const Footer = ({currentUser, answerPlayerId , currentUserId , getPower, selectedPower}) => {
+  const { id } = useParams();
+  // console.log(id)
+  const {backHorsePoint , setBackPoint ,} = useGame(id );
 // console.log(answerPlayerId)
- const [showGo ,setShowGo] = useState(false)
+ const [showGo ,setShowGo ] = useState(false)
   
  const getShield = () => {
   getPower("shield", null)
@@ -31,6 +34,8 @@ const Footer = ({currentUser, answerPlayerId , currentUserId , getPower, selecte
 const getGo = (i) => {
   setShowGo(false)
   getPower("go", i)
+  // setBackPoint(i + 1)
+
 }
 
  const showGoModal = () => {
