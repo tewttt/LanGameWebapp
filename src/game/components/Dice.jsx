@@ -11,13 +11,10 @@ import UserContext from "../../context/UserContext";
 import { useParams } from "react-router-dom";
 import useGame from "../../hook/useGame";
 
-let intervalIds = [];
 const Dice = (props) => {
   const { id } = useParams();
-  // console.log(id)
   const ctx = useContext(UserContext)
-  const {getDiceTime , getShowDiceTime , game} = useGame(id);
-  const [diceTime, setDiceTime] = useState()
+  const { game} = useGame(id);
 
  const activePlayer = props?.answeredPlayers.find(
   item => item.authId === ctx?.currentUser?.authId
@@ -29,68 +26,28 @@ const Dice = (props) => {
 
   const rollDice = () => {
     var random = Math.floor(Math.random() * 6);
-    setNewDice(dices[random]); 
+    setNewDice(dices[game?.activeDice]); 
+    // setNewDice(dices[random]); 
     // props.onDiceChange(dices[random])
     props.onDiceChange(random);
   };
 
 
-  // console.log(diceTime )
-
-  // useEffect(() => {
-  //    if(game?.diceTime){
-  //     setDiceTime(game?.diceTime)
-  //   }
-  // } , [game?.diceTime])
-
-
-  // useEffect(() => {
-  //   intervalIds.push( setInterval(doneTime, 500))
-  //   return ()=>{
-  //     clearIntervals()
-  //   }
-  // } , [game?.showDiceTime === false])
-
-
-  const clearIntervals = () => {
-    intervalIds.map(i=>clearInterval(i))
-    intervalIds = [];
-  }
-
-// const doneTime= () => {
-//     setDiceTime(prev => {
-//       let next = prev - 1
-//       getDiceTime(next)
-//       if(next <= 0){
-//         clearIntervals()
-//         getShowDiceTime(false)
-//         next = 0
-//         getDiceTime(next)
-//       }
-//     })
-// }
-
-  
- 
-
   return (
     <div>
       <div 
+        onClick={() => {
+          if (activePlayer.authId === ctx?.currentUser?.authId ) {
+            rollDice()
+          }
+        }}
         // onClick={() => {
-        //   if (activePlayer.authId === ctx?.currentUser?.authId ) {
+        //   if (activePlayer) {
         //     rollDice()
         //   }
         // }}
 
-        // onClick={() => {
-        //   if (props?.game?.diceTime === 0) {
-        //     props.autoTurn()
-        //   } else {
-        //     rollDice()
-        //   }
-        // }}
-
-      onClick={rollDice} 
+      // onClick={rollDice} 
       id="dice">
         <img className="w-11 h-11" src={newDice}></img>
        

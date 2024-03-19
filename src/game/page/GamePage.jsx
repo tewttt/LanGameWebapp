@@ -115,7 +115,7 @@ const Game = () => {
 
   const joinGame = (game) => {
     game?.players.map((e, i) => {
-      if(e?.state?.authId === authId || Userctx?.currentUser?.coins > entry) {
+      if(e?.state?.authId === authId || Userctx?.currentUser?.coins >= entry) {
         join(state, game, chLan, chLevel, chLesson, entry, win , second)
         // Lessonctx.join(state, game, chLan, chLevel, chLesson, entry, win , second);
       } 

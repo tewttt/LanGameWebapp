@@ -136,13 +136,13 @@ export default function useGame(id ) {
 
   // Тоглогчын оноо цуглуулах
   const addPoint = async (status, go, shield, back, updateHorsePoint, id, val, isZeroCnt = false) => {
-   
+   console.log(val)
     
     // add powers
     const gameRef = doc(db, "game", id);
     const playerRef = doc(db, `game/${id}/players`, auth?.currentUser?.uid)
 
-    // await updateDoc(gameRef, {activePlayerId: activePlayerId, activeDice: val + 1})
+    await updateDoc(gameRef, {activeDice: val + 1})
 
     await updateDoc(playerRef, { activatedShield : status, activatedBack : status, activatedGo : status  })
 
@@ -448,6 +448,10 @@ export default function useGame(id ) {
     const gameRef = doc(db, "game", id)
     await updateDoc(gameRef, {turn : next})
   }
+  const getShowTurn = async(value) => {
+    const gameRef = doc(db, "game", id)
+    await updateDoc(gameRef, {showTurn : value })
+  }
 
   
 
@@ -480,7 +484,7 @@ export default function useGame(id ) {
     getEndGame,
     getTurn,
     backHorse,
-  
+    getShowTurn,
     setBackPoint
   
    

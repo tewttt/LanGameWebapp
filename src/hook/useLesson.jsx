@@ -163,6 +163,7 @@ export default function useLesson(languageId, topicId, lessonId) {
             activatedGo: false,
             activatedBack: false,
             activatedShield : false,
+           
         
         });
         
@@ -243,12 +244,14 @@ export default function useLesson(languageId, topicId, lessonId) {
               showPlayer: false,
               logoutGame: false,
               showDiceTime: false,
+              showTurn: false,
               startTime: 5, 
               questionTime: 10,
               questionNumber: 0,
               diceTime: 5,
               turn: 0,
-              answeredPlayers: []
+              answeredPlayers: [],
+              activeDice: ""
           });
 
         // Тоглогчын мэдээллийг нэмж байна
@@ -269,6 +272,7 @@ export default function useLesson(languageId, topicId, lessonId) {
             activatedGo: false,
             activatedBack: false,
             activatedShield : false,
+            logoutGame: false,
         
         });
 
