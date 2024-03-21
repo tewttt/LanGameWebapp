@@ -16,38 +16,27 @@ const Dice = (props) => {
   const ctx = useContext(UserContext)
   const { game} = useGame(id);
 
- const activePlayer = props?.answeredPlayers.find(
-  item => item.authId === ctx?.currentUser?.authId
- )
-  
-
   var dices = [dice1, dice2, dice3, dice4, dice5, dice6];
   const [newDice, setNewDice] = useState(zur);
 
+  
   const rollDice = () => {
-    var random = Math.floor(Math.random() * 6);
-    setNewDice(dices[game?.activeDice]); 
-    // setNewDice(dices[random]); 
-    // props.onDiceChange(dices[random])
-    props.onDiceChange(random);
+    // console.log(props?.answeredPlayers?.authId == ctx?.currentUser?.authId)
+    if(props?.answeredPlayers?.authId === ctx?.currentUser?.authId) {
+      var random = Math.floor(Math.random() * 6);
+      setNewDice(dices[game?.activeDice]); 
+      // setNewDice(dices[random]); 
+      // props.onDiceChange(dices[random])
+      props.onDiceChange(random);
+    } 
+   
   };
 
 
   return (
     <div>
       <div 
-        onClick={() => {
-          if (activePlayer.authId === ctx?.currentUser?.authId ) {
-            rollDice()
-          }
-        }}
-        // onClick={() => {
-        //   if (activePlayer) {
-        //     rollDice()
-        //   }
-        // }}
-
-      // onClick={rollDice} 
+      onClick={rollDice} 
       id="dice">
         <img className="w-11 h-11" src={newDice}></img>
        
