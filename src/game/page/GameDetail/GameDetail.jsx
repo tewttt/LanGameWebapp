@@ -126,7 +126,7 @@ const clearIntervals = () => {
   // 2
   useEffect(() => {
       if(game?.showStartGame){
-      intervalIds.push( setInterval(startGameTime, 1000))
+      intervalIds.push(setInterval(startGameTime, 1000))
       return ()=>{
         // console.log(intervalIds);
         clearIntervals()
@@ -160,15 +160,17 @@ const clearIntervals = () => {
   // 5
   useEffect(() => {
       if(game?.showQuestion){
-      // Асуултын харагдах хугацаа
-      intervalIds.push( setInterval(startQuestionTimer, 1000))
-      return ()=>{
-        // console.log(intervalId);
-        clearIntervals()
+        getShowDiceTime(false)
+        addQuestionnumber()
+        addRightAnswers([])
+        // Асуултын харагдах хугацаа
+        intervalIds.push( setInterval(startQuestionTimer, 1000))
+        return ()=>{
+          // console.log(intervalId);
+          clearIntervals()
+        }
       }
-    }
-}, [game?.showQuestion]);
-
+}, [game?.showQuestion === true]);
 
 // 6  Асуултанд хариулах хугацаа харагдана
 const startQuestionTimer = () => {
@@ -195,7 +197,7 @@ useEffect(() => {
     }, 3000)
    
     getQuestionTime(10)
-  }
+  } 
 } ,[game?.questionTime])
 
 // Асуултын хариултыг хадгалах
@@ -219,9 +221,7 @@ const filterRightAnswers = () => {
     if(rightAnswers === undefined){
       // Зөв хариулт байхгүй бол дараагийн асуултыг харуулах
       addRightAnswers([])
-      getNotAnswers()
-      getShowDiceTime(false) 
-      
+      // getNotAnswers()
     } else {
       // Зөв хариултыг game?.answeredPlayers рүү хийх
         addRightAnswers(rightAnswers)
@@ -236,13 +236,10 @@ const filterRightAnswers = () => {
 //7  Зөв хариулт байхгүй бол дараагийн асуултыг харуулах
 const getNotAnswers = () => {
   // console.log(game?.answeredPlayers?.length <= 1)
-    if(game?.answeredPlayers?.length <= 1 ){
+    if(game?.answeredPlayers?.length === 0 ){
       setTimeout(() => {
         getQuestionShow(true)
-        addQuestionnumber()
-      }, 5000)  
-      clearIntervals()
-      intervalIds.push( setInterval(startQuestionTimer, 1000))
+      }, 4000)  
   } 
 }
 
@@ -251,28 +248,22 @@ useEffect(() => {
     setDiceTime(game?.diceTime)
   }
   if(game?.diceTime <= 0) {
-    getShowDiceTime(false)
-   
-    autoTurn()
+    setDiceTime(0)
     setTimeout(() => {
-      getShowDiceTime(true)
-    }, 1000)
-    getDiceTime(5)
-  }
+      getShowDiceTime(false)
+    } , 2000)
+  } 
 } ,[game?.diceTime])
-console.log(game?.turn +  "  turn")
+
 // 8 зөв хариулттай үед 
 useEffect(() => {
-      if(game?.showDiceTime === true){
-      intervalIds.push( setInterval(startDiceTime, 1000))
-      return ()=>{
-        clearIntervals()
+      if(game?.showDiceTime){
+        intervalIds.push( setInterval(startDiceTime, 1000))
+        return ()=>{
+          clearIntervals()
+        }
       }
-    }
 }, [game?.showDiceTime === true]);
-
-
-console.log(game?.answeredPlayers?.length + " answer lentgh")
 
 // 9 зөв хариулттай үед 5s харагдана . 
 // 5s дотор Шоо дараагүй бол автоматаар дараагын ээлж рүү шилжинэ.
@@ -285,9 +276,39 @@ const startDiceTime = () => {
 }
 
 
+useEffect(() => {
+  if(game?.turn){
+    setTurn(game?.turn)
+  }
+  // console.log(game?.answeredPlayers?.length +  "  answer ")
+  // console.log(game?.turn + " turn")
+  // console.log( game?.turn >= game?.answeredPlayers?.length-1)
+  // if(game?.turn === game?.answeredPlayers?.length - 1 ){   
+  if(game?.turn >= game?.answeredPlayers?.length-1 ){
+      setTimeout(() => {
+        getTurn(0)
+      },6000)  
+     
+      setTimeout(() => {
+        getQuestionShow(true)
+      }, 7000)
+  } else {
+    getShowDiceTime(true)
+  }
+} ,[game?.turn])
+
+
+// Тоглогчын ээлжийг 1000ms дараа автоматаар солих
+ const autoTurn = () => {
+    setTurn((prev) => {
+      let next = prev + 1;
+      getTurn(next)
+      return next;
+    });
+};
+
 //10 Шоо хаях
 const onDiceChange = async (val) => {
- 
   const pointCount = currentUser?.pointCount
   const horsePoint = currentUser?.point
   const updateHorsePoint = horsePoint + val
@@ -295,54 +316,26 @@ const onDiceChange = async (val) => {
 
   if(val === 5 && pointCount < 2  ) {  
     addPoint(clickPlayerId,  false, game?.go, game?.shield, game?.back, updateHorsePoint, id, val)
-
-  } else {
-    addPoint(clickPlayerId,  false, game?.go, game?.shield, game?.back, updateHorsePoint, id, val, true)
-
     setTimeout(() => {
-      getShowDiceTime(false)
       getDiceTime(5)
-    }, 1000)
-   
+      getShowDiceTime(false)
+    } , 2000)
+
     setTimeout(() => {
       getShowDiceTime(true)
-    }, 2000)
-    setTimeout(() => {
-      autoTurn()
-    }, 1000)
+    } , 3000)
    
-  }
-};
-
-
-useEffect(() => {
-  if(game?.turn){
-    setTurn(game?.turn)
-  }
-  if ( game?.turn >= game?.answeredPlayers?.length - 1 ){     
-    addQuestionnumber()
+  } else {
+    addPoint(clickPlayerId,  false, game?.go, game?.shield, game?.back, updateHorsePoint, id, val, true)
     setTimeout(() => {
-      getQuestionShow(true)
-    }, 2000)
-    clearIntervals()
-    intervalIds.push( setInterval(startQuestionTimer, 1000))
-    getTurn(0) 
-  }   
-
-} ,[game?.turn])
-
-// 10 
-// Тоглогчын ээлжийг 1000ms дараа автоматаар солих
- const autoTurn = () => {
-  setTimeout(() => {
-    setTurn(prev => {
-      let next = prev + 1;
-      getTurn(next)
-    
-      return next;
-    });
-  }, 1000)
+      getDiceTime(5)
+      getShowDiceTime(false)
+      autoTurn()
+    }, 3000)
+  }
 };
+
+
 
 useEffect(() => {
   if(game?.questionNumber){
@@ -350,7 +343,7 @@ useEffect(() => {
   }
   if(questions.current.length-1 < game?.questionNumber){
     getQuestionNumber(0)
-    // next=0;
+    getQuestionShow(false)
     // gameEnd()
   }
 },[game?.questionNumber])
@@ -360,7 +353,6 @@ const addQuestionnumber = () => {
   setQuestionNumber((prev) => {
     let next= prev + 1
     getQuestionNumber (next)
-    addRightAnswers([])  
     return next;
   });
 };
@@ -539,6 +531,7 @@ const getEmoji = (e) => {
                       <Dice id={i} 
                           onDiceChange={onDiceChange} 
                           answeredPlayers={game?.answeredPlayers[game?.turn]}
+                          diceTime = {game?.diceTime}
                       />
                    )
                   }    

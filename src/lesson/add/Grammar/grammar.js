@@ -18,7 +18,7 @@ const Grammar = () => {
     };
     const closeConfirm = () => {
         setConfirm(false)
-    };
+    };  
 
     const uploadFile =async () =>{
         if (images == null) return;

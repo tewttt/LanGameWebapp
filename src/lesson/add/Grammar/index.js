@@ -20,10 +20,8 @@ const Word = () => {
     const [confirm , setConfirm] = useState(false);
     const {id} = useParams();
     const [ questions, setQuestions] = useState(
-        [{  eng: "",
-            mon: "",
-            example: "",
-            desc: "",
+        [{  
+            image: ""
         }]
     )
  
@@ -39,38 +37,6 @@ const Word = () => {
     ctx.saveGrammar(questions);
     history.push("/addlesson/listen");
     closeConfirm()
-    }
-   
-
-    const changeEng = (text, i) => {
-        var newQuestion = [...questions];
-        newQuestion[i].eng = text;
-        setQuestions(newQuestion);
-        // console.log(newQuestion)
-    }
-    const changeMon = (text, i) => {
-        var newQuestion = [...questions];
-        newQuestion[i].mon = text;
-        setQuestions(newQuestion);
-        // console.log(newQuestion)
-    }
-    const changeDesc = (text, i) => {
-        var newQuestion = [...questions];
-        newQuestion[i].desc = text;
-        setQuestions(newQuestion);
-        // console.log(newQuestion)
-    }
-    const changeExample = (text, i) => {
-        var newQuestion = [...questions];
-        newQuestion[i].example = text;
-        setQuestions(newQuestion);
-        // console.log(newQuestion)
-    }
-    const changeOptionValue = (text, i ,j) => {
-        var optionQuestion = [...questions];
-        optionQuestion[i].options[j].optionText = text;
-        setQuestions(optionQuestion)
-        // console.log(optionQuestion)
     }
    
     
@@ -91,7 +57,7 @@ const Word = () => {
     const addMoreQuestionField = () => {
         expandCloseAll();
         setQuestions([...questions, 
-            {questionText: "Question",  options: [{optionText: "Option1"}],  }
+            {image: "image",   }
             ]);
     }
    
@@ -103,7 +69,13 @@ const Word = () => {
         setQuestions(qs);
     }
    
-   
+    const changePhoto = (value, i) => {
+        var newQuestion = [...questions];
+        newQuestion[i].image = value;
+        setQuestions(newQuestion);
+        // const set = newQuestion[i].image
+        uploadImage(i);
+    }
     
     const uploadImage = (i) =>{
         if (questions[i].image == null) return;
@@ -111,44 +83,15 @@ const Word = () => {
         const imageRef = ref(storage, `wordImage/${questions[i].image.name}`);
         uploadBytes(imageRef, questions[i].image).then((snapshot) => {
             getDownloadURL(snapshot.ref).then((url) => {
-
-                console.log('asd', url)
                 var newQuestion = [...questions];
                 newQuestion[i].image = url;
                  setQuestions(newQuestion);
-                //  console.log(newQuestion)
-                // setQuestions({...questions, image: url});
-                
             })
-           
         })
         alert("photo upload amjilttai") 
     }
 
-    const changeSound = (value, i) => {
-        var newQuestion = [...questions];
-        newQuestion[i].sound = value;
-        setQuestions(newQuestion);
-        uploadSound(i, newQuestion);
-        // console.log(newQuestion[i].image)
-    }
-
-    const uploadSound = (i) =>{
-        if (questions[i].sound == null) return;
-        // const imageRef = ref(storage, `images/${photo.name + v4()}`);
-        const imageRef = ref(storage, `wordSound/${questions[i].sound.name}`);
-        uploadBytes(imageRef, questions[i].sound).then((snapshot) => {
-            getDownloadURL(snapshot.ref).then((url) => {
-                // console.log(url)
-                var newQuestion = [...questions];
-                newQuestion[i].sound = url;
-                 setQuestions(newQuestion);
-                //  console.log(newQuestion)
-                // setQuestions({...questions, image: url});  
-            })
-        })
-        alert("sound upload amjilttai") 
-    }
+   
 
 return ( 
 <div className="pt-6 pb-96 md:w-[50%] text-baseBlack">
@@ -166,12 +109,18 @@ return (
         <div className={css.questionBox}>
             <AccordionDetails className={css.addQuestion}>
                 <div className={css.addQuestionTop}>
-                    <div style={{display: "flex", flexDirection: "column"}}>
-                        <input type="text" className={css.question} placeholder="Grammar English" value={ques.eng} onChange={(e) => {changeEng(e.target.value, i)}}></input>
-                        <input type="text" className={css.question} placeholder="Grammar Mongolia" value={ques.mon} onChange={(e) => {changeMon(e.target.value, i)}}></input>
-                        <input type="text" className={css.question} placeholder="Description" value={ques.desc} onChange={(e) => {changeDesc(e.target.value, i)}}></input>
-                        <input type="text" className={css.question} placeholder="Example" value={ques.example} onChange={(e) => {changeExample(e.target.value, i)}}></input>
+                    <div className="flex items-center w-[300px] justify-between ml-5">Image
+                            <img src={questions[i].image} className="w-[40px] h-[40px] border border-gray-400"/>
+                            <input 
+                            className="w-[180px] h-[40px] text-[12px] ml-0"
+                            onChange={(e) => {changePhoto(e.target.files[0], i)}}
+                            required type="file" 
+                            id="imageInput" />
                     </div>
+                    {/* <div style={{display: "flex", flexDirection: "column"}}>
+                        <input type="text" className={css.question} placeholder="Grammar English" value={ques.eng} onChange={(e) => {changeEng(e.target.value, i)}}></input>
+                       
+                    </div> */}
                 </div>
                    
                 

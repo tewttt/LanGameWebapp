@@ -57,7 +57,7 @@ const EditExam = (props) => {
     const save = () => {
         // alert("Шалгалтын хэсгийг амжилттай хадгаллаа"); 
         ctx.saveExam(questions);
-        history.push(`/edit/${languageId}${topicId}${lessonId}/grammar`)
+        history.push(`/edit/${languageId}/${topicId}/${lessonId}/grammar`)
         closeConfirm()
     }
 

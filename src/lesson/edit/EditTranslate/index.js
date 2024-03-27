@@ -44,7 +44,7 @@ const EditTranslate = (props) => {
     const save = () => {
         // alert("Орчуулгын хэсгийг амжилттай хадгаллаа"); 
         ctx.saveTranslate(questions);
-        history.push(`/edit/${languageId}${topicId}${lessonId}/exam`)
+        history.push(`/edit/${languageId}/${topicId}/${lessonId}/exam`)
         closeConfirm()       
     }
     const changeQuestion = (text, i) => {

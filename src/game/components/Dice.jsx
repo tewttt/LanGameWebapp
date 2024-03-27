@@ -19,6 +19,11 @@ const Dice = (props) => {
   var dices = [dice1, dice2, dice3, dice4, dice5, dice6];
   const [newDice, setNewDice] = useState(zur);
 
+  useEffect(() => {
+    if(props?.diceTime <=0 ){
+      rollDice()
+    }
+  } ,[props?.diceTime <= 0 ])
   
   const rollDice = () => {
     // console.log(props?.answeredPlayers?.authId == ctx?.currentUser?.authId)
@@ -29,7 +34,6 @@ const Dice = (props) => {
       // props.onDiceChange(dices[random])
       props.onDiceChange(random);
     } 
-   
   };
 
 

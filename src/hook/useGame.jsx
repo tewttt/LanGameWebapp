@@ -136,7 +136,7 @@ export default function useGame(id ) {
 
   // Тоглогчын оноо цуглуулах
   const addPoint = async (clickPlayerId, status, go, shield, back, updateHorsePoint, id, val, isZeroCnt = false) => {
-    console.log(clickPlayerId?.authId)
+    // console.log(clickPlayerId?.authId)
     console.log(val + " val")
     // add powers
     const gameRef = doc(db, "game", id);

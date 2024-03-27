@@ -50,7 +50,7 @@ const WordView = () => {
   const playAudio = () => {
     const audio = new Audio(question?.sound); // Create a new Audio object with the sound file
     audio.play(); // Play the audio
-  };
+  };  
 
   return (
     <div className="text-white bg-baseBlack px-6 pt-6 pb-24 h-screen"> 
