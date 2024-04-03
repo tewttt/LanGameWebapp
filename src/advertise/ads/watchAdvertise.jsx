@@ -6,7 +6,7 @@ import Modal from "../../components/General/Modal"
 import pattern from "../../assets/logo/patternWhite.png"
 import { IoIosArrowBack ,IoIosSettings  } from "react-icons/io";
 
-const TIME = 5
+const TIME = 15
 let intervalIds = [];
 
 export default function WatchAdvertise () {
@@ -84,11 +84,7 @@ export default function WatchAdvertise () {
                     <IoIosSettings onClick={() => history.push("/settings")} size={20}/>
                 </div>
 
-                <div className="flex w-full sm:w-[80%] md:w-[50%] xl:w-[30%] text-white hover:bg-blue-700  bg-baseBlue1 justify-center rounded-2xl py-2 px-4 my-6 border border-baseColor">
-                    <a href={postDataAds?.post?.link} target="_blank" rel="video" className=" w-full p-2 text-center">
-                        Visit {postDataAds?.post?.title}
-                    </a>
-                </div>
+                
     
                 <video 
                     className="flex bg-red-300 w-full sm:w-[80%] md:w-[50%] xl:w-[30%]"
@@ -115,6 +111,28 @@ export default function WatchAdvertise () {
                     </div>
                 
                 </div>
+                {postDataAds?.post?.facebookLink != "" && 
+                    <div className="flex w-full sm:w-[80%] md:w-[50%] xl:w-[30%] text-white hover:bg-blue-700  bg-baseBlue1 justify-center rounded-2xl py-2 px-4 my-3 border border-baseColor">
+                        <a href={postDataAds?.post?.facebookLink} target="_blank" rel="video" className=" w-full p-2 text-center">
+                            Facebook visit 
+                        </a>
+                    </div>
+                }
+                {postDataAds?.post?.instagramLink != "" &&
+                    <div className="flex w-full sm:w-[80%] md:w-[50%] xl:w-[30%] text-white hover:bg-blue-700  bg-baseBlue1 justify-center rounded-2xl py-2 px-4 my-3 border border-baseColor">
+                        <a href={postDataAds?.post?.instagramLink} target="_blank" rel="video" className=" w-full p-2 text-center">
+                            Instagram visit 
+                        </a>
+                    </div>
+                }
+                {postDataAds?.post?.link != "" && 
+                    <div className="flex w-full sm:w-[80%] md:w-[50%] xl:w-[30%] text-white hover:bg-blue-700  bg-baseBlue1 justify-center rounded-2xl py-2 px-4 my-3 border border-baseColor">
+                        <a href={postDataAds?.post?.link} target="_blank" rel="video" className=" w-full p-2 text-center">
+                            Visit 
+                        </a>
+                    </div>
+                }
+                
             </div>
         </div>
     ) 

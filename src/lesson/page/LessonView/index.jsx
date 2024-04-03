@@ -34,7 +34,7 @@ const changeListen = () => {
 }
  
   return (
-    <div className=" relative bg-baseBlack text-white pt-6 pb-48 px-6 md:pt-0">
+    <div className=" relative bg-baseBlack text-white text-3xl pt-6 pb-48 px-6 md:pt-0">
       <ToolSidebar />
       <div className="md:pt-20 md:w-full m-auto">
         <div className="flex py-2 justify-between pb-4">
@@ -48,20 +48,14 @@ const changeListen = () => {
         <div className="md:flex">
             <video  
               className="w-full my-2 border-2 md:w-[70%] border-white rounded-2xl"
+              poster = {oneLesson?.image}
               src={oneLesson?.video}  type="video/mp4" controls>
             </video>
-            {/* <div className="md:m-2 my-2 border-2 md:w-1/2 border-white rounded-2xl">
-              <img src={oneLesson?.image}/>
-            </div>
-            <div className="md:m-2 my-2 border-2 md:w-1/2 border-white rounded-2xl">
-              <img src={grammar?.grammar} controls/>
-            </div> */}
-       
           
-          <div className="font-bold text-baseBlack md:w-[30%] px-2">
+          <div className="font-bold text-baseBlack md:w-[30%]  px-2">
             <div className="">
                 <button onClick={changeGrammar} 
-                    className="w-full bg-white font-bold text-baseBlack rounded-2xl p-2 my-2 hover:bg-baseBlue1 hover:text-white"
+                    className="w-full h-full bg-white font-bold text-baseBlack rounded-2xl p-2 my-2 hover:bg-baseBlue1 hover:text-white"
                       >
                     Grammar
                 </button>

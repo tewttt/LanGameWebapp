@@ -105,8 +105,9 @@ export default function useAds(id) {
     const oneRef = query(
       collection(db, "ads"),
       where("doneAds", "==" , false ), 
+      where("paymentStatus", "==" , "paid" ), 
       // where("ageStart", ">=" , age ), 
-      // where("ageEnd", "<=" , age ), 
+      // where("ageEnd", "<=" , age ),  
       limit(5)
     )
    
@@ -157,7 +158,8 @@ export default function useAds(id) {
           message: "request",
           doneAds : false,
           goalPerson,
-          watchedPerson: 0
+          watchedPerson: 0,
+          paymentStatus: "no paid"
          
       } )
       .then((res) => { 

@@ -2,7 +2,7 @@ import React, {useState, useContext, useEffect} from "react";
 import css from "./style.module.css";
 import { storage } from "../../../firebase";
 
-import {useParams,useHistory,useLocation } from "react-router-dom";
+import {useParams, useHistory, useLocation } from "react-router-dom";
 import LessonContext from "../../../context/LessonContext";
 import useLesson from "../../../hook/useLesson";
 import Modal from "../../../components/General/Modal";
@@ -40,16 +40,17 @@ const Grammar = (props) => {
 
     const showConfirm = () => {
         setConfirm(true)
-        };
+    };
 
     const closeConfirm = () => {
     setConfirm(false)
     };
 
     const save = () => {      
-        alert("Grammar хэсгийг амжилттай хадгаллаа"); 
+        // console.log("nnnn")
+        // alert("Grammar хэсгийг амжилттай хадгаллаа"); 
         ctx.saveGrammar(questions)  
-        history.push(`/edit/${languageId}/${topicId}/${lessonId}/word`)
+        history.push(`/edit/${languageId}/${topicId}/${lessonId}/listen`)
         closeConfirm()
     }
 
@@ -113,17 +114,18 @@ const Grammar = (props) => {
 
     return (
         <div className="pt-6 pb-96 md:w-[50%] text-baseBlack">
+            <Modal closeConfirm={closeConfirm} show={confirm} >
+                <div className="text-baseBlack ">
+                    <p className="text-center">Are you sure you want to save?</p>
+                    <div className="flex justify-around mt-4">
+                        <button className="py-2 px-10 bg-green-500 text-white rounded-2xl" onClick={save}>Yes</button> 
+                        <button className="py-2 px-10 bg-red-500 text-white rounded-2xl" onClick={closeConfirm}>No</button>
+                    </div>
+                </div>
+            </Modal>
         { questions.map((ques, i) => (
         <div> 
-             <Modal closeConfirm={closeConfirm} show={confirm} >
-                    <div className="text-baseBlack ">
-                        <p className="text-center">Are you sure you want to save?</p>
-                        <div className="flex justify-around mt-4">
-                            <button className="py-2 px-10 bg-green-500 text-white rounded-2xl" onClick={save}>Yes</button> 
-                            <button className="py-2 px-10 bg-red-500 text-white rounded-2xl" onClick={closeConfirm}>No</button>
-                        </div>
-                    </div>
-                </Modal>
+             
             <div className={css.questionBox}>
                 <AccordionDetails className={css.addQuestion}>
                     <div className={css.addQuestionTop}>

@@ -14,7 +14,7 @@ const OneAds = () => {
     const [show, setShow] = useState(false)
 
     const totalPerson = (ads?.ads?.totalBudget * 10)/100
-   
+
     useEffect (() => {
         if(id){
             getAds(id) 
@@ -73,20 +73,23 @@ const OneAds = () => {
                     <p className="">Phone</p>
                     <p> {ads?.userPhone}</p>
                 </div>
-                <div className="flex justify-between my-1 py-1">
-                    <p className="">Ads</p>
-                    <p> {ads?.message}</p>
-                </div>
+                
               
             </div>
             
             <div className="flex flex-col border border-helpGray  rounded-xl p-2 my-2 w-full sm:w-[80%] md:w-[50%] xl:w-[30%]">
                 <p className="text-xl text-center">Advertise information</p>
                 <div className="flex justify-between my-1 py-1">
-                    <p className="">Age from {ads?.ads?.startAge} to {ads?.ads?.endAge}</p>
+                    <p className="">Ads</p>
+                    <p className="font-bold text-red-500 uppercase"> {ads?.message}</p>
+                </div>
+                <p className="w-full">reason: <span className="mx-2 text-green-500">{ads?.result}</span></p>
+                
+                <div className="flex justify-between my-1 py-1">
+                    <p className="">Age from <span className="font-bold text-lg">{ads?.ads?.startAge}</span> to <span className="font-bold text-lg">{ads?.ads?.endAge}</span> </p>
                 </div>
                 <div className="flex justify-between my-1 py-1">
-                    <p className="">Gender</p>
+                    <p className="font-bold uppercase">Gender</p>
                     <p>{ads?.ads?.gender}</p>
                 </div>
               
@@ -94,22 +97,13 @@ const OneAds = () => {
                 <div className="flex justify-between my-1 py-1">
                    <p> {moment(ads?.createDate?.toDate()).calendar()}</p>    
                 </div>
-                
-                <div className="flex justify-between my-1 py-1">
-                    <p className="">Start date</p>
-                    <p>{moment(ads?.startDate?.toDate()).calendar()}</p>
-                </div>
-                <div className="flex justify-between my-1 py-1">
-                    <p className="">End date</p>
-                    <p>{moment(ads?.endDate?.toDate()).calendar()}</p>
-                </div>
 
                
                 <div className="flex justify-between my-1 py-1">
-                    <p>budget: {ads?.ads?.totalBudget}₮</p>
+                    <p>budget: <span className="font-bold uppercase mx-3">{ads?.ads?.totalBudget}₮</span></p>
                     <div className="flex">
                     <p>goal  person</p>
-                    <p>{totalPerson}</p>
+                    <p className="font-bold uppercase mx-3">{totalPerson}</p>
                     </div>
                 </div>
                 

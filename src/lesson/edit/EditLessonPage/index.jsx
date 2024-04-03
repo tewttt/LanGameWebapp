@@ -6,6 +6,7 @@ import EditExam from "../EditExam"
 import EditGrammar from "../EditGrammar";
 import EditNewWord from "../EditNewword";
 import { IoIosArrowBack ,IoIosSettings  } from "react-icons/io";
+import EditListen from "../EditListen";
 
 const EditLesson = () => {
   
@@ -27,6 +28,9 @@ const EditLesson = () => {
     const grammar= () => {
         history.push(`/edit/${languageId}/${topicId}/${lessonId}/grammar`)
     };
+    const listen= () => {
+        history.push(`/edit/${languageId}/${topicId}/${lessonId}/listen`)
+    };
    
 
     return (
@@ -44,6 +48,8 @@ const EditLesson = () => {
                 <button className={`${history.location.pathname == `/edit/${languageId}/${topicId}/${lessonId}/translate` ? "bg-blue-700 text-white" : ""}  mx-1  w-[70px] h-[30px] bg-blue-50 flex justify-center items-center text-[12px] text text-black hover:bg-blue-500 rounded-sm`} onClick={translate}>Орчуулга</button>
                 <button className={`${history.location.pathname == `/edit/${languageId}/${topicId}/${lessonId}/exam` ? "bg-blue-700 text-white" : ""}  mx-1  w-[70px] h-[30px] bg-blue-50 flex justify-center items-center text-[12px] text text-black hover:bg-blue-500 rounded-sm`} onClick={exam}>Шалгалт</button>
                 <button className={`${history.location.pathname == `/edit/${languageId}/${topicId}/${lessonId}/grammar` ? "bg-blue-700 text-white" : ""}  mx-1  w-[70px] h-[30px] bg-blue-50 flex justify-center items-center text-[12px] text text-black hover:bg-blue-500 rounded-sm`} onClick={grammar} >Дүрэм</button>
+                <button className={`${history.location.pathname == `/edit/${languageId}/${topicId}/${lessonId}/listen` ? "bg-blue-700 text-white" : ""}  mx-1  w-[70px] h-[30px] bg-blue-50 flex justify-center items-center text-[12px] text text-black hover:bg-blue-500 rounded-sm`} onClick={listen} >Сонсгол</button>
+                
                 <button className={`${history.location.pathname == `/edit/${languageId}/${topicId}/${lessonId}/word` ? "bg-blue-700 text-white" : ""} mx-1  w-[70px] h-[30px] bg-blue-50 flex justify-center items-center text-[12px] text text-black hover:bg-blue-500 rounded-sm`} onClick={word} >Шинэ үг</button>
             </div>   
                  
@@ -52,6 +58,7 @@ const EditLesson = () => {
                 <Route path="/edit/:languageId/:topicId/:lessonId/grammar"  component={EditGrammar}/>
                 <Route path="/edit/:languageId/:topicId/:lessonId/translate"  component={EditTranslate}/>
                 <Route path="/edit/:languageId/:topicId/:lessonId/exam" component={EditExam}/>
+                <Route path="/edit/:languageId/:topicId/:lessonId/listen" component={EditListen}/>
                 <Route path="/edit/:languageId/:topicId/:lessonId" component={EditBase} />
             </Switch>
           

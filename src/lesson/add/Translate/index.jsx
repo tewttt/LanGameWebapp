@@ -1,6 +1,6 @@
 import React, {useState, useEffect, useContext} from "react";
 import css from "./style.module.css";
-import { Button,IconButton, MenuItem, Select} from "@mui/material";
+import {IconButton} from "@mui/material";
 import AccordionDetails from '@mui/material/AccordionDetails';
 import SubjectIcon from '@mui/icons-material/Subject';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';

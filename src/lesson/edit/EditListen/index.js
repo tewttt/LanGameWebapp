@@ -1,4 +1,4 @@
-import React, {useState,  useContext} from "react";
+import React, {useState,  useContext , useEffect} from "react";
 import css from "./style.module.css";
 import { Button,IconButton} from "@mui/material";
 import AccordionDetails from '@mui/material/AccordionDetails';
@@ -12,19 +12,31 @@ import LessonContext from "../../../context/LessonContext";
 import Modal from "../../../components/General/Modal";
 import { storage} from "../../../firebase";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import useLesson from "../../../hook/useLesson";
 
-
-const Grammar = () => {
+const EditListen = () => {
     const history = useHistory()
     const ctx = useContext(LessonContext);
+    const {languageId, topicId, lessonId} = useParams()
+    const {listen, listenfun} = useLesson(languageId, topicId, lessonId)
     const [confirm , setConfirm] = useState(false);
-    const {id} = useParams();
+ 
     const [ questions, setQuestions] = useState(
-        [{  
-            image: ""
+        [{  word: "",
+            sound: ""
         }]
     )
- 
+    console.log(questions)
+    useEffect(() => {
+        listenfun()
+    }, [])
+
+    useEffect(() => {
+        if(listen?.listen){
+            setQuestions(listen?.listen)
+        }
+    },[listen?.listen])
+    // console.log(questions)
     const showConfirm = () => {
         setConfirm(true)
     };
@@ -33,12 +45,19 @@ const Grammar = () => {
     };
   
     const save = () => {      
-    // alert("Шалгалтын хэсгийг амжилттай хадгаллаа"); 
-    ctx.saveGrammar(questions);
-    history.push("/addlesson/listen");
+    // alert("Listen хэсгийг амжилттай хадгаллаа"); 
+    // history.push("/addlesson/word");
+    history.push(`/edit/${languageId}/${topicId}/${lessonId}/word`)
+    ctx.saveListen(questions);
     closeConfirm()
     }
    
+    const changeWord = (text, i) => {
+        var newQuestion = [...questions];
+        newQuestion[i].word = text;
+        setQuestions(newQuestion);
+        // console.log(newQuestion)
+    }
     
     const copyQuestion = (i) => {
         expandCloseAll()
@@ -57,7 +76,7 @@ const Grammar = () => {
     const addMoreQuestionField = () => {
         expandCloseAll();
         setQuestions([...questions, 
-            {image: "image",   }
+            {questionText: "Question",  options: [{optionText: "Option1"}],  }
             ]);
     }
    
@@ -65,33 +84,35 @@ const Grammar = () => {
         let qs = [...questions];
         for (let j = 0; j< qs.length; j++) {
             qs[j].open = false;
-        }
+        }   
         setQuestions(qs);
     }
    
-    const changePhoto = (value, i) => {
+
+    const changeSound = (value, i) => {
         var newQuestion = [...questions];
-        newQuestion[i].image = value;
+        newQuestion[i].sound = value;
         setQuestions(newQuestion);
-        // const set = newQuestion[i].image
-        uploadImage(i);
-    }
-    
-    const uploadImage = (i) =>{
-        if (questions[i].image == null) return;
-        // const imageRef = ref(storage, `images/${photo.name + v4()}`);
-        const imageRef = ref(storage, `wordImage/${questions[i].image.name}`);
-        uploadBytes(imageRef, questions[i].image).then((snapshot) => {
-            getDownloadURL(snapshot.ref).then((url) => {
-                var newQuestion = [...questions];
-                newQuestion[i].image = url;
-                 setQuestions(newQuestion);
-            })
-        })
-        // alert("photo upload amjilttai") 
+        uploadSound(i, newQuestion);
+        // console.log(newQuestion[i].image)
     }
 
-   
+    const uploadSound = (i) =>{
+        if (questions[i].sound == null) return;
+        // const imageRef = ref(storage, `images/${photo.name + v4()}`);
+        const imageRef = ref(storage, `wordSound/${questions[i].sound.name}`);
+        uploadBytes(imageRef, questions[i].sound).then((snapshot) => {
+            getDownloadURL(snapshot.ref).then((url) => {
+                // console.log(url)
+                var newQuestion = [...questions];
+                newQuestion[i].sound = url;
+                 setQuestions(newQuestion);
+                //  console.log(newQuestion)
+                // setQuestions({...questions, image: url});  
+            })
+        })
+        alert("sound upload amjilttai") 
+    }
 
 return ( 
 <div className="pt-6 pb-96 md:w-[50%] text-baseBlack">
@@ -105,24 +126,24 @@ return (
                         <button className="py-2 px-10 bg-red-500 text-white rounded-2xl" onClick={closeConfirm}>No</button>
                     </div>
                 </div>
-            </Modal>
+            </Modal> 
         <div className={css.questionBox}>
             <AccordionDetails className={css.addQuestion}>
                 <div className={css.addQuestionTop}>
-                    <div className="flex items-center w-[300px] justify-between ml-5">Image
-                            <img src={questions[i].image} className="w-[40px] h-[40px] border border-gray-400"/>
+                    <div style={{display: "flex", flexDirection: "column"}}>
+                      
+                        <input type="text" className={css.question} placeholder="sentence" value={ques.word} onChange={(e) => {changeWord(e.target.value, i)}}></input>
+                           
+                        <div className="flex  w-[300px]">
+                            <p className="mr-2">sound</p>
                             <input 
+                            onChange={(e) => {changeSound(e.target.files[0], i)}}
                             className="w-[180px] h-[40px] text-[12px] ml-0"
-                            onChange={(e) => {changePhoto(e.target.files[0], i)}}
                             required type="file" 
-                            id="imageInput" />
+                            id="SoundInput" />
+                        </div>
                     </div>
-                    {/* <div style={{display: "flex", flexDirection: "column"}}>
-                        <input type="text" className={css.question} placeholder="Grammar English" value={ques.eng} onChange={(e) => {changeEng(e.target.value, i)}}></input>
-                       
-                    </div> */}
                 </div>
-                   
                 
                 <div className={css.addFooter}>
                     <div className={css.addQuestionBottom}>
@@ -150,5 +171,5 @@ return (
 }
     
 
-export default Grammar;
+export default EditListen;
 

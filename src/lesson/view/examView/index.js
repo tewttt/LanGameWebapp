@@ -25,6 +25,7 @@ const ExamView = () => {
       if (exam?.exam && questions.current.length === 0  ) {
         const shuffledQ =  shuffleArray(exam?.exam);
         questions.current = shuffledQ
+        setQuestionNumber(1)
         }
     },[exam?.exam])
 
@@ -69,15 +70,15 @@ const ExamView = () => {
     }
 
   return (
-    <div className="text-white bg-baseBlack p-6 h-screen ">
+    <div className="text-white text-2xl sm:text-3xl bg-baseBlack p-6 h-screen ">
       <div className="flex py-2 justify-between pb-4">
           <IoIosArrowBack size={20} onClick={() => history.push( history.push(`/lesson/${languageId}/${topicId}/${lessonId}`))}/>
           <p></p>
           <IoIosSettings size={20}/>
       </div>
-      <p className="text-2xl font-bold my-1">Exam</p>
+      <p className=" font-bold my-1">Exam</p>
 
-      <div className="py-10 sm:w-[50%] m-auto">
+      <div className="py-10 w-full sm:w-[90%] md:w-[70%] m-auto">
         <p className="pb-10 font-bold justify-center flex flex-wrap w-full">{question.questionText}</p>
         {question?.options?.map((option , i) => {
           const isSelected = playerAnswer === option.optionText

@@ -1,20 +1,15 @@
 import React, {useState, useEffect, useContext} from "react";
 import css from "./style.module.css";
-import {Accordion, Button, FormControlLabel, IconButton, MenuItem, Select} from "@mui/material";
+import {Accordion, Button,  IconButton} from "@mui/material";
 import AccordionDetails from '@mui/material/AccordionDetails';
-import SubjectIcon from '@mui/icons-material/Subject';
-import CheckBoxIcon from '@mui/icons-material/CheckBox';
-import Radio from "@mui/material/Radio";
-import { ShortText } from "@mui/icons-material";
 import CloseIcon from '@mui/icons-material/Close';
-import OutboundIcon from '@mui/icons-material/Outbound';
 import FilterNoneIcon from '@mui/icons-material/FilterNone';
 import RestoreFromTrashIcon from '@mui/icons-material/RestoreFromTrash';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 
 import LessonContext from "../../../context/LessonContext";
 import Modal from "../../../components/General/Modal";
-import { useHistory,useLocation, useParams } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import useLesson from "../../../hook/useLesson";
 
 const EditExam = (props) => {

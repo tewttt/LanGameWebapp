@@ -3,6 +3,7 @@ import useLesson from "../../hook/useLesson";
 import { IoIosArrowBack ,IoIosSettings  } from "react-icons/io";
 import { useHistory ,useParams} from "react-router-dom";
 import { HiMiniSpeakerWave } from "react-icons/hi2";
+import Modal from "../../components/General/Modal";
 
 let intervalIds = [];
 const ListenView = () => {
@@ -10,32 +11,51 @@ const ListenView = () => {
   const {languageId, topicId, lessonId} = useParams()
   const {listen , listenfun} = useLesson(languageId, topicId, lessonId)
   const [questionNumber, setQuestionNumber] = useState(0);
+  const [endTranslate, setEndTranslate] = useState(false)
+
+  const [playerAnswer , setPlayerAnswer] =useState("")
+  const [userAnswer, setUserAnswer] = useState("")
+  const [point , setPoint] = useState(0)
   const questions = useRef([])
   const question = questions?.current[questionNumber] || {}
 
-
   useEffect(() => {
     listenfun()
-    setQuestionNumber(0)
   } ,[])
 
   // асуултууд
   useEffect(() => {
     if (listen?.listen && questions.current.length === 0  ) {
       questions.current = listen?.listen
+      setQuestionNumber(1)
       }
   },[listen?.listen])
 
   const addQuestionnumber = () => {
+    setPlayerAnswer("")
     setQuestionNumber((prev) => {
       let next= prev + 1
       if(questions.current.length-1 < next){
         clearIntervals()
-        next = 0
+        setEndTranslate(true)
+        // history.push(`/lesson/${languageId}/${topicId}/${lessonId}`)
       }
       return next;
     });
     
+  };
+
+  const start = () => {
+    setQuestionNumber(1)
+    setEndTranslate(false)
+    setPoint(0)
+  }
+
+  const saveAnswer = (answer) => {
+    setPlayerAnswer(answer)
+    if(answer === question.answerKey){
+      return setPoint(prev => prev + 1 )
+    } 
   };
 
   const clearIntervals = () => {
@@ -43,9 +63,6 @@ const ListenView = () => {
     intervalIds = [];
   }
  
-  const exam = () => {
-    history.push(`/wordExam/${languageId}/${topicId}/${lessonId}`)
-  }
 
   const playAudio = () => {
     const audio = new Audio(question?.sound); // Create a new Audio object with the sound file
@@ -53,48 +70,46 @@ const ListenView = () => {
   };
 
   return (
-    <div className="text-white bg-baseBlack px-6 pt-6 pb-24 h-screen"> 
+    <div className="text-white text-2xl sm:text-3xl bg-baseBlack px-6 pt-6 pb-24 h-screen"> 
       <div className="flex py-2 justify-between pb-4">
           <IoIosArrowBack size={20} onClick={() => history.push(`/lesson/${languageId}/${topicId}/${lessonId}`)}/>
           <p></p>
           <IoIosSettings size={20}/>
       </div>
-      <p className="text-2xl font-bold my-1">Listen</p>
-    
-      {questions.current.length === 0 ? 
-        (
-          <div className="flex flex-col my-4 md:w-[50%] m-auto">
-            <button onClick={ addQuestionnumber} className="bg-baseBlue1 my-2 w-full rounded-3xl p-2">Start</button>
-            
-          </div>
-        ) : 
-        (
-          <div className="m-auto flex flex-col md:w-[50%] justify-center">
-            <img src={question?.image} className="border w-full border-helpGray rounded-2xl"/>
-            <div className="flex justify-start my-3 items-center">
-              <HiMiniSpeakerWave onClick={playAudio} size={36} className="mr-3 p-1 bg-baseBlue1 rounded-[50%]  text-white"/>
-              <p className="text-3xl mx-3">{question?.word}</p>
-              <p className="text-3xl mx-3">{question?.trans}</p>
-            </div>
-            <p className="w-full border border-helpGray p-2 text-center rounded-3xl my-2">{question?.desc}</p>
-           
-          
-            
+      <p className=" font-bold my-1">Listen</p>
 
-            {questionNumber === 0 ? (
-              <div className="flex flex-col my-4 w-full">
-                <button onClick={ addQuestionnumber} className="bg-baseBlue1 my-2 w-full rounded-3xl p-2">Word start</button>
-                <button onClick={ exam} className="bg-baseBlue1 my-2 w-full rounded-3xl p-2">
-                  Word exam start
-                </button>
-              </div>
-            ) : (
-              <button onClick={() => addQuestionnumber()} className="w-full bg-baseBlue1 w-full rounded-3xl p-2">Next</button>
-            )}
+      <div className="py-10 w-full sm:w-[90%] md:w-[70%]  m-auto flex flex-col">
+        <HiMiniSpeakerWave onClick={playAudio} size={36} className="mr-3 p-1 bg-baseBlue1 rounded-[50%]  text-white"/>
+         <p>Number: {questionNumber}</p>      
+                <input type="text" className="text-baseBlack p-2 text-center rounded-3xl my-3" onChange={(e) => setUserAnswer(e.target.value)} placeholder="write here"/>
+                <button className="rounded-3xl p-2 text-center text-baseBlack bg-helpGreen my-3 hover:bg-helpGreen/50" onClick={saveAnswer}>Check answer</button>
+                {playerAnswer ?  
+                    (playerAnswer === question?.word ? 
+                        <div className="bg-green-600 p-2 flex justify-center items-center flex-col my-2">
+                            <p>Right</p>
+                            <p>{question?.word}</p>
+                        </div> 
+                        : <div className="bg-red-500 p-2 flex justify-center items-center flex-col my-2">
+                            <p>wrong</p>
+                            <p>{question?.word}</p>
+                                </div>)
+                    : (<div>Please write your answer</div>)
+                }
 
-          </div>
-        )
-      }
+                <button onClick={() => addQuestionnumber()} className="my-5 bg-baseBlue1 w-full rounded-3xl p-2">Next</button>
+               
+      </div>
+
+      <Modal show={endTranslate}>
+                <div className="p-4">
+                <p className="text-3xl my-6">Total point: {questions.current.length}  /  {point} </p>
+                
+                <button onClick={() => start()} className="bg-baseBlue1 my-2 text-white w-full rounded-2xl p-2">Restart exam</button>
+                <button 
+                    onClick={() =>  history.push( history.push(`/lesson/${languageId}/${topicId}/${lessonId}`))} 
+                    className="bg-helpGreen my-2 text-white w-full rounded-2xl p-2">Done</button>
+                </div>
+            </Modal>
     </div>
   )
 }

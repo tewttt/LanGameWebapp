@@ -167,7 +167,7 @@ const Game = () => {
      
       
       <GameNavbar /> 
-      <div className="flex text-white flex-col w-full md:w-[40%] lg:w-[20%] pt-2 pb-28 px-2 m-auto">
+      <div className="flex text-white flex-col w-full md:w-[60%] lg:w-[50%] pt-2 pb-28 px-2 m-auto">
           
          
           <div className=" flex flex-col my-1 justify-between rounded-2xl p-2 w-full  border-t-2">
@@ -258,11 +258,12 @@ const Game = () => {
               <div key={i}>
                {logoutPlayer?.logoutGame ? null : (
                 <div
-                  className="relative bg-white w-[120px] h-[90px] flex flex-col justify-between items-center p-1 m-2 rounded-xl"
+                  className="relative bg-white w-[140px] h-[140px] flex flex-col justify-between items-center p-1 m-2 rounded-xl"
                 >
                   {/* <div className="absolute bg-baseColor rounded-[50%] w-[25px] h-[25px] text-white left-0">{time}</div> */}
-                  <div className="text-[12px]">Players 4/{game.count}</div>
-                  <div className="text-[12px]">{chLan} {chLevel} {chLesson}</div>
+                  <div className="">Players 4/ <span className="font-bold">{game.count}</span></div>
+                  <div className=""> <span className="font-bold">{chLan} {chLevel} {chLesson}</span> </div>
+                 <p className="">Entry coin <span className="font-bold "> {game?.entryCoin}</span></p>
                   <button
                     className="bg-baseBlue1 text-white text-sm p-2 rounded-lg"
                     onClick={() => joinGame(game)}

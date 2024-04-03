@@ -57,7 +57,7 @@ const Choice = () => {
         })}
       </div>
 
-      <div className="flex flex-wrap gap-x-6 gap-y-2 justify-center">
+      <div className="flex flex-wrap gap-2 place-items-center">
         {lessons.map((e, i) => {
           return (
             <div key={i}>

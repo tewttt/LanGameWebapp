@@ -16,10 +16,7 @@ const TranslateView = () => {
     const questions = useRef([])
     const question = questions?.current[questionNumber] || {}
     const [userAnswer, setUserAnswer] = useState("")
-    // console.log(question.questionText)
-    // console.log(question.questionAnswer)
-    // console.log(point)
-    // console.log(userAnswer === question.questionAnswer)
+
     useEffect(() => {
       translatefun()
     } ,[])
@@ -27,7 +24,9 @@ const TranslateView = () => {
     useEffect(() => {
         if (translate?.translate && questions.current.length === 0  ) {
           questions.current = translate?.translate
+          setQuestionNumber(1)
           }
+          
       },[translate?.translate])
    
      
@@ -55,23 +54,23 @@ const TranslateView = () => {
         intervalIds = [];
       }
       const start = () => {
-        setQuestionNumber(0)
+        setQuestionNumber(1)
         setEndTranslate(false)
         setPoint(0)
       }
       
 
     return (
-        <div className="text-white bg-baseBlack p-6 h-screen ">
+        <div className="text-white text-2xl sm:text-3xl bg-baseBlack p-6 h-screen ">
             <div className="flex py-2 justify-between pb-4">
                 <IoIosArrowBack size={20} onClick={() => history.push( history.push(`/lesson/${languageId}/${topicId}/${lessonId}`))}/>
                 <p></p>
                 <IoIosSettings size={20}/>
             </div>
-            <p className="text-2xl font-bold my-1">Translate</p>
+            <p className="font-bold my-1">Translate</p>
 
-            <div className="py-10 sm:w-[50%] m-auto flex flex-col">
-                <p className="pb-10 font-bold text-lg justify-center flex flex-wrap w-full">{question?.questionText}</p>
+            <div className="py-10 w-full sm:w-[90%] md:w-[70%] m-auto flex flex-col">
+                <p className="pb-10 font-bold justify-center flex flex-wrap w-full">{question?.questionText}</p>
                
                 <input type="text" className="text-baseBlack p-2 text-center rounded-3xl my-3" onChange={(e) => setUserAnswer(e.target.value)} placeholder="write here"/>
                 <button className="rounded-3xl p-2 text-center text-baseBlack bg-helpGreen my-3 hover:bg-helpGreen/50" onClick={saveAnswer}>Check answer</button>

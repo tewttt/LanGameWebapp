@@ -319,10 +319,12 @@ export default function useLesson(languageId, topicId, lessonId) {
     
   // filt Lessons
   const getLessons = (level, chLan) => {
-    const lessonsRef = collection(
-      db,
-      `lessons/${chLan}/topics/${level}/lessons`
-    );
+    // const lessonsRef = collection(db,`lessons/${chLan}/topics/${level}/lessons`);
+    const lessonsRef = query(
+      collection(db,`lessons/${chLan}/topics/${level}/lessons`),
+      where("acceptStatus", "==", "accept")
+      );
+
     const unsubcribe = onSnapshot(lessonsRef, (snapshot) => {
       setLessons(() => {
         const list = snapshot.docs.map((doc) => {

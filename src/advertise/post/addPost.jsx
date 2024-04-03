@@ -1,8 +1,5 @@
 
 import React, { useState} from "react"
-import { DefaultPlayer as Video } from "react-html5video";
-import "react-html5video/dist/styles.css";
-import { MdOutlineCancel } from "react-icons/md";
 import { useHistory } from "react-router-dom"
 import { ref,  getDownloadURL, uploadBytesResumable} from "firebase/storage";
 import { storage } from "../../firebase";
@@ -21,7 +18,9 @@ export default function AddPost() {
         address: "",
         phone: "",
         email: "",
-        video: ""
+        video: "",
+        facebookLink:"",
+        instagramLink:""
     })
    
     const handleChange = (event) => {
@@ -93,17 +92,7 @@ export default function AddPost() {
                         placeholder="text"
                     />
                 </div>
-                <div className="flex flex-col justify-between my-1 mx-3 ">
-                    <div>Link</div>
-                    <input  
-                        className="w-full my-1 border border-baseColor p-2 rounded-[5px] mx-0 text-gray-900" 
-                        onChange={handleChange} 
-                        required 
-                        type="text" 
-                        name="link" 
-                        placeholder="link"
-                    />
-                </div>
+                
                 <div className="flex flex-col justify-between my-1 mx-3 ">
                     <div>Address</div>
                     <input  
@@ -137,13 +126,45 @@ export default function AddPost() {
                         placeholder="Email"
                     />
                 </div>
-               
+                <div className="flex flex-col justify-between my-1 mx-3 ">
+                    <div>Facebook link</div>
+                    <input  
+                        className="w-full my-1 border border-baseColor p-2 rounded-[5px] mx-0 text-gray-900" 
+                        onChange={handleChange} 
+                        required 
+                        type="text" 
+                        name="facebookLink" 
+                        placeholder="link"
+                    />
+                </div>
+                <div className="flex flex-col justify-between my-1 mx-3 ">
+                    <div>Instagram link</div>
+                    <input  
+                        className="w-full my-1 border border-baseColor p-2 rounded-[5px] mx-0 text-gray-900" 
+                        onChange={handleChange} 
+                        required 
+                        type="text" 
+                        name="instagramLink" 
+                        placeholder="link"
+                    />
+                </div>
+                <div className="flex flex-col justify-between my-1 mx-3 ">
+                    <div>Other link</div>
+                    <input  
+                        className="w-full my-1 border border-baseColor p-2 rounded-[5px] mx-0 text-gray-900" 
+                        onChange={handleChange} 
+                        required 
+                        type="text" 
+                        name="link" 
+                        placeholder="link"
+                    />
+                </div>
             </div>
 
             <div className="w-full sm:w-[80%] md:w-[60%] xl:w-[40%]">
-                <Video className="w-full">
+                <video className="w-full">
                     <source src={post?.video}/>
-                </Video>
+                </video>
                 <input 
                     className="m-1"
                     type="file" name="video"  onChange={changeVideo}/>

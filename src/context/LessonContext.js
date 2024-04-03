@@ -53,6 +53,7 @@ export const LessonStore = (props) => {
     setState({ ...state, newWord: questions });
   };
   const saveListen = (questions) => {
+    console.log(questions)
     setState({ ...state, listen: questions });
   };
  
@@ -62,6 +63,7 @@ export const LessonStore = (props) => {
     // alert("lll")
     try {
       const lessRef = doc(db, "lessons", state.base.language);
+     
       const add = await setDoc(lessRef, {
         language: state.base.language,
       
@@ -89,6 +91,7 @@ export const LessonStore = (props) => {
           text: state.base.text,
           video: state.video,
           image: state.image,
+          acceptStatus: "request"
         }
       );
       await setDoc(
@@ -203,6 +206,12 @@ export const LessonStore = (props) => {
       doc(db,`lessons/${lan}/topics/${level}/lessons/${number}/grammar`, number),
       {
         grammar: state.grammar,
+      }
+    );
+    await updateDoc(
+      doc(db,`lessons/${lan}/topics/${level}/lessons/${number}/listen`, number),
+      {
+        listen: state.listen,
       }
     );
     alert("lesson enlish update")

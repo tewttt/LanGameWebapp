@@ -15,8 +15,7 @@ const WordViewExam = () => {
   const [questionNumber, setQuestionNumber] = useState(0);
   const questions = useRef([])
   const question = questions?.current[questionNumber] || {}
-  console.log(question)
-// console.log(questions)
+  
   useEffect(() => {
     wordfun()
   } ,[])
@@ -70,7 +69,7 @@ const WordViewExam = () => {
   }
 
   return (
-    <div className="text-white bg-baseBlack p-6 h-screen"> 
+    <div className="text-white text-2xl sm:text-3xl bg-baseBlack p-6 h-screen"> 
       <div className="flex py-2 justify-between pb-4">
           <IoIosArrowBack size={20} onClick={() => history.push( history.push(`/lesson/${languageId}/${topicId}/${lessonId}`))}/>
           <p></p>
@@ -80,7 +79,7 @@ const WordViewExam = () => {
      
 
       {/* exam  */}
-      <div className="py-10 sm:w-[50%] m-auto">
+      <div className="py-10  w-full sm:w-[90%] md:w-[70%] m-auto">
         <p className="pb-10 font-bold justify-center flex flex-wrap w-full">{question.questionText}</p>
         {question?.options?.map((option , i) => {
          const isSelected = playerAnswer === option.optionText

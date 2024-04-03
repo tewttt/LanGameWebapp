@@ -10,10 +10,10 @@ export default function AllAds () {
     return (
         <div className=" bg-baseBlack flex flex-col items-center px-6 p-6 pb-20 text-white">
             <div className="flex py-2 justify-between pb-4 w-full sm:w-[80%] md:w-[60%] xl:w-[40%]">
-                <div className="flex items-center">
+                <div className="flex items-center ">
                     <IoIosArrowBack size={20} onClick={() => history.push("/ads")}/>
                     <p>Total ads </p>
-                    <p className="mx-2"> {allads.length}</p>
+                    <p className="mx-2 font-bold "> {allads.length}</p>
                 </div>
                 <IoIosSettings onClick={() => history.push("/settings")} size={20}/>
             </div>

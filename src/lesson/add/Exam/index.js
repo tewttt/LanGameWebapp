@@ -1,18 +1,14 @@
-import React, {useState, useEffect, useContext} from "react";
+import React, {useState, useContext} from "react";
 import css from "./style.module.css";
-import {Accordion, Button, FormControlLabel, IconButton, MenuItem, Select} from "@mui/material";
+import { Button, IconButton} from "@mui/material";
 import AccordionDetails from '@mui/material/AccordionDetails';
 import { useHistory } from "react-router-dom";
 import CloseIcon from '@mui/icons-material/Close';
-import OutboundIcon from '@mui/icons-material/Outbound';
 import FilterNoneIcon from '@mui/icons-material/FilterNone';
 import RestoreFromTrashIcon from '@mui/icons-material/RestoreFromTrash';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import {useParams } from "react-router-dom";
-
-import Spinner from "../../../components/General/Spinner";
 import LessonContext from "../../../context/LessonContext";
-// import ButtonCmp from "../../../components/Button";
 import Modal from "../../../components/General/Modal";
 
 

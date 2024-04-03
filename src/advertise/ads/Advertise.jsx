@@ -1,6 +1,4 @@
 import React  from "react"
-import { MdOutlineCancel } from "react-icons/md";
-import "react-html5video/dist/styles.css";
 import PostCard from "../post/postCard";
 import { useHistory } from "react-router-dom"
 import usePost from "../../hook/usePost";

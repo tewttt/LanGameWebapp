@@ -46,6 +46,7 @@ const GameDetail = () => {
 
   const ctx = useContext(UserContext)
   const currentUserId = ctx?.currentUser?.authId
+  // console.log(ctx?.currentUser?.name)
   const { id } = useParams();
   const {addRightAnswers,  randomPower, queryPlayer, 
     sendEmoji, isGo, isShield, isBack, addAnswer, 
@@ -141,8 +142,9 @@ const clearIntervals = () => {
     }
     if(game?.startTime <= 0){
         getShowStartGame(false)
+        getShowDiceTime(false)
         setTimeout(() =>{
-          getQuestionShow(true)
+          // getQuestionShow(true)
         }, 2000)
         getStartTime(0)
       }
@@ -160,9 +162,6 @@ const clearIntervals = () => {
   // 5
   useEffect(() => {
       if(game?.showQuestion){
-        getShowDiceTime(false)
-        addQuestionnumber()
-        addRightAnswers([])
         // Асуултын харагдах хугацаа
         intervalIds.push( setInterval(startQuestionTimer, 1000))
         return ()=>{
@@ -171,7 +170,7 @@ const clearIntervals = () => {
         }
       }
 }, [game?.showQuestion === true]);
-
+// 
 // 6  Асуултанд хариулах хугацаа харагдана
 const startQuestionTimer = () => {
   setQuestionTime(prev =>{
@@ -187,7 +186,9 @@ useEffect(() => {
     setQuestionTime(game?.questionTime)
   }
   if(game?.questionTime <= 0) {
-    // clearIntervals()
+    
+    addQuestionnumber()
+    addRightAnswers([])
     getQuestionShow(false)
     filterRightAnswers()
     getAnswerShow(true)
@@ -195,7 +196,6 @@ useEffect(() => {
       getAnswerShow(false)
       setPlayerAnswer("")
     }, 3000)
-   
     getQuestionTime(10)
   } 
 } ,[game?.questionTime])
@@ -204,7 +204,7 @@ useEffect(() => {
 const saveAnswer = (answer) => {  
   setPlayerAnswer(answer)
   setTimeout(() => {
-    addAnswer(answer, currentUserId, questionNumber);
+    addAnswer(answer, currentUserId, questionNumber , ctx?.currentUser?.name);
   }, 500)
 };
 
@@ -224,10 +224,12 @@ const filterRightAnswers = () => {
       // getNotAnswers()
     } else {
       // Зөв хариултыг game?.answeredPlayers рүү хийх
-        addRightAnswers(rightAnswers)
-        setTimeout(() => {
-          getShowDiceTime(true) 
-        }, 4000)
+      addRightAnswers(rightAnswers)
+      getShowDiceTime(false)
+      getDiceTime(5)
+      setTimeout(() => {
+        getShowDiceTime(true) 
+      }, 4000)
     }
   }
 }
@@ -239,7 +241,7 @@ const getNotAnswers = () => {
     if(game?.answeredPlayers?.length === 0 ){
       setTimeout(() => {
         getQuestionShow(true)
-      }, 4000)  
+      }, 5000)  
   } 
 }
 
@@ -280,31 +282,39 @@ useEffect(() => {
   if(game?.turn){
     setTurn(game?.turn)
   }
-  // console.log(game?.answeredPlayers?.length +  "  answer ")
-  // console.log(game?.turn + " turn")
-  // console.log( game?.turn >= game?.answeredPlayers?.length-1)
-  // if(game?.turn === game?.answeredPlayers?.length - 1 ){   
-  if(game?.turn >= game?.answeredPlayers?.length-1 ){
+  if(game?.answeredPlayers?.length === 1){
+    setTimeout(() => {
+      getShowDiceTime(false)
+      getTurn(0)
+      getQuestionShow(true)
+    }, 2000)
+  }
+
+  // if(game?.turn >= game?.answeredPlayers?.length - 1 ){   
+  if(game?.turn > game?.answeredPlayers?.length-1 ){
+      setTimeout(() => {
+        getShowDiceTime(false)
+      },2000) 
       setTimeout(() => {
         getTurn(0)
-      },6000)  
-     
-      setTimeout(() => {
         getQuestionShow(true)
-      }, 7000)
-  } else {
-    getShowDiceTime(true)
-  }
+      },3000)  
+  } 
+  
 } ,[game?.turn])
 
 
 // Тоглогчын ээлжийг 1000ms дараа автоматаар солих
  const autoTurn = () => {
+  // console.log("bnu")
     setTurn((prev) => {
       let next = prev + 1;
       getTurn(next)
       return next;
     });
+    setTimeout(() => {
+      getShowDiceTime(true)
+    }, 2000)
 };
 
 //10 Шоо хаях
@@ -313,12 +323,12 @@ const onDiceChange = async (val) => {
   const horsePoint = currentUser?.point
   const updateHorsePoint = horsePoint + val
   const clickPlayerId = game?.answeredPlayers[game?.turn]
-
+// console.log(clickPlayerId.authId)
   if(val === 5 && pointCount < 2  ) {  
     addPoint(clickPlayerId,  false, game?.go, game?.shield, game?.back, updateHorsePoint, id, val)
     setTimeout(() => {
-      getDiceTime(5)
       getShowDiceTime(false)
+      getDiceTime(5)
     } , 2000)
 
     setTimeout(() => {
@@ -327,14 +337,16 @@ const onDiceChange = async (val) => {
    
   } else {
     addPoint(clickPlayerId,  false, game?.go, game?.shield, game?.back, updateHorsePoint, id, val, true)
+    
     setTimeout(() => {
-      getDiceTime(5)
-      getShowDiceTime(false)
       autoTurn()
-    }, 3000)
+      getShowDiceTime(false)
+      getDiceTime(5)
+    }, 2000)
+   
+    
   }
 };
-
 
 
 useEffect(() => {
@@ -488,19 +500,19 @@ const getEmoji = (e) => {
                 <div
                   id={e}
                   style={{ ...positions[i] }}
-                  className="flex z-10 items-center"
+                  className="flex z-10 items-center "
                   key={i}
                 >
                   {/* <p>order </p> */}
                   <div 
                     onClick={() => setShowPlayer({ showPlayer: true, playerID:e.state.authId})}
-                    className={`relative  flex flex-col justify-center items-center`}
+                    className={`relative flex flex-col`}
                   >
                    
                     {e?.sendEmoji ? (
                       <div className={`relative `}>
                         <img src={e?.state?.photo} 
-                        className={`border-[8px] p-0  w-[60px] h-[60px] rounded-[50%]`} 
+                        className={`border-[8px] p-0  w-[60px] h-[60px] rounded-[50%] `} 
                         style={{borderColor: `${e.color}`  }}
                         />
                         <img 
@@ -516,7 +528,7 @@ const getEmoji = (e) => {
                         className={`${css.loader} border-[8px] p-0  w-[60px] h-[60px] rounded-[50%]`} 
                       ></div>
                     ): e?.endGamePlayer ? (
-                      <div  className={` border-[8px] p-0 w-[60px] h-[60px] rounded-[50%]`}>done</div>
+                      <div  className={` border-[8px] p-0 w-[60px] h-[60px] rounded-[50%] bg-green-700 text-white flex justify-center items-center uppercase`}>done</div>
                     ) : (
                       <img src={e?.state?.photo} 
                       style={{borderColor: `${e.color}` }}
@@ -524,7 +536,7 @@ const getEmoji = (e) => {
                     
                     />
                     )}
-                    <p className={`text-[14px] text-${e?.color}`}>{e?.state?.name}</p>
+                    <p className={`text-[14px] absolute -bottom-4 left-3 text-${e?.color}`}>{e?.state?.name}</p>
                   </div>
 
                    { (game?.answeredPlayers[game?.turn]?.authId === e?.state?.authId && game?.showDiceTime) && (
@@ -533,8 +545,8 @@ const getEmoji = (e) => {
                           answeredPlayers={game?.answeredPlayers[game?.turn]}
                           diceTime = {game?.diceTime}
                       />
-                   )
-                  }    
+                    )
+                    }    
                  
                 </div>
               </>
@@ -736,7 +748,15 @@ const getEmoji = (e) => {
               <p className="text-center my-2 w-full  border border-baseBlue1 rounded-[10px] h-full p-2">
                 your answer :  {playerAnswer}
               </p>
-              {}
+
+              <p className="">Total right answer <span className="mx-2 font-bold text-lg">{game?.answeredPlayers?.length}</span></p>
+              <p>Dice roll order</p>
+              {game?.answeredPlayers?.map((e, i) => {
+                // console.log(i)
+                return (
+                  <div>{i+1}. <span className="mx-1">{e?.name}</span> </div>
+                )
+              })}
             </div>
           </Modal>
 
@@ -745,11 +765,11 @@ const getEmoji = (e) => {
         </div>
 
         {/* coin */}
-        <div className="bg-white absolute bottom-[120px] right-8 flex justify-around items-center w-[100px] h-[30px] rounded-[23px]">
-          <p> {ctx?.currentUser?.name}</p>
-          {/* <p> {ctx?.currentUser?.authId}</p> */}
+        <div className="bg-white p-1 absolute bottom-[120px] right-8 flex justify-around items-center rounded-[23px]">
+          <p className="mx-2"> {ctx?.currentUser?.name}</p>
+          
           <RiCopperCoinFill size={18} className="text-yellow-400"/>
-          <p className="text-baseColor font-bold">{ctx?.currentUser?.coins}</p>
+          <p className="text-baseColor font-bold mx-1">{ctx?.currentUser?.coins}</p>
         </div>
 
         <div className="absolute z-10 w-full h-[68px] bottom-[40px]">

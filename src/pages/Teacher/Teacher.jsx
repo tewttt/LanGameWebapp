@@ -93,7 +93,7 @@ const Teacher = () => {
             {/* add lesson */}
             {ctx?.currentUser?.teacherStatus ? 
             (
-            <div className="z-20 flex flex-col pt-10 px-6 items-center h-full md:pt-20 m-auto w-full sm:w-[80%] md:w-[60%] xl:w-[40%]">
+            <div className="z-20 flex flex-col pt-10 pb-28 px-6 items-center h-full md:pt-20 m-auto w-full">
                 <button 
                     className="w-full md:w-1/2 bg-baseBlue1 hover:bg-blue-700 py-2 px-4 text-white rounded-2xl text-2xl font-bold "
                     onClick={() => history.push("/addlesson")}>
@@ -129,23 +129,29 @@ const Teacher = () => {
                 </div>
                 <div className="flex flex-wrap gap-2 justify-center w-full">
                     {userLesson.map((e, i) => {
-                        
+                        // console.log(e)
                         return (
-                            <div className="flex w-full sm:w-[300px] my-2 items-center justify-between border border-helpGray p-2 rounded-2xl" key={i}>
-                                <div className="flex justify-between w-[130px]">
-                                    <div> {e.language}</div>
-                                    <div>{e.level}</div>
-                                    <div>№{e.lessonNumber}</div>
+                            <div className="flex flex-col w-full sm:w-[300px] my-2 border border-helpGray p-2 rounded-2xl" key={i}>
+                                <div className="flex  items-center justify-between ">
+                                    <div className="flex justify-between w-[130px]">
+                                        <div> {e.language}</div>
+                                        <div>{e.level}</div>
+                                        <div>№{e.lessonNumber}</div>
+                                    </div>
+                                    <button
+                                        onClick={() => view(e.lessonNumber)}
+                                        className=" bg-blue-500 rounded-[5px] mx-2 flex justify-center items-center px-4 py-1 hover:bg-blue-600 hover:scale-110 "
+                                    >
+                                        Watch
+                                    </button>
+                                    <div className="flex w-[60px] justify-between">
+                                        <AiFillEdit size={20} onClick={() => edit(e.lessonNumber)}/>
+                                        <MdDelete size={20}  onClick={() => remove(e.lessonNumber) }/>
+                                    </div>
                                 </div>
-                                <button
-                                    onClick={() => view(e.lessonNumber)}
-                                    className=" bg-blue-500 rounded-[5px] flex justify-center items-center px-4 py-1 hover:bg-blue-600 hover:scale-110 "
-                                >
-                                    Watch
-                                </button>
-                                <div className="flex w-[60px] justify-between">
-                                    <AiFillEdit size={20} onClick={() => edit(e.lessonNumber)}/>
-                                    <MdDelete size={20}  onClick={() => remove(e.lessonNumber) }/>
+                                <div className="flex flex-col justify-between mt-2 p-1">
+                                    <p>accept: <span className="text-red-500 mx-2 font-bold uppercase">{e.acceptStatus}</span></p>
+                                    <p>reason: <span className="text-green-500 mx-2">{e.reason}</span></p>
                                 </div>
                             </div>
                             
@@ -164,7 +170,7 @@ const Teacher = () => {
             </div>
             ) : ( 
                 //request  teacher 
-            <div className="z-20 flex flex-col pt-10 px-6 items-center h-full md:pt-20 m-auto w-full sm:w-[80%] md:w-[60%] xl:w-[40%]">
+            <div className="z-20 flex flex-col pt-10 pb-28 px-6 items-center h-full md:pt-20 m-auto w-full sm:w-[80%] md:w-[60%] xl:w-[40%]">
                 <Modal show={show} >
                     <div className="flex flex-col justify-between">
                         <p className="text-baseBlack text-lg my-3 text-center">Submit a request to become a teacher</p>

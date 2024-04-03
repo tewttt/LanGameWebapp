@@ -137,7 +137,7 @@ export default function useGame(id ) {
   // Тоглогчын оноо цуглуулах
   const addPoint = async (clickPlayerId, status, go, shield, back, updateHorsePoint, id, val, isZeroCnt = false) => {
     // console.log(clickPlayerId?.authId)
-    console.log(val + " val")
+    // console.log(val + " val")
     // add powers
     const gameRef = doc(db, "game", id);
     const playerRef = doc(db, `game/${id}/players`, clickPlayerId?.authId)
@@ -180,7 +180,7 @@ export default function useGame(id ) {
    if( updateHorsePoint > 40) {
     await updateDoc(playerRef, { point: 40 , pointCount: 0});
    } else {
-    console.log(val + " val")
+    // console.log(val + " val")
     await updateDoc(playerRef, { point: increment(val + 1) , pointCount: isZeroCnt ? 0 : increment(1) });
    }
   };
@@ -206,7 +206,7 @@ export default function useGame(id ) {
 
 
   // Тоглогчидын асуултын хариулт
-  const addAnswer = async (answer, authId, questionNumber) => {
+  const addAnswer = async (answer, authId, questionNumber , name) => {
     console.log(answer)
     const question = game.questions[questionNumber]
     const prevAnswers = question.answers || []
@@ -215,7 +215,7 @@ export default function useGame(id ) {
    
     question.answers = [
       ...prevAnswers, 
-      { answer, authId , time : value},
+      { answer, authId , time : value , name},
     ];
 
     // question.answers = [

@@ -1,6 +1,6 @@
 import React, {useState, useContext, useEffect} from "react";
 import Modal from "../../../components/General/Modal";
-import { useHistory, useParams, useLocation} from "react-router-dom";
+import { useHistory, useParams} from "react-router-dom";
 import LessonContext from "../../../context/LessonContext";
 import EditVideo from "../EditVideo";
 import EditImage from "../EditImage";
@@ -131,7 +131,8 @@ const EditBase = () => {
                         className="w-2/4 p-1 rounded-[5px] mx-0 text-black" 
                         onChange={changeLessonNumber} 
                         value={addlesson.lessonNumber}
-                        type="text" name="Хичээлийн дугаар" 
+                        type="text" 
+                        name="Хичээлийн дугаар" 
                         placeholder="Хичээлийн дугаар" 
                     />
     
@@ -143,6 +144,7 @@ const EditBase = () => {
                         onChange={changeName}  
                         type="text" 
                         value={addlesson.name}
+                        name="name"
                         placeholder="хичээлийн нэр"
                     />
                 </div>
@@ -181,8 +183,8 @@ const EditBase = () => {
                 />
             </div>
             <div className="flex flex-col xl:flex-row">
-                <EditVideo video = {oneLesson.video}/>
-                <EditImage photo={oneLesson.image}/>
+                <EditVideo video = {oneLesson?.video}/>
+                <EditImage photo={oneLesson?.image}/>
             </div>
         </div>
         <button className="my-4 w-full md:w-1/2 bg-baseBlue1 hover:bg-blue-500 flex p-3 justify-center items-center m-auto" onClick={showConfirm} >Мэдээлэл засах</button>

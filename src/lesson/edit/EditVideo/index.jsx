@@ -1,18 +1,18 @@
 import React, {useEffect, useState} from "react";
-import {DefaultPlayer as Video} from "react-html5video";
-import "react-html5video/dist/styles.css";
-import {useParams, useLocation } from "react-router-dom";
 import { ref,  getDownloadURL, uploadBytesResumable} from "firebase/storage";
 import { storage, db } from "../../../firebase";
 import LessonContext from "../../../context/LessonContext";
 import { useContext } from "react";
 
 const VideoUpload = (props) => {
-
-    const [video , setVideo] = useState(props.video);
+    const ctx = useContext(LessonContext)
+    const [video , setVideo] = useState("");
     const [prog, setProg] = useState("")
-    const ctx =useContext(LessonContext)
-
+   
+console.log(video)
+    useEffect(() => {
+        setVideo(props?.video)
+    },[props?.video])
 
     const changeVideo = (e) => {
         setVideo(e.target.files[0]);
@@ -38,22 +38,18 @@ const VideoUpload = (props) => {
             // console.log(downloadURL)
             ctx.saveVideo(downloadURL)
         })
-        alert("video upload success")
+        alert("video upload success") 
     })
 }
-
+ 
 return (
     <div className="flex flex-col border border-gray-400 p-3 rounded-lg justify-center">
         <div className="border border-gray-400 rounded-xl md:w-[400px]">
-                <Video 
-                    // autoPlay loop 
-                    // poster={photo} 
-                    on>
-                        <source
-                        src={video}
-                        type="video/webm"
-                        />
-                </Video>
+                <video  
+                    className="w-full my-2  rounded-2xl"
+                    // poster = {oneLesson?.image}
+                    src={video}  type="video/mp4" controls>
+                </video>
         </div>
         <div className="flex my-2 items-center h-[40px] justify-between ">
             <input 

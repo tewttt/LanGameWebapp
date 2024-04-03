@@ -1,7 +1,5 @@
 import React, {useState} from "react";
 import css from "./style.module.css";
-import {DefaultPlayer as Video} from "react-html5video";
-import "react-html5video/dist/styles.css";
 import { ref,  getDownloadURL, uploadBytesResumable} from "firebase/storage";
 import { storage, db } from "../../../firebase";
 import LessonContext from "../../../context/LessonContext";
@@ -47,14 +45,14 @@ const VideoUpload = () => {
 return (
     <div className="my-3">
         <div className="border border-gray-400">
-                <Video autoPlay loop 
+                <video 
                     // poster={photo} 
                     on>
                         <source
                          src={video}
-                        type="video/webm"
+                         type="video/mp4" controls
                         />
-                </Video>
+                </video>
         </div>
         <div className="flex items-center justify-between py-2">
             <input 

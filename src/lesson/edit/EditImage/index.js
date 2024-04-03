@@ -7,9 +7,10 @@ const ImageUpload = (props) => {
     const ctx = useContext(LessonContext)
     const [photo , setPhoto] = useState(""); 
 
+    console.log(photo)
     useEffect(() => {
-        setPhoto(props.photo)
-    },[photo])
+        setPhoto(props?.photo)
+    },[props?.photo])
   
     const changePhoto = (e) => {
         setPhoto(e.target.files[0])
