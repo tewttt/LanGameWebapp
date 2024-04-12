@@ -3,17 +3,14 @@ import { useHistory , useParams} from "react-router-dom"
 import useAds from "../../../hook/useAds";
 import { IoIosArrowBack ,IoIosSettings  } from "react-icons/io";
 import css from "./style.module.css"
-
 import Slider from "react-slider"
 
 export default function AddAdvertise() {
     const {id} = useParams();
     const {sendAds , getStatic} = useAds(id)
-    
     const MIN = 0;
     const MAX = 100
     const [values, setValues] = useState([MIN, MAX]);
-    // console.log(values)
 
     const [ads, setAds] = useState({
         gender: "",
@@ -26,7 +23,6 @@ export default function AddAdvertise() {
     useEffect(() => {
         setAds({...ads, startAge: values[0] , endAge: values[1]})
     } ,[values])
-    // console.log(ads)
 
     useEffect(() => {
         getStatic(ads)
@@ -56,6 +52,11 @@ export default function AddAdvertise() {
             </div>
            
             <div className="h-[400px] flex flex-col border border-helpGray rounded-2xl p-2 w-full sm:w-[80%] md:w-[60%] xl:w-[40%]">
+                <div className=" text-center border border-helpGreen rounded-2xl my-2 p-3">
+                    <p className="text-helpGreen uppercase font-bold">Санамж</p>
+                    <p className="text-gray-300">Дансаа цэнэглэсэн байх</p>
+                    <p className="text-gray-300">VIDEO second: 20-60 size:1920x1080</p>
+                </div>
                 <div className="flex items-center justify-between py-1 my-1">
                     <p>Gender {ads.gender}</p>
                     <select 
@@ -67,10 +68,11 @@ export default function AddAdvertise() {
                     </select>
                 </div>
 
-                <div>Age{values[0]} - {values[1]}</div>
+                <div>Age:  {values[0]} - {values[1]}</div>
 
                 <Slider 
                     className={css.slider} 
+                    thumbClassName={css.thumb}
                     value={values} 
                     min={MIN} 
                     max={MAX}

@@ -12,7 +12,7 @@ import LessonContext from "../../../context/LessonContext";
 import Modal from "../../../components/General/Modal";
 import { storage} from "../../../firebase";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
-
+import { HiMiniSpeakerWave } from "react-icons/hi2";
 
 const Word = () => {
     const history = useHistory()
@@ -178,9 +178,13 @@ const Word = () => {
         })
         alert("sound upload amjilttai") 
     }
+    const playAudio = (sound) => {
+        const audio = new Audio(sound); // Create a new Audio object with the sound file
+        audio.play(); // Play the audio
+      };  
 
 return ( 
-<div className="pt-6 pb-96 md:w-[50%] text-baseBlack">
+<div className="pt-6 pb-96 m-auto md:w-[80%] lg:w-[60%] text-baseBlack md:text-2xl">
     { questions.map((ques, i) => (
     <div> 
          <Modal closeConfirm={closeConfirm} show={confirm} >
@@ -193,7 +197,7 @@ return (
                 </div>
             </Modal>
         <div className={css.questionBox}>
-            <AccordionDetails className={css.addQuestion}>
+            <AccordionDetails className={css.addQuestion}>  
                 <div className={css.addQuestionTop}>
                     <div style={{display: "flex", flexDirection: "column"}}>
                         <div style={{display: "flex", flexDirection: "row"}}>
@@ -204,20 +208,26 @@ return (
                             <input type="text" className={css.question} placeholder="Description" value={ques.desc} onChange={(e) => {changeDesc(e.target.value, i)}}></input>
                         </div>
                     
-                        <div className="flex items-center w-[300px] justify-between ml-5">Image
-                            <img src={questions[i].image} className="w-[40px] h-[40px] border border-gray-400"/>
+                        <div className="flex items-center text-[12px]  justify-between ml-5">Image
+                            <img src={questions[i].image} className="w-[100px] aspect-auto"/>
                             <input 
-                            className="w-[180px] h-[40px] text-[12px] ml-0"
+                            className="w-[180px] p-1  ml-0"
                             onChange={(e) => {changePhoto(e.target.files[0], i)}}
-                            required type="file" 
+                            type="file" 
+                            accept="image/*"
                             id="imageInput" />
-                        </div>
+                            
+                        </div> 
 
-                        <div className="flex items-center w-[300px] justify-between ml-5">Sound
+                        <div className="flex items-center text-[12px] w-full justify-between ml-5">Sound
+                        <HiMiniSpeakerWave onClick={()=> playAudio(ques.sound)} size={36} className="mr-3 p-1 bg-baseBlue1 rounded-[50%]  text-white"/>
+  
                             <input 
                             onChange={(e) => {changeSound(e.target.files[0], i)}}
-                            className="w-[180px] h-[40px] text-[12px] ml-0"
-                            required type="file" 
+                            className="w-[180px] p-1"
+                         
+                            type="file" 
+                            accept="audio/*"
                             id="SoundInput" />
                         </div>
                     </div>
@@ -227,7 +237,7 @@ return (
                         key={j}
                         >
                         <div>
-                            <input type="text" className="w-[180px] h-[30px] border" placeholder="option" 
+                            <input type="text" className="w-[180px] p-1 border" placeholder="option" 
                             value={ques.options[j].optionText} onChange= { (e) => {changeOptionValue(e.target.value, i, j)}}
                             ></input>
                         </div>
@@ -278,17 +288,8 @@ return (
     ))}
     <div className="flex mb-10">
 
-        <button className="w-[150px] h-[20px] bg-blue-400 hover:bg-blue-500 flex text-[12px] justify-center items-center m-auto" onClick={showConfirm}>Save</button> 
-        {/* {ctx.state.base.language === "Англи хэл" ? (
-             <button className="w-[150px] h-[20px] bg-green-500 hover:bg-green-700 flex text-[12px] justify-center items-center m-auto" onClick={ctx.createEnglishDB}>Англи хэл илгээх</button>
-        ) : ctx.state.base.language === "Солонгос хэл" ?  (
-            <button className="w-[150px] h-[20px] bg-green-500 hover:bg-green-700 flex text-[12px] justify-center items-center m-auto" onClick={ctx.createKoreaDB}>Солонос хэл лгээх</button>
-        ) : (
-            <button className="w-[150px] h-[20px] bg-green-500 hover:bg-green-700 flex text-[12px] justify-center items-center m-auto" onClick={ctx.createMongoliaDB}>Илгээх</button>
-        )
-        } */}
-
-        <button className="w-[150px] h-[20px] bg-green-500 hover:bg-green-700 flex text-[12px] justify-center items-center m-auto" onClick={send}>Илгээх</button>
+        <button className="w-[150px] text-white p-3 rounded-2xl bg-blue-400 hover:bg-blue-500 flex  justify-center items-center m-auto" onClick={showConfirm}>Save</button> 
+        <button className="w-[150px] text-white p-3 rounded-2xl bg-green-500 hover:bg-green-700 flex  justify-center items-center m-auto" onClick={send}>Илгээх</button>
     </div>
 </div>
 )

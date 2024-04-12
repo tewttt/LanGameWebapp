@@ -26,7 +26,8 @@ const ProfilePage = () => {
     const [pedit, setEdit] = useState(false);
     const id = state?.id
     const authId = auth.currentUser?.uid
-//    console.log(state)
+    const userPhone = auth?.currentUser?.phoneNumber
+
     useEffect(() => {
         const data = ctx.userList.find(
             // item => console.log(item)
@@ -153,9 +154,13 @@ const ProfilePage = () => {
                     </div>
 
                     <div className="flex items-center w-full rounded-2xl py-2 pl-4 my-1 justify-between">
-                        <div>Age</div>
-                        <input className="w-3/4 p-2 text-baseBlack rounded-2xl" placeholder="age" value={state.age} type="number" 
-                        onChange={changeAge}></input>
+                        <div>Birth date</div>
+                        <input 
+                            className="w-3/4 p-2 text-baseBlack rounded-2xl" 
+                            placeholder="age" 
+                            value={state.age} 
+                            type="date" 
+                            onChange={changeAge}></input>
                     </div>
                     
 
@@ -197,11 +202,17 @@ const ProfilePage = () => {
                         <p>Phone</p>
                         <p className="font-bold">{state?.phone}</p>
                     </div>
-                    <button
-                        onClick={() => history.push("/verification")} 
-                        className="bg-helpGreen p-2 font-bold text-black rounded-2xl my-2">Verification phone number</button>
+                    {userPhone === null ? (
+                        <button
+                            onClick={() => history.push("/verification")} 
+                            className="bg-helpGreen p-2 font-bold text-black rounded-2xl my-2">
+                            Phone number is verified
+                        </button>
+                    ) : (<p className="text-helpGreen">{userPhone} <span>Phone number verified</span></p>)}
+                   
+                    
                     <div className="flex w-full border border-helpGray rounded-2xl py-2 px-4 my-1 justify-between">
-                        <p>Age</p>
+                        <p>Birth date</p>
                         <p className="font-bold">{state?.age}</p>
                     </div>
                     <div className="flex w-full border border-helpGray rounded-2xl py-2 px-4 my-1 justify-between">

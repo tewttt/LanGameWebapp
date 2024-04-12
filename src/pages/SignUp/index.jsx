@@ -1,27 +1,22 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import {useHistory} from "react-router-dom";
-
 import UserContext from "../../context/UserContext";
-import {AiFillEye, AiFillEyeInvisible, AiFillLock, AiTwotoneMail, AiFillPhone} from "react-icons/ai"
+import {AiFillEye, AiFillEyeInvisible, AiFillLock, AiTwotoneMail} from "react-icons/ai"
 import PhoneInput from "react-phone-input-2";
 import 'react-phone-input-2/lib/style.css'
-import { ref, uploadBytes,  getDownloadURL } from "firebase/storage";
-import {storage} from "../../firebase";
 import Spinner from "../../components/General/Spinner";
 import Logo from "../../assets/logo/Typo Logo SVG Blue.svg"
 import { Colors } from "../../constants/Colors";
 import backImage from "../../assets/logo/backgroundSmall.png"
 
-
 const SignUp = () => {
     const ctx = useContext(UserContext);
     const history = useHistory();
-    
-    const [email, setEmail] = useState("shine@gmail.com");
-    const [name, setName] = useState("shine");
-    const [password, setPassword] = useState("123456Aa@a");
-    const [password2, setPassword2] = useState("123456Aa@a");
-    const [phone, setPhone] = useState("97690909090");
+    const [email, setEmail] = useState("");
+    const [name, setName] = useState("");
+    const [password, setPassword] = useState("");
+    const [password2, setPassword2] = useState("");
+    const [phone, setPhone] = useState("");
     const [error, setError] = useState("");
     const [showPass, setShowPass] = useState(false)
     const [showPass2, setShowPass2] = useState(false)
@@ -112,11 +107,7 @@ const signupHandler = async() => {
         }
     else {
         ctx.signupUser(email, password, phone, name );
-     
-        // alert("email check")
-        // history.push("/verification")
     } 
-    
 };
 
 const login = () => {history.push("/")}
@@ -132,14 +123,12 @@ return (
         {ctx.state.error && (
                 <div style={{color: "red"}}> {ctx.state.error}</div>
         )}
-        {/* {ctx.state.userId && <Redirect to="/"/>} */}
-        
         <div className="mb-5 flex flex-row relative justify-between items-center w-[276px] h-[40px] ">
             <input 
-                className="w-full h-full text-center border border-baseBlue1 
-                rounded-[25px] transition ease-in-out duration-200
-                    hover:bg-hpink/10"
-                type="text" placeholder="Нэр" value={name} onChange={e=> setName(e.target.value)} required/> 
+            className="w-full h-full text-center border border-baseBlue1 
+            rounded-[25px] transition ease-in-out duration-200
+                hover:bg-hpink/10"
+            type="text" placeholder="Нэр" value={name} onChange={e=> setName(e.target.value)} required/> 
         </div>
         
         <div className="mb-5 flex flex-col relative justify-between items-center w-[276px] h-[40px] ">
@@ -177,10 +166,9 @@ return (
             />
             {showPass ? (
                 <AiFillEye size={20}  className="text-baseBlue1 right-4 absolute z-10 " onClick={changePass}/>
-            ) : (
+                ) : (
                 <AiFillEyeInvisible size={20}  className="text-baseBlue1 right-4 absolute z-10 " onClick={changePass}/>
             )}
-
             {password ? 
                 isStrongPassword ? (
                     <p className="text-green-600 text-center absolute top-10 text-sm">Strong Password</p>
@@ -188,7 +176,6 @@ return (
                     <p className="text-red-500 text-center absolute top-10 text-[10px]">Password must be at least 8 characters with uppercase, lowercase, number, and special character.</p>
                 )
                 : (null)}
-            
         </div>
         
         <div className="flex flex-col mb-8 relative justify-center items-center w-[276px] h-[40px] ">
@@ -220,9 +207,7 @@ return (
                 : (null)}
 
         </div>
-        
         {error && <div style={{color: "red"}}>{error}</div>}
-
         {ctx.state.logginIn && <Spinner/>}
         <button 
             className="w-[276px] h-[40px] font-semibold text-center mt-6 bg-baseBlue1 
@@ -233,8 +218,7 @@ return (
         
         <button 
             className="w-[276px] h-[40px] font-semibold text-center mt-2 bg-helpGray 
-            rounded-[25px] hover:bg-gray-200 transition ease-in-out duration-200
-            "
+            rounded-[25px] hover:bg-gray-200 transition ease-in-out duration-200"
             onClick={login} >Back
         </button>
     </div>

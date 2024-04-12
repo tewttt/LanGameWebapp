@@ -19,7 +19,7 @@ const PostCard = ({data}) => {
     }
    
     return (
-        <div className="w-full sm:w-[300px] m-2 border border-helpGray p-2 rounded-2xl">
+        <div className="w-full sm:w-[340px] m-2 border border-helpGray p-2 rounded-2xl">
             <Modal show={show} >
                 <div className="flex flex-col">
                     <p className="text-lg my-3 text-center">Are you sure delete the post ?</p>
@@ -37,28 +37,28 @@ const PostCard = ({data}) => {
                 className="bg-baseBlue1 w-full rounded-2xl p-2 font-semibold hover:bg-blue-600" 
                 onClick={() =>history.push(`/addAds/${data.id}`)}>Add advertise
             </button>
-            <div className="rounded-2xl my-2 w-full p-2">
+            <div className="rounded-2xl my-2 w-full p-2 text-base">
                 <p className="text-xl text-center">Post information</p>
                 <div className="my-2">
                     <div className="my-2">
-                        <div className="flex justify-between my-1 py-1">
-                            <p className="">Title</p>
+                        <div className="flex flex-col  my-1 py-1">
+                            <p className="mr-1 text-gray-400">Title</p>
                             <p>{data.post.title}</p>
                         </div>
-                        <div className="flex justify-between my-1 py-1">
-                            <p className="">Text</p>
+                        <div className="flex flex-col my-1 py-1">
+                            <p className="mr-1 text-gray-400">Text </p>
                             <p>{data.post.text}</p>
                         </div>
-                        <div className="flex justify-between my-1 py-1">
-                            <p className="">Phone</p>
+                        <div className="flex flex-col my-1 py-1">
+                            <p className="mr-1 text-gray-400">Phone</p>
                             <p>{data.post.phone}</p>
                         </div>
-                        <div className="flex justify-between my-1 py-1">
-                            <p className="">Address</p>
+                        <div className="flex flex-col my-1 py-1">
+                            <p className="mr-1 text-gray-400">Address</p>
                             <p>{data.post.address}</p>
                         </div>
-                        <div className="flex justify-between my-1 py-1">
-                            <p className="">Email</p>
+                        <div className="flex flex-col my-1 py-1">
+                            <p className="mr-1 text-gray-400">Email</p>
                             <p>{data.post.email}</p>
                         </div>
                         
@@ -68,6 +68,27 @@ const PostCard = ({data}) => {
                         className="my-2 w-full"
                         src={data?.post?.video}  type="video/mp4" controls>
                     </video>
+                    {data?.post?.instagramLink != "" &&
+                    <div className="flex w-full text-white hover:bg-blue-700  bg-baseBlue1 justify-center rounded-2xl py-2 px-4 my-3 border border-baseColor">
+                        <a href={data?.post?.instagramLink} target="_blank" rel="video" className=" w-full p-2 text-center">
+                            Instagram visit 
+                        </a>
+                    </div>
+                    }
+                    {data?.post?.facebookLink != "" &&
+                    <div className="flex w-full  text-white hover:bg-blue-700  bg-baseBlue1 justify-center rounded-2xl py-2 px-4 my-3 border border-baseColor">
+                        <a href={data?.post?.facebookLink} target="_blank" rel="video" className=" w-full p-2 text-center">
+                            Facebook visit 
+                        </a>
+                    </div>
+                    }
+                    {data?.post?.link != "" &&
+                    <div className="flex w-full  text-white hover:bg-blue-700  bg-baseBlue1 justify-center rounded-2xl py-2 px-4 my-3 border border-baseColor">
+                        <a href={data?.post?.link} target="_blank" rel="video" className=" w-full p-2 text-center">
+                            visit 
+                        </a>
+                    </div>
+                    }
                     {/* <div className="flex justify-between text-[12px] text-helpGray">
                         <div className="flex w-[70px] justify-between">
                             <p>100</p>

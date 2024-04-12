@@ -24,10 +24,7 @@ const Translate = (props) => {
     const [ questions, setQuestions] = useState(
         [{  questionText: "",
             questionAnswer: "",   
-            // answer: false,
             answerKey: "",
-            // open: true,
-            // required: false
         }]
     )
 
@@ -38,24 +35,25 @@ const Translate = (props) => {
         setConfirm(false)
     };
     const save = () => {
-        alert("Орчуулгын хэсгийг амжилттай хадгаллаа"); 
         ctx.saveTranslate(questions);
         history.push("/addlesson/exam");
-
-            
     }
   
     const changeQuestion = (text, i) => {
         var newQuestion = [...questions];
         newQuestion[i].questionText = text;
         setQuestions(newQuestion);
-        
     }
+
     const changeAnswer = (text, i) => {
         var newQuestion = [...questions];
         newQuestion[i].questionAnswer = text;
         setQuestions(newQuestion);
-        
+    }
+    const changeExplain = (text, i) => {
+        var newQuestion = [...questions];
+        newQuestion[i].answerKey = text;
+        setQuestions(newQuestion); 
     }
    
     const copyQuestion = (i) => {
@@ -75,7 +73,7 @@ const Translate = (props) => {
     const addMoreQuestionField = () => {
         expandCloseAll();
         setQuestions([...questions, 
-            {questionText: "Question", questionType: "radio", options: [{optionText: "Option1"}], open:true, required: false }
+            {questionText: "Question", questionAnswer: "Answer", answerKey: ""}
             ]);
     }
     
@@ -88,13 +86,14 @@ const Translate = (props) => {
     }
 
     return ( 
-    <div className="pt-6 pb-96 text-baseBlack md:w-[50%]">
+    <div className="pt-6 pb-96 text-baseBlack m-auto md:w-[80%] lg:w-[60%] md:text-2xl">
          <Modal closeConfirm={closeConfirm} show={confirm} >
                 <div className="text-baseBlack ">
                     <p className="text-center">Are you sure you want to save?</p>
                     <div className="flex justify-around mt-4">
                         <button className="py-2 px-10 bg-green-500 text-white rounded-2xl" onClick={save}>Yes</button> 
                         <button className="py-2 px-10 bg-red-500 text-white rounded-2xl" onClick={closeConfirm}>No</button>
+                    
                     </div>
                 </div>
             </Modal> 
@@ -105,6 +104,8 @@ const Translate = (props) => {
                     <div className={css.addQuestionTop}>
                         <input type="text" className={css.question} placeholder="Question" value={ques.questionText} onChange={(e) => {changeQuestion(e.target.value, i)}}></input>
                         <input type="text" className={css.question} placeholder="Answer" value={ques.questionAnswer} onChange={(e) => {changeAnswer(e.target.value, i)}}></input>                                                                          
+                        <input type="text" className={css.question} placeholder="Explain" value={ques.answerKey} onChange={(e) => {changeExplain(e.target.value, i)}}></input>                                                                          
+                        
                     </div>
                 <div className={css.addFooter}>
                     <div className={css.addQuestionBottom}>

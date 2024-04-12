@@ -11,14 +11,12 @@ import {
  where,
   serverTimestamp,
 } from "firebase/firestore";
-import { getAuth } from "firebase/auth";
 import React, { useState, useEffect, useContext } from "react";
 import { useHistory } from "react-router-dom";
 import { db } from "../firebase";
 import moment from "moment"
 import UserContext from "../context/UserContext";
 
-const auth = getAuth();
 export default function useGame(id ) {
   const userCtx = useContext(UserContext)
   const history = useHistory();
@@ -26,12 +24,9 @@ export default function useGame(id ) {
   const [players, setPlayers] = useState([]);
   const [queryPlayer , setQueryPlayer] = useState([])
 
-// console.log(game)
   useEffect(() => {
     oneGame();
-    // queryPlayerData()
   }, [id]);
-
 
   useEffect(() => {
     if(game?.endGame){
@@ -43,17 +38,14 @@ export default function useGame(id ) {
     const endPlayers = players?.filter(
       (item) => item.endGamePlayer === true
     )
-
     if(endPlayers.length >= 2){
       getEndGame(true)
     }
-   
     players?.map((e, i) => {
       if(e?.endGamePlayer === true) {
         // setIsGameEnded(true)
       }
     })
-      
   },[players])
 
 
@@ -105,18 +97,40 @@ export default function useGame(id ) {
         const list = snapshot.docs.map((doc) => {
           return { ...doc.data(), id: doc.id };
         });
-        // console.log(list[0])
-        // console.log(game?.winCoin)  
+
         // win Player add coin
-        const winRef = doc(db, "users", list[0]?.id);
+        // const winRef = doc(db, "users", list[0]?.id);
+        const winRef = collection(db, `users/${list[0]?.id}/transaction` );
         if(list[0]?.endGamePlayer === true && list[0]?.point >= 40 ) {
-          updateDoc(winRef, {coins : game?.winCoin})
+          // updateDoc(winRef, {coins : game?.winCoin})
+          const data = {
+            coin: game?.winCoin,
+            label: "game win",
+            labelType: "game",
+            type: "deposit"
+          }
+          addDoc(winRef , {
+            data,
+            createDate: serverTimestamp(),
+          })
         }
-      
+
         //  second Player add coin
-        const secondRef = doc(db, "users", list[1]?.id);
-        if(list[1]?.endGamePlayer === true && list[1]?.point >= 40 ) {
-          updateDoc(secondRef, {coins : game?.secondCoin})
+        // const secondRef = doc(db, "users", list[1]?.id);
+        const secondRef = collection(db, `users/${list[1]?.id}/transaction` );
+        if(list[1]?.endGamePlayer === true && list[1]?.point >= 40 ) { 
+          // updateDoc(secondRef, {coins : game?.secondCoin})
+          const data = {
+            coin: game?.secondCoin,
+            label: "game second",
+            labelType: "game",
+            type: "deposit"
+          }
+
+          addDoc(secondRef , {
+            data,
+            createDate: serverTimestamp(),
+          })
         }
       
 
@@ -136,15 +150,11 @@ export default function useGame(id ) {
 
   // Тоглогчын оноо цуглуулах
   const addPoint = async (clickPlayerId, status, go, shield, back, updateHorsePoint, id, val, isZeroCnt = false) => {
-    // console.log(clickPlayerId?.authId)
-    // console.log(val + " val")
     // add powers
     const gameRef = doc(db, "game", id);
     const playerRef = doc(db, `game/${id}/players`, clickPlayerId?.authId)
 
-
     await updateDoc(gameRef, {activeDice: val + 1})
-
     await updateDoc(playerRef, { activatedShield : status, activatedBack : status, activatedGo : status  })
 
     const generateUniqueRandomNumber = (exclude = []) => {
@@ -175,7 +185,6 @@ export default function useGame(id ) {
     else {
       // console.log("hooson")
     }
-    
     // add point
    if( updateHorsePoint > 40) {
     await updateDoc(playerRef, { point: 40 , pointCount: 0});
@@ -204,10 +213,8 @@ export default function useGame(id ) {
     history.push("/game");
   };
 
-
   // Тоглогчидын асуултын хариулт
   const addAnswer = async (answer, authId, questionNumber , name) => {
-    console.log(answer)
     const question = game.questions[questionNumber]
     const prevAnswers = question.answers || []
     const time = new Date().getTime()
@@ -218,16 +225,10 @@ export default function useGame(id ) {
       { answer, authId , time : value , name},
     ];
 
-    // question.answers = [
-    //   ...prevAnswers,
-    //   { answer, authId , time : value},
-    // ];
-
     const gameRef = doc(db, "game", id);
     await updateDoc(gameRef, {
       questions: game.questions,
     });
-   
   };
 
   const [backPoint, setBackPoint] = useState(0)
@@ -261,8 +262,6 @@ export default function useGame(id ) {
     
     
   }
-
-  
 
   const isBack = async(status, e , currentUserId , selectedPower , currentUser) => {
     const total = e?.point - 6 

@@ -6,7 +6,8 @@ import {
     onSnapshot,
     doc,
     updateDoc,
-    deleteDoc
+    deleteDoc,
+    query, where
   } from "firebase/firestore";
 import { db } from "../firebase";
 import UserContext from "../context/UserContext";
@@ -25,7 +26,11 @@ export default function usePost(id) {
    
     useEffect(() => {
       if (auth?.currentUser) {
-        const oneRef = collection(db, "posts")
+        // const oneRef = collection(db, "posts")
+        const oneRef = query(
+          collection(db, "posts"),
+          where("userId", "==" , auth?.currentUser?.uid),
+        )
         onSnapshot(oneRef, (snapshot) => {
           let list = [];
           snapshot.docs.map((doc) => list.push({ ...doc.data(), id: doc.id }));

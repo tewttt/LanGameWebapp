@@ -80,7 +80,7 @@ const WordViewExam = () => {
 
       {/* exam  */}
       <div className="py-10  w-full sm:w-[90%] md:w-[70%] m-auto">
-        <p className="pb-10 font-bold justify-center flex flex-wrap w-full">{question.questionText}</p>
+        <p className="pb-10 font-bold justify-center flex flex-wrap w-full">{question?.word}</p>
         {question?.options?.map((option , i) => {
          const isSelected = playerAnswer === option.optionText
          const isRight = playerAnswer === question?.answerKey
@@ -97,7 +97,7 @@ const WordViewExam = () => {
               disabled={playerAnswer}                 
               className={
                 `${test} 
-              flex justify-center w-full my-5 border border-helpGray p-2 rounded-3xl hover:bg-blue-400 transition-all` }
+              flex justify-center w-full my-5 border border-helpGray p-2 rounded-3xl  transition-all` }
             
             >
                {option.optionText}

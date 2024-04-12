@@ -8,8 +8,7 @@ const VideoUpload = (props) => {
     const ctx = useContext(LessonContext)
     const [video , setVideo] = useState("");
     const [prog, setProg] = useState("")
-   
-console.log(video)
+
     useEffect(() => {
         setVideo(props?.video)
     },[props?.video])
@@ -43,10 +42,10 @@ console.log(video)
 }
  
 return (
-    <div className="flex flex-col border border-gray-400 p-3 rounded-lg justify-center">
-        <div className="border border-gray-400 rounded-xl md:w-[400px]">
+    <div className="m-auto w-full flex flex-col border border-gray-400 p-3 rounded-lg justify-center ">
+        <div className="border border-gray-400 rounded-xl ">
                 <video  
-                    className="w-full my-2  rounded-2xl"
+                    className="w-full aspect-video my-2  rounded-2xl"
                     // poster = {oneLesson?.image}
                     src={video}  type="video/mp4" controls>
                 </video>
@@ -56,8 +55,9 @@ return (
                 className="w-[180px] h-[40px] text-[12px]"
                 onChange={changeVideo}
                 required type="file" 
-                name="video" 
+                name="video"   
                 id="videoInput" 
+                accept="video/*"
                 // hidden="hidden"
                 />
             <button className="w-[150px] h-[20px] bg-blue-500 flex text-[12px] justify-center items-center" onClick={uploadVideo}>Video upload</button>

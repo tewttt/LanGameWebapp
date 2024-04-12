@@ -22,7 +22,7 @@ export default function Verification() {
   const [verId, setVerId] = useState(true)
   const [showCaptcha, setShowCaptcha] = useState(true)
   const [error , setError] = useState("")
-// console.log(code)
+
  useEffect(()=> {
     setPhone("+" + ctx?.currentUser?.phone)
     signUpdate("+" + ctx?.currentUser?.phone)
@@ -30,7 +30,7 @@ export default function Verification() {
 
   const signUpdate = async (number) => {
    const fuser = auth?.currentUser
- 
+// console.log(fuser.phone) 
    if(fuser && fuser.phoneNumber !== phone) {
       try {
           const verifier = new RecaptchaVerifier('recaptcha-container', {
@@ -55,6 +55,7 @@ export default function Verification() {
         auth.currentUser,
         PhoneAuthProvider.credential(verId, code));
         alert("lucky")
+        history.push("/profile")
     } catch (error) {
       let message = error.message
       setError(message)
@@ -136,15 +137,16 @@ export default function Verification() {
           disabled={false} 
             // secure
           />
+           <button 
+            onClick={sendCode}
+            className="w-full p-2 font-semibold text-center mt-6 bg-baseBlue1 
+            rounded-[25px] transition ease-in-out duration-200 text-white"
+            >Send verification code 
+          </button>
         </div>  
       )}  
      
-       <button 
-            onClick={sendCode}
-            className="w-[276px] h-[40px] font-semibold text-center mt-6 bg-baseBlue1 
-            rounded-[25px] transition ease-in-out duration-200 text-white"
-        >Send verification code 
-       </button>
+      
 
        <button 
             onClick={() => history.push("/profile")}
@@ -156,78 +158,3 @@ export default function Verification() {
   );
 }
 
-// Validate OTP
-// const ValidateOtp = () => {
-//   if (otp === null || final === null) return;
-//   final
-//       .confirm(otp)
-//       .then((result) => {
-//           // success
-//       })
-//       .catch((err) => {
-//           alert("Wrong code");
-//       });
-// };
-
-
-
-//     <div style={{ marginTop: "200px" }}>
-//            <div id="recaptcha-container"></div>
-       
-//     <center>
-//         <div
-//             style={{
-//                 display: !show ? "block" : "none",
-//             }}
-//         >
-//             <input
-//                 value={phone}
-//                 onChange={(e) => {
-//                     setPhone(e.target.value);
-//                 }}
-//                 placeholder="phone number"
-//             />
-//             <button 
-//             onClick={signin}
-//             >
-//                 Send recaptcha
-//             </button>
-
-//             <input
-//                 value={code}
-//                 onChange={(e) => {
-//                     setCode(e.target.value);
-//                 }}
-//                 placeholder="code"
-//             />
-//             <button 
-//             onClick={sendCode}
-//             >
-//                 Send code
-//             </button>
-//             <br />
-//             <br />
-          
-            
-            
-//         </div>
-//         <div
-//             style={{
-//                 display: show ? "block" : "none",
-//             }}
-//         >
-//             {/* <input
-//                 type="text"
-//                 placeholder={"Enter your OTP"}
-//                 onChange={(e) => {
-//                     setotp(e.target.value);
-//                 }}
-//             ></input> */}
-            
-            
-//             {/* <button onClick={ValidateOtp}>
-//                 Verify
-//             </button> */}
-//         </div>
-//     </center>
-// </div>

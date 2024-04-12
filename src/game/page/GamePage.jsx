@@ -41,7 +41,7 @@ const Game = () => {
   const [chLan, setChLan] = useState("");
   const [chLevel, setChLevel] = useState("");
   const [chLesson, setChLesson] = useState("");
-
+// console.log(chLesson)
 
   const [show, setShow] = useState(false);
   const [showEnterGame, setShowEnterGame] = useState(false)
@@ -167,7 +167,7 @@ const Game = () => {
      
       
       <GameNavbar /> 
-      <div className="flex text-white flex-col w-full md:w-[60%] lg:w-[50%] pt-2 pb-28 px-2 m-auto">
+      <div className="flex text-white flex-col w-full md:w-[60%] lg:w-[30%] pt-2 pb-28 px-2 m-auto">
           
          
           <div className=" flex flex-col my-1 justify-between rounded-2xl p-2 w-full  border-t-2">
@@ -277,14 +277,16 @@ const Game = () => {
             );
           })}
           </div>
-
-          <button
+          {(chLan != "" && chLevel !="" && chLesson != "" ) && 
+           <button
             // onClick={() => newGame(chLan, chLevel, chLesson )}
             onClick={() => newGame()}
-            className=" bg-baseBlue1 text-white  rounded-3xl p-3  hover:text-white hover:bg-baseBlue "
-          >
-            New Game
+            className=" bg-helpGreen font-bold text-[24px] text-white  rounded-3xl p-3  hover:text-white hover:bg-baseBlue "
+            >
+            CREATE GAME
           </button>
+          }
+         
       </div>
 
       {/* coin hvrehgvi ved */}
@@ -311,55 +313,4 @@ const Game = () => {
 export default Game;
 
 
- {/* <div className="flex justify-around bg-baseColor rounded-2xl  my-3 py-5 w-[100%]">
-            {arrChoose.map((ch, i) => (
-              <div
-                key={i}
-                onClick={() => selectChoose(ch, i)}
-                className={`${
-                  chooseActive === i
-                    ? "border border-blue-700 text-blue-600"
-                    : ""
-                } text-[12px]   transform hover:scale-110 hover:border-blue-500 hover:text-blue-500 text-blue-200 border border-blue-200 rounded-[10px] py-1 px-2 mx-3 my-1 w-[95px] h-[30px]  flex justify-center items-center`}
-              >
-                {ch}
-              </div>
-            ))}
-          </div> */}
-
-
-// <Modal closeConfirm={closeGame} show={showNewGame}>
-//         <div style={{ display: "flex", flexDirection: "column" }}>
-//           Шинэ толооом үүсгэх үү ?
-//           <button
-//             className="border border-gray-400 mx-3"
-//             onClick={() => newGame()}
-//           >
-//             Тийм
-//           </button>
-//         </div>
-//       </Modal>
-
-// const [english, setEnglish] = useState([])
-// const [mongolia, setMongolia] = useState([])
-// const [korea, setKorea] = useState([])
-// const arrLanguage = [english, mongolia, korea]
-
-// const [level, setLevel] = useState([])
-// console.log(level)
-// useEffect(() => {
-//     Lessonctx.englishList.map((e) => {
-//        setEnglish(e.state.base.language)
-//     })
-//     Lessonctx.koreaList.map((e) => {
-//         setKorea(e.state.base.language)
-//      })
-//     Lessonctx.mongoliaList.map((e) => {
-//         setMongolia(e.state.base.language)
-//     })
-
-//     Lessonctx.englishList.map((e) => {
-//         setLevel(e.state.base.level)
-//      })
-
-// },[Lessonctx.englishList])
+ 

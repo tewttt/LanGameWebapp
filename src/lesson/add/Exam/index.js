@@ -23,6 +23,7 @@ const Exam = (props) => {
                 {optionText: ""},
             ],
             answerKey: "", 
+            explain: ""
         }]
     )
     const showConfirm = () => {
@@ -32,9 +33,8 @@ const Exam = (props) => {
     setConfirm(false)
     };
     const save = () => {      
-    alert("Шалгалтын хэсгийг амжилттай хадгаллаа"); 
-    ctx.saveExam(questions);
-    history.push("/addlesson/listen");
+        ctx.saveExam(questions);
+        history.push("/addlesson/grammar");
     }
 
     const changeQuestion = (text, i) => {
@@ -42,6 +42,11 @@ const Exam = (props) => {
         newQuestion[i].questionText = text;
         setQuestions(newQuestion);
         // console.log(newQuestion)
+    }
+    const changeExplain = (text, i) => {
+        var newQuestion = [...questions];
+        newQuestion[i].explain = text;
+        setQuestions(newQuestion); 
     }
     const changeOptionValue = (text, i ,j) => {
         var optionQuestion = [...questions];
@@ -84,10 +89,11 @@ const Exam = (props) => {
     const addMoreQuestionField = () => {
         expandCloseAll();
         setQuestions([...questions, 
-            {questionText: "Question",  options: [{optionText: "Option1"}],  }
+            {questionText: "Question",  options: [{optionText: "Option1"}], answerKey: "", explain: "" }
             ]);
     }
    
+           
     const expandCloseAll = () => {
         let qs = [...questions];
         for (let j = 0; j< qs.length; j++) {
@@ -105,7 +111,7 @@ const Exam = (props) => {
    
 
 return ( 
-    <div className="pt-6 pb-96 md:w-[60%] text-baseBlack">
+    <div className="pt-6 pb-96 m-auto md:w-[80%] lg:w-[60%] text-baseBlack md:text-2xl">
         { questions.map((ques, i) => (
             <div className="w-full m-auto"> 
                 <Modal closeConfirm={closeConfirm} show={confirm} >
@@ -123,6 +129,9 @@ return (
                         <div className={css.addQuestionTop}>
                             <input type="text" className={css.question} placeholder="Question" value={ques.questionText} onChange={(e) => {changeQuestion(e.target.value, i)}}></input>
                         </div>
+                        <div className={css.addQuestionTop}>
+                            <input type="text" className={css.question} placeholder="Explain" value={ques.explain} onChange={(e) => {changeExplain(e.target.value, i)}}></input>                                                                          
+                        </div>
                             
                             {ques.options.map((op, j) => (
                     
@@ -131,7 +140,7 @@ return (
                                 >
                                         
                                 <div>
-                                    <input type="text" className="w-[180px] h-[30px] border" placeholder="option" 
+                                    <input type="text" className="w-[180px] p-1 border" placeholder="option" 
                                     value={ques.options[j].optionText} onChange= { (e) => {changeOptionValue(e.target.value, i, j)}}
                                     ></input>
                                 </div>
@@ -189,7 +198,7 @@ return (
                 </div>                             
             </div>
         ))}
-          <button className="w-[150px] h-[20px] mb-10 bg-blue-400 hover:bg-blue-500 flex text-[12px] justify-center items-center m-auto" onClick={showConfirm}>Хадгалах</button> 
+          <button className="w-[150px] p-3 rounded-2xl text-white mb-10 bg-blue-400 hover:bg-blue-500 flex  justify-center items-center m-auto" onClick={showConfirm}>Хадгалах</button> 
       
     </div>
 )}

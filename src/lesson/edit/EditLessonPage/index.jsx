@@ -7,6 +7,7 @@ import EditGrammar from "../EditGrammar";
 import EditNewWord from "../EditNewword";
 import { IoIosArrowBack ,IoIosSettings  } from "react-icons/io";
 import EditListen from "../EditListen";
+import EditVerb from "../EditVerb";
 
 const EditLesson = () => {
   
@@ -28,13 +29,16 @@ const EditLesson = () => {
     const grammar= () => {
         history.push(`/edit/${languageId}/${topicId}/${lessonId}/grammar`)
     };
+    const verb = () => {
+        history.push(`/edit/${languageId}/${topicId}/${lessonId}/verb`)
+    };
     const listen= () => {
         history.push(`/edit/${languageId}/${topicId}/${lessonId}/listen`)
     };
    
 
     return (
-        <div className="text-white bg-baseBlack p-6 pb-96" > 
+        <div className="text-white bg-baseBlack p-6 pb-96 md:text-2xl md:w-[80%] m-auto" > 
             <div className="flex py-2 justify-between pb-4 w-full">
                 <div className="flex items-center">
                     <IoIosArrowBack size={20} onClick={() => history.push("/teacher")}/>
@@ -43,14 +47,16 @@ const EditLesson = () => {
                 <IoIosSettings size={20}/>
             </div>
            
-            <div className="flex justify-center m-auto ">
-                <button className={`${history.location.pathname == `/edit/${languageId}/${topicId}/${lessonId}` ? "bg-blue-700 text-white" : ""} mx-1  w-[70px] h-[30px] bg-blue-50 flex justify-center items-center text-[12px] text text-black hover:bg-blue-500 rounded-sm`} onClick={baseInfo}>Мэдээлэл</button>
-                <button className={`${history.location.pathname == `/edit/${languageId}/${topicId}/${lessonId}/translate` ? "bg-blue-700 text-white" : ""}  mx-1  w-[70px] h-[30px] bg-blue-50 flex justify-center items-center text-[12px] text text-black hover:bg-blue-500 rounded-sm`} onClick={translate}>Орчуулга</button>
-                <button className={`${history.location.pathname == `/edit/${languageId}/${topicId}/${lessonId}/exam` ? "bg-blue-700 text-white" : ""}  mx-1  w-[70px] h-[30px] bg-blue-50 flex justify-center items-center text-[12px] text text-black hover:bg-blue-500 rounded-sm`} onClick={exam}>Шалгалт</button>
-                <button className={`${history.location.pathname == `/edit/${languageId}/${topicId}/${lessonId}/grammar` ? "bg-blue-700 text-white" : ""}  mx-1  w-[70px] h-[30px] bg-blue-50 flex justify-center items-center text-[12px] text text-black hover:bg-blue-500 rounded-sm`} onClick={grammar} >Дүрэм</button>
-                <button className={`${history.location.pathname == `/edit/${languageId}/${topicId}/${lessonId}/listen` ? "bg-blue-700 text-white" : ""}  mx-1  w-[70px] h-[30px] bg-blue-50 flex justify-center items-center text-[12px] text text-black hover:bg-blue-500 rounded-sm`} onClick={listen} >Сонсгол</button>
+            <div className="flex justify-center m-auto text-sm  md:text-2xl  text-black">
+                <button className={`${history.location.pathname == `/edit/${languageId}/${topicId}/${lessonId}` ? "bg-blue-700 text-white" : ""} mx-1 p-2 w-full h-full bg-blue-50 flex justify-center items-center  hover:bg-blue-500 rounded-sm`} onClick={baseInfo}>Base</button>
+                <button className={`${history.location.pathname == `/edit/${languageId}/${topicId}/${lessonId}/translate` ? "bg-blue-700 text-white" : ""}  mx-1 p-2 w-full h-full bg-blue-50 flex justify-center items-center  hover:bg-blue-500 rounded-sm`} onClick={translate}>Translate</button>
+                <button className={`${history.location.pathname == `/edit/${languageId}/${topicId}/${lessonId}/exam` ? "bg-blue-700 text-white" : ""}  mx-1 p-2 w-full h-full bg-blue-50 flex justify-center items-center  hover:bg-blue-500 rounded-sm`} onClick={exam}>Exam</button>
+                <button className={`${history.location.pathname == `/edit/${languageId}/${topicId}/${lessonId}/grammar` ? "bg-blue-700 text-white" : ""}  mx-1 p-2 w-full h-full bg-blue-50 flex justify-center items-center  hover:bg-blue-500 rounded-sm`} onClick={grammar} >Grammar</button>
+                <button className={`${history.location.pathname == `/edit/${languageId}/${topicId}/${lessonId}/verb` ? "bg-blue-700 text-white" : ""}  mx-1 p-2 w-full h-full bg-blue-50 flex justify-center items-center  hover:bg-blue-500 rounded-sm`} onClick={verb} >Verb</button>
                 
-                <button className={`${history.location.pathname == `/edit/${languageId}/${topicId}/${lessonId}/word` ? "bg-blue-700 text-white" : ""} mx-1  w-[70px] h-[30px] bg-blue-50 flex justify-center items-center text-[12px] text text-black hover:bg-blue-500 rounded-sm`} onClick={word} >Шинэ үг</button>
+                <button className={`${history.location.pathname == `/edit/${languageId}/${topicId}/${lessonId}/listen` ? "bg-blue-700 text-white" : ""}  mx-1 p-2 w-full h-full bg-blue-50 flex justify-center items-center  hover:bg-blue-500 rounded-sm`} onClick={listen} >Listen</button>
+                
+                <button className={`${history.location.pathname == `/edit/${languageId}/${topicId}/${lessonId}/word` ? "bg-blue-700 text-white" : ""} mx-1 p-2  w-full h-full] bg-blue-50 flex justify-center items-center  hover:bg-blue-500 rounded-sm`} onClick={word} >Word</button>
             </div>   
                  
             <Switch>
@@ -59,6 +65,7 @@ const EditLesson = () => {
                 <Route path="/edit/:languageId/:topicId/:lessonId/translate"  component={EditTranslate}/>
                 <Route path="/edit/:languageId/:topicId/:lessonId/exam" component={EditExam}/>
                 <Route path="/edit/:languageId/:topicId/:lessonId/listen" component={EditListen}/>
+                <Route path="/edit/:languageId/:topicId/:lessonId/verb" component={EditVerb}/>
                 <Route path="/edit/:languageId/:topicId/:lessonId" component={EditBase} />
             </Switch>
           
@@ -68,27 +75,3 @@ const EditLesson = () => {
 
 export default EditLesson;
 
-// function useQuery() {
-//     const { search } = useLocation();
-//     return React.useMemo(() => new URLSearchParams(search), [search]);
-// }
-// let query = useQuery();
-    
-// let lessonId = null
-
-
-// if(query.get("lang") == 'Англи хэл') {
-//     lessonId = ctx.englishList.find(
-//         // item => console.log(item + "item id")
-//         item =>  item.id === id
-//     );
-// }
-//  else if(query.get("lang") == 'Солонгос хэл') {
-//     lessonId = ctx.koreaList.find(
-//         item =>  item.id === id
-//     );
-// } else if(query.get("lang") == "Монгол хэл") {
-//     lessonId = ctx.mongoliaList.find(
-//         item =>  item.id === id
-//     );
-// }

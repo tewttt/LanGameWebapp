@@ -12,7 +12,7 @@ const VideoUpload = () => {
     const [video , setVideo] = useState("");
     const [prog, setProg] = useState("")
     const ctx =useContext(LessonContext)
-   
+   console.log(video)
     const changeVideo = (e) => {
         setVideo(e.target.files[0]);
     }
@@ -46,11 +46,13 @@ return (
     <div className="my-3">
         <div className="border border-gray-400">
                 <video 
+                className="w-full aspect-video"
                     // poster={photo} 
                     on>
                         <source
                          src={video}
-                         type="video/mp4" controls
+                         type="video/mp4" 
+                         controls
                         />
                 </video>
         </div>
@@ -58,9 +60,11 @@ return (
             <input 
                 className="w-[180px] text-[10px] "
                 onChange={changeVideo} 
-                    required type="file" 
+                    required 
+                    type="file" 
                     name="video" 
                     id="videoInput" 
+                    accept="video/*"
                     // hidden="hidden"
                     />
             <button className="w-[150px] bg-blue-500 p-1 flex text-[12px] justify-center items-center" onClick={uploadVideo}>Video upload</button>

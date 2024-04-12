@@ -20,10 +20,12 @@ const EditBase = () => {
             lessonName: "", 
             price: "",
             status: "",
-            text: ""
+            text: "",
+            name: "",
+            coin: ""
     });
    
-   
+//    console.log(addlesson?.coin)
     useEffect(() => {
         getOneLesson()
     }, [])
@@ -43,7 +45,7 @@ const EditBase = () => {
             text: addlesson.text 
 
         };
-        alert("Үндсэн мэдээллийн хэсгийг амжилттай заслаа"); 
+        // alert("Үндсэн мэдээллийн хэсгийг амжилттай заслаа"); 
         ctx.saveBase(base);
         closeConfirm()
     }
@@ -76,15 +78,17 @@ const EditBase = () => {
         setAddLesson({ ...addlesson, status: e.target.value});
     };
     const changePrice = (e) => {
-        setAddLesson({ ...addlesson, price: e.target.value});
+        // setAddLesson({ ...addlesson, price: e.target.value});
+        setAddLesson({ ...addlesson, price: e.target.value , coin: e.target.value*40});
+    
     };
     const changeText= (e) => {
         setAddLesson({ ...addlesson, text: e.target.value});
     };
     
     return (
-    <div className="md:pb-10 text-white">
-        <div className="mt-3 md:w-1/2 m-auto">
+    <div className="md:pb-10 m-auto md:w-[80%] lg:w-[60%] text-white">
+        <div className="mt-3 m-auto">
             <Modal closeConfirm={closeConfirm} show={confirm} >
                 <div className="text-baseBlack ">
                     <p className="text-center">Are you sure you want to save the edit?</p>
@@ -102,9 +106,11 @@ const EditBase = () => {
                         onChange={changeLanguage} 
                         className="text-black rounded-[5px] w-3/4 p-1">
                         <option>{addlesson.language}</option>
-                        <option>Англи хэл</option>
-                        <option>Солонгос хэл</option>
-                        <option>Монгол хэл</option>
+                        <option>English</option>
+                        <option>Korea</option>
+                        <option>Mongolia</option>
+                        <option>Japan</option>
+                        <option>Chinese</option>
                     </select>
                 </div>
 
@@ -140,12 +146,13 @@ const EditBase = () => {
         
                 <div className="flex justify-between items-center my-1 mx-3">
                     <div>name </div>
-                    <input className="w-3/4 p-1 rounded-[5px] mx-0 text-black" 
+                    <textarea 
+                        className="w-3/4 p-1 rounded-[5px] mx-0 text-black" 
                         onChange={changeName}  
                         type="text" 
                         value={addlesson.name}
-                        name="name"
                         placeholder="хичээлийн нэр"
+                        name="name"
                     />
                 </div>
 
@@ -173,9 +180,12 @@ const EditBase = () => {
                         placeholder="Хичээлийн үнэ"
                     />
                 </div>   
-                <input className="w-[90%] m-3 p-1 rounded-[5px] flex justify-center items-center text-black"
-                    multline
-                    numberOfLines={10}
+                <div className="flex justify-between my-1 mx-3">
+                    Coin: {addlesson.price * 40} <br/>
+                </div>   
+                <textarea className="w-full m-3 p-1 rounded-[5px] flex justify-center items-center text-black"
+                    // multline
+                    // numberOfLines={10}
                     placeholder="text"
                     onChange={changeText}
                     // onChange={hadnleChange} 
@@ -184,7 +194,7 @@ const EditBase = () => {
             </div>
             <div className="flex flex-col xl:flex-row">
                 <EditVideo video = {oneLesson?.video}/>
-                <EditImage photo={oneLesson?.image}/>
+                {/* <EditImage photo={oneLesson?.image}/> */}
             </div>
         </div>
         <button className="my-4 w-full md:w-1/2 bg-baseBlue1 hover:bg-blue-500 flex p-3 justify-center items-center m-auto" onClick={showConfirm} >Мэдээлэл засах</button>

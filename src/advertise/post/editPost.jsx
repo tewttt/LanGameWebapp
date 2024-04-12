@@ -12,6 +12,7 @@ export default function EditPost() {
     const {postData, editPost} = usePost( id );
     const history = useHistory()
     const [prog, setProg] = useState("")
+    const maxLength = 300;
     const [post , setPost] = useState({
         title: "",
         text: "",
@@ -19,7 +20,9 @@ export default function EditPost() {
         address: "",
         phone: "",
         email: "",
-        video: ""
+        video: "",
+        facebookLink:"",
+        instagramLink:""
     })
     useEffect(() => {
         if(postData?.post) {
@@ -75,10 +78,10 @@ export default function EditPost() {
             </div>
             <div className="flex flex-col w-full sm:w-[80%] md:w-[60%] xl:w-[40%]">
               
-                <div className="flex justify-between my-1 py-1">
+                <div className="flex flex-col my-1 py-1">
                     <p>Title</p>
-                    <input  
-                        className="w-3/4 p-1 rounded-xl text-baseBlack" 
+                    <textarea  
+                        className=" p-1 rounded-xl text-baseBlack" 
                         onChange={handleChange} 
                         required 
                         type="text" 
@@ -88,22 +91,28 @@ export default function EditPost() {
                     />
                 </div>
                
-                <div className="flex justify-between my-1 py-1">
+                <div className="flex flex-col flex-wrap w-full my-1 py-1">
                     <div>Text</div>
-                    <input  
-                        className="w-3/4 p-1 rounded-xl text-baseBlack" 
+                    <textarea  
+                        className="w-full p-1 rounded-xl text-baseBlack" 
                         onChange={handleChange} 
                         required 
                         type="text" 
                         name="text" 
                         placeholder="text"
                         value={post?.text}
+                        maxlength="300"
+                        rows="6"
+                        cols="50"
                     />
+                     <div className="text-gray-300 text-end">
+                        limit: {post?.text?.length}/{maxLength}
+                    </div>
                 </div>
-                <div className="flex justify-between my-1 py-1">
+                <div className="flex flex-col justify-between my-1 py-1">
                     <div>Link</div>
                     <input  
-                        className="w-3/4 p-1 rounded-xl text-baseBlack" 
+                        className="p-1 rounded-xl text-baseBlack" 
                         onChange={handleChange} 
                         required 
                         type="text" 
@@ -112,10 +121,34 @@ export default function EditPost() {
                         value={post?.link}
                     />
                 </div>
-                <div className="flex justify-between my-1 py-1">
-                    <div>Address</div>
+                <div className="flex flex-col justify-between my-1 py-1 ">
+                    <div className="text-gray-300">Facebook link</div>
                     <input  
-                        className="w-3/4 p-1 rounded-xl text-baseBlack" 
+                        className="w-full my-1  p-2 rounded-[5px] mx-0 text-gray-900" 
+                        onChange={handleChange} 
+                        required 
+                        type="text" 
+                        name="facebookLink" 
+                        placeholder="link"
+                        value={post?.facebookLink}
+                    />
+                </div>
+                <div className="flex flex-col justify-between my-1 py-1 ">
+                    <div className="text-gray-300">Instagram link</div>
+                    <input  
+                        className="w-full my-1 border border-baseColor p-2 rounded-[5px] mx-0 text-gray-900" 
+                        onChange={handleChange} 
+                        required 
+                        type="text" 
+                        name="instagramLink" 
+                        placeholder="link"
+                        value={post?.instagramLink}
+                    />
+                </div>
+                <div className="flex flex-col justify-between my-1 py-1">
+                    <div>Address</div>
+                    <textarea  
+                        className=" p-1 rounded-xl text-baseBlack" 
                         onChange={handleChange} 
                         required 
                         type="text" 
@@ -124,22 +157,22 @@ export default function EditPost() {
                         value={post?.address}
                     />
                 </div>
-                <div className="flex justify-between my-1 py-1">
+                <div className="flex flex-col my-1 py-1">
                     <div>Phone</div>
                     <input  
-                        className="w-3/4 p-1 rounded-xl text-baseBlack" 
+                        className=" p-1 rounded-xl text-baseBlack" 
                         onChange={handleChange} 
                         required 
                         type="text" 
                         name="phone" 
                         placeholder="phone"
                         value={post?.phone}
-                    />
+                    />  
                 </div>
-                <div className="flex justify-between my-1 py-1">
+                <div className="flex flex-col my-1 py-1">
                     <div>Email</div>
                     <input  
-                        className="w-3/4 p-1 rounded-xl text-baseBlack" 
+                        className="p-1 rounded-xl text-baseBlack" 
                         onChange={handleChange} 
                         required 
                         type="text" 
@@ -148,11 +181,14 @@ export default function EditPost() {
                         value={post?.email}
                     />
                 </div>
+                
+                
                
             </div>
 
             <div className="my-3  w-full sm:w-[80%] md:w-[60%] xl:w-[40%]">
-                <video className="w-full " src={post?.video} type="video/mp4" controls></video>
+                <p className="text-helpGreen text-center">VIDEO  size:1920x1080   second:20-60</p>
+                <video className="w-[70%] m-auto" src={post?.video} type="video/mp4" controls></video>
                     <input className="my-2" type="file" name="video"  onChange={changeVideo}/>
                     <div style={{
                         backgroundColor: "gray",

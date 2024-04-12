@@ -23,16 +23,14 @@ const Choice = () => {
   
 
   return (
-    <div className="flex  text-white flex-col md:mt-14 h-screen  items-center pt-2 pb-32 px-6">
+    <div className="flex  text-white flex-col h-screen  items-center pt-2 pb-32 px-6">
       {ctx.state.loading && <Spinner />}
-      {/* <div className={css.text}>Хэл сонгох</div> */}
       
-      <div className="flex md:mt-10 justify-between mb-2  w-full sm:w-[80%] xl:w-[60%]">
+      <div className="flex flex-wrap gap-2 place-content-center mb-2  w-full sm:w-[80%] xl:w-[60%]">
         {lanId.map((lan, i) => {
           return (
             <div
             className={`${chLan === lan ?  "bg-baseBlue1 text-white" : "" } w-[30%] hover:bg-baseBlue1 hover:text-white md:text-2xl bg-white font-bold text-baseBlack p-4 flex items-center justify-center rounded-2xl` }
-             
               key={i}
               onClick={() => selectLan(lan.id)}
             >
@@ -42,12 +40,11 @@ const Choice = () => {
         })}
       </div>
 
-      <div className="flex flex-wrap justify-between w-full sm:w-[80%] xl:w-[60%]">
+      <div className="flex flex-wrap gap-2 place-content-center w-full sm:w-[80%] xl:w-[60%]">
         {levelId.map((e, i) => {
           return (
             <div
-            className={`${chLevel === e ?  "bg-baseBlue1 text-white" : ""  } h-[40px] w-[14%] aspect-square hover:bg-baseBlue1 hover:text-white bg-white font-bold text-baseBlack  flex items-center justify-center rounded-2xl` }
-              
+            className={`${chLevel === e ?"bg-baseBlue1 text-white" : ""  } h-[40px] w-[14%] aspect-square hover:bg-baseBlue1 hover:text-white bg-white font-bold text-baseBlack  flex items-center justify-center rounded-2xl`}
               key={i}
               onClick={() => selectLevel(e.id, i)}
             >
@@ -57,7 +54,7 @@ const Choice = () => {
         })}
       </div>
 
-      <div className="flex flex-wrap gap-2 place-items-center">
+      <div className="flex flex-wrap gap-2 place-content-center">
         {lessons.map((e, i) => {
           return (
             <div key={i}>

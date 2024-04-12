@@ -69,29 +69,29 @@ const chahngeExchange = () => {
                         <p>Дансны дугаар: <span className="font-bold text-lg text-white">824004542</span></p>
                         
                         <p>Утга : <span className="font-bold text-lg text-white">Утасны дугаар , account ID </span></p>
-                        <p className="text-gray-400">Жишээ:   998xxx88 97600099</p>
+                        <p className="text-gray-400">Жишээ:   998xxx88 10010009</p>
                         
                     </div>
                     <div className="bg-helpGray py-2 px-6 rounded-2xl text-baseBlack my-2">
                         <p className="text-red-500 text-2xl text-center">АНХААР </p>
-                        <p className="text-center">6000₮ доош гүйлгээ орохгүй тул 6000₮ буюу түүнээс дээш гүйлгээ хийнэ үү!!!</p>
+                        <p className="text-center">6000₮ доош гүйлгээ орохгүй тул 6000₮ буюу түүнээс дээш гүйлгээ хийнэ үү!!! 10-20 минутын дотор данс цэнэглэгдэнэ. </p>
                     </div>
                 </div>
                 <div className="sm:flex justify-center items-center w-full">
-                    <div className="rounded-2xl w-full flex flex-col sm:mx-2">
-                        <div className="flex my-1 justify-between border py-2 px-6 rounded-xl border-helpGray">
+                    <div className="rounded-2xl w-full flex flex-col sm:mx-2 py-6 px-6">
+                        <div className="flex my-1 justify-between ">
                             <p>name</p>
                             <p className="font-bold">{ctx?.currentUser?.name}</p>
                         </div>
-                        <div className="flex my-1 justify-between border py-2 px-6 rounded-xl border-helpGray">
+                        <div className="flex my-1 justify-between  ">
                             <p>amount</p>
                             <p className="font-bold">{ctx?.currentUser?.amount}₮</p>
                         </div>
-                        <div className="flex my-1 justify-between border py-2 px-6 rounded-xl border-helpGray">
+                        <div className="flex my-1 justify-between  ">
                             <p>coins</p>
                             <p className="font-bold"> {ctx?.currentUser?.coins}</p>
                         </div>
-                        <div className="flex my-1 justify-between border py-2 px-6 rounded-xl border-helpGray">
+                        <div className="flex my-1 justify-between  ">
                             <p>account ID</p>
                             <p className="font-bold">{ctx?.currentUser?.userID}</p>
                         </div>
@@ -140,7 +140,7 @@ const chahngeExchange = () => {
                     
                         <button 
                         onClick={chahngeExchange}
-                        className="my-4 w-[200px] bg-baseBlue1 p-2 text-white m-auto rounded-2xl">Exchange</button>
+                        className="my-4 w-[200px] bg-helpGreen text-[24px] font-bold p-2 text-white m-auto rounded-2xl">Exchange</button>
                     </div>
                 </div>
             </div>

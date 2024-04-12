@@ -12,7 +12,7 @@ import LessonContext from "../../../context/LessonContext";
 import Modal from "../../../components/General/Modal";
 import { storage} from "../../../firebase";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
-
+import { HiMiniSpeakerWave } from "react-icons/hi2";
 
 const Listen = () => {
     const history = useHistory()
@@ -99,9 +99,13 @@ const Listen = () => {
         })
         alert("sound upload amjilttai") 
     }
+    const playAudio = (sound) => {
+        const audio = new Audio(sound); // Create a new Audio object with the sound file
+        audio.play(); // Play the audio
+      }; 
 
 return ( 
-<div className="pt-6 pb-96 md:w-[50%] text-baseBlack">
+<div className="pt-6 pb-96 m-auto md:w-[80%] text-baseBlack md:text-2xl">
     { questions.map((ques, i) => (
     <div> 
          <Modal closeConfirm={closeConfirm} show={confirm} >
@@ -116,16 +120,16 @@ return (
         <div className={css.questionBox}>
             <AccordionDetails className={css.addQuestion}>
                 <div className={css.addQuestionTop}>
-                    <div style={{display: "flex", flexDirection: "column"}}>
-                      
+                    <div className="flex flex-col w-full flex-wrap">
                         <input type="text" className={css.question} placeholder="sentence" value={ques.word} onChange={(e) => {changeWord(e.target.value, i)}}></input>
-                           
                         <div className="flex  w-[300px]">
                             <p className="mr-2">sound</p>
+                            <HiMiniSpeakerWave onClick={()=> playAudio(ques.sound)} size={36} className="mr-3 p-1 bg-baseBlue1 rounded-[50%]  text-white"/>
                             <input 
                             onChange={(e) => {changeSound(e.target.files[0], i)}}
                             className="w-[180px] h-[40px] text-[12px] ml-0"
-                            required type="file" 
+                            accept="audio/*"
+                            type="file"  
                             id="SoundInput" />
                         </div>
                     </div>
@@ -150,7 +154,7 @@ return (
    
     ))}
     <div className="flex mb-10">
-        <button className="w-[150px] h-[20px] bg-blue-400 hover:bg-blue-500 flex text-[12px] justify-center items-center m-auto" onClick={showConfirm}>Save</button> 
+        <button className="w-[150px] rounded-lg text-white p-3  bg-blue-400 hover:bg-blue-500 flex  justify-center items-center m-auto" onClick={showConfirm}>Save</button> 
     </div>
 </div>
 )

@@ -87,8 +87,6 @@ const GameDetail = () => {
     const random3 = generateUniqueRandomNumber([random1, random2]);
     // setPower({  [random1]: go , [random2]: shield  , [random3]: back  })
     randomPower(random1, random2, random3)
-
-
   }, []);
 
   // асуултууд
@@ -100,12 +98,12 @@ const GameDetail = () => {
         questions.current = game?.questions
       } 
   }, [game?.questions]);
-
+// console.log(game?.questions)
   // ** logout game
   const logout = () => {
     logoutPlayer(id, currentUserId , game);
   };
-
+// console.log(game?.questions)
 //  clear
 const clearIntervals = () => {
   // console.log('====Clear',intervalIds)
@@ -113,7 +111,7 @@ const clearIntervals = () => {
   intervalIds.map(i=>clearInterval(i))
   intervalIds = [];
 }
-
+// console.log(game?.count)
   // 1
   useEffect(() => {
     // show start game modal
@@ -126,7 +124,7 @@ const clearIntervals = () => {
 
   // 2
   useEffect(() => {
-      if(game?.showStartGame){
+      if(game?.showStartGame === true){
       intervalIds.push(setInterval(startGameTime, 1000))
       return ()=>{
         // console.log(intervalIds);
@@ -144,7 +142,7 @@ const clearIntervals = () => {
         getShowStartGame(false)
         getShowDiceTime(false)
         setTimeout(() =>{
-          // getQuestionShow(true)
+          getQuestionShow(true)
         }, 2000)
         getStartTime(0)
       }
@@ -195,7 +193,7 @@ useEffect(() => {
     setTimeout(() => {
       getAnswerShow(false)
       setPlayerAnswer("")
-    }, 3000)
+    }, 6000)
     getQuestionTime(10)
   } 
 } ,[game?.questionTime])
@@ -221,7 +219,7 @@ const filterRightAnswers = () => {
     if(rightAnswers === undefined){
       // Зөв хариулт байхгүй бол дараагийн асуултыг харуулах
       addRightAnswers([])
-      // getNotAnswers()
+      getNotAnswers()
     } else {
       // Зөв хариултыг game?.answeredPlayers рүү хийх
       addRightAnswers(rightAnswers)
@@ -229,7 +227,7 @@ const filterRightAnswers = () => {
       getDiceTime(5)
       setTimeout(() => {
         getShowDiceTime(true) 
-      }, 4000)
+      }, 7000)
     }
   }
 }
@@ -237,11 +235,11 @@ const filterRightAnswers = () => {
 
 //7  Зөв хариулт байхгүй бол дараагийн асуултыг харуулах
 const getNotAnswers = () => {
-  // console.log(game?.answeredPlayers?.length <= 1)
-    if(game?.answeredPlayers?.length === 0 ){
+ 
+    if(game?.answeredPlayers?.length === 0){
       setTimeout(() => {
         getQuestionShow(true)
-      }, 5000)  
+      }, 7000)  
   } 
 }
 
@@ -289,9 +287,10 @@ useEffect(() => {
       getQuestionShow(true)
     }, 2000)
   }
-
+  // console.log(game?.answeredPlayers != undefined)
   // if(game?.turn >= game?.answeredPlayers?.length - 1 ){   
-  if(game?.turn > game?.answeredPlayers?.length-1 ){
+  if(game?.turn > game?.answeredPlayers?.length-1 && game?.answeredPlayers?.length != 0){
+    console.log("bnu")
       setTimeout(() => {
         getShowDiceTime(false)
       },2000) 
@@ -337,14 +336,11 @@ const onDiceChange = async (val) => {
    
   } else {
     addPoint(clickPlayerId,  false, game?.go, game?.shield, game?.back, updateHorsePoint, id, val, true)
-    
     setTimeout(() => {
       autoTurn()
       getShowDiceTime(false)
       getDiceTime(5)
     }, 2000)
-   
-    
   }
 };
 
@@ -356,7 +352,7 @@ useEffect(() => {
   if(questions.current.length-1 < game?.questionNumber){
     getQuestionNumber(0)
     getQuestionShow(false)
-    // gameEnd()
+    gameEnd()
   }
 },[game?.questionNumber])
 
@@ -394,11 +390,9 @@ const getPower = (power, diceNumber) => {
   // console.log(diceNumber , power)
   if(power === "back") {
     setSelectedPower(selectedPower === power ? '' : power)
-    
   } 
   else if (power === "shield") {
     setSelectedPower( power)
-   
     isShield(true, currentUser , currentUserId , ()=>{
       setTimeout(() => {
         setSelectedPower('')   
@@ -408,7 +402,6 @@ const getPower = (power, diceNumber) => {
   } 
   else if (power === "go") {
    setSelectedPower( power)
-  
     isGo(true, currentUser , selectedPower, currentUserId , diceNumber ,  () => {
       setTimeout(() => {
         setSelectedPower('')   
@@ -436,7 +429,7 @@ const getEmoji = (e) => {
     // alert("coin hvrehgvi bn")
   }
 }
-
+// console.log(queryPlayer)
 
   return (
     <div className="bg-[#6e8426] flex justify-center items-center w-screen h-screen">
@@ -473,7 +466,6 @@ const getEmoji = (e) => {
           </Modal>
           )}
          
-
             {/* not enough coin */}
           <Modal show={showCoin} closeConfirm={() => setShowCoin(false)}>
             <div className="text-black">Not enough coins</div>
@@ -717,7 +709,13 @@ const getEmoji = (e) => {
                 <p className="text-[22px] font-bold">{game?.questionTime}</p>
               </div>
               <div className="flex my-2 w-full border border-baseBlue1 rounded-[10px] h-full p-2">
-                <p>{question?.questionText} </p>
+                {question?.questionText === "Question" ? (
+                   <p>{question?.word} </p>
+                ) : (
+                  <p>{question?.questionText} </p>
+                 
+                )}
+                
               </div>
 
               <div className="flex flex-col my-2">

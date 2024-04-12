@@ -1,6 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
 import { useHistory } from "react-router-dom";
-
 import UserContext from "../../context/UserContext";
 import {
   AiFillEye,
@@ -8,7 +7,6 @@ import {
   AiFillLock,
   AiTwotoneMail,
 } from "react-icons/ai";
-
 import Loader from "../../components/General/Loader"
 import Logo from "../../assets/logo/Typo Logo SVG Blue.svg"
 import backImage from "../../assets/logo/backgroundSmall.png"
@@ -156,7 +154,7 @@ export default function Login() {
           rounded-[25px] transition ease-in-out duration-200 hover:bg-gray-200
           "
           onClick={signup}>
-          Бүртгүүлэх
+          Sign up
         </button>
       </div>
 

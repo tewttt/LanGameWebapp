@@ -76,11 +76,15 @@ const Teacher = () => {
         } else {
             setShow(true)
         }
-        
+    }
+
+    const del = () => {
+         LessonCtx.deleteDB(chLan, chLevel, chLessonId )
+         setShowDelete(false)
     }
     
     return (
-        <div className="bg-baseBlack flex flex-col text-white h-screen relative">
+        <div className="bg-baseBlack flex flex-col text-white   relative">
              <div 
                 className="bg-cover bg-center opacity-10 absolute top-0 left-0 bg-repeat w-screen h-full"
                 style={{backgroundImage: `url(${pattern})`}}>
@@ -93,15 +97,15 @@ const Teacher = () => {
             {/* add lesson */}
             {ctx?.currentUser?.teacherStatus ? 
             (
-            <div className="z-20 flex flex-col pt-10 pb-28 px-6 items-center h-full md:pt-20 m-auto w-full">
+            <div className="z-20 flex flex-col items-center pb-96 px-6 pt-10 md:pt-20  m-auto w-full">
                 <button 
-                    className="w-full md:w-1/2 bg-baseBlue1 hover:bg-blue-700 py-2 px-4 text-white rounded-2xl text-2xl font-bold "
+                    className="w-full md:w-1/2 bg-helpGreen hover:bg-blue-700 py-2 px-4 text-white rounded-2xl text-2xl font-bold "
                     onClick={() => history.push("/addlesson")}>
                     Хичээл нэмэх
                 </button>
 
-                <p className="text-2xl font-bold mt-6">Lessons you have entered</p>
-                <div className="flex md:mt-10 justify-between mb-2  w-full sm:w-[80%] xl:w-[60%]">
+                <p className="text-2xl font-bold mt-6 mb-2">Таны оруулсан хичээлүүд</p>
+                <div className="flex flex-wrap place-content-center gap-2  md:mt-10 mb-2  w-full sm:w-[80%] xl:w-[60%]">
                     {arrLanguage.map((lan, i) => {
                     return (
                         <div
@@ -114,7 +118,7 @@ const Teacher = () => {
                     );
                     })}
                 </div>
-                <div className="flex flex-wrap justify-between w-full sm:w-[80%] xl:w-[60%]">
+                <div className="flex flex-wrap place-content-center gap-2 w-full sm:w-[80%] xl:w-[60%]">
                     {arrLevel.map((e, i) => {
                         return (
                         <div
@@ -125,19 +129,21 @@ const Teacher = () => {
                             {e.id}
                         </div>
                         );
-                        })}
+                    })}
                 </div>
-                <div className="flex flex-wrap gap-2 justify-center w-full">
+                {(chLan != "" && chLevel != "") && 
+                    <div className="flex flex-wrap gap-2 place-content-center w-full">
                     {userLesson.map((e, i) => {
-                        // console.log(e)
+                        // console.log(e.name)
                         return (
                             <div className="flex flex-col w-full sm:w-[300px] my-2 border border-helpGray p-2 rounded-2xl" key={i}>
-                                <div className="flex  items-center justify-between ">
+                                <div className="flex  items-center justify-between p-1">
                                     <div className="flex justify-between w-[130px]">
                                         <div> {e.language}</div>
                                         <div>{e.level}</div>
                                         <div>№{e.lessonNumber}</div>
                                     </div>
+                                   
                                     <button
                                         onClick={() => view(e.lessonNumber)}
                                         className=" bg-blue-500 rounded-[5px] mx-2 flex justify-center items-center px-4 py-1 hover:bg-blue-600 hover:scale-110 "
@@ -150,6 +156,7 @@ const Teacher = () => {
                                     </div>
                                 </div>
                                 <div className="flex flex-col justify-between mt-2 p-1">
+                                    <p>{e.name}</p>
                                     <p>accept: <span className="text-red-500 mx-2 font-bold uppercase">{e.acceptStatus}</span></p>
                                     <p>reason: <span className="text-green-500 mx-2">{e.reason}</span></p>
                                 </div>
@@ -157,12 +164,14 @@ const Teacher = () => {
                             
                         );
                     })}
-                </div>
+                    </div>
+                }
+                
                 <Modal show={showDelete}>
                     <div className="p-6 flex flex-col justify-center">
                         <p>Are you sure you want to delete a lesson?</p>
                         <div className="flex my-2 justify-between">
-                            <button className="py-2 px-6 rounded-2xl bg-red-500 text-white" onClick={() => LessonCtx.deleteDB(chLan, chLevel, chLessonId )}>Yes, delete</button>
+                            <button className="py-2 px-6 rounded-2xl bg-red-500 text-white" onClick={del}>Yes, delete</button>
                             <button className="py-2 px-6 rounded-2xl bg-green-500 text-white" onClick={() => setShowDelete(false)}>No </button>
                         </div>
                     </div>
@@ -170,7 +179,7 @@ const Teacher = () => {
             </div>
             ) : ( 
                 //request  teacher 
-            <div className="z-20 flex flex-col pt-10 pb-28 px-6 items-center h-full md:pt-20 m-auto w-full sm:w-[80%] md:w-[60%] xl:w-[40%]">
+            <div className="z-20 flex flex-col  items-center  pb-96 px-6 pt-10 md:pt-20 m-auto w-full sm:w-[80%] md:w-[60%] xl:w-[40%]">
                 <Modal show={show} >
                     <div className="flex flex-col justify-between">
                         <p className="text-baseBlack text-lg my-3 text-center">Submit a request to become a teacher</p>
@@ -187,6 +196,7 @@ const Teacher = () => {
                 <Modal show={showInfo} >
                     <div className="">
                         <p className="mb-4 text-center">Please complete your profile information</p>
+                        <p className="mb-4 text-center">Профайл мэдээллээ гүйцэт бөглөнө үү</p>
                         <div className="flex justify-between">
                             <button className="bg-green-500 p-2 w-1/2 mx-1 rounded-2xl text-white" onClick={() => history.push("/profile")}>Fill in information</button>
                             <button className="bg-red-600 text-white p-2 w-1/2 mx-1 rounded-xl" onClick={()=> setShowInfo(false)}> Close</button>
@@ -202,7 +212,7 @@ const Teacher = () => {
                             Гэрээт багшаар ажиллах нөхцөл
                         </p>
                         <p>
-                            Зааврын дагуу хичээл бэлдэж оруулна. Таны мэдээллэлтэй танилцаны дараа холбогдож , гэрээ байгуулна. 
+                            Зааврын дагуу хичээл бэлдэж оруулна. Таны мэдээллэлтэй танилцсаны дараа холбогдож , гэрээ байгуулна. 
                             Гэрээт багшаар ажиллах сонирхолтой бол МЭДЭЭЛЛЭЭ ГҮЙЦЭТ БӨГЛӨН ИЛГЭЭНЭ ҮҮ. БАЯРЛАЛАА
                         </p>
                         <div className=" w-full mt-4">
@@ -212,12 +222,14 @@ const Teacher = () => {
                                 <option>English</option>
                                 <option>Mongolia</option>
                                 <option>Korea</option>
+                                <option>Japan</option>
+                                <option>Chinese</option>
                             </select>
                         </div>
                         <div className=" w-full  ">
                             <p>Хичээл заасан туршлага</p>
                             <input 
-                                className="p-1 my-1 rounded-xl w-full"
+                                className="p-1 my-1 rounded-xl w-full text-black"
                                 type="text" 
                                 name="experience" 
                                 placeholder="wrire..." 
@@ -226,7 +238,7 @@ const Teacher = () => {
                         <div className=" w-full ">
                             <p>Хэлний түвшин</p>
                             <input 
-                                className="p-1 my-1 rounded-xl w-full"
+                                className="p-1 my-1 rounded-xl w-full text-black"
                                 type="text" 
                                 name="experience" 
                                 placeholder="write..." 
@@ -256,13 +268,3 @@ const Teacher = () => {
 }
 
 export default Teacher;
-
-
-
-    // useEffect(() => {
-    //     const profile = ctx.userList.find(
-    //         // item => console.log(item.authId)
-    //         item => item.authId === auth?.currentUser?.uid
-    //     )
-    //     setId(profile?.id)
-    //    }, [])

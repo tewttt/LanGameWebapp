@@ -17,9 +17,9 @@ root.render(
     <BrowserRouter>
       <LessonStore>
         <UserStore>
-          <MemberStore>
+          {/* <MemberStore> */}
             <App />
-          </MemberStore>
+          {/* </MemberStore> */}
         </UserStore>
       </LessonStore>
     </BrowserRouter>

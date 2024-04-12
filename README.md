@@ -38,3 +38,4 @@ https://www.youtube.com/watch?v=ZmEnhRKMG3E  full last
 How to host a static website on AWS S3 | 
 https://www.youtube.com/watch?v=-l83oqcaTHg   /   Host your static website on AWS S3 in 5 minutes (youtube.com) 
 4. BIG QUERY  https://www.youtube.com/watch?v=CCQOMPXWFcc
+5. Refresh hiihed access denied zaahad envvgeer zassan   https://www.youtube.com/watch?v=Qo9ORPiRVVs

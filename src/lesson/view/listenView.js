@@ -33,6 +33,7 @@ const ListenView = () => {
 
   const addQuestionnumber = () => {
     setPlayerAnswer("")
+    setUserAnswer("")
     setQuestionNumber((prev) => {
       let next= prev + 1
       if(questions.current.length-1 < next){
@@ -78,38 +79,35 @@ const ListenView = () => {
       </div>
       <p className=" font-bold my-1">Listen</p>
 
-      <div className="py-10 w-full sm:w-[90%] md:w-[70%]  m-auto flex flex-col">
-        <HiMiniSpeakerWave onClick={playAudio} size={36} className="mr-3 p-1 bg-baseBlue1 rounded-[50%]  text-white"/>
-         <p>Number: {questionNumber}</p>      
-                <input type="text" className="text-baseBlack p-2 text-center rounded-3xl my-3" onChange={(e) => setUserAnswer(e.target.value)} placeholder="write here"/>
-                <button className="rounded-3xl p-2 text-center text-baseBlack bg-helpGreen my-3 hover:bg-helpGreen/50" onClick={saveAnswer}>Check answer</button>
-                {playerAnswer ?  
-                    (playerAnswer === question?.word ? 
-                        <div className="bg-green-600 p-2 flex justify-center items-center flex-col my-2">
-                            <p>Right</p>
-                            <p>{question?.word}</p>
-                        </div> 
-                        : <div className="bg-red-500 p-2 flex justify-center items-center flex-col my-2">
-                            <p>wrong</p>
-                            <p>{question?.word}</p>
-                                </div>)
-                    : (<div>Please write your answer</div>)
-                }
-
-                <button onClick={() => addQuestionnumber()} className="my-5 bg-baseBlue1 w-full rounded-3xl p-2">Next</button>
-               
+      <div className="py-10 w-full sm:w-[90%] md:w-[70%]  m-auto flex flex-col items-center"> 
+        <HiMiniSpeakerWave onClick={playAudio} size={70} className="mr-3 p-1 bg-baseBlue1 rounded-[50%] mb-6 text-white"/>
+        <p className="text-gray-400">Number: {questionNumber}</p>      
+        <input type="text" className="text-baseBlack w-full p-2 text-center rounded-3xl my-3" value={userAnswer} onChange={(e) => setUserAnswer(e.target.value)} placeholder="write here"/>
+        <button className="rounded-3xl p-2 w-full text-center font-bold bg-helpGreen my-3 hover:bg-helpGreen/50" onClick={saveAnswer}>Check answer</button>
+        {playerAnswer ?  
+            (playerAnswer === question?.word ? 
+                <div className=" p-2 flex justify-center items-center flex-col my-2">
+                    <p className="text-green-500 font-bold uppercase mt-3">Right</p>
+                    <p>{question?.word}</p>
+                </div> 
+                : <div className=" p-2 flex justify-center items-center flex-col my-2">
+                    <p className="text-red-500 font-bold uppercase mt-3">wrong</p>
+                    <p>{question?.word}</p>
+                        </div>)
+            : (<div className="text-gray-400">Please write your answer</div>)
+        }
+          <button onClick={() => addQuestionnumber()} className="my-5 bg-baseBlue1 w-full rounded-3xl p-2">Next</button>
       </div>
 
       <Modal show={endTranslate}>
-                <div className="p-4">
-                <p className="text-3xl my-6">Total point: {questions.current.length}  /  {point} </p>
-                
-                <button onClick={() => start()} className="bg-baseBlue1 my-2 text-white w-full rounded-2xl p-2">Restart exam</button>
-                <button 
-                    onClick={() =>  history.push( history.push(`/lesson/${languageId}/${topicId}/${lessonId}`))} 
-                    className="bg-helpGreen my-2 text-white w-full rounded-2xl p-2">Done</button>
-                </div>
-            </Modal>
+        <div className="p-4">
+        <p className="text-3xl my-6">Total point: {questions.current.length}  /  {point} </p>
+        <button onClick={() => start()} className="bg-baseBlue1 my-2 text-white w-full rounded-2xl p-2">Restart exam</button>
+        <button 
+            onClick={() =>  history.push( history.push(`/lesson/${languageId}/${topicId}/${lessonId}`))} 
+            className="bg-helpGreen my-2 text-white w-full rounded-2xl p-2">Done</button>
+        </div>
+    </Modal>
     </div>
   )
 }

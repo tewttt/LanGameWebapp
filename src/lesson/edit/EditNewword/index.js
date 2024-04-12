@@ -15,6 +15,7 @@ import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { SendAndArchiveSharp } from "@mui/icons-material";
 import { useEffect } from "react";
 import useLesson from "../../../hook/useLesson";
+import { HiMiniSpeakerWave } from "react-icons/hi2";
 
 const Word = (props) => {
    const ctx = useContext(LessonContext)
@@ -51,23 +52,12 @@ const Word = (props) => {
     };
 
     const save = () => {      
-    alert("Шалгалтын хэсгийг амжилттай хадгаллаа"); 
-    
-    ctx.saveNewWord(questions);
-    // ctx.updateDB(id)
-    // history.push("/dashboard")
-        
+        ctx.saveNewWord(questions);
+        alert("saved successfully")
     }
    
     const send = () => {
         ctx.updateDB(languageId, topicId, lessonId )
-        // if(query.get("lang") == 'Англи хэл') {
-        //     ctx.updateEnglishDB(id)
-        // } else if(query.get("lang") == 'Солонгос хэл') {
-        //     ctx.updateKoreaDB(id)
-        // } else if(query.get("lang") == "Монгол хэл") {
-        //     ctx.updateMongoliaDB(id)
-        // }
         history.push("/teacher")
     }
 
@@ -130,7 +120,7 @@ const Word = (props) => {
     const addMoreQuestionField = () => {
         expandCloseAll();
         setQuestions([...questions, 
-            {questionText: "Question",  options: [{optionText: "Option1"}],  }
+            {questionText: "Question",  options: [{optionText: "Option1"}] }
             ]);
     }
    
@@ -193,9 +183,13 @@ const Word = (props) => {
         })
         alert("sound upload amjilttai") 
     }
+    const playAudio = (sound) => {
+        const audio = new Audio(sound); // Create a new Audio object with the sound file
+        audio.play(); // Play the audio
+      };  
 
 return ( 
-<div className="mt-4">
+<div className="mt-4 m-auto md:w-[80%] lg:w-[60%]">
     {questions.map((ques, i) => (
     <div > 
          <Modal closeConfirm={closeConfirm} show={confirm} >
@@ -221,44 +215,43 @@ return (
                             <input type="text" className={css.question} placeholder="Description" defaultValue={ques.desc} onChange={(e) => {changeDesc(e.target.value, i)}}></input>
                         </div>
                     
-                        <div className="flex justify-between items-center text-green-700  my-1">
+                        <div className="flex justify-between items-center text-[12px] text-green-700  my-1">
                             <div>Image</div>
-                            <img src={ques.image} className="w-[40px] h-[40px]"/>
+                            <img src={ques.image} className="w-[100px] aspect-auto"/>
                             <input 
-                            className="w-[180px] h-[30px] text-[12px] ml-0"
+                            className="w-[180px] p-1 ml-0"
                             onChange={(e) => {changePhoto(e.target.files[0], i)}}
-                            // defaultValue={ques.image}
-                            required type="file" 
+                            type="file" 
+                            accept="image/*"
                             id="imageInput" />
-                        
-                        {/* <ButtonCmp text="Image Upload" daragdsan={uploadImage}></ButtonCmp> */}
                         </div>
 
-                        <div className="flex justify-between items-center text-green-700  mb-3">
+                        <div className="flex justify-between  text-[12px] items-center text-green-700  mb-3">
                             <div>Sound</div>
-                            {/* <sound src={questions[i].sound} className="w-[40px] h-[40px]" /> */}
+                           <HiMiniSpeakerWave onClick={()=> playAudio(ques.sound)} size={36} className="mr-3 p-1 bg-baseBlue1 rounded-[50%]  text-white"/>
+  
                             <input 
                             onChange={(e) => {changeSound(e.target.files[0], i)}}
-                            className="w-[180px] h-[30px] text-[12px] "
+                            className="w-[180px] p-1"
                             // defaultValue={ques.sound}
-                            required type="file" 
+                            type="file" 
+                            accept="audio/*"
                             id="SoundInput" />
                         </div>
                     </div>
                    
                 </div>
                     {ques.options.map((op, j) => (
-                        <div className="flex items-center justify-between" 
+                        <div className="flex items-center justify-between text-black" 
                         key={j}
                         >
                         <div>
-                            <input type="text" className="w-[180px] h-[30px] border md:w-[300px]" placeholder="option" 
+                            <input type="text" className="w-[180px] p-1 border md:w-[300px]" placeholder="option" 
                             defaultValue={op.optionText} onChange= { (e) => {changeOptionValue(e.target.value, i, j)}}
                             ></input>
                         </div>
                         <div className="flex justify-center items-center">
                             <label style={{fontSize: "13px", color:"black"}} onClick={() => {setOptionAnswer(ques.options[j].optionText, i)}}>
-                                {/* {(ques.questionType!="text") ?  */}
                                 <input
                                 type="checkbox"
                                     // type={ques.questionType}
@@ -302,8 +295,8 @@ return (
    
     ))}
     <div className="flex">
-        <button className="w-[150px] h-[20px] bg-blue-500 flex text-[12px] justify-center items-center m-auto" onClick={save}>Save</button> 
-        <button className="w-[150px] h-[20px] bg-green-500 flex text-[12px] justify-center items-center m-auto" onClick={send}>Илгээх</button>
+        <button className="w-[150px] p-3 text-white rounded-2xl bg-blue-500 flex  justify-center items-center m-auto" onClick={save}>Save</button> 
+        <button className="w-[150px] p-3 text-white rounded-2xl bg-green-500 flex  justify-center items-center m-auto" onClick={send}>Илгээх</button>
     </div>
 </div>
 )}

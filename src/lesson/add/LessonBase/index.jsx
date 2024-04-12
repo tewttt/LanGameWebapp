@@ -18,7 +18,8 @@ const AddLesson = () => {
         price: "",
         status: "",
         text: "",
-        coin: ""
+        coin: "",
+        name: ""
     }); 
     
     const showConfirm = () => {setConfirm(true)};
@@ -41,8 +42,9 @@ const AddLesson = () => {
     };
     const changePrice = (e) => {
         setAddLesson({ ...addlesson, price: e.target.value , coin: e.target.value*40});
+    
     };
-    const changeText= (e) => {
+    const changeText= (e) => {  
         setAddLesson({ ...addlesson, text: e.target.value});
     };
    
@@ -63,8 +65,8 @@ const AddLesson = () => {
     }
 
     return (
-    <div className="md:pb-10 text-white">
-        <div className="mt-3 md:w-1/2 m-auto">
+    <div className="md:pb-10 text-white m-auto md:w-[80%] lg:w-[60%]">
+        <div className="mt-3  m-auto">
             <Modal closeConfirm={closeConfirm} show={confirm} >
                 <div className="text-baseBlack ">
                     <p className="text-center">Are you sure you want to save?</p>
@@ -83,6 +85,8 @@ const AddLesson = () => {
                         <option>English</option>
                         <option>Korea</option>
                         <option>Mongolia</option>
+                        <option>Japan</option>
+                        <option>Chinese</option>
                     </select>
                 </div>
 
@@ -134,9 +138,9 @@ const AddLesson = () => {
                     <input className="p-1 rounded-[5px] mx-0 text-gray-900" onChange={changeLessonNumber} required type="number" name="Хичээлийн дугаар" placeholder="Хичээлийн дугаар"/>
                 </div>
         
-                <div className="flex justify-between my-1 mx-3">
-                    <div>name: {addlesson.name} </div>
-                    <input className="w-3/4 p-1 rounded-[5px] mx-0 text-gray-900" onChange={changeName} required type="text" name="Хичээлийн нэр" placeholder="Хичээлийн нэр"/>
+                <div className="flex flex-wrap justify-between my-1 mx-3">
+                    <div>name:  </div>
+                    <textarea className="w-3/4 p-1 rounded-[5px] mx-0 text-gray-900" onChange={changeName} required type="text" name="Хичээлийн нэр" placeholder="Хичээлийн нэр"/>
                 </div>
 
                 <div className="flex justify-between my-1 mx-3">
@@ -156,9 +160,9 @@ const AddLesson = () => {
                 <div className="flex justify-between my-1 mx-3">
                     Coin: {addlesson.price * 40} <br/>
                 </div>   
-                <input className="w-3/4 m-3 p-1 rounded-[5px] flex justify-center items-center text-gray-900"
-                    multline
-                    numberOfLines={10}
+                <textarea className="w-full m-3 p-1 rounded-[5px] flex justify-center items-center text-gray-900"
+                    // multline
+                    // numberOfLines={10}
                     placeholder="text"
                     required
                     onChange={changeText}
@@ -166,7 +170,7 @@ const AddLesson = () => {
             </div>
             <div className="flex flex-col" >
                 <VideoUpload/>
-                <ImageUpload/>
+                {/* <ImageUpload/> */}
             </div>
         
         </div>

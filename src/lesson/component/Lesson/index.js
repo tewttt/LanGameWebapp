@@ -15,46 +15,46 @@ const Lesson = (props) => {
   const [showPay , setShowPay] = useState(false)
 
   const data = lessonActiveUsers?.find(
-    item => item.number == props.lessons.lessonNumber
+    item => item?.number == props?.lessons?.lessonNumber
   );
-
   useEffect(() => {
     getLessonUsers()
-  } ,[])
+  } ,[])  
 
   const view = () => {
     history.push(`/lesson/${props.lessons.language}/${props.lessons.level}/${props.lessons.lessonNumber}`);
   };
 
-
   const payCoin = () => {
     if(props?.lessons?.coin > userCtx.currentUser.coins){
       setShowPay(true)
-      
     }else {
       payLesson({
         coin: props?.lessons?.coin,
         label: "paid lesson",
         labelType: "lesson",
-        type: "withdraw"
+        type: "withdraw",
+        language:props?.lessons?.language,
+        level:props?.lessons?.level,
+        number:props?.lessons?.lessonNumber
       } , props?.lessons)
     }
-   
   }
 
   const payPrice = () => {
     if(userCtx.currentUser.amount < props?.lessons?.price){
       setShowPay(true)
-      
     } else {
       payLesson({
         amount: props?.lessons?.price,
         label: "paid lesson",
         labelType: "lesson",
-        type: "withdraw"
+        type: "withdraw",
+        language:props?.lessons?.language,
+        level:props?.lessons?.level,
+        number:props?.lessons?.lessonNumber
       } , props?.lessons)
     }
-   
   }
 
   return ( 
@@ -72,9 +72,6 @@ const Lesson = (props) => {
           </div>
         </div>
       </Modal>
-      {/* {props?.lessons?.acceptStatus === "accept" && (
-        
-      )} */}
       <div className="h-[140px]">
           {props?.lessons?.status === "Төлбөргүй" || data  ? (
             <div className="flex flex-col p-2 lg:p-4 items-center justify-around border border-blue-500 w-full h-full  rounded-[5px] ">
@@ -83,7 +80,6 @@ const Lesson = (props) => {
                 <div className="">{props.lessons.level}</div>
                 <div className="">№{props.lessons.lessonNumber}</div>
               </div>
-
               <div
                 onClick={view}
                 className=" bg-blue-500 rounded-[5px] w-full flex justify-center items-center text-[20px] px-6 py-2 hover:bg-blue-600 hover:scale-110 "
@@ -91,30 +87,29 @@ const Lesson = (props) => {
                 Watch
               </div>
             </div>
-          ) : (
+            ) : (
             // Төлбөртэй
-          <div className="flex flex-col p-2 lg:p-4 justify-between items-center border border-blue-500 w-full h-full  rounded-[5px] ">
-            <div className="flex w-full justify-between">
-              <div className=""> {props.lessons.language}</div>
-              <div className="">{props.lessons.level}</div>
-              <div className="">№{props.lessons.lessonNumber}</div>
+            <div className="flex flex-col p-2 lg:p-4 justify-between items-center border border-blue-500 w-full h-full  rounded-[5px] ">
+              <div className="flex w-full justify-between">
+                <div className=""> {props.lessons.language}</div>
+                <div className="">{props.lessons.level}</div>
+                <div className="">№{props.lessons.lessonNumber}</div>
+              </div>
+            
+              <div 
+                onClick={payPrice}
+                className="flex justify-center w-full p-1 bg-green-500 rounded-[5px]  hover:bg-green-600">
+                  Pay {props?.lessons?.price}₮
+              </div>
+              <p>or</p>
+              <div 
+                onClick={payCoin}
+                className="flex justify-center w-full p-1 bg-green-500 rounded-[5px] hover:bg-green-600 hover:scale-110">
+                  Pay {props?.lessons?.coin}coin
+              </div>
             </div>
-          
-            <div 
-              onClick={payPrice}
-              className="flex justify-center w-full p-1 bg-green-500 rounded-[5px]  hover:bg-green-600">
-                Pay {props?.lessons?.price}₮
-            </div>
-            <p>or</p>
-            <div 
-              onClick={payCoin}
-              className="flex justify-center w-full p-1 bg-green-500 rounded-[5px] hover:bg-green-600 hover:scale-110">
-                Pay {props?.lessons?.coin}coin
-            </div>
-          </div>
           )}
         </div>
-      
     </div>
   );
 };

@@ -13,7 +13,8 @@ import {
     getDoc,
     orderBy,
     limit,
-    getDocs
+    getDocs,
+    increment
   } from "firebase/firestore";
 import { db } from "../firebase";
 import moment from "moment"
@@ -33,10 +34,7 @@ export default function useAds(id) {
   const [filterAds, setFilterAds ] = useState([])
   const [filterUsers, setFilterUsers] = useState([])
   const [filterStatic, setFilterStatic] = useState([])
-  // console.log(filterStatic)
-  // console.log(filterAds)
-  // 1 ads heden hereglecgh bgaag haruulah
-  // ads iin data awah
+
 
   const getStatic =async (ads) => {
     // console.log(ads.gender)
@@ -69,9 +67,9 @@ export default function useAds(id) {
 
   useEffect ( () => {
     //create ads user  all ads
-    const allRef = query(
-      collection(db, "ads"),
-      where("userId", "==" , auth?.currentUser?.uid),
+      const allRef = query(
+        collection(db, "ads"),
+        where("userId", "==" , auth?.currentUser?.uid),
       )
       onSnapshot(allRef, (snapshot) => {
         let list = [];
@@ -80,7 +78,7 @@ export default function useAds(id) {
         // console.log(list)
       });
 
-    
+      
      // filter userID
      const userRef = query(
       collection(db, "users"),
@@ -108,13 +106,14 @@ export default function useAds(id) {
       where("paymentStatus", "==" , "paid" ), 
       // where("ageStart", ">=" , age ), 
       // where("ageEnd", "<=" , age ),  
-      limit(5)
+      limit(30)
     )
    
     onSnapshot( oneRef, (snapshot) => {
       const list = snapshot.docs.map((doc) => {
         return { ...doc.data(), id: doc.id };
       });
+      // console.log(list)
       Promise.all(  
         list.map((e, i) => getDoc(doc (db, `/ads/${e?.id}/${watchDate}/` , auth?.currentUser?.uid)))
         )
@@ -159,7 +158,10 @@ export default function useAds(id) {
           doneAds : false,
           goalPerson,
           watchedPerson: 0,
-          paymentStatus: "no paid"
+          paymentStatus: "no paid",
+          clickFacebook: 0,
+          clickInstagram: 0,
+          clickSocial: 0,
          
       } )
       .then((res) => { 
@@ -228,6 +230,19 @@ export default function useAds(id) {
     });
    
   }
+  const clickFace =async() =>{
+    const oneRef = doc(db, "ads", id);
+    await updateDoc(oneRef , {clickFacebook: increment(1)})
+  }
+  const clickInstagram =async() =>{
+    const oneRef = doc(db, "ads", id);
+    await updateDoc(oneRef , {clickInstagram: increment(1)})
+  }
+  const clickSocial =async() =>{
+    const oneRef = doc(db, "ads", id);
+    await updateDoc(oneRef , {clickSocial: increment(1)})
+  }
+
   return {
       sendAds,
       editAds,
@@ -240,88 +255,12 @@ export default function useAds(id) {
       allads,
       filterUsers,
       getStatic,
-      deletePostAds
+      deletePostAds,
+      clickFace,
+      clickInstagram, 
+      clickSocial
   }
 }
 
 
-  // filter users
-//  Promise.all(  
-//   list.map((e, i) => 
-//   getDoc(doc (db, `ads` , e.id)))
-//   // console.log(e.id))
-//   )
-//   .then( values =>{
-//     // console.log(values)
-//     setFilterUsers([])
-//       values.map(doc=> {
-//       // console.log(doc.exists());
-//       if(doc.exists()){
-//         getDoc(doc.ref).then((parentDoc) => {
-//           const adsData = parentDoc.data().ads
-//           // console.log(adsData?.ageStart)
-//             const userRef = query(
-//                 collection(db, "users"),
-//                 where("gender" , "==" , "man"),
-//                 // where("regions", "array-contains", "west_coast")
-//               )
-//               onSnapshot( userRef, (snapshot) => {
-//                 const filteredUsers = [];
-//                   snapshot.forEach((doc) => {
-//                     const userData = doc.data();
-//                     // Check if user age is within the specified range (15 - 40)
-                  
-//                     if (userData.age >= adsData?.ageStart && userData.age <= adsData?.ageEnd) {
-//                       filteredUsers.push({ id: doc.id, ...userData });
-//                     }
-//                   });
-//                   setFilterUsers(filteredUsers);
-
-//               });
-          
-//         });
-      
-//       }
-//     }) 
-//   })
-
-
- // const data = getDocs(oneRef);
-    // console.log(data.docs)
-    // const docs = data.docs.map((doc) => ({...doc.data(), id: doc.id}));
-  
-    // Promise.all(  
-    //   docs.map((e, i) => getDoc(doc (db, `/ads/${e?.id}/${watchDate}/` , auth?.currentUser?.uid)))
-    //   )
-    //   .then( values =>{
-    //     setFilterAds([])
-    //       values.map(doc=> {
-    //       // console.log(doc.exists());
-    //       // console.log(doc.ref.path)
-    //       if(!doc.exists()){
-    //         getDoc(doc.ref.parent.parent).then((parentDoc) => {
-    //           setFilterAds(prev => [...prev, {id:  parentDoc.id, ...parentDoc.data()}])   
-    //         });
-          
-    //       }
-    //     }) 
-    //   })
-
-
-
- // allads?.map((e, i) => {
-    //   // console.log(e)
-    //   const q = query(
-    //     collection(db, `ads/${e.id}/${watchDate}`),
-    //     where("watchUserId", "==", auth?.currentUser?.uid )
-    //   )
-    //   // console.log(q)
-    //   onSnapshot(q, (snapshot) => {
-    //     snapshot.docs.map((doc) => {
-    //       // console.log(doc.id)
-    //     setFilterAds({...doc.data() , id: doc.id})
-        
-    //   })
-    //   })
-    //   // console.log(ads.id)
-    // })
+ 

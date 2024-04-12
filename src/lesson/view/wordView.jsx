@@ -73,17 +73,15 @@ const WordView = () => {
         (
           <div className="m-auto flex flex-col w-full sm:w-[90%] md:w-[70%] justify-center items-center">
             <img src={question?.image} className="border w-[50%] lg:w-[40%] aspect-square border-helpGray rounded-2xl"/>
-            <div className="flex justify-start my-3 items-center">
-              <HiMiniSpeakerWave onClick={playAudio} size={36} className="mr-3 p-1 bg-baseBlue1 rounded-[50%]  text-white"/>
-              <p className="text-3xl mx-3">{question?.word}</p>
-              <p className="text-3xl mx-3">{question?.trans}</p>
+            <div className="flex flex-col sm:flex-row justify-start my-3 items-center">
+              <HiMiniSpeakerWave onClick={playAudio} size={70} className="my-3 sm:my-0 mr-3 p-1 bg-baseBlue1 rounded-[50%]  text-white"/>
+              <p className="text-3xl mx-3 uppercase text-helpGreen font-bold">{question?.word}</p>
+              <p className="text-3xl mx-3 uppercase font-bold">{question?.trans}</p>
             </div>
-            <p className="w-full border border-helpGray p-2 text-center rounded-3xl my-2">{question?.desc}</p>
+            {question?.desc != "" && 
+             <p className="w-full border border-helpGray p-2 text-center rounded-3xl my-2">{question?.desc}</p>
+            }
            
-            {/* <audio controls className="my-2 m-auto">
-              <source src={question?.sound} type="audio/mp3"/>play
-            </audio> */}
-            
 
             {questionNumber === 0 ? (
               <div className="flex flex-col my-4 w-full">
@@ -93,7 +91,7 @@ const WordView = () => {
                 </button>
               </div>
             ) : (
-              <button onClick={() => addQuestionnumber()} className="w-full bg-baseBlue1 w-full rounded-3xl p-2">Next</button>
+              <button onClick={() => addQuestionnumber()} className="w-full bg-baseBlue1 rounded-3xl p-2">Next</button>
             )}
 
           </div>

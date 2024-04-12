@@ -76,7 +76,7 @@ export default function useTeacher(id) {
             teacherMessage: "request"
         })
         .then((res) => { 
-            alert("request teacher")
+            // alert("request teacher")
         // console.log("request teacher");
         })
         .catch((error) => {

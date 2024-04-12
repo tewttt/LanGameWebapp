@@ -35,12 +35,10 @@ const EditTranslate = (props) => {
        
     }, [translate?.translate])
    
-    const showConfirm = () => {
-        setConfirm(true)
-       };
-       const closeConfirm = () => {
-        setConfirm(false)
-       };
+ 
+    const closeConfirm = () => {
+    setConfirm(false)
+    };
     const save = () => {
         // alert("Орчуулгын хэсгийг амжилттай хадгаллаа"); 
         ctx.saveTranslate(questions);
@@ -57,7 +55,11 @@ const EditTranslate = (props) => {
         var newQuestion = [...questions];
         newQuestion[i].questionAnswer = text;
         setQuestions(newQuestion);
-        
+    }
+    const changeExplain = (text, i) => {
+        var newQuestion = [...questions];
+        newQuestion[i].answerKey = text;
+        setQuestions(newQuestion); 
     }
    
     const copyQuestion = (i) => {
@@ -77,7 +79,7 @@ const EditTranslate = (props) => {
     const addMoreQuestionField = () => {
         expandCloseAll();
         setQuestions([...questions, 
-            {questionText: "Question", questionType: "radio", options: [{optionText: "Option1"}], open:true, required: false }
+            {questionText: "Question", questionAnswer: "Answer", answerKey: ""}
             ]);
     }
     const expandCloseAll = () => {
@@ -85,47 +87,50 @@ const EditTranslate = (props) => {
         for (let j = 0; j< qs.length; j++) {
             qs[j].open = false;
         }
-        setQuestions(qs);
+        setQuestions(qs);  
     }
    
     return (
-         <div className="mt-4">
-        {
-         questions.map((ques, i) => (
-          
+    <div className="mt-4 m-auto md:text-2xl">
+        <Modal closeConfirm={closeConfirm} show={confirm} >
+            <div className="text-baseBlack ">
+                <p className="text-center">Are you sure you want to save the edit?</p>
+                <div className="flex justify-around mt-4">
+                    <button className="py-2 px-10 bg-green-500 text-white rounded-2xl" onClick={save}>Yes</button> 
+                    <button className="py-2 px-10 bg-red-500 text-white rounded-2xl" onClick={closeConfirm}>No</button>
+                </div>
+            </div>
+        </Modal>
+        {questions.map((ques, i) => (
             <div className="flex justify-center">
-                
-                <div className="text-white text-[20px]"> </div> 
-                   
+                <div className="text-white "> </div> 
                     <div className="flex w-full  m-2 md:w-[60p0x] lg:w-[900px] xl:w-[1000px] ">
                         <AccordionDetails className={css.addQuestion}>
                             <div className={css.addQuestionTop}>
                                 <input type="text" className={css.question} placeholder="Question" defaultValue={ques.questionText} onChange={(e) => {changeQuestion(e.target.value, i)}}></input>
                                 <input type="text" className={css.question} placeholder="Answer" defaultValue={ques.questionAnswer}  onChange={(e) => {changeAnswer(e.target.value, i)}}></input>                                                                          
+                                <input type="text" className={css.question} placeholder="Explain" value={ques.answerKey} onChange={(e) => {changeExplain(e.target.value, i)}}></input>                                                                          
+                        
                             </div>
-                        <div className={css.addFooter}>
-                            <div className={css.addQuestionBottom}>
-                                        <IconButton aria-label="Copy" onClick={() => {copyQuestion(i)}}>
-                                            <FilterNoneIcon/>
-                                        </IconButton>
-                                        <IconButton aria-label="Delete"  onClick={() => {deleteQuestion(i)}}>
-                                            <RestoreFromTrashIcon />   
-                                        </IconButton>
-                            </div>
-                            
-                    
-                        </div> 
+                            <div className={css.addFooter}>
+                                <div className={css.addQuestionBottom}>
+                                    <IconButton aria-label="Copy" onClick={() => {copyQuestion(i)}}>
+                                        <FilterNoneIcon/>
+                                    </IconButton>
+                                    <IconButton aria-label="Delete"  onClick={() => {deleteQuestion(i)}}>
+                                        <RestoreFromTrashIcon />   
+                                    </IconButton>
+                                </div>
+                            </div> 
                         </AccordionDetails>
                         <div className={css.QuestionEdit}>
                             <AddCircleIcon onClick={addMoreQuestionField} className={css.edit}/>                              
                         </div>                                                                                          
                     </div>                                            
             </div>
-    ))}
-        <button className="w-[150px] h-[20px] bg-blue-500 flex text-[12px] justify-center items-center m-auto" onClick={save}>Хадгалах</button> 
+        ))}
+        <button className="w-[150px] p-3 rounded-xl bg-blue-500 flex justify-center items-center m-auto" onClick={() => setConfirm(true)}>Хадгалах</button> 
     </div>
 )}
-    
-
 export default EditTranslate;
 

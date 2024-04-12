@@ -22,7 +22,7 @@ export default function AddPost() {
         facebookLink:"",
         instagramLink:""
     })
-   
+    const maxLength = 200;
     const handleChange = (event) => {
         setPost({ ...post, [event.target.name]: event.target.value })
     }
@@ -57,6 +57,8 @@ export default function AddPost() {
         alert("add post")
         history.push("/ads")
     }
+   
+
     return (
         <div className=" bg-baseBlack flex flex-col items-center px-6 p-6 pb-20 text-white">
            
@@ -68,11 +70,11 @@ export default function AddPost() {
                 <IoIosSettings size={20}/>
             </div>
 
-            <div className=" my-2 w-full sm:w-[80%] md:w-[60%] xl:w-[40%]">
-                <div className="flex flex-col  justify-between my-1 mx-3 ">
-                    <div>Title</div>
-                    <input  
-                        className="w-full my-1 border border-baseColor p-2 rounded-[5px] mx-0 text-gray-900" 
+            <div className=" my-2 w-full sm:w-[80%] md:w-[60%] xl:w-[40%] text-gray-900">
+                <div className="flex flex-wrap flex-col  justify-between my-1 mx-3 ">
+                    <div className="text-gray-300">Title</div>
+                    <textarea  
+                        className="w-full my-1 p-2 rounded-[5px] mx-0 " 
                         onChange={handleChange} 
                         required 
                         type="text" 
@@ -80,23 +82,29 @@ export default function AddPost() {
                         placeholder="Title"
                     />
                 </div>
-                <div className="flex flex-col justify-between my-1 mx-3 ">
-                    <div>Text</div>
-                    <input  
-                    
-                        className="w-full my-1 border border-baseColor p-2 rounded-[5px] mx-0 text-gray-900" 
+                <div className="flex flex-wrap flex-col justify-between my-1 mx-3 ">
+                    <div className="text-gray-300">Text</div>
+                    <textarea  
+                        className="w-full  my-1 p-2 rounded-[5px] mx-0 " 
                         onChange={handleChange} 
                         required 
                         type="text" 
                         name="text" 
                         placeholder="text"
+                        maxlength="300"
+                        rows="6"
+                        cols="50"
+                        
                     />
+                    <div className="text-gray-300 text-end">
+                        limit: {post?.text?.length}/{maxLength}
+                    </div>
                 </div>
                 
-                <div className="flex flex-col justify-between my-1 mx-3 ">
-                    <div>Address</div>
-                    <input  
-                        className="w-full my-1 border border-baseColor p-2 rounded-[5px] mx-0 text-gray-900" 
+                <div className="flex flex-wrap flex-col justify-between my-1 mx-3 ">
+                    <div className="text-gray-300">Address</div>
+                    <textarea  
+                        className="w-full my-1  p-2 rounded-[5px] mx-0 t" 
                         onChange={handleChange} 
                         required 
                         type="text" 
@@ -105,9 +113,9 @@ export default function AddPost() {
                     />
                 </div>
                 <div className="flex flex-col justify-between my-1 mx-3 ">
-                    <div>Phone</div>
+                    <div className="text-gray-300">Phone</div>
                     <input  
-                       className="w-full my-1 border border-baseColor p-2 rounded-[5px] mx-0 text-gray-900" 
+                       className="w-full my-1  p-2 rounded-[5px] mx-0 " 
                         onChange={handleChange} 
                         required 
                         type="text" 
@@ -116,9 +124,9 @@ export default function AddPost() {
                     />
                 </div>
                 <div className="flex flex-col justify-between my-1 mx-3 ">
-                    <div>Email</div>
+                    <div className="text-gray-300">Email</div>
                     <input  
-                        className="w-full my-1 border border-baseColor p-2 rounded-[5px] mx-0 text-gray-900" 
+                        className="w-full my-1  p-2 rounded-[5px] mx-0 " 
                         onChange={handleChange} 
                         required 
                         type="text" 
@@ -127,9 +135,9 @@ export default function AddPost() {
                     />
                 </div>
                 <div className="flex flex-col justify-between my-1 mx-3 ">
-                    <div>Facebook link</div>
+                    <div className="text-gray-300">Facebook link</div>
                     <input  
-                        className="w-full my-1 border border-baseColor p-2 rounded-[5px] mx-0 text-gray-900" 
+                        className="w-full my-1  p-2 rounded-[5px] mx-0 text-gray-900" 
                         onChange={handleChange} 
                         required 
                         type="text" 
@@ -138,7 +146,7 @@ export default function AddPost() {
                     />
                 </div>
                 <div className="flex flex-col justify-between my-1 mx-3 ">
-                    <div>Instagram link</div>
+                    <div className="text-gray-300">Instagram link</div>
                     <input  
                         className="w-full my-1 border border-baseColor p-2 rounded-[5px] mx-0 text-gray-900" 
                         onChange={handleChange} 
@@ -149,7 +157,7 @@ export default function AddPost() {
                     />
                 </div>
                 <div className="flex flex-col justify-between my-1 mx-3 ">
-                    <div>Other link</div>
+                    <div className="text-gray-300">Other link</div>
                     <input  
                         className="w-full my-1 border border-baseColor p-2 rounded-[5px] mx-0 text-gray-900" 
                         onChange={handleChange} 
@@ -162,12 +170,17 @@ export default function AddPost() {
             </div>
 
             <div className="w-full sm:w-[80%] md:w-[60%] xl:w-[40%]">
-                <video className="w-full">
+                <p className="text-helpGreen text-center">VIDEO  size:1920x1080   second:20-60</p>
+                <video className="w-[70%] m-auto border">
                     <source src={post?.video}/>
                 </video>
                 <input 
                     className="m-1"
-                    type="file" name="video"  onChange={changeVideo}/>
+                    type="file" 
+                    name="video"  
+                    accept="video/*"
+                    onChange={changeVideo}
+                />
                 <div style={{
                     backgroundColor: "gray",
                     borderRadius: 3,

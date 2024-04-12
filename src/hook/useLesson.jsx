@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import {
   collection,
   addDoc,
@@ -10,18 +10,15 @@ import {
   updateDoc,
   deleteDoc, 
   onSnapshot,
-  increment,
   query,
+  increment,
   where
 } from "firebase/firestore";
 import { db } from "../firebase.js";
 import { useHistory } from "react-router-dom";
 import {getAuth} from "firebase/auth";
-import UserContext from "../context/UserContext.js"
-
 
 const auth = getAuth();
-
 let unsubcribeGames;
 
 export default function useLesson(languageId, topicId, lessonId) {
@@ -39,10 +36,9 @@ export default function useLesson(languageId, topicId, lessonId) {
     const [translate, setTranslate] = useState([]);
     const [word, setWord] = useState([]);
     const [grammar, setGrammar] = useState([]);
+    const [verb, setVerb] = useState([]);
     const [lessonActiveUsers, setLessonActiveUsers] = useState([])
 
-
-  
     useEffect(() => {
         getLanguageId();
         
@@ -139,17 +135,13 @@ export default function useLesson(languageId, topicId, lessonId) {
     const join = async (state, game, chLan, chLevel, chLesson, entry, win , second) => {
         await chGames(chLan, chLevel, chLesson)
         const id = game.id;
-
         if (game.count <= 4) {
         const data = game.players.find((e, i) => e.id === auth?.currentUser?.uid);
         if (data) {
-            // alert("Тоглоом руу буцлаа");
-
             return history.push(
             `/newGame/${id}?lan=${chLan}&level=${chLevel}&lesson=${chLesson}`
             );
         }
-
         const PlayersRef = doc(db, `game/${id}/players`, state.authId);
         const add = setDoc(PlayersRef, {
             state,
@@ -163,15 +155,9 @@ export default function useLesson(languageId, topicId, lessonId) {
             activatedGo: false,
             activatedBack: false,
             activatedShield : false,
-           
-        
         });
         
-        // alert("Тоглогч нэмэгдлээ");
-        history.push(
-            `/newGame/${id}?lan=${chLan}&level=${chLevel}&lesson=${chLesson}`
-        );
-
+        history.push(`/newGame/${id}?lan=${chLan}&level=${chLevel}&lesson=${chLesson}`);
         const dataTnx = {
             coin: entry,
             label: "play game",
@@ -197,8 +183,6 @@ export default function useLesson(languageId, topicId, lessonId) {
             color: "purple",
             });
         }
-
-        // oneGame(id);
         return;
         } else if (game.count >= 4) {
         alert("Тоглогч бүрдсэн байна, Өөр ширээ сонгоно уу");
@@ -208,9 +192,11 @@ export default function useLesson(languageId, topicId, lessonId) {
     };
 
     const createGame = async (state, chLan, chLevel, chLesson , entry , authId, win , second) => {
-        const getQuestions = await examfunGame(chLan, chLevel, chLesson);
-
-        const questions =  shuffleArray(getQuestions);
+        const getExam = await examfunGame(chLan, chLevel, chLesson);
+        const getWord = await wordfunGame(chLan, chLevel, chLesson);
+        const add = getExam.concat(getWord)
+       
+        const questions =  shuffleArray(add);
         // Асуултуудыг хольж байна
         function shuffleArray(questionsToShuffle) {
           for (let i = questionsToShuffle.length - 1; i > 0; i--) {
@@ -246,7 +232,7 @@ export default function useLesson(languageId, topicId, lessonId) {
               showDiceTime: false,
               showTurn: false,
               startTime: 5, 
-              questionTime: 10,
+              questionTime: 15,
               questionNumber: 0,
               diceTime: 5,
               turn: 0,
@@ -288,23 +274,17 @@ export default function useLesson(languageId, topicId, lessonId) {
         await addDoc(oneRef , {
             data,
             createDate: serverTimestamp(),
-            
             } )
             .then((res) => { 
-            // alert("togloom ru newterlee")
-            history.push(
-                `/newGame/${game.id}?lan=${chLan}&level=${chLevel}&lesson=${chLesson}`
-            );
+            history.push(`/newGame/${game.id}?lan=${chLan}&level=${chLevel}&lesson=${chLesson}`);
             })
             .catch((error) => {
             console.log("error" + error);
             });
-            
-
             } catch (err) {
-            console.log(err);
+            console.log(err); 
             }
-        };
+    };
 
     const examfunGame = async (chLan, chLevel, chLesson) => {
         const examRef = collection(
@@ -315,8 +295,16 @@ export default function useLesson(languageId, topicId, lessonId) {
         const docs = data.docs.map((o) => o.data());
         return docs[0].exam;
     };
+    const wordfunGame = async (chLan, chLevel, chLesson) => {
+      const examRef = collection(
+      db,
+      `lessons/${chLan}/topics/${chLevel}/lessons/${chLesson}/word`
+      );
+      const data = await getDocs(examRef);
+      const docs = data.docs.map((o) => o.data());
+      return docs[0].word;
+  };
 
-    
   // filt Lessons
   const getLessons = (level, chLan) => {
     // const lessonsRef = collection(db,`lessons/${chLan}/topics/${level}/lessons`);
@@ -358,8 +346,6 @@ export default function useLesson(languageId, topicId, lessonId) {
     return () => {
       unsubcribe();
     };
-
-
   }
 
   const getOneLesson = async() => {
@@ -416,6 +402,23 @@ export default function useLesson(languageId, topicId, lessonId) {
       setGrammar(snap.data())
     }
   };
+
+  // Verb татаж авах
+  const verbfun = async() => {
+    const wordRef = doc(db, `lessons/${languageId}/topics/${topicId}/lessons/${lessonId}/verb`, lessonId);
+    const snap = await getDoc(wordRef)
+    if(snap.exists()){
+      setVerb(snap.data())
+    }
+  };
+
+  const countCustomer = async(time) =>{
+    // if(time > 28){   
+      const countRef = doc(db, `lessons/${languageId}/topics/${topicId}/lessons`, lessonId);
+      await updateDoc(countRef, { viewCustomer: increment(1) });
+    // }
+   
+  }
     
 
     return {
@@ -438,12 +441,15 @@ export default function useLesson(languageId, topicId, lessonId) {
        word,
        listen,
        grammar,
+       verb,
        lessonActiveUsers,
        examfun,
        wordfun,
        translatefun,
        grammarfun,
-       listenfun
+       listenfun,
+       verbfun,
+       countCustomer
 
         
     }

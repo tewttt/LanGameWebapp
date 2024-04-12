@@ -10,7 +10,6 @@ import {
   setDoc,
   query, where
 } from "firebase/firestore";
-import { useHistory } from "react-router-dom";
 import { getAuth} from "firebase/auth";
 
 const auth = getAuth();
@@ -23,12 +22,12 @@ const initialState = {
   video: [],
   grammar: [],
   newWord: [],
-  listen: []
+  listen: [],
+  verb: []
 };
 
 
 export const LessonStore = (props) => {
-  const history = useHistory();
   const [state, setState] = useState(initialState);
 
   const saveBase = (base) => {
@@ -38,6 +37,7 @@ export const LessonStore = (props) => {
     setState({ ...state, exam: quiz });
   };
   const saveTranslate = (questions) => {
+    // console.log(questions)
     setState({ ...state, translate: questions });
   };
   const saveImage = (downloadURL) => {
@@ -49,22 +49,23 @@ export const LessonStore = (props) => {
   const saveGrammar = (questions) => {
     setState({ ...state, grammar: questions });
   };
+  const saveVerb = (questions) => {
+    setState({ ...state, verb: questions });
+  };
   const saveNewWord = (questions) => {
     setState({ ...state, newWord: questions });
   };
   const saveListen = (questions) => {
-    console.log(questions)
+    // console.log(questions)
     setState({ ...state, listen: questions });
   };
  
   const [userLesson, setUserLesson] = useState([])
 // console.log(userLesson)
   const createLesson = async () => {
-    // alert("lll")
     try {
       const lessRef = doc(db, "lessons", state.base.language);
-     
-      const add = await setDoc(lessRef, {
+      await setDoc(lessRef, {
         language: state.base.language,
       
       });
@@ -80,73 +81,82 @@ export const LessonStore = (props) => {
           `lessons/${state.base.language}/topics/${state.base.level}/lessons`,
           state.base.lessonNumber
         ),
-        { language: state.base.language,
-          level: state.base.level,
-          lessonNumber: state.base.lessonNumber,
-          userAuthId: auth.currentUser?.uid,
-          name: state.base.name,
-          price: state.base.price,
-          coin: state.base.coin,
-          status: state.base.status,
-          text: state.base.text,
-          video: state.video,
-          image: state.image,
-          acceptStatus: "request"
+        { language: state?.base?.language,
+          level: state?.base?.level,
+          lessonNumber: state?.base?.lessonNumber,
+          userAuthId: auth?.currentUser?.uid,
+          name: state?.base?.name,
+          price: state?.base?.price,
+          coin: state?.base?.coin,
+          status: state?.base?.status,
+          text: state?.base?.text,
+          video: state?.video,
+          image: state?.image,
+          acceptStatus: "request",
+          viewCustomer: 0
         }
       );
       await setDoc(
         doc(
           db,
-          `lessons/${state.base.language}/topics/${state.base.level}/lessons/${state.base.lessonNumber}/exam`,
-          state.base.lessonNumber
+          `lessons/${state?.base?.language}/topics/${state?.base?.level}/lessons/${state?.base?.lessonNumber}/exam`,
+          state?.base?.lessonNumber
         ),
         {
-          exam: state.exam,
+          exam: state?.exam,
         }
       );
       await setDoc(
         doc(
           db,
-          `lessons/${state.base.language}/topics/${state.base.level}/lessons/${state.base.lessonNumber}/translate`,
-          state.base.lessonNumber
+          `lessons/${state?.base?.language}/topics/${state?.base?.level}/lessons/${state?.base?.lessonNumber}/translate`,
+          state?.base?.lessonNumber
         ),
         {
-          translate: state.translate,
+          translate: state?.translate,
         }
       );
       await setDoc(
         doc(
           db,
-          `lessons/${state.base.language}/topics/${state.base.level}/lessons/${state.base.lessonNumber}/word`,
-          state.base.lessonNumber
+          `lessons/${state?.base?.language}/topics/${state?.base?.level}/lessons/${state?.base?.lessonNumber}/word`,
+          state?.base?.lessonNumber
         ),
         {
-          word: state.newWord,
+          word: state?.newWord,
         }
       );
       await setDoc(
         doc(
           db,
-          `lessons/${state.base.language}/topics/${state.base.level}/lessons/${state.base.lessonNumber}/grammar`,
-          state.base.lessonNumber
+          `lessons/${state?.base?.language}/topics/${state?.base?.level}/lessons/${state?.base?.lessonNumber}/grammar`,
+          state?.base?.lessonNumber
         ),
         {
-          grammar: state.grammar,
+          grammar: state?.grammar,
         }
       );
       await setDoc(
         doc(
           db,
-          `lessons/${state.base.language}/topics/${state.base.level}/lessons/${state.base.lessonNumber}/listen`,
-          state.base.lessonNumber
+          `lessons/${state?.base?.language}/topics/${state?.base?.level}/lessons/${state?.base?.lessonNumber}/listen`,
+          state?.base?.lessonNumber
         ),
         {
-          listen: state.listen,
+          listen: state?.listen,
+        }
+      );
+      await setDoc(
+        doc(
+          db,
+          `lessons/${state?.base?.language}/topics/${state?.base?.level}/lessons/${state?.base?.lessonNumber}/verb`,
+          state?.base?.lessonNumber
+        ),
+        {
+          verb: state?.verb,
         }
       );
       alert("success add lesson")
-      // history.push("/teacher")
-     
     } catch (err) {
       console.log(err);
     }
@@ -171,15 +181,15 @@ export const LessonStore = (props) => {
       unsubcribe();
     };
   };
-
+// console.log(state)
   const updateDB = async (lan, level, number) => {
     await updateDoc(
       doc(db,`lessons/${lan}/topics/${level}/lessons`,number),
       {
-        name: state.base.name,
-        price: state.base.price,
-        status: state.base.status,
-        text: state.base.text,
+        name: state?.base?.name,
+        price: state?.base?.price,
+        status: state?.base?.status,
+        text: state?.base.text,
         video: state.video,
         image: state.image,
       }
@@ -214,8 +224,13 @@ export const LessonStore = (props) => {
         listen: state.listen,
       }
     );
+    await updateDoc(
+      doc(db,`lessons/${lan}/topics/${level}/lessons/${number}/verb`, number),
+      {
+        verb: state.verb,
+      }
+    );
     alert("lesson enlish update")
-
 }
 
 const deleteDB = async (lan, level, number) => {
@@ -239,6 +254,7 @@ const deleteDB = async (lan, level, number) => {
         saveTranslate,
         saveListen,
         saveVideo,
+        saveVerb,
         updateDB,
         deleteDB,
         getUserLessons,

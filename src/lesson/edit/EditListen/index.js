@@ -13,6 +13,7 @@ import Modal from "../../../components/General/Modal";
 import { storage} from "../../../firebase";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import useLesson from "../../../hook/useLesson";
+import { HiMiniSpeakerWave } from "react-icons/hi2";
 
 const EditListen = () => {
     const history = useHistory()
@@ -20,13 +21,13 @@ const EditListen = () => {
     const {languageId, topicId, lessonId} = useParams()
     const {listen, listenfun} = useLesson(languageId, topicId, lessonId)
     const [confirm , setConfirm] = useState(false);
- 
+
     const [ questions, setQuestions] = useState(
         [{  word: "",
             sound: ""
         }]
     )
-    console.log(questions)
+  
     useEffect(() => {
         listenfun()
     }, [])
@@ -44,16 +45,15 @@ const EditListen = () => {
         setConfirm(false)
     };
   
-    const save = () => {      
-    // alert("Listen хэсгийг амжилттай хадгаллаа"); 
-    // history.push("/addlesson/word");
-    history.push(`/edit/${languageId}/${topicId}/${lessonId}/word`)
-    ctx.saveListen(questions);
-    closeConfirm()
+    const save = () => {    
+        // console.log("bnu")  
+        history.push(`/edit/${languageId}/${topicId}/${lessonId}/word`)
+        ctx.saveListen(questions);
+        closeConfirm()
     }
    
     const changeWord = (text, i) => {
-        var newQuestion = [...questions];
+        var newQuestion = [...questions]; 
         newQuestion[i].word = text;
         setQuestions(newQuestion);
         // console.log(newQuestion)
@@ -76,7 +76,7 @@ const EditListen = () => {
     const addMoreQuestionField = () => {
         expandCloseAll();
         setQuestions([...questions, 
-            {questionText: "Question",  options: [{optionText: "Option1"}],  }
+            {questionText: "Question"  }
             ]);
     }
    
@@ -97,6 +97,7 @@ const EditListen = () => {
         // console.log(newQuestion[i].image)
     }
 
+
     const uploadSound = (i) =>{
         if (questions[i].sound == null) return;
         // const imageRef = ref(storage, `images/${photo.name + v4()}`);
@@ -113,33 +114,41 @@ const EditListen = () => {
         })
         alert("sound upload amjilttai") 
     }
+    const playAudio = (sound) => {
+        const audio = new Audio(sound); // Create a new Audio object with the sound file
+        audio.play(); // Play the audio
+      };  
 
 return ( 
-<div className="pt-6 pb-96 md:w-[50%] text-baseBlack">
+<div className="pt-6 pb-96 m-auto md:w-[80%] text-baseBlack">
     { questions.map((ques, i) => (
     <div> 
-         <Modal closeConfirm={closeConfirm} show={confirm} >
-                <div className="text-baseBlack ">
-                    <p className="text-center">Are you sure you want to save?</p>
-                    <div className="flex justify-around mt-4">
-                        <button className="py-2 px-10 bg-green-500 text-white rounded-2xl" onClick={save}>Yes</button> 
-                        <button className="py-2 px-10 bg-red-500 text-white rounded-2xl" onClick={closeConfirm}>No</button>
-                    </div>
+        <Modal closeConfirm={closeConfirm} show={confirm} >
+            <div className="text-baseBlack ">
+                <p className="text-center">Are you sure you want to save?</p>
+                <div className="flex justify-around mt-4">
+                    <button className="py-2 px-10 bg-green-500 text-white rounded-2xl" onClick={save}>Yes</button> 
+                    <button className="py-2 px-10 bg-red-500 text-white rounded-2xl" onClick={closeConfirm}>No</button>
                 </div>
-            </Modal> 
+            </div>
+        </Modal>
+        
         <div className={css.questionBox}>
-            <AccordionDetails className={css.addQuestion}>
+            <AccordionDetails className={css.addQuestion}> 
                 <div className={css.addQuestionTop}>
-                    <div style={{display: "flex", flexDirection: "column"}}>
-                      
+                    <div className="flex flex-col w-full flex-wrap">
+                       
                         <input type="text" className={css.question} placeholder="sentence" value={ques.word} onChange={(e) => {changeWord(e.target.value, i)}}></input>
                            
-                        <div className="flex  w-[300px]">
+                        <div className="flex w-full text-[12px]">
                             <p className="mr-2">sound</p>
+                            <HiMiniSpeakerWave onClick={()=> playAudio(ques.sound)} size={36} className="mr-3 p-1 bg-baseBlue1 rounded-[50%]  text-white"/>
+  
                             <input 
                             onChange={(e) => {changeSound(e.target.files[0], i)}}
-                            className="w-[180px] h-[40px] text-[12px] ml-0"
-                            required type="file" 
+                            className="w-full  ml-0"
+                            accept="audio/*"
+                            type="file" 
                             id="SoundInput" />
                         </div>
                     </div>
@@ -164,7 +173,7 @@ return (
    
     ))}
     <div className="flex mb-10">
-        <button className="w-[150px] h-[20px] bg-blue-400 hover:bg-blue-500 flex text-[12px] justify-center items-center m-auto" onClick={showConfirm}>Save</button> 
+        <button className="w-[150px] p-3 bg-blue-400 hover:bg-blue-500 flex rounded-xl text-white justify-center items-center m-auto" onClick={save}>Save</button> 
     </div>
 </div>
 )

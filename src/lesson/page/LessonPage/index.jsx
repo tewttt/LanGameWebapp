@@ -14,7 +14,7 @@ const LessonPage = () => {
             <div className="z-30">
                 <ToolSidebar />
             </div>
-            
+            <p className="text-helpGreen md:mt-24 font-bold text-2xl text-center my-2">Суралцах хэлээ сонгоорой</p>
             <div className="z-20 ">
                 <Choice/>
             </div> 

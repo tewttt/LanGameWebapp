@@ -8,8 +8,9 @@ import ToolSidebar from "../../components/ToolSidebar";
 export default function AddAdvertise() {
     const {posts} = usePost();
     const history = useHistory()
+   
     return (
-        <div className=" bg-baseBlack flex flex-col items-center px-6 pt-6 pb-96 md:pt-0 text-white">
+        <div className=" bg-baseBlack flex flex-col items-center px-6 pt-6 pb-96 md:pt-0 text-white text-sm sm:text-base md:text-2xl">
             <div className="z-30"> <ToolSidebar/></div>
             <div className="flex py-2 justify-between md:pt-20 pb-4 w-full sm:w-[80%]">
                 <div className="flex items-center">
@@ -20,7 +21,7 @@ export default function AddAdvertise() {
             </div>
             <div className="w-full sm:w-[80%] flex items-center justify-between">
                 <div  
-                    className="w-1/2 text-center mx-2 bg-baseBlue1 font-semibold rounded-2xl px-6 py-2 hover:bg-blue-600"
+                    className="w-1/2 text-center mx-2 bg-helpGreen font-semibold rounded-2xl px-6 py-2 hover:bg-blue-600"
                     onClick={() =>  history.push("/post")}>
                     Add post 
                 </div>
@@ -30,12 +31,23 @@ export default function AddAdvertise() {
                     Advertise list 
                 </div>
             </div>
-        
+        {posts?.length != 0 ? (
             <div className="flex flex-wrap justify-center mt-4">
-                {posts.map((e, i) => (
+                {posts?.map((e, i) => (
                     <PostCard data={e} key={i}/>
                 ))}
             </div>
+        ) : (
+            <div className="mt-4 text-lg sm:text-2xl p-3">
+                <p className=" uppercase text-center font-bold">Таны сурталчилгааны орон зай</p>
+                <p className="text-center mt-6 font-semibold text-green-500">Таны байршуулсан сурталчилгаа тоглогч нарт харагдана</p>
+                <p className="mt-6">1. Add post оруулах</p>
+                <p>2. Сурталчилгаа явуулах post-оо сонгоод Add advertise оруулах</p>
+            </div>
+        ) 
+            
+        }
+            
         </div>
     )
 }

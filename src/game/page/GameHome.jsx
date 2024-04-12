@@ -29,7 +29,8 @@ const GameHome = () => {
             <div className=" md:pt-20 z-20 m-6 flex flex-col items-center h-full text-white ">
                 <GameNavbar/>
                 <div className="flex flex-col rounded-xl w-full p-2 text-center">
-                    <p> Watch 5/{filterAds.length} video and collect coin</p>
+                    <p className="text-green-500 font-bold my-1 sm:text-2xl">Сурталчилгаа үзээд COIN цуглуулаарай</p>
+                    <p>Total video {filterAds.length}</p>
                     {filterAds.length === 0 && <div className=" text-2xl">Today's video are over</div>}
                     <div className="mt-4 flex flex-wrap gap-2 justify-center">
                         {filterAds?.map((ads, index) => {
@@ -38,8 +39,8 @@ const GameHome = () => {
                                     <div className="">
                                         <button 
                                         onClick={()=> watch(ads?.id)} 
-                                        className="w-[100px] h-[100px] m-auto rounded-[50%] bg-baseBlue1 hover:bg-baseColor/80  text-[14px] p-4 border">
-                                        WATCH A VIDEO
+                                        className="w-[60px] h-[60px] m-auto rounded-[50%] text-[12px] bg-baseBlue1 border">
+                                        WATCH VIDEO
                                         </button> 
                                     </div>
                                 </div>
@@ -49,7 +50,7 @@ const GameHome = () => {
                 </div>
                 <button 
                     onClick={() =>history.push("/game")} 
-                    className="w-[150px] m-4 h-[150px] text-[20px] rounded-[50%] bg-baseBlue1">
+                    className="w-[150px] m-4 h-[150px] text-[20px] font-bold rounded-[50%] bg-helpGreen">
                     START GAME
                 </button>
                

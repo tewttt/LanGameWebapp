@@ -35,7 +35,7 @@ const Grammar = () => {
     const save = () => {      
     // alert("Шалгалтын хэсгийг амжилттай хадгаллаа"); 
     ctx.saveGrammar(questions);
-    history.push("/addlesson/listen");
+    history.push("/addlesson/verb");
     closeConfirm()
     }
    
@@ -87,14 +87,14 @@ const Grammar = () => {
                 newQuestion[i].image = url;
                  setQuestions(newQuestion);
             })
-        })
-        // alert("photo upload amjilttai") 
+        }) 
+        alert("photo  amjilttai") 
     }
 
    
 
 return ( 
-<div className="pt-6 pb-96 md:w-[50%] text-baseBlack">
+<div className="pt-6 pb-96 m-auto md:w-[80%] lg:w-[60%] text-baseBlack">
     { questions.map((ques, i) => (
     <div> 
          <Modal closeConfirm={closeConfirm} show={confirm} >
@@ -109,18 +109,16 @@ return (
         <div className={css.questionBox}>
             <AccordionDetails className={css.addQuestion}>
                 <div className={css.addQuestionTop}>
-                    <div className="flex items-center w-[300px] justify-between ml-5">Image
-                            <img src={questions[i].image} className="w-[40px] h-[40px] border border-gray-400"/>
+                    <div className="flex flex-col w-full ml-5">Image
+                            <img src={questions[i].image} className="w-full aspect-auto border border-gray-400"/>
                             <input 
-                            className="w-[180px] h-[40px] text-[12px] ml-0"
+                            className="w-full text-[12px] ml-0"
                             onChange={(e) => {changePhoto(e.target.files[0], i)}}
-                            required type="file" 
+                            accept="image/*"
+                            type="file" 
                             id="imageInput" />
                     </div>
-                    {/* <div style={{display: "flex", flexDirection: "column"}}>
-                        <input type="text" className={css.question} placeholder="Grammar English" value={ques.eng} onChange={(e) => {changeEng(e.target.value, i)}}></input>
-                       
-                    </div> */}
+                
                 </div>
                    
                 
@@ -143,7 +141,7 @@ return (
    
     ))}
     <div className="flex mb-10">
-        <button className="w-[150px] h-[20px] bg-blue-400 hover:bg-blue-500 flex text-[12px] justify-center items-center m-auto" onClick={showConfirm}>Save</button> 
+        <button className="w-[150px] p-3 rounded-lg text-white bg-blue-400 hover:bg-blue-500 flex  justify-center items-center m-auto" onClick={showConfirm}>Save</button> 
     </div>
 </div>
 )

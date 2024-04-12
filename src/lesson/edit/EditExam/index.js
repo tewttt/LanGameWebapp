@@ -29,6 +29,7 @@ const EditExam = (props) => {
             ],
             // answer: false,
             answerKey: "",
+            explain: ""
             // open: true,
             // required: false
         }]
@@ -62,6 +63,11 @@ const EditExam = (props) => {
         newQuestion[i].questionText = text;
         setQuestions(newQuestion);
         // console.log(newQuestion)
+    }
+    const changeExplain = (text, i) => {
+        var newQuestion = [...questions];
+        newQuestion[i].explain = text;
+        setQuestions(newQuestion); 
     }
     const changeOptionValue = (text, i ,j) => {
         var optionQuestion = [...questions];
@@ -113,7 +119,7 @@ const EditExam = (props) => {
     const addMoreQuestionField = () => {
         expandCloseAll();
         setQuestions([...questions, 
-            {questionText: "Question", questionType: "radio", options: [{optionText: "Option1"}], open:true, required: false }
+            {questionText: "Question",  options: [{optionText: "Option1"}], answerKey: "", explain: "" }
             ]);
     }
    
@@ -138,7 +144,7 @@ const EditExam = (props) => {
 
     
 return ( 
-<div className="mt-4">
+<div className="mt-4 m-auto md:w-[80%] text-2xl">
      {questions.map((ques, i) => (
     <div style={{width: "100%",  margin: "auto" }}> 
          <Modal closeConfirm={closeConfirm} show={confirm} >
@@ -157,7 +163,9 @@ return (
                 <div className={css.addQuestionTop}>
                     <input type="text" className={css.question} placeholder="Question" defaultValue={ques.questionText} onChange={(e) => {changeQuestion(e.target.value, i)}}></input>
                 </div>
-                    
+                <div className={css.addQuestionTop}>
+                    <input type="text" className={css.question} placeholder="Explain" value={ques.explain} onChange={(e) => {changeExplain(e.target.value, i)}}></input>                                                                          
+                </div>  
                     {ques.options.map((op, j) => (
                         // console.log(op)
             
@@ -166,7 +174,7 @@ return (
                         >
                                 
                         <div>
-                            <input type="text" className="w-[180px] h-[30px] border md:w-[300px] text-black" placeholder="option" 
+                            <input type="text" className="w-[180px] p-1 border md:w-[300px] text-black" placeholder="option" 
                             defaultValue={op.optionText} onChange= { (e) => {changeOptionValue(e.target.value, i, j)}}
                             ></input>
                         </div>
@@ -228,7 +236,7 @@ return (
     </div>
    
     ))}
-   <button className="w-[150px] h-[20px] bg-blue-500 flex text-[12px] justify-center items-center m-auto" onClick={save}>Save</button> 
+   <button className="w-[150px] p-3 rounded-lg bg-blue-500 flex  justify-center items-center m-auto" onClick={save}>Save</button> 
 </div>
 )
     
