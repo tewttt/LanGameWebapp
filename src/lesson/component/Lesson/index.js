@@ -13,7 +13,8 @@ const Lesson = (props) => {
   const userCtx = useContext(UserContext)
   const history = useHistory();
   const [showPay , setShowPay] = useState(false)
-
+  const [info, setInfo] = useState(false)
+// console.log(userCtx.currentUser.gender , userCtx.currentUser.age)
   const data = lessonActiveUsers?.find(
     item => item?.number == props?.lessons?.lessonNumber
   );
@@ -26,34 +27,42 @@ const Lesson = (props) => {
   };
 
   const payCoin = () => {
-    if(props?.lessons?.coin > userCtx.currentUser.coins){
-      setShowPay(true)
+    if(userCtx?.currentUser?.gender === "" && userCtx.currentUser?.age === ""){
+      setInfo(true)
     }else {
-      payLesson({
-        coin: props?.lessons?.coin,
-        label: "paid lesson",
-        labelType: "lesson",
-        type: "withdraw",
-        language:props?.lessons?.language,
-        level:props?.lessons?.level,
-        number:props?.lessons?.lessonNumber
-      } , props?.lessons)
+      if(props?.lessons?.coin >= userCtx.currentUser.coins){
+        setShowPay(true)
+      }else {
+          payLesson({
+            coin: props?.lessons?.coin,
+            label: "paid lesson",
+            labelType: "lesson",
+            type: "withdraw",
+            language:props?.lessons?.language,
+            level:props?.lessons?.level,
+            number:props?.lessons?.lessonNumber
+          } , props?.lessons)
+      }
     }
   }
 
   const payPrice = () => {
-    if(userCtx.currentUser.amount < props?.lessons?.price){
-      setShowPay(true)
-    } else {
-      payLesson({
-        amount: props?.lessons?.price,
-        label: "paid lesson",
-        labelType: "lesson",
-        type: "withdraw",
-        language:props?.lessons?.language,
-        level:props?.lessons?.level,
-        number:props?.lessons?.lessonNumber
-      } , props?.lessons)
+    if(userCtx?.currentUser?.gender === "" && userCtx.currentUser?.age === ""){
+      setInfo(true)
+    }else {
+      if(userCtx.currentUser.amount <= props?.lessons?.price){
+        setShowPay(true)
+      } else {
+        payLesson({
+          amount: props?.lessons?.price,
+          label: "paid lesson",
+          labelType: "lesson",
+          type: "withdraw",
+          language:props?.lessons?.language,
+          level:props?.lessons?.level,
+          number:props?.lessons?.lessonNumber
+        } , props?.lessons)
+      }
     }
   }
 
@@ -69,6 +78,20 @@ const Lesson = (props) => {
             <button 
               className="bg-red-500 rounded-2xl py-2 px-6"
               onClick={() => setShowPay(false)} >close</button>
+          </div>
+        </div>
+      </Modal>
+      <Modal show={info}>
+        <div>
+          <p className="text-center">Хувийн мэдээллээ гүйцэт бөглөнө үү.</p>
+          <p className="text-center">Please complete your personal information</p>
+          <div className="flex justify-around mt-4 text-white font-semibold">
+            <button 
+              className="bg-green-500 rounded-2xl py-2 px-6"
+              onClick={() => history.push("/profile")}>FILL</button>
+            <button 
+              className="bg-red-500 rounded-2xl py-2 px-6"
+              onClick={() => setInfo(false)} >CLOSE</button>
           </div>
         </div>
       </Modal>

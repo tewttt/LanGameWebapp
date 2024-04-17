@@ -11,13 +11,18 @@ import pattern from "../../assets/logo/patternWhite.png"
 import useLesson from "../../hook/useLesson"
 import { MdDelete } from "react-icons/md";
 import { AiFillEdit } from "react-icons/ai";
+import { ref, uploadBytes,  getDownloadURL } from "firebase/storage";
+import {storage} from  "../../firebase";
+import Tooltip from "@mui/material/Tooltip";
+import SaveIcon from '@mui/icons-material/Save';
+import { IconButton } from "@mui/material";
 
 const auth = getAuth();
 const Teacher = () => {
     const [chLan, setChLan] = useState("");
+    const [photo, setPhoto] = useState("")
     const [chLevel, setChLevel] = useState("");
     const [chLessonId, setChLessonId] = useState("")
-  
     const [show, setShow] = useState(false)
     const [showInfo, setShowInfo] = useState(false)
     const [showDelete, setShowDelete] = useState(false)
@@ -46,6 +51,7 @@ const Teacher = () => {
     const [teacher , setData] = useState({
         language: "",
         experience: "",
+        photo: ""
     })
     const add = () => {
         addTeacher(teacher)
@@ -54,6 +60,20 @@ const Teacher = () => {
 
     const handleChange = (event) => {
         setData({ ...teacher, [event.target.name]: event.target.value })
+    }
+    const changePhoto = (event) => {
+        setPhoto(event.target.files[0])
+    };
+
+    const uploadImage = () =>{
+        if (photo === null) return;
+        const imageRef = ref(storage, `profiles/${photo.name}`);
+        uploadBytes(imageRef, photo).then((snapshot) => {
+            getDownloadURL(snapshot.ref).then((url) => {
+                setData({ ...teacher, photo: url })
+            })
+        })
+        alert("photo amjilttai") 
     }
 
     const view = (number) => {
@@ -82,6 +102,7 @@ const Teacher = () => {
          LessonCtx.deleteDB(chLan, chLevel, chLessonId )
          setShowDelete(false)
     }
+  
     
     return (
         <div className="bg-baseBlack flex flex-col text-white   relative">
@@ -235,14 +256,25 @@ const Teacher = () => {
                                 placeholder="wrire..." 
                                 onChange={handleChange}/>
                         </div>
-                        <div className=" w-full ">
-                            <p>Хэлний түвшин</p>
-                            <input 
-                                className="p-1 my-1 rounded-xl w-full text-black"
-                                type="text" 
-                                name="experience" 
-                                placeholder="write..." 
-                                onChange={handleChange}/>
+                       
+                        <div className="flex flex-col items-center">
+                            <p className="text-center">CV илгээх</p>
+                            <img src={teacher?.photo} className="w-[150px] h-[150px] rounded-[18px] border border-gray-300"/>
+                            <div>
+                                <input onChange={changePhoto} 
+                                    className="w-[150px] h-[40px] text-[10px] p-2" 
+                                    required type="file" 
+                                    // hidden="hidden"  
+                                    accept="image/*"
+                                    id="imageInput" 
+                                />
+                                <Tooltip title="Save" placement="bottom">
+                                    <IconButton  onClick={uploadImage}>
+                                            <SaveIcon color="primary"/>
+                                    </IconButton>
+                                </Tooltip>
+                            </div>
+                           
                         </div>
                     </div>          
                 )}

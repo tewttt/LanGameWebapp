@@ -8,15 +8,15 @@ import Slider from "react-slider"
 export default function AddAdvertise() {
     const {id} = useParams();
     const {sendAds , getStatic} = useAds(id)
-    const MIN = 0;
+    const MIN = 13;
     const MAX = 100
     const [values, setValues] = useState([MIN, MAX]);
 
     const [ads, setAds] = useState({
-        gender: "",
-        startAge: "",
-        endAge: "",
-        totalBudget:"",
+        gender: "All",
+        startAge: 13,
+        endAge: 100,
+        totalBudget: 10000,
         location:"",
     })
 
@@ -87,7 +87,9 @@ export default function AddAdvertise() {
                     <p>Budget</p>
                     <input 
                         className="text-baseBlack w-3/4 rounded-2xl p-1 text-center"
-                        onChange={changeBudget} placeholder="budget" type="number"/>
+                        onChange={changeBudget} 
+                        value={ads?.totalBudget}
+                        placeholder="budget" type="number"/>
                     <p>₮</p>
                 </div>
                 <div className="flex items-center justify-end py-1 my-1">

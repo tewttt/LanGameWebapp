@@ -29,7 +29,7 @@ const GameHome = () => {
             <div className=" md:pt-20 z-20 m-6 flex flex-col items-center h-full text-white ">
                 <GameNavbar/>
                 <div className="flex flex-col rounded-xl w-full p-2 text-center">
-                    <p className="text-green-500 font-bold my-1 sm:text-2xl">Сурталчилгаа үзээд COIN цуглуулаарай</p>
+                    <p className="text-green-500 font-bold my-1 sm:text-2xl">VIDEO үзээд COIN цуглуулаарай</p>
                     <p>Total video {filterAds.length}</p>
                     {filterAds.length === 0 && <div className=" text-2xl">Today's video are over</div>}
                     <div className="mt-4 flex flex-wrap gap-2 justify-center">

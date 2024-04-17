@@ -119,7 +119,7 @@ export const UserStore = (props) => {
     // getUserList();
   };
   const setProfile = async (data, id) => {
-    console.log(data )
+    // console.log(data )
     const setUser = doc(db, "users", id);
     await updateDoc(setUser, data)
     // await setDoc(setUser, data, { merge: true })

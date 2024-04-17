@@ -419,6 +419,30 @@ export default function useLesson(languageId, topicId, lessonId) {
     // }
    
   }
+  const countGrammar =async()=> {
+    const countRef = doc(db, `lessons/${languageId}/topics/${topicId}/lessons`, lessonId);
+    await updateDoc(countRef, { clickGrammar: increment(1) });
+  }
+  const countWord =async()=> {
+    const countRef = doc(db, `lessons/${languageId}/topics/${topicId}/lessons`, lessonId);
+    await updateDoc(countRef, { clickWord: increment(1) });
+  }
+  const countVerb =async()=> {
+    const countRef = doc(db, `lessons/${languageId}/topics/${topicId}/lessons`, lessonId);
+    await updateDoc(countRef, { clickVerb: increment(1) });
+  }
+  const countTranslate =async()=> {
+    const countRef = doc(db, `lessons/${languageId}/topics/${topicId}/lessons`, lessonId);
+    await updateDoc(countRef, { clickTranslate: increment(1) });
+  }
+  const countListen =async()=> {
+    const countRef = doc(db, `lessons/${languageId}/topics/${topicId}/lessons`, lessonId);
+    await updateDoc(countRef, { clickListen: increment(1) });
+  }
+  const countExam =async()=> {
+    const countRef = doc(db, `lessons/${languageId}/topics/${topicId}/lessons`, lessonId);
+    await updateDoc(countRef, { clickExam: increment(1) });
+  }
     
 
     return {
@@ -449,7 +473,13 @@ export default function useLesson(languageId, topicId, lessonId) {
        grammarfun,
        listenfun,
        verbfun,
-       countCustomer
+       countCustomer,
+       countGrammar,
+       countWord,
+       countVerb,
+       countTranslate,
+       countListen,
+       countExam
 
         
     }

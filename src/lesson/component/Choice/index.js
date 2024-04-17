@@ -23,7 +23,7 @@ const Choice = () => {
   
 
   return (
-    <div className="flex  text-white flex-col h-screen  items-center pt-2 pb-32 px-6">
+    <div className="flex  text-white flex-col h-screen items-center pt-2 pb-8 px-6">
       {ctx.state.loading && <Spinner />}
       
       <div className="flex flex-wrap gap-2 place-content-center mb-2  w-full sm:w-[80%] xl:w-[60%]">

@@ -35,7 +35,7 @@ const GrammarView = () => {
             <img
               src={e?.image}
               className={`w-full h-full ${
-                enlargedIndex === i ? 'w-screen h-screen p-3 absolute top-0 left-0  md:w-[50%] md:left-[25%] md:bg-gray-400' : ''
+                enlargedIndex === i ? 'w-screen h-screen p-3 absolute left-0  md:w-[50%] md:left-[25%] md:bg-gray-400' : ''
               }`}
               alt="Description of the image"
             />

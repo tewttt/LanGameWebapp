@@ -8,7 +8,7 @@ import { IoEyeSharp } from "react-icons/io5";
 
 const LessonView = () => {
   const {languageId, topicId, lessonId} = useParams()
-  const {oneLesson , getOneLesson, countCustomer } = useLesson(languageId, topicId, lessonId)
+  const {oneLesson , getOneLesson, countCustomer, countGrammar, countWord, countVerb, countTranslate, countListen, countExam } = useLesson(languageId, topicId, lessonId)
   const history = useHistory();
 
   useEffect(() => {
@@ -17,23 +17,28 @@ const LessonView = () => {
 
  const changeWord = () => {
     history.push(`/word/${languageId}/${topicId}/${lessonId}`)
+    countWord()
  }
 
  const changeExam = () => {
   history.push(`/exam/${languageId}/${topicId}/${lessonId}`)
-  
+  countExam()
  }
  const changeTranslate = () => {
     history.push(`/translate/${languageId}/${topicId}/${lessonId}`)
+    countTranslate()
  }
  const changeGrammar = () => {
   history.push(`/grammar/${languageId}/${topicId}/${lessonId}`)
+  countGrammar()
 }
 const changeListen = () => {
   history.push(`/listen/${languageId}/${topicId}/${lessonId}`)
+  countListen()
 }
 const changeVerb = () => {
   history.push(`/verb/${languageId}/${topicId}/${lessonId}`)
+  countVerb()
 }
 
 
@@ -69,7 +74,7 @@ useEffect(() => {
               src={oneLesson?.video}  
               type="video/mp4" 
               controls>
-            </video>
+            </video> 
             
             <div className="flex items-center text-[20px]">
               <IoEyeSharp/>
@@ -77,40 +82,66 @@ useEffect(() => {
             </div>
           </div>
           <div className="font-bold text-baseBlack px-2 w-full">
-            <div className="">
+              <div>
                 <button onClick={changeGrammar} 
-                    className="w-full h-full bg-white font-bold text-baseBlack rounded-2xl p-2 my-2 hover:bg-baseBlue1 hover:text-white"
+                    className="w-full relative justify-center flex flex-row items-center bg-white rounded-2xl p-2 my-2 hover:bg-baseBlue1 hover:text-white"
                       >
-                    Grammar
+                    <p>Grammar</p>
+                    <div className="absolute right-2 flex items-center text-gray-300 text-base">
+                      <IoEyeSharp/>
+                      <p >{oneLesson?.clickGrammar}</p>
+                    </div>
+                   
                 </button>
-            </div>
+                {/* <p className="text-white">{oneLesson?.clickGrammar}</p> */}
+              </div>
             <div className="">
               <button onClick={changeWord} 
-                  className="w-full  bg-white  rounded-2xl p-2  my-2  hover:bg-baseBlue1 hover:text-white"  
+                  className="w-full relative justify-center flex flex-row items-center  bg-white  rounded-2xl p-2  my-2  hover:bg-baseBlue1 hover:text-white"  
                   >
-                  Word
+                  <p>Word</p>
+                  <div className="absolute right-2 flex items-center text-gray-300 text-base">
+                    <IoEyeSharp/>
+                    <p >{oneLesson?.clickWord}</p>
+                  </div>
               </button>
               <button onClick={changeVerb} 
-                  className="w-full  bg-white  rounded-2xl p-2  my-2  hover:bg-baseBlue1 hover:text-white"  
+                  className="w-full relative justify-center flex flex-row items-center bg-white  rounded-2xl p-2  my-2  hover:bg-baseBlue1 hover:text-white"  
                   >
-                  Verb
+                  <p>Verb</p>
+                  <div className="absolute right-2 flex items-center text-gray-300 text-base">
+                    <IoEyeSharp/>
+                    <p >{oneLesson?.clickVerb}</p>
+                  </div>
               </button>
               <button onClick={changeTranslate} 
-                  className="w-full  bg-white rounded-2xl p-2  my-2  hover:bg-baseBlue1 hover:text-white"
+                  className="w-full relative justify-center flex flex-row items-center bg-white rounded-2xl p-2  my-2  hover:bg-baseBlue1 hover:text-white"
                     >
-                  Translate
+                  <p>Translate</p>
+                  <div className="absolute right-2 flex items-center text-gray-300 text-base">
+                    <IoEyeSharp/>
+                    <p >{oneLesson?.clickTranslate}</p>
+                  </div>
               </button>
             </div>
             <div className="">
                 <button onClick={changeListen} 
-                    className="w-full  bg-white rounded-2xl p-2  my-2  hover:bg-baseBlue1 hover:text-white"
+                    className="w-full relative justify-center flex flex-row items-center bg-white rounded-2xl p-2  my-2  hover:bg-baseBlue1 hover:text-white"
                       >
-                    Listen
+                    <p>Listen</p>
+                    <div className="absolute right-2 flex items-center text-gray-300 text-base">
+                      <IoEyeSharp/>
+                      <p >{oneLesson?.clickListen}</p>
+                    </div>
                 </button>
                 <button onClick={changeExam} 
-                    className="w-full   bg-white  rounded-2xl p-2 my-2 hover:bg-baseBlue1 hover:text-white"
+                    className="w-full  relative justify-center flex flex-row items-center bg-white  rounded-2xl p-2 my-2 hover:bg-baseBlue1 hover:text-white"
                       >
-                    Exam
+                  <p>Exam</p>
+                  <div className="absolute right-2 flex items-center text-gray-300 text-base">
+                    <IoEyeSharp/>
+                    <p >{oneLesson?.clickExam}</p>
+                  </div>
                 </button>
             </div>
           </div>

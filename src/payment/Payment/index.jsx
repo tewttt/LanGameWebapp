@@ -46,7 +46,7 @@ const chahngeExchange = () => {
     if( from === "₮" &&  ctx?.currentUser?.amount >= enterValue){
         exchange(ctx?.currentUser?.authId , enterValue, from, to)
     } 
-    else if( from === "coin" && ctx?.currentUser?.coins > enterValue){
+    else if( from === "coin" && ctx?.currentUser?.coins >= enterValue){
         exchange(ctx?.currentUser?.authId , enterValue, from, to)
     } else {
         setError(`Not enough:  ${from} `  )
@@ -74,7 +74,7 @@ const chahngeExchange = () => {
                     </div>
                     <div className="bg-helpGray py-2 px-6 rounded-2xl text-baseBlack my-2">
                         <p className="text-red-500 text-2xl text-center">АНХААР </p>
-                        <p className="text-center">6000₮ доош гүйлгээ орохгүй тул 6000₮ буюу түүнээс дээш гүйлгээ хийнэ үү!!! 10-20 минутын дотор данс цэнэглэгдэнэ. </p>
+                        <p className="text-center">6000₮ доош гүйлгээ орохгүй тул 6000₮ буюу түүнээс дээш гүйлгээ хийнэ үү!!! 30-40 минутын дотор данс цэнэглэгдэнэ. </p>
                     </div>
                 </div>
                 <div className="sm:flex justify-center items-center w-full">
