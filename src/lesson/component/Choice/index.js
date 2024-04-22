@@ -23,7 +23,7 @@ const Choice = () => {
   
 
   return (
-    <div className="flex  text-white flex-col h-screen items-center pt-2 pb-8 px-6">
+    <div className="flex text-white flex-col h-screen items-center p-2">
       {ctx.state.loading && <Spinner />}
       
       <div className="flex flex-wrap gap-2 place-content-center mb-2  w-full sm:w-[80%] xl:w-[60%]">
@@ -54,7 +54,7 @@ const Choice = () => {
         })}
       </div>
 
-      <div className="flex flex-wrap gap-2 place-content-center">
+      <div className="flex flex-wrap gap-1 place-content-center">
         {lessons.map((e, i) => {
           return (
             <div key={i}>

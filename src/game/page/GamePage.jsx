@@ -32,7 +32,7 @@ const Game = () => {
   const [state, setState] = useState({});
   const Lessonctx = useContext(LessonContext);
   const Userctx = useContext(UserContext);
-  const authId = auth.currentUser?.uid;
+  const authId = auth?.currentUser?.uid;
 
   let arrLevel = levelId;
   let arrLanguage = lanId;
@@ -113,28 +113,32 @@ const Game = () => {
     
   };
 
-  const joinGame = (game) => {
-    game?.players.map((e, i) => {
-      if(e?.state?.authId === authId || Userctx?.currentUser?.coins >= entry) {
-        join(state, game, chLan, chLevel, chLesson, entry, win , second)
-        // Lessonctx.join(state, game, chLan, chLevel, chLesson, entry, win , second);
-      } 
-      else {
-        setShowEnterGame(true)
-      }
+  const joinGame = (game) => {      
+      game?.players?.map((e, i) => {
+         if(e?.state?.authId === authId || Userctx?.currentUser?.coins >= entry) {
+            if( e?.state?.authId === authId || game?.count < 4){
+              join(state, game, chLan, chLevel, chLesson, entry, win , second)
+              // console.log("object")
+            }
+            else {
+              alert("Тоглогч бүрдсэн байна, Өөр ширээ сонгоно уу")
+            }
+        } 
+        else {
+          setShowEnterGame(true)
+        }
+     
     })
   };
 
   const newGame = () => {
-   
+  //  console.log(Userctx?.currentUser?.coins >= entry)
     if(Userctx?.currentUser?.coins >= entry) {
       createGame(state, chLan, chLevel, chLesson , entry , authId, win, second );
     } else {
       setShowEnterGame(true)
     }
   };
-
-  
 
   const addBet = () => {
     if(betNumber === bet.length-1) 
@@ -239,7 +243,7 @@ const Game = () => {
             <div className="flex justify-center mb-3 text-white">Choose Bet</div>
             <div className="flex justify-around">
               <div><FaCircleMinus onClick={minusBet} className="text-baseBlue1" size={30}/></div>
-              <div className="flex flex-col items-center">
+              <div className="flex flex-col font-bold text-xl items-center">
                 <div className="flex my-1">
                   <FaCoins size={20} color="yellow"/>
                   <p className="text-yellow-400 mx-3">WIN: {bet[betNumber].win}</p>

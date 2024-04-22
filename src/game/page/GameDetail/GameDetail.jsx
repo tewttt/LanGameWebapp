@@ -53,8 +53,8 @@ const GameDetail = () => {
     game, players, addPoint, logoutPlayer , getEndGame,
     getWaitPlayers, getShowStartGame,  getQuestionShow , getAnswerShow,
     getShowPlayer ,  getLogoutGame, getShowCoin ,  getStartTime , getQuestionTime,
-    getQuestionNumber , getTurn, getDiceTime , getShowDiceTime, getShowTurn
-  
+    getQuestionNumber , getTurn, getDiceTime , getShowDiceTime, getShowTurn,
+    getActiveDice
   } = useGame(id);
 
   const [time, setQuestionTime] = useState()
@@ -135,12 +135,11 @@ const clearIntervals = () => {
 
 // 3 start time  
   useEffect(() => {
-    if(game?.startTime){
+    if(game?.startTime ){
       setStartTime(game?.startTime)
     }
     if(game?.startTime <= 0){
         getShowStartGame(false)
-        getShowDiceTime(false)
         setTimeout(() =>{
           getQuestionShow(true)
         }, 2000)
@@ -184,8 +183,7 @@ useEffect(() => {
     setQuestionTime(game?.questionTime)
   }
   if(game?.questionTime <= 0) {
-    
-    addQuestionnumber()
+   
     addRightAnswers([])
     getQuestionShow(false)
     filterRightAnswers()
@@ -194,7 +192,7 @@ useEffect(() => {
       getAnswerShow(false)
       setPlayerAnswer("")
     }, 6000)
-    getQuestionTime(10)
+    getQuestionTime(15)
   } 
 } ,[game?.questionTime])
 
@@ -222,10 +220,12 @@ const filterRightAnswers = () => {
       getNotAnswers()
     } else {
       // Зөв хариултыг game?.answeredPlayers рүү хийх
+      
       addRightAnswers(rightAnswers)
       getShowDiceTime(false)
       getDiceTime(5)
       setTimeout(() => {
+        addQuestionnumber()
         getShowDiceTime(true) 
       }, 7000)
     }
@@ -235,12 +235,9 @@ const filterRightAnswers = () => {
 
 //7  Зөв хариулт байхгүй бол дараагийн асуултыг харуулах
 const getNotAnswers = () => {
- 
-    if(game?.answeredPlayers?.length === 0){
-      setTimeout(() => {
-        getQuestionShow(true)
-      }, 7000)  
-  } 
+  setTimeout(() => {
+    getQuestionShow(true)
+  }, 7000) 
 }
 
 useEffect(() => {
@@ -283,6 +280,7 @@ useEffect(() => {
   if(game?.answeredPlayers?.length === 1){
     setTimeout(() => {
       getShowDiceTime(false)
+      setTurn(0)
       getTurn(0)
       getQuestionShow(true)
     }, 2000)
@@ -290,11 +288,12 @@ useEffect(() => {
   // console.log(game?.answeredPlayers != undefined)
   // if(game?.turn >= game?.answeredPlayers?.length - 1 ){   
   if(game?.turn > game?.answeredPlayers?.length-1 && game?.answeredPlayers?.length != 0){
-    console.log("bnu")
+    // console.log("bnu")
       setTimeout(() => {
         getShowDiceTime(false)
       },2000) 
       setTimeout(() => {
+        setTurn(0)
         getTurn(0)
         getQuestionShow(true)
       },3000)  
@@ -322,25 +321,30 @@ const onDiceChange = async (val) => {
   const horsePoint = currentUser?.point
   const updateHorsePoint = horsePoint + val
   const clickPlayerId = game?.answeredPlayers[game?.turn]
-// console.log(clickPlayerId.authId)
+
   if(val === 5 && pointCount < 2  ) {  
     addPoint(clickPlayerId,  false, game?.go, game?.shield, game?.back, updateHorsePoint, id, val)
     setTimeout(() => {
       getShowDiceTime(false)
       getDiceTime(5)
+      // getActiveDice()
     } , 2000)
 
     setTimeout(() => {
       getShowDiceTime(true)
+      // getActiveDice()
     } , 3000)
    
   } else {
     addPoint(clickPlayerId,  false, game?.go, game?.shield, game?.back, updateHorsePoint, id, val, true)
     setTimeout(() => {
-      autoTurn()
       getShowDiceTime(false)
       getDiceTime(5)
+      // getActiveDice()
     }, 2000)
+    setTimeout(() =>{
+      autoTurn()
+    },3000)
   }
 };
 
@@ -429,7 +433,8 @@ const getEmoji = (e) => {
     // alert("coin hvrehgvi bn")
   }
 }
-// console.log(queryPlayer)
+
+
 
   return (
     <div className="bg-[#6e8426] flex justify-center items-center w-screen h-screen">
@@ -447,7 +452,13 @@ const getEmoji = (e) => {
 
           {/* wait other players */}
           <Modal show={game?.waitPlayers}>
-            <div>WAIT OTHER PLAYERS</div>
+            <div className="flex flex-col justify-center items-center">
+              <p className="text-2xl text-baseBlue1 font-bold">WAIT OTHER PLAYERS</p> 
+              <div className="w-full p-3">
+                <p className="text-center font-bold">4 тоглогчтой үед тоглоом эхэлнэ</p> 
+                <p className="text-center mt-3">10 минутын дотор тоглогч бүрдэхгүй бол тоглоом устана</p>
+              </div>
+            </div>
           </Modal>
 
           {/* start game */}
@@ -531,7 +542,7 @@ const getEmoji = (e) => {
                     <p className={`text-[14px] absolute -bottom-4 left-3 text-${e?.color}`}>{e?.state?.name}</p>
                   </div>
 
-                   { (game?.answeredPlayers[game?.turn]?.authId === e?.state?.authId && game?.showDiceTime) && (
+                   { (game?.answeredPlayers[game?.turn]?.authId === e?.state?.authId && game?.showDiceTime && e?.endGamePlayer === false) && (
                       <Dice id={i} 
                           onDiceChange={onDiceChange} 
                           answeredPlayers={game?.answeredPlayers[game?.turn]}
@@ -698,65 +709,90 @@ const getEmoji = (e) => {
           </Modal>
 
           {/* Асуултыг харуулж байна */}
-          <Modal show={game?.showQuestion}>
-            <div 
-            className="flex flex-col h-full w-full"
-            // style={{ display: "flex", flexDirection: "column" }}
-            >
-              <div className="text-white m-auto flex flex-col justify-center items-center w-[70px] h-[70px] bg-baseBlue1 rounded-[50%]">
-                <p className="text-sm">time </p>
-                {/* <p className="text-[22px] font-bold">{time}</p> */}
-                <p className="text-[22px] font-bold">{game?.questionTime}</p>
+          {players.map((e, i) => {
+            // console.log(e.state.authId === currentUserId)
+            return (
+              <>
+              {/* {e?.endGamePlayer === false &&  */}
+              {(e?.endGamePlayer === false && e?.state?.authId === currentUserId) && 
+              <Modal show={game?.showQuestion}>
+              <div 
+              className="flex flex-col h-full w-full"
+             
+              >
+                <div className="text-white m-auto flex flex-col justify-center items-center w-[70px] h-[70px] bg-baseBlue1 rounded-[50%]">
+                  <p className="text-sm">time </p>
+                  <p className="text-[22px] font-bold">{game?.questionTime}</p>
+                </div>
+                <div className="flex justify-center my-2 w-full border border-baseBlue1 rounded-[10px] h-full p-2">
+                  {question?.questionText === "Question" ? (
+                    <p className="text-center">{question?.word} </p>
+                  ) : (
+                    <p className="text-center">{question?.questionText} </p>
+                  
+                  )}
+                  
+                </div>
+  
+                <div className="flex flex-col my-2">
+                  {question?.options?.map((choice, i) => {
+                    return (
+                    <button
+                        key={i}
+                        onClick={() => saveAnswer(choice.optionText)}
+                        className ={`${playerAnswer ? "hidden" : "mx-3 border border-baseBlue1 my-1 p-2 rounded-2xl"} hover:bg-orange-400`}
+                      >
+                      
+                      <p > {choice.optionText}</p>
+                    </button>
+                    );
+                  })}
+                </div>
               </div>
-              <div className="flex my-2 w-full border border-baseBlue1 rounded-[10px] h-full p-2">
-                {question?.questionText === "Question" ? (
-                   <p>{question?.word} </p>
-                ) : (
-                  <p>{question?.questionText} </p>
-                 
-                )}
-                
-              </div>
-
-              <div className="flex flex-col my-2">
-                {question?.options?.map((choice, i) => {
-                  return (
-                  // !answerShow &&    
-                  <button
-                      key={i}
-                      onClick={() => saveAnswer(choice.optionText)}
-                      className ={`${playerAnswer ? "hidden" : "mx-3 border border-baseBlue1 my-1 p-2 rounded-2xl"} hover:bg-orange-400`}
-                    >
-                    
-                    <p > {choice.optionText}</p>
-                  </button>
-                  );
-                })}
-              </div>
-            </div>
-          </Modal>
+              </Modal>
+              }
+              </>
+            )
+          })}
 
           {/* Харилутыг харуулж байна */}
-          <Modal show={game?.showAnswer}>
-            <div className="flex flex-col justify-center">
-              <p className="text-center">Answer</p>
-              <p className="text-center my-2 w-full  border border-baseBlue1 rounded-[10px] h-full p-2">
-                 correct answer : {question?.answerKey}
-              </p>
-              <p className="text-center my-2 w-full  border border-baseBlue1 rounded-[10px] h-full p-2">
-                your answer :  {playerAnswer}
-              </p>
-
-              <p className="">Total right answer <span className="mx-2 font-bold text-lg">{game?.answeredPlayers?.length}</span></p>
-              <p>Dice roll order</p>
-              {game?.answeredPlayers?.map((e, i) => {
-                // console.log(i)
-                return (
-                  <div>{i+1}. <span className="mx-1">{e?.name}</span> </div>
-                )
-              })}
-            </div>
-          </Modal>
+          {players.map((e, i) => {
+            // console.log(e.state.authId === currentUserId)
+            return (
+              <>
+              {/* {e?.endGamePlayer === false &&  */}
+              {(e?.endGamePlayer === false && e?.state?.authId === currentUserId) && 
+                <Modal show={game?.showAnswer}>
+                <div className="flex flex-col justify-center">
+                  <p className="text-center">Answer</p>
+                  <p className="text-center my-2 w-full  border border-baseBlue1 rounded-[10px] h-full p-2">
+                     correct answer : {question?.answerKey}
+                  </p>
+                  <p className="text-center my-2 w-full  border border-baseBlue1 rounded-[10px] h-full p-2">
+                    your answer :  {playerAnswer}
+                  </p>
+    
+                  <p className="text-2xl my-1 font-bold text-baseBlue1 text-center">Total right answer <span className="mx-2 font-bold">{game?.answeredPlayers?.length}</span></p>
+                  <div className="flex bg-helpGray p-1 rounded-2xl flex-col justify-center items-center">
+                    <p className="text-2xl">Dice roll order</p>
+                    <p className="mb-3">Шоо хаях дараалал</p>
+                    {game?.answeredPlayers?.map((e, i) => {
+                    // console.log(i)
+                      return (
+                        <div className="text-2xl">{i+1}. <span className="mx-1 ">{e?.name}</span> </div>
+                      )
+                    })}
+                  </div>
+                 
+                 
+                </div>
+                </Modal>
+              }
+              </>
+            )
+          })}
+        
+         
 
         <div className="absolute w-full h-full">
           <Field   power={power} chooseHorse={chooseHorse} selectedPower={selectedPower} currentUserId={currentUserId} currentUser={currentUser}/> 

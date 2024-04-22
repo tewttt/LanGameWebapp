@@ -67,7 +67,7 @@ const Lesson = (props) => {
   }
 
   return ( 
-    <div className="text-white mt-4 w-[140px] sm:w-[160px] lg:w-[200px] aspect-square">
+    <div className="text-white mt-4 w-[140px] sm:w-[160px] lg:w-[200px] aspect-auto">
       <Modal show={showPay}>
         <div>
           <p className="text-center">Таны дансны үлдэгдэл хүрэлцэхгүй байна.</p>
@@ -95,13 +95,13 @@ const Lesson = (props) => {
           </div>
         </div>
       </Modal>
-      <div className="h-[140px]">
+      <div className="h-full">
           {props?.lessons?.status === "Төлбөргүй" || data  ? (
-            <div className="flex flex-col p-2 lg:p-4 items-center justify-around border border-blue-500 w-full h-full  rounded-[5px] ">
-              <div className="flex w-full justify-between">
-                <div className=""> {props.lessons.language}</div>
-                <div className="">{props.lessons.level}</div>
-                <div className="">№{props.lessons.lessonNumber}</div>
+            <div className="flex flex-col font-bold p-2 items-center justify-around border border-blue-500 w-full aspect-square  rounded-[5px] ">
+              <p className="text-2xl"> {props.lessons.language}</p>
+              <div className="flex text-xl mx-1 w-full justify-center">
+                <p className="mx-2">{props.lessons.level}</p>
+                <p className="mx-2">№{props.lessons.lessonNumber}</p>
               </div>
               <div
                 onClick={view}
@@ -112,23 +112,24 @@ const Lesson = (props) => {
             </div>
             ) : (
             // Төлбөртэй
-            <div className="flex flex-col p-2 lg:p-4 justify-between items-center border border-blue-500 w-full h-full  rounded-[5px] ">
+            <div className="flex flex-col p-2 lg:p-4 justify-between items-center border border-blue-500 w-full aspect-square  rounded-[5px] ">
+              
               <div className="flex w-full justify-between">
-                <div className=""> {props.lessons.language}</div>
+                <p className=""> {props.lessons.language}</p>
                 <div className="">{props.lessons.level}</div>
                 <div className="">№{props.lessons.lessonNumber}</div>
               </div>
             
               <div 
                 onClick={payPrice}
-                className="flex justify-center w-full p-1 bg-green-500 rounded-[5px]  hover:bg-green-600">
-                  Pay {props?.lessons?.price}₮
+                className="flex justify-center w-full p-1 font-bold bg-green-500 rounded-[5px]  hover:bg-green-600">
+                  {props?.lessons?.price}₮
               </div>
-              <p>or</p>
+              
               <div 
                 onClick={payCoin}
-                className="flex justify-center w-full p-1 bg-green-500 rounded-[5px] hover:bg-green-600 hover:scale-110">
-                  Pay {props?.lessons?.coin}coin
+                className="flex justify-center w-full p-1 font-bold bg-green-500 rounded-[5px] hover:bg-green-600 hover:scale-110">
+                  {props?.lessons?.coin}coin
               </div>
             </div>
           )}

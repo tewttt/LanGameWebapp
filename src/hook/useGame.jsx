@@ -148,6 +148,10 @@ export default function useGame(id ) {
     await updateDoc(gameRef , {endGame : status} )
   }
 
+const getActiveDice=async(val)=>{
+  const gameRef = doc(db, "game", id);
+  await updateDoc(gameRef, {activeDice: 0})
+}
   // Тоглогчын оноо цуглуулах
   const addPoint = async (clickPlayerId, status, go, shield, back, updateHorsePoint, id, val, isZeroCnt = false) => {
     // add powers
@@ -250,7 +254,7 @@ export default function useGame(id ) {
     // }
 
     try {
-      if(e.endGamePlayer === false) {
+      if(e.endGamePlayer === false && e.point != 40) {
         const currentRef = doc(db, `game/${id}/players`, e.id);
         await updateDoc(currentRef, {point : 0})
       }
@@ -486,8 +490,8 @@ export default function useGame(id ) {
     getTurn,
     backHorse,
     getShowTurn,
-    setBackPoint
-  
+    setBackPoint,
+    getActiveDice
    
    
   };

@@ -80,20 +80,24 @@ const chahngeExchange = () => {
                 <div className="sm:flex justify-center items-center w-full">
                     <div className="rounded-2xl w-full flex flex-col sm:mx-2 py-6 px-6">
                         <div className="flex my-1 justify-between ">
-                            <p>name</p>
+                            <p>Name</p>
                             <p className="font-bold">{ctx?.currentUser?.name}</p>
                         </div>
                         <div className="flex my-1 justify-between  ">
-                            <p>amount</p>
+                            <p>Amount</p>
                             <p className="font-bold">{ctx?.currentUser?.amount}₮</p>
                         </div>
                         <div className="flex my-1 justify-between  ">
-                            <p>coins</p>
+                            <p>Coin</p>
                             <p className="font-bold"> {ctx?.currentUser?.coins}</p>
                         </div>
                         <div className="flex my-1 justify-between  ">
-                            <p>account ID</p>
+                            <p>Account ID</p>
                             <p className="font-bold">{ctx?.currentUser?.userID}</p>
+                        </div>
+                        <div className="flex my-1 justify-between  ">
+                            <p>Phone</p>
+                            <p className="font-bold">{ctx?.currentUser?.phone}</p>
                         </div>
                         
                     </div>
@@ -104,7 +108,7 @@ const chahngeExchange = () => {
                                 <p className="text-center mb-2">Enter amount</p>
                                 <input 
                                 className="rounded-lg py-1 text-center text-black px-10"
-                                onChange={(e) => setEnterValue(e.target.value)} placeholder="" type="number"/>
+                                onChange={(e) => setEnterValue(e.target.value)} placeholder="write here" type="number"/>
                             </div>
                             <div className="flex justify-around my-3 items-center w-full">
                                 <p>From</p>

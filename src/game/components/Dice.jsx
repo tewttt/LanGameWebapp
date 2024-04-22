@@ -42,8 +42,8 @@ const Dice = (props) => {
       <div 
       onClick={rollDice} 
       id="dice">
-        <img className="w-11 h-11" src={newDice}></img>
-       
+         <img className="w-11 h-11" src={newDice}></img>
+        
       </div>
     </div>
   );

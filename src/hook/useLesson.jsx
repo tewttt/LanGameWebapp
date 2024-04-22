@@ -133,62 +133,56 @@ export default function useLesson(languageId, topicId, lessonId) {
     };
 
     const join = async (state, game, chLan, chLevel, chLesson, entry, win , second) => {
-        await chGames(chLan, chLevel, chLesson)
-        const id = game.id;
-        if (game.count <= 4) {
-        const data = game.players.find((e, i) => e.id === auth?.currentUser?.uid);
-        if (data) {
-            return history.push(
-            `/newGame/${id}?lan=${chLan}&level=${chLevel}&lesson=${chLesson}`
-            );
-        }
-        const PlayersRef = doc(db, `game/${id}/players`, state.authId);
-        const add = setDoc(PlayersRef, {
-            state,
-            point: 0,
-            color: "",
-            shield: 0,
-            go: 0,
-            back: 0, 
-            endGamePlayer: false,
-            endGamePlayerTime: "",
-            activatedGo: false,
-            activatedBack: false,
-            activatedShield : false,
-        });
-        
-        history.push(`/newGame/${id}?lan=${chLan}&level=${chLevel}&lesson=${chLesson}`);
-        const dataTnx = {
-            coin: entry,
-            label: "play game",
-            labelType: "game",
-            type: "withdraw"
-        }
-        const oneRef = collection(db, `users/${auth?.currentUser?.uid}/transaction` );
-        await addDoc(oneRef , {
-            data: dataTnx,
-            createDate: serverTimestamp(), 
-        })
+      // console.log("joim")
+          await chGames(chLan, chLevel, chLesson)
+          const id = game?.id; 
+          const data = game?.players.find((e, i) => e.id === auth?.currentUser?.uid);
+          if (data) {
+              return history.push(
+              `/newGame/${id}?lan=${chLan}&level=${chLevel}&lesson=${chLesson}`
+              );
+          }
+          const PlayersRef = doc(db, `game/${id}/players`, state?.authId);
+          setDoc(PlayersRef, {
+              state,
+              point: 0,
+              color: "",
+              shield: 0,
+              go: 0,
+              back: 0, 
+              endGamePlayer: false,
+              endGamePlayerTime: "",
+              activatedGo: false,
+              activatedBack: false,
+              activatedShield : false,
+          });
+          const dataTnx = {
+              coin: entry,
+              label: "play game",
+              labelType: "game",
+              type: "withdraw"
+          }
+          const oneRef = collection(db, `users/${auth?.currentUser?.uid}/transaction` );
+          await addDoc(oneRef , {
+              data: dataTnx,
+              createDate: serverTimestamp(), 
+          })
 
-        if (game.count == 1) {
-            updateDoc(PlayersRef, {
-            color: "blue",
-            });
-        } else if (game.count == 2) {
-            updateDoc(PlayersRef, {
-            color: "orange",
-            });
-        } else if (game.count == 3) {
-            updateDoc(PlayersRef, {
-            color: "purple",
-            });
-        }
-        return;
-        } else if (game.count >= 4) {
-        alert("Тоглогч бүрдсэн байна, Өөр ширээ сонгоно уу");
-        history.push("/game");
-        }
-
+          if (game?.count == 1) {
+              updateDoc(PlayersRef, {
+              color: "blue",
+              });
+          } else if (game?.count == 2) {
+              updateDoc(PlayersRef, {
+              color: "orange",
+              });
+          } else if (game?.count == 3) {
+              updateDoc(PlayersRef, {
+              color: "purple",
+              });
+          }
+          return;
+  
     };
 
     const createGame = async (state, chLan, chLevel, chLesson , entry , authId, win , second) => {

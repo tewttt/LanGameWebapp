@@ -93,7 +93,7 @@ useEffect(() => {
                     </div>
                    
                 </button>
-                {/* <p className="text-white">{oneLesson?.clickGrammar}</p> */}
+              
               </div>
             <div className="">
               <button onClick={changeWord} 

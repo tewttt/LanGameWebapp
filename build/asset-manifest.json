@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/static/css/main.d7e04291.css",
-    "main.js": "/static/js/main.8ac334b0.js",
+    "main.css": "/static/css/main.4ecdcb7d.css",
+    "main.js": "/static/js/main.4fa27bac.js",
     "static/js/787.a8f6fc5e.chunk.js": "/static/js/787.a8f6fc5e.chunk.js",
     "static/media/patternWhite.png": "/static/media/patternWhite.4bf48faf5308cf78b6c7.png",
     "static/media/backgroundSmall.png": "/static/media/backgroundSmall.9239a5f7bfca1d3c8e67.png",
@@ -24,12 +24,12 @@
     "static/media/Typo Logo SVG Blue.svg": "/static/media/Typo Logo SVG Blue.f8519bd8c8d4374c4518b9ea2df52ce4.svg",
     "static/media/Symbol Logo SVG Blue.svg": "/static/media/Symbol Logo SVG Blue.d8fe5c4027f874407c4584e7bdd84110.svg",
     "index.html": "/index.html",
-    "main.d7e04291.css.map": "/static/css/main.d7e04291.css.map",
-    "main.8ac334b0.js.map": "/static/js/main.8ac334b0.js.map",
+    "main.4ecdcb7d.css.map": "/static/css/main.4ecdcb7d.css.map",
+    "main.4fa27bac.js.map": "/static/js/main.4fa27bac.js.map",
     "787.a8f6fc5e.chunk.js.map": "/static/js/787.a8f6fc5e.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.d7e04291.css",
-    "static/js/main.8ac334b0.js"
+    "static/css/main.4ecdcb7d.css",
+    "static/js/main.4fa27bac.js"
   ]
 }

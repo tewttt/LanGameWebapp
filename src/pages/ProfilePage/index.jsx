@@ -145,7 +145,7 @@ const ProfilePage = () => {
                         <select 
                             onChange={changeGender}
                             className="w-3/4 p-2 text-baseBlack rounded-2xl">
-                            <option>{state.gender}</option>
+                            <option>{state?.gender}</option>
                             <option>Men</option>
                             <option>Women</option>
                         
