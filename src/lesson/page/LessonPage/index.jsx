@@ -26,10 +26,10 @@ const LessonPage = () => {
             </div>
             <button 
                 onClick={() => history.push("/gameHome")}
-                className="bg-helpGreen z-20 my-2 font-bold text-2xl text-white w-[300px] py-3 px-10 hover:bg-helpGreen/80  m-auto rounded-xl">
+                className="bg-baseBlue1 z-20 my-2 font-bold text-2xl text-white w-[300px] py-3 px-10 hover:bg-helpGreen/80  m-auto rounded-xl">
                     COLLECT COIN
             </button>
-            <p className="text-helpGreen font-bold text-2xl text-center my-2">Суралцах хэлээ сонгоорой</p>
+            <p className="text-white font-bold text-2xl text-center my-2">Суралцах хэлээ сонгоорой</p>
             <div className="z-20 ">
                 <Choice/>
             </div> 
