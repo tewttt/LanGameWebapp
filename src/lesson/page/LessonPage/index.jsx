@@ -19,17 +19,17 @@ const LessonPage = () => {
                 <ToolSidebar />
             </div>
            
-            <div className="text-white md:mt-28 bg-baseBlack/10 text-xl font-bold flex justify-between w-[310px] m-auto">
+            <div className="text-white md:mt-28 bg-baseBlack/10 text-xl flex justify-between w-[310px] m-auto">
                 <p>{ctx?.currentUser?.name}</p>
                 <p>{ctx?.currentUser?.amount}₮</p>
                 <p>{ctx?.currentUser?.coins}coin</p>
             </div>
             <button 
                 onClick={() => history.push("/gameHome")}
-                className="bg-baseBlue1 z-20 my-2 font-bold text-2xl text-white w-[300px] py-3 px-10 hover:bg-helpGreen/80  m-auto rounded-xl">
+                className="bg-baseBlue1 z-20 my-2 font-bold text-2xl text-white w-[300px] py-3 px-10 hover:bg-baseBlue1/80  m-auto rounded-xl">
                     COLLECT COIN
             </button>
-            <p className="text-white font-bold text-2xl text-center my-2">Суралцах хэлээ сонгоорой</p>
+            <p className="text-helpGreen  font-semibold text-2xl text-center my-2">Суралцах хэлээ сонгоорой</p>
             <div className="z-20 ">
                 <Choice/>
             </div> 

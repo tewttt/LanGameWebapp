@@ -215,7 +215,7 @@ export const UserStore = (props) => {
         status: false,
         coins: 2000,  
         amount: 0,
-        statusCoin: false,
+        statusCoin: false, 
         photo,
         winGame: 0,
         matchGame: 0,
@@ -228,7 +228,7 @@ export const UserStore = (props) => {
       await addDoc(oneRef , {
         createDate: serverTimestamp(),  
       })
-      // history.push("/verification")
+      history.push("/")
     } catch (error) {
       console.log(error);
       let message = error.message;

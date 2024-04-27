@@ -8,7 +8,7 @@ const Payment = () => {
     const {exchange} = usePayment()
     const [from, setFrom] = useState("")
     const [to , setTo] = useState("")
-    const [enterValue , setEnterValue] = useState("")
+    const [enterValue , setEnterValue] = useState(1000)
     const [totalValue , setTotalValue] = useState("")
     const [error, setError] = useState("")
     const ctx = useContext(UserContext)
@@ -108,13 +108,17 @@ const chahngeExchange = () => {
                                 <p className="text-center mb-2">Enter amount</p>
                                 <input 
                                 className="rounded-lg py-1 text-center text-black px-10"
-                                onChange={(e) => setEnterValue(e.target.value)} placeholder="write here" type="number"/>
+                                value={enterValue}
+                                onChange={(e) => setEnterValue(e.target.value)} 
+                                placeholder="write here" 
+                                type="number"/>
                             </div>
                             <div className="flex justify-around my-3 items-center w-full">
                                 <p>From</p>
                                 <select 
                                     className="py-1 px-2 rounded-lg text-black"
                                     onChange={changeFrom}
+                                    // value={from}
                                 >
                                     <option>choose</option>
                                     <option>coin</option>
@@ -144,7 +148,7 @@ const chahngeExchange = () => {
                     
                         <button 
                         onClick={chahngeExchange}
-                        className="my-4 w-[200px] bg-helpGreen text-[24px] font-bold p-2 text-white m-auto rounded-2xl">Exchange</button>
+                        className="my-4 w-[200px] bg-baseBlue1 hover:bg-baseBlue1/80 text-[24px] font-bold p-2 text-white m-auto rounded-2xl">Exchange</button>
                     </div>
                 </div>
             </div>

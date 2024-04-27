@@ -89,7 +89,8 @@ export default function AddAdvertise() {
                         className="text-baseBlack w-3/4 rounded-2xl p-1 text-center"
                         onChange={changeBudget} 
                         value={ads?.totalBudget}
-                        placeholder="budget" type="number"/>
+                        placeholder="budget" 
+                        type="number"/>
                     <p>₮</p>
                 </div>
                 <div className="flex items-center justify-end py-1 my-1">

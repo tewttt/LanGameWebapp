@@ -9,6 +9,10 @@ import {
 } from "react-icons/ai";
 import Loader from "../../components/General/Loader"
 import Logo from "../../assets/logo/Typo Logo SVG Blue.svg"
+import blue from "../../assets/shagai/bluelogin.svg"
+import red from "../../assets/shagai/redlogin.svg"
+import green from "../../assets/shagai/greenlogin.svg"
+import orange from '../../assets/shagai/orangelogin.svg'
 import backImage from "../../assets/logo/backgroundSmall.png"
 
 export default function Login() {
@@ -69,8 +73,9 @@ export default function Login() {
   return (
     <div className="flex bg-white text-baseBlack flex-col justify-center items-center w-screen h-screen relative ">
       <div 
-        className="bg-cover absolute top-0 left-0 -z-10 opacity-90 w-screen h-screen"
-        style={{backgroundImage: `url(${backImage})`}}>
+        className="bg-cover absolute top-0 left-0 -z-10  opacity-90 w-screen h-screen"
+        style={{backgroundImage: `url(${backImage})`}}
+        >
       </div>
 
       {ctx.state.logginIn && (
@@ -78,18 +83,40 @@ export default function Login() {
           <Loader />
         </div>
       )}
-     
-      <div className="flex flex-col items-center">
+      <div className="w-[380px] mb-6">
+        {/* <p className="text-3xl text-center text-baseBlue1 font-bold uppercase">Тоглонгоо сур</p> */}
+        <p className="text-center text-xl mt-1 uppercase font-serif">
+          <span className="mx-1 text-red-500 font-bold">foreign language</span>
+          <span className="mx-1 text-green-500 font-bold">learning</span>
+        </p>
+        <p className="text-center text-xl mt-1 uppercase font-serif">
+          <span className="mx-1 text-orange-500 font-bold">app</span>
+          <span className="mx-1 text-blue-500 font-bold">with games</span> 
+        </p>
+        <div className="flex justify-center">
+          <div className="flex">
+            <img src={red} className="w-[60px]"/>
+            <img src={blue} className="w-[60px] "/>
+          </div>
+          <div className="flex">
+            <img src={green} className="w-[60px]  "/>
+            <img src={orange} className="w-[60px] "/>
+          </div>
+        </div>
+        
+      </div>
+      <div className="w-[276px] flex flex-col items-center">
         {ctx.state.error && (
           <div style={{ color: "red" }}>{ctx.state.error}</div>
         )}
         
-        <img src={Logo} className="w-[300px] h-[100px] mb-10"/>
-        <div className="mb-5 flex flex-row relative justify-between items-center w-[276px] h-[40px] ">
+        <img src={Logo} className="w-[300px] h-[100px] mb-5"/>
+        {/* <p className="text-3xl text-center text-baseBlue1 font-bold uppercase mb-5">Тоглонгоо сур</p> */}
+        <div className="mb-5 flex flex-row relative justify-between items-center w-full ">
           <AiTwotoneMail size={20} className="text-baseBlue1 absolute ml-4" />
           <input
             className="w-full h-full text-center border border-baseBlue1 
-            rounded-[25px] transition ease-in-out duration-200
+            rounded-[25px] transition ease-in-out duration-200 py-2
              hover:bg-baseBlue1/5"
             type="email"
             placeholder="Email"
@@ -97,11 +124,11 @@ export default function Login() {
             onChange={(e) => setEmail(e.target.value)}
           />
         </div>
-        <div className="mb-3 relative flex flex-row justify-between items-center w-[276px] h-[40px]">
+        <div className="mb-3 relative flex flex-row justify-between items-center w-full">
           <AiFillLock size={22} className="text-baseBlue1 absolute left-4" />
           <input
             className="w-full h-full text-center border border-baseBlue1 
-            rounded-[25px] transition ease-in-out duration-200
+            rounded-[25px] transition ease-in-out duration-200 py-2
              hover:bg-baseBlue1/5"
             type={showPass ? "text" : "password"} 
             placeholder="Password"
@@ -124,7 +151,7 @@ export default function Login() {
           )}
         </div>
         
-        <div className="flex justify-start w-[276px]">
+        <div className="flex justify-start w-full">
           <input
             checked={rememberMe} 
             onChange={() => setRememberMe(!rememberMe)}
@@ -136,7 +163,7 @@ export default function Login() {
 
         </div>
         <button 
-            className="w-[276px] h-[40px] mt-6 bg-baseBlue1 text-white text-center border border-helpGray 
+            className="w-full py-2 mt-6 bg-baseBlue1 text-white text-center border border-helpGray 
             rounded-[25px] transition ease-in-out duration-200
             font-semibold hover:bg-blue-700"
             onClick={login}>
@@ -145,12 +172,12 @@ export default function Login() {
 
         <button 
           onClick={forgotPassword}
-          className="w-[276px] h-[40px] text-sm font-300 text-gray-400 hover:text-gray-500 ">
+          className="w-full py-2 text-sm font-300 text-gray-400 hover:text-gray-500 ">
           Forgot password 
         </button>
        
         <button 
-          className="w-[276px] h-[40px] font-semibold text-center mt-6 bg-helpGray 
+          className="w-full py-2 font-semibold text-center mt-2 bg-helpGray 
           rounded-[25px] transition ease-in-out duration-200 hover:bg-gray-200
           "
           onClick={signup}>
