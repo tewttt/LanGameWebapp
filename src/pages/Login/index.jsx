@@ -83,28 +83,7 @@ export default function Login() {
           <Loader />
         </div>
       )}
-      <div className="w-[380px] mb-6">
-        {/* <p className="text-3xl text-center text-baseBlue1 font-bold uppercase">Тоглонгоо сур</p> */}
-        <p className="text-center text-xl mt-1 uppercase font-serif">
-          <span className="mx-1 text-red-500 font-bold">foreign language</span>
-          <span className="mx-1 text-green-500 font-bold">learning</span>
-        </p>
-        <p className="text-center text-xl mt-1 uppercase font-serif">
-          <span className="mx-1 text-orange-500 font-bold">app</span>
-          <span className="mx-1 text-blue-500 font-bold">with games</span> 
-        </p>
-        <div className="flex justify-center">
-          <div className="flex">
-            <img src={red} className="w-[60px]"/>
-            <img src={blue} className="w-[60px] "/>
-          </div>
-          <div className="flex">
-            <img src={green} className="w-[60px]  "/>
-            <img src={orange} className="w-[60px] "/>
-          </div>
-        </div>
-        
-      </div>
+     
       <div className="w-[276px] flex flex-col items-center">
         {ctx.state.error && (
           <div style={{ color: "red" }}>{ctx.state.error}</div>

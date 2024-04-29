@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/static/css/main.e2064681.css",
-    "main.js": "/static/js/main.2a584936.js",
+    "main.css": "/static/css/main.8d7500ba.css",
+    "main.js": "/static/js/main.da6430ef.js",
     "static/js/787.a8f6fc5e.chunk.js": "/static/js/787.a8f6fc5e.chunk.js",
     "static/media/patternWhite.png": "/static/media/patternWhite.4bf48faf5308cf78b6c7.png",
     "static/media/backgroundSmall.png": "/static/media/backgroundSmall.9239a5f7bfca1d3c8e67.png",
@@ -23,13 +23,17 @@
     "static/media/blue.svg": "/static/media/blue.67e77e6a8a8aa617b218cdcec75e5338.svg",
     "static/media/Typo Logo SVG Blue.svg": "/static/media/Typo Logo SVG Blue.f8519bd8c8d4374c4518b9ea2df52ce4.svg",
     "static/media/Symbol Logo SVG Blue.svg": "/static/media/Symbol Logo SVG Blue.d8fe5c4027f874407c4584e7bdd84110.svg",
+    "static/media/greenlogin.svg": "/static/media/greenlogin.cf5309ce5fdc9dbe1b351a5c67cf04cc.svg",
+    "static/media/bluelogin.svg": "/static/media/bluelogin.8c86f1ff0ae090198c3ed544548c9375.svg",
+    "static/media/orangelogin.svg": "/static/media/orangelogin.ad6ea06ec0facd295a014e53f427740f.svg",
+    "static/media/redlogin.svg": "/static/media/redlogin.706494db565c457ea224041cbe42a2b2.svg",
     "index.html": "/index.html",
-    "main.e2064681.css.map": "/static/css/main.e2064681.css.map",
-    "main.2a584936.js.map": "/static/js/main.2a584936.js.map",
+    "main.8d7500ba.css.map": "/static/css/main.8d7500ba.css.map",
+    "main.da6430ef.js.map": "/static/js/main.da6430ef.js.map",
     "787.a8f6fc5e.chunk.js.map": "/static/js/787.a8f6fc5e.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.e2064681.css",
-    "static/js/main.2a584936.js"
+    "static/css/main.8d7500ba.css",
+    "static/js/main.da6430ef.js"
   ]
 }
