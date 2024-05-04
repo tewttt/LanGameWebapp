@@ -10,7 +10,7 @@ const LessonPage = () => {
     const history = useHistory();
   
     return (
-        <div className="relative flex bg-baseBlack flex-col pt-10 px-6 md:p-0">
+        <div className="relative flex flex-col h-screen pt-10 px-6 md:p-0">
             <div 
                 className="bg-cover bg-center opacity-10 absolute top-0 left-0 bg-repeat w-screen h-full"
                 style={{backgroundImage: `url(${pattern})`}}>
@@ -29,8 +29,8 @@ const LessonPage = () => {
                 className="bg-baseBlue1 z-20 my-2 font-bold text-2xl text-white w-[300px] py-3 px-10 hover:bg-baseBlue1/80  m-auto rounded-xl">
                     COLLECT COIN
             </button>
-            <p className="text-helpGreen  font-semibold text-2xl text-center my-2">Суралцах хэлээ сонгоорой</p>
-            <div className="z-20 ">
+            <p className="text-helpGreen  font-semibold md:text-2xl text-center my-2">Суралцах хэл, түвшингээ сонгоорой</p>
+            <div className="z-20 h-full">
                 <Choice/>
             </div> 
         </div>      

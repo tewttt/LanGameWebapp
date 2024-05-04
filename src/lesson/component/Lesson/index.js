@@ -65,9 +65,9 @@ const Lesson = (props) => {
       }
     }
   }
-
+// console.log(props.lessons)
   return ( 
-    <div className="text-white mt-4 w-[140px] sm:w-[160px] lg:w-[200px] aspect-auto">
+    <div className="text-white mt-4 w-[300px] sm:w-[280px] aspect-auto">
       <Modal show={showPay}>
         <div>
           <p className="text-center">Таны дансны үлдэгдэл хүрэлцэхгүй байна.</p>
@@ -99,42 +99,51 @@ const Lesson = (props) => {
           {props?.lessons?.status === "Төлбөргүй" || data  ? (
             <div className="flex flex-col p-2 items-center justify-around border border-blue-500 w-full aspect-square  rounded-[5px] ">
               
-              <div className="flex text-base md:text-lg w-full justify-between px-1">
-                <p className=""> {props.lessons.language}</p>
-                <p className="mx-2">{props.lessons.level}</p>
-                <p className="mx-2">№{props.lessons.lessonNumber}</p>
+              <div className="flex font-bold text-xl md:text-lg w-full justify-between px-1">
+                <p className=""> {props?.lessons?.language}</p>
+                <p className="mx-2">{props?.lessons?.level}</p>
+                <p className="mx-2">№{props?.lessons?.lessonNumber}</p>
               </div>
-              <div
+              <div className="text-gray-400">
+                <p className="text-center text-base">Text's grammar</p>
+                <p className="mt-1 text-sm text-center">{props?.lessons?.text}</p>
+              </div>
+              <button
                 onClick={view}
-                className=" bg-baseBlue1 font-semibold rounded-[5px] w-full flex justify-center items-center text-[20px] px-6 py-4 hover:bg-baseBlue1/80"
+                className=" bg-baseBlue1 font-bold rounded-[5px] w-full flex justify-center items-center text-3xl px-6 py-4 hover:bg-baseBlue1/80"
               >
                 Watch
-              </div>
+              </button>
             </div>
             ) : (
             // Төлбөртэй
             <div className="flex flex-col p-2 lg:p-4 justify-between items-center border border-blue-500 w-full aspect-square  rounded-[5px] ">
               
-              <div className="flex text-base md:text-lg w-full justify-between px-1">
-                <p className=""> {props.lessons.language}</p>
-                <div className="">{props.lessons.level}</div>
-                <div className="">№{props.lessons.lessonNumber}</div>
+              <div className="flex text-xl font-bold md:text-lg w-full justify-between px-1">
+                <p className=""> {props?.lessons?.language}</p>
+                <div className="">{props?.lessons?.level}</div>
+                <div className="">№{props?.lessons?.lessonNumber}</div>
+              </div>
+              <div className="text-gray-400">
+                <p className="text-center text-base">Text's grammar</p>
+                <p className="mt-1 text-sm text-center">{props?.lessons?.text}</p>
               </div>
             
               <div 
                 onClick={payPrice}
-                className="flex justify-center w-full px-1 py-2 font-bold bg-helpGreen rounded-[5px]  hover:bg-helpGreen/80">
+                className="flex justify-center text-2xl w-full px-1 py-2 font-bold bg-helpGreen rounded-[5px]  hover:bg-helpGreen/80">
                   {props?.lessons?.price}₮
               </div>
               
               <div 
                 onClick={payCoin}
-                className="flex justify-center w-full px-1 py-2 font-bold bg-helpGreen rounded-[5px] hover:bg-helpGreen/80">
+                className="flex justify-center text-2xl  w-full px-1 py-2 font-bold bg-helpGreen rounded-[5px] hover:bg-helpGreen/80">
                   {props?.lessons?.coin}coin
               </div>
             </div>
           )}
-        </div>
+      </div>
+     
     </div>
   );
 };
