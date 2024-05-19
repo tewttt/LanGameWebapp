@@ -30,11 +30,11 @@ const Choice = () => {
         {lanId.map((lan, i) => {
           return (
             <div
-            className={`${chLan === lan ?  "bg-baseBlue1 text-white" : "" } w-[30%] hover:bg-baseBlue1 hover:text-white md:text-2xl bg-white font-bold text-baseBlack p-4 flex items-center justify-center rounded-2xl` }
+            className={`${chLan === lan ?  "bg-baseBlue1 text-white" : "" } w-[80%] md:w-[40%] aspect-square hover:bg-baseBlue1 hover:text-white md:text-2xl bg-white font-bold text-baseBlack p-4 flex items-center justify-center rounded-2xl` }
               key={i}
               onClick={() => selectLan(lan.id)}
             >
-              {lan.id}
+              <p className={`${chLan === lan && " text-white"} text-4xl`}>{lan.id}</p>
             </div>
           );
         })}
@@ -44,11 +44,11 @@ const Choice = () => {
         {levelId.map((e, i) => {
           return (
             <div
-            className={`${chLevel === e ?"bg-baseBlue1 text-white" : ""  } h-[40px] w-[14%] aspect-square hover:bg-baseBlue1 hover:text-white bg-white font-bold text-baseBlack  flex items-center justify-center rounded-2xl`}
+            className={`${chLevel === e ?"bg-baseBlue1 text-white" : ""  } h-[60px] aspect-square hover:bg-baseBlue1 hover:text-white bg-white font-bold text-baseBlack  flex items-center justify-center rounded-2xl`}
               key={i}
               onClick={() => selectLevel(e.id, i)}
             >
-              {e.id}
+             <p className="text-2xl">{e.id}</p> 
             </div>
           );
         })}

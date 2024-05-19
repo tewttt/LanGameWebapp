@@ -5,16 +5,18 @@ import usePost from "../../hook/usePost";
 import Modal from "../../components/General/Modal"
 import pattern from "../../assets/logo/patternWhite.png"
 import { IoIosArrowBack ,IoIosSettings  } from "react-icons/io";
+import { MdCancel } from "react-icons/md";
 
 const TIME = 20
 let intervalIds = [];
 
 export default function WatchAdvertise () {
     const {id} = useParams();
-    const {getAds, ads  , putTransaction , addCoinShow, clickFace, clickInstagram, clickSocial} = useAds(id)
+    const {changeShowAds, getAds, ads  , putTransaction , addCoinShow, clickFace, clickInstagram, clickSocial} = useAds(id)
     const { getPostAds , postDataAds} = usePost()
     const [time, setTime] = useState(TIME) 
     const [showTime , setShowTime] = useState(false)
+ 
     const history = useHistory();
     useEffect (() => {
         if(id){
@@ -28,7 +30,7 @@ export default function WatchAdvertise () {
     },[ads?.postId])
 
     const data = {
-        coin: 100,
+        coin: 0,
         label: "watch video",
         labelType: "ads",
         type: "deposit",
@@ -50,8 +52,7 @@ export default function WatchAdvertise () {
     useEffect(() => {
         if (showTime)
         putTransaction(data, id)
-        // ctx.putTransaction(data , id)
-     },[showTime])
+     },[showTime])  
 
     const startTimer = () => {
         setTime(prev =>{
@@ -71,17 +72,21 @@ export default function WatchAdvertise () {
                 style={{backgroundImage: `url(${pattern})`}}>
             </div>
 
-             <Modal show={addCoinShow}>
+            {/* <Modal show={addCoinShow}>
                 <div> add 100 coin </div>
-            </Modal>
+            </Modal> */}
+
             <div className="z-20 flex flex-col ">
                 <div div className="flex py-2 justify-between pb-4 items-center w-full">
                     <div className="flex items-center">
-                        {showTime && <IoIosArrowBack size={30} onClick={() =>history.push("/gameHome")}/> }  
+                        {/* {showTime && <IoIosArrowBack size={30} onClick={() =>history.push("/gameHome")}/> }   */}
                         {!showTime &&  <div>second {time}</div>}
-                        <p className="mx-2">Watch ads</p>
+                        {/* <p className="mx-2">Watch ads</p> */}
                     </div>
-                    <IoIosSettings onClick={() => history.push("/settings")} size={20}/>
+                    {/* {showTime && <MdCancel size={30} onClick={() => changeShowAds(false)}/> }  */}
+                   
+                    
+                   
                 </div>
                 <div className="flex flex-col md:flex-row m-auto justify-center">
                     <div className="w-full sm:w-[60%] md:w-[50%] flex justify-center ">
@@ -90,7 +95,6 @@ export default function WatchAdvertise () {
                             src={postDataAds?.post?.video}  type="video/mp4" controls autoPlay>
                         </video>
                     </div>
-                    {/* <video className="w-full " src={post?.video} type="video/mp4" controls></video> */}
                 
                     <div className="w-full md:w-[50%] my-4 md:mx-4">
                         {postDataAds?.post?.facebookLink != "" && 

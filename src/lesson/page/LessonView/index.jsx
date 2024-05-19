@@ -1,7 +1,8 @@
-import React from "react";
+import React,{useState} from "react";
 import {  useHistory ,useParams} from "react-router-dom";
 import ToolSidebar from "../../../components/ToolSidebar";
 import useLesson from "../../../hook/useLesson";
+import useAds from "../../../hook/useAds";
 import { useEffect } from "react";
 import { IoIosArrowBack ,IoIosSettings  } from "react-icons/io";
 import { IoEyeSharp } from "react-icons/io5";
@@ -10,34 +11,37 @@ const LessonView = () => {
   const {languageId, topicId, lessonId} = useParams()
   const {oneLesson , getOneLesson, countCustomer, countGrammar, countWord, countVerb, countTranslate, countListen, countExam } = useLesson(languageId, topicId, lessonId)
   const history = useHistory();
+  const { filterAds} = useAds()
+// const [adsId, setAdsId] = useState()
 
   useEffect(() => {
-    getOneLesson()
+    getOneLesson()  
   }, [])
 
- const changeWord = () => {
-    history.push(`/word/${languageId}/${topicId}/${lessonId}`)
+ const changeWord = (adsId) => {
+    history.push(`/word/${languageId}/${topicId}/${lessonId}/${adsId}`)
     countWord()
  }
 
- const changeExam = () => {
-  history.push(`/exam/${languageId}/${topicId}/${lessonId}`)
+ const changeExam = (adsId) => {
+  history.push(`/exam/${languageId}/${topicId}/${lessonId}/${adsId}`)
   countExam()
  }
- const changeTranslate = () => {
-    history.push(`/translate/${languageId}/${topicId}/${lessonId}`)
+ const changeTranslate = (adsId) => {
+    history.push(`/translate/${languageId}/${topicId}/${lessonId}/${adsId}`)
     countTranslate()
  }
- const changeGrammar = () => {
-  history.push(`/grammar/${languageId}/${topicId}/${lessonId}`)
+ const changeGrammar = (adsId) => {
+  
+  history.push(`/grammar/${languageId}/${topicId}/${lessonId}/${adsId}`)
   countGrammar()
 }
-const changeListen = () => {
-  history.push(`/listen/${languageId}/${topicId}/${lessonId}`)
+const changeListen = (adsId) => {
+  history.push(`/listen/${languageId}/${topicId}/${lessonId}/${adsId}`)
   countListen()
 }
-const changeVerb = () => {
-  history.push(`/verb/${languageId}/${topicId}/${lessonId}`)
+const changeVerb = (adsId) => {
+  history.push(`/verb/${languageId}/${topicId}/${lessonId}/${adsId}`)
   countVerb()
 }
 
@@ -82,51 +86,150 @@ useEffect(() => {
             </div>
           </div>
           <div className="font-bold text-baseBlack px-2 w-full">
-              <div>
-                <button onClick={changeGrammar} 
-                    className="w-full relative justify-center flex flex-row items-center bg-white rounded-2xl p-2 my-2 hover:bg-baseBlue1 hover:text-white"
+            <div>
+              {/* grammar */}
+              {filterAds?.map((ads, index) => {
+                return (
+                  <div key={index} className="flex flex-row">
+                    {index === 0 && 
+                      <button onClick={() => changeGrammar(ads.id)} 
+                          className="w-full relative justify-center flex flex-row items-center bg-white rounded-2xl p-2 my-1 hover:bg-baseBlue1 hover:text-white"
+                            >
+                          <p>Grammar</p>
+                          <div className="absolute right-2 flex items-center text-gray-300 text-base">
+                            <IoEyeSharp/>
+                            <p >{oneLesson?.clickGrammar}</p>
+                          </div>
+                      </button>
+                    }
+                  </div>
+                )
+              })}
+              {filterAds?.length === 0 && 
+                <button onClick={() => changeGrammar(0)} 
+                    className="w-full relative justify-center flex flex-row items-center bg-white rounded-2xl p-2 my-1 hover:bg-baseBlue1 hover:text-white"
                       >
                     <p>Grammar</p>
                     <div className="absolute right-2 flex items-center text-gray-300 text-base">
                       <IoEyeSharp/>
                       <p >{oneLesson?.clickGrammar}</p>
                     </div>
-                   
                 </button>
-              
-              </div>
-            <div className="">
-              <button onClick={changeWord} 
-                  className="w-full relative justify-center flex flex-row items-center  bg-white  rounded-2xl p-2  my-2  hover:bg-baseBlue1 hover:text-white"  
-                  >
-                  <p>Word</p>
-                  <div className="absolute right-2 flex items-center text-gray-300 text-base">
-                    <IoEyeSharp/>
-                    <p >{oneLesson?.clickWord}</p>
-                  </div>
-              </button>
-              <button onClick={changeVerb} 
-                  className="w-full relative justify-center flex flex-row items-center bg-white  rounded-2xl p-2  my-2  hover:bg-baseBlue1 hover:text-white"  
-                  >
-                  <p>Verb</p>
-                  <div className="absolute right-2 flex items-center text-gray-300 text-base">
-                    <IoEyeSharp/>
-                    <p >{oneLesson?.clickVerb}</p>
-                  </div>
-              </button>
-              <button onClick={changeTranslate} 
-                  className="w-full relative justify-center flex flex-row items-center bg-white rounded-2xl p-2  my-2  hover:bg-baseBlue1 hover:text-white"
-                    >
-                  <p>Translate</p>
-                  <div className="absolute right-2 flex items-center text-gray-300 text-base">
-                    <IoEyeSharp/>
-                    <p >{oneLesson?.clickTranslate}</p>
-                  </div>
-              </button>
+              }
             </div>
             <div className="">
-                <button onClick={changeListen} 
-                    className="w-full relative justify-center flex flex-row items-center bg-white rounded-2xl p-2  my-2  hover:bg-baseBlue1 hover:text-white"
+              {/* vocabulary */}
+              {filterAds?.map((ads, index) => {
+                return (
+                  <div key={index} className="flex flex-row">
+                    {index === 0 && 
+                      <button onClick={()=> changeWord(ads.id)} 
+                          className="w-full relative justify-center flex flex-row items-center  bg-white  rounded-2xl p-2  my-2  hover:bg-baseBlue1 hover:text-white"  
+                          >
+                          <p>Vocabulary</p>
+                          <div className="absolute right-2 flex items-center text-gray-300 text-base">
+                            <IoEyeSharp/>
+                            <p >{oneLesson?.clickWord}</p>
+                          </div>
+                      </button>
+                    }
+                  </div>
+                )
+              })}
+               {filterAds?.length === 0 && 
+                <button onClick={() => changeWord(0)} 
+                    className="w-full relative justify-center flex flex-row items-center bg-white rounded-2xl p-2 my-1 hover:bg-baseBlue1 hover:text-white"
+                      >
+                    <p>Vocabulary</p>
+                    <div className="absolute right-2 flex items-center text-gray-300 text-base">
+                      <IoEyeSharp/>
+                      <p >{oneLesson?.clickWord}</p>
+                    </div>
+                </button>
+              }
+
+             {/* verb */}
+             {filterAds?.map((ads, index) => {
+                return (
+                  <div key={index} className="flex flex-row">
+                    {index === 0 && 
+                      <button onClick={()=> changeVerb(ads.id)} 
+                          className="w-full relative justify-center flex flex-row items-center  bg-white  rounded-2xl p-2  my-2  hover:bg-baseBlue1 hover:text-white"  
+                          >
+                          <p>Additional</p>
+                          <div className="absolute right-2 flex items-center text-gray-300 text-base">
+                            <IoEyeSharp/>
+                            <p >{oneLesson?.clickVerb}</p>
+                          </div>
+                      </button>
+                    }
+                  </div>
+                )
+              })}
+               {filterAds?.length === 0 && 
+                <button onClick={() => changeVerb(0)} 
+                    className="w-full relative justify-center flex flex-row items-center bg-white rounded-2xl p-2 my-1 hover:bg-baseBlue1 hover:text-white"
+                      >
+                    <p>Additional</p>
+                    <div className="absolute right-2 flex items-center text-gray-300 text-base">
+                      <IoEyeSharp/>
+                      <p >{oneLesson?.clickVerb}</p>
+                    </div>
+                </button>
+              }
+              {/* translate */}
+              {filterAds?.map((ads, index) => {
+                return (
+                  <div key={index} className="flex flex-row">
+                    {index === 0 && 
+                      <button onClick={()=> changeTranslate(ads.id)} 
+                          className="w-full relative justify-center flex flex-row items-center  bg-white  rounded-2xl p-2  my-2  hover:bg-baseBlue1 hover:text-white"  
+                          >
+                          <p>Translate</p>
+                          <div className="absolute right-2 flex items-center text-gray-300 text-base">
+                            <IoEyeSharp/>
+                            <p >{oneLesson?.clickTranslate}</p>
+                          </div>
+                      </button>
+                    }
+                  </div>
+                )
+              })}
+               {filterAds?.length === 0 && 
+                <button onClick={() => changeTranslate(0)} 
+                    className="w-full relative justify-center flex flex-row items-center bg-white rounded-2xl p-2 my-1 hover:bg-baseBlue1 hover:text-white"
+                      >
+                    <p>Translate</p>
+                    <div className="absolute right-2 flex items-center text-gray-300 text-base">
+                      <IoEyeSharp/>
+                      <p >{oneLesson?.clickTranslate}</p>
+                    </div>
+                </button>
+              }
+            </div>
+
+            <div className="">
+              {/* listen */}
+            {filterAds?.map((ads, index) => {
+                return (
+                  <div key={index} className="flex flex-row">
+                    {index === 0 && 
+                      <button onClick={()=> changeListen(ads.id)} 
+                          className="w-full relative justify-center flex flex-row items-center  bg-white  rounded-2xl p-2  my-2  hover:bg-baseBlue1 hover:text-white"  
+                          >
+                          <p>Listen</p>
+                          <div className="absolute right-2 flex items-center text-gray-300 text-base">
+                            <IoEyeSharp/>
+                            <p >{oneLesson?.clickListen}</p>
+                          </div>
+                      </button>
+                    }
+                  </div>
+                )
+              })}
+               {filterAds?.length === 0 && 
+                <button onClick={() => changeListen(0)} 
+                    className="w-full relative justify-center flex flex-row items-center bg-white rounded-2xl p-2 my-1 hover:bg-baseBlue1 hover:text-white"
                       >
                     <p>Listen</p>
                     <div className="absolute right-2 flex items-center text-gray-300 text-base">
@@ -134,15 +237,38 @@ useEffect(() => {
                       <p >{oneLesson?.clickListen}</p>
                     </div>
                 </button>
-                <button onClick={changeExam} 
-                    className="w-full  relative justify-center flex flex-row items-center bg-white  rounded-2xl p-2 my-2 hover:bg-baseBlue1 hover:text-white"
-                      >
-                  <p>Exam</p>
-                  <div className="absolute right-2 flex items-center text-gray-300 text-base">
-                    <IoEyeSharp/>
-                    <p >{oneLesson?.clickExam}</p>
+              }
+              {/* exam */}
+              {filterAds?.map((ads, index) => {
+                return (
+                  <div key={index} className="flex flex-row">
+                    {index === 0 && 
+                      <button onClick={()=> changeExam(ads.id)} 
+                          className="w-full relative justify-center flex flex-row items-center  bg-white  rounded-2xl p-2  my-2  hover:bg-baseBlue1 hover:text-white"  
+                          >
+                          <p>Exam</p>
+                          <div className="absolute right-2 flex items-center text-gray-300 text-base">
+                            <IoEyeSharp/>
+                            <p >{oneLesson?.clickExam}</p>
+                          </div>
+                      </button>
+                    }
                   </div>
+                )
+              })}
+               {filterAds?.length === 0 && 
+                <button onClick={() => changeExam(0)} 
+                    className="w-full relative justify-center flex flex-row items-center bg-white rounded-2xl p-2 my-1 hover:bg-baseBlue1 hover:text-white"
+                      >
+                    <p>Exam</p>
+                    <div className="absolute right-2 flex items-center text-gray-300 text-base">
+                      <IoEyeSharp/>
+                      <p >{oneLesson?.clickExam}</p>
+                    </div>
                 </button>
+              }
+                
+                
             </div>
           </div>
         </div>

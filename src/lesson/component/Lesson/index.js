@@ -6,10 +6,12 @@ import UserContext from "../../../context/UserContext";
 import usePayment from "../../../hook/usePayment";
 import useLesson from "../../../hook/useLesson";
 import Modal from "../../../components/General/Modal";
+import useAds from "../../../hook/useAds"
 
 const Lesson = (props) => {
   const { getLessonUsers ,  lessonActiveUsers} = useLesson(props.lessons.language, props.lessons.level, props.lessons.lessonNumber)
   const {payLesson } = usePayment()
+ 
   const userCtx = useContext(UserContext)
   const history = useHistory();
   const [showPay , setShowPay] = useState(false)
@@ -97,12 +99,13 @@ const Lesson = (props) => {
       </Modal>
       <div className="h-full">
           {props?.lessons?.status === "Төлбөргүй" || data  ? (
+
             <div className="flex flex-col p-2 items-center justify-around border border-blue-500 w-full aspect-square  rounded-[5px] ">
               
               <div className="flex font-bold text-xl md:text-lg w-full justify-between px-1">
                 <p className=""> {props?.lessons?.language}</p>
                 <p className="mx-2">{props?.lessons?.level}</p>
-                <p className="mx-2">№{props?.lessons?.lessonNumber}</p>
+                <p className="mx-2 text-helpGreen text-2xl">№{props?.lessons?.lessonNumber}</p>
               </div>
               <div className="text-gray-400">
                 <p className="text-center text-base">Text's grammar</p>
@@ -122,7 +125,7 @@ const Lesson = (props) => {
               <div className="flex text-xl font-bold md:text-lg w-full justify-between px-1">
                 <p className=""> {props?.lessons?.language}</p>
                 <div className="">{props?.lessons?.level}</div>
-                <div className="">№{props?.lessons?.lessonNumber}</div>
+                <div className="text-helpGreen text-2xl">№{props?.lessons?.lessonNumber}</div>
               </div>
               <div className="text-gray-400">
                 <p className="text-center text-base">Text's grammar</p>

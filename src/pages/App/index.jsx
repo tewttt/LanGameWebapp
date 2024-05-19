@@ -49,13 +49,13 @@ return (
      <Switch>
           <Route path="/lesson/:languageId/:topicId/:lessonId" component={LessonView}/>
           <Route path="/lesson" component={LessonPage}/>
-          <Route path="/translate/:languageId/:topicId/:lessonId" component={TranslateView}/>
-          <Route path="/exam/:languageId/:topicId/:lessonId" component={ExamView}/>
-          <Route path="/word/:languageId/:topicId/:lessonId" component={WordView}/>
-          <Route path="/wordExam/:languageId/:topicId/:lessonId" component={WordViewExam}/>
-          <Route path="/grammar/:languageId/:topicId/:lessonId" component={GrammarView}/>
-          <Route path="/listen/:languageId/:topicId/:lessonId" component={ListenView}/>
-          <Route path="/verb/:languageId/:topicId/:lessonId" component={VerbView}/>
+          <Route path="/translate/:languageId/:topicId/:lessonId/:adsId" component={TranslateView}/>
+          <Route path="/exam/:languageId/:topicId/:lessonId/:adsId" component={ExamView}/>
+          <Route path="/word/:languageId/:topicId/:lessonId/:adsId" component={WordView}/>
+          <Route path="/wordExam/:languageId/:topicId/:lessonId/:adsId" component={WordViewExam}/>
+          <Route path="/grammar/:languageId/:topicId/:lessonId/:adsId" component={GrammarView}/>
+          <Route path="/listen/:languageId/:topicId/:lessonId/:adsId" component={ListenView}/>
+          <Route path="/verb/:languageId/:topicId/:lessonId/:adsId" component={VerbView}/>
           <Route path="/wallet" component={Payment}/>
           <Route path="/gameHome" component={GameHome}/>
           <Route path="/game" component={Game}/>

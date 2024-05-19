@@ -208,8 +208,7 @@ export default function useAds(id) {
     });
   }
 
-  const putTransaction =async (data , adsId) => {
-    // console.log(watchDate)
+  const putTransaction =async (data, adsId) => {
     const oneRef = collection(db, `users/${auth?.currentUser?.uid}/transaction` );
     await addDoc(oneRef , {
       data,
@@ -220,10 +219,10 @@ export default function useAds(id) {
       watchUserId : auth?.currentUser?.uid , adsId: id})
       
     .then((res) => { 
-      setAddCoinShow(true)
-      setTimeout(() => {
-        setAddCoinShow(false)
-      }, 3000)
+      // setAddCoinShow(true)
+      // setTimeout(() => {
+      //   setAddCoinShow(false)
+      // }, 3000)
     })
     .catch((error) => {
       console.log("error" + error);
@@ -243,6 +242,7 @@ export default function useAds(id) {
     await updateDoc(oneRef , {clickSocial: increment(1)})
   }
 
+
   return {
       sendAds,
       editAds,
@@ -258,7 +258,8 @@ export default function useAds(id) {
       deletePostAds,
       clickFace,
       clickInstagram, 
-      clickSocial
+      clickSocial,
+     
   }
 }
 

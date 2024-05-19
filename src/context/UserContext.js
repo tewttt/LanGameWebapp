@@ -48,7 +48,7 @@ export const UserStore = (props) => {
   const [userList, setUserList] = useState([]);
   const userInfo = useRef()
   const [userIdCount, setUserIdCount] = useState("")
-
+  
 
   const userRef = collection(db, "users");
 // get userlist data
@@ -69,9 +69,9 @@ export const UserStore = (props) => {
       const docRef = doc(db, "users", auth?.currentUser?.uid);
       onSnapshot(docRef, (doc) => {
       setCurrentUser(doc.data(), doc.id)
-    });
+      });
 
-    const trRef =collection(db, `users/${auth?.currentUser?.uid}/transaction`)
+      const trRef =collection(db, `users/${auth?.currentUser?.uid}/transaction`)
     
       onSnapshot(trRef, (snapshot) => {
         let list = [];
@@ -294,7 +294,7 @@ export const UserStore = (props) => {
         deleteUser,
         transaction,
         forgotPassword,
-       
+      
        
       }}
     >

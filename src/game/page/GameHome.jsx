@@ -33,41 +33,28 @@ const GameHome = () => {
                 <div className="flex flex-col rounded-xl w-full p-2 text-center">
                    
                     
-                    {filterAds.length === 0 && <div className=" text-2xl">Today's video are over</div>}
-                    {(ctx?.currentUser?.age != "" && ctx?.currentUser?.gender != "") ? (
-                        <div >
-                            <p className="text-helpGreen font-bold my-1 text-xl">VIDEO үзээд COIN цуглуулаарай</p>
-                            <p>Total video {filterAds.length}</p>
-                            <div className="mt-4 flex flex-wrap gap-2 justify-center">
-                                {filterAds?.map((ads, index) => {
-                                        return (
-                                            <div key={index} className="flex flex-row">
-                                                <div className="">
-                                                    <button 
-                                                    onClick={()=> watch(ads?.id)} 
-                                                    className="w-[60px] h-[60px] m-auto rounded-[50%] text-[12px] bg-baseBlue1 hover:bg-baseBlue1/80 border">
-                                                    WATCH VIDEO
-                                                    </button> 
-                                                </div>
-                                            </div>
-                                        )
-                                })}
-                            </div>
-                        </div>
+                    {/* {filterAds.length === 0 && <div className=" text-2xl">Today's video are over</div>} */}
+                    {(ctx?.currentUser?.age != "" && ctx?.currentUser?.gender != "" && ctx?.currentUser?.phone) ? (
+                       <div>
+                          <button 
+                            onClick={() =>history.push("/game")} 
+                            className="w-[150px] mt-10 h-[150px] text-xl font-bold rounded-[50%] bg-helpGreen hover:bg-helpGreen/80">
+                            START GAME
+                        </button>
+                       </div>
                     ):(
                         <div className="mt-4 flex flex-col justify-center items-center">
-                            <p>Хувийн мэдээллээ гүйцэт бөглөснөөр, COIN цуглуулах боломжтой болно</p>
+                            <p>Хувийн мэдээллээ гүйцэт бөглөөд Тоглоомоо тоглоорой</p>
                             <button 
                                 onClick={() =>history.push("/profile")}
                                 className="bg-baseBlue1 hover:bg-baseBlue1/80 mt-4 py-2 px-6 rounded-lg w-[200px] font-bold">БӨГЛӨХ</button>
                         </div>
                     )}
                 </div>
-                <button 
-                    onClick={() =>history.push("/game")} 
-                    className="w-[150px] mt-10 h-[150px] text-xl font-bold rounded-[50%] bg-helpGreen hover:bg-helpGreen/80">
-                    START GAME
-                </button>
+                <div>
+                    <p className="text-lg text-center text-helpGreen">Үзсэн хичээлээрээ бусад тоглогчтой тоглонгоо хэлээ давтаарай</p>
+                </div>
+              
                
             </div>
         </div>
@@ -75,3 +62,23 @@ const GameHome = () => {
 }
  
 export default GameHome;
+
+{/* <div >
+<p className="text-helpGreen font-bold my-1 text-xl">VIDEO үзээд COIN цуглуулаарай</p>
+<p>Total video {filterAds.length}</p>
+<div className="mt-4 flex flex-wrap gap-2 justify-center">
+    {filterAds?.map((ads, index) => {
+            return (
+                <div key={index} className="flex flex-row">
+                    <div className="">
+                        <button 
+                        onClick={()=> watch(ads?.id)} 
+                        className="w-[60px] h-[60px] m-auto rounded-[50%] text-[12px] bg-baseBlue1 hover:bg-baseBlue1/80 border">
+                        WATCH VIDEO
+                        </button> 
+                    </div>
+                </div>
+            )
+    })}
+</div>
+</div> */}
