@@ -30,7 +30,7 @@ const Choice = () => {
         {lanId.map((lan, i) => {
           return (
             <div
-            className={`${chLan === lan ?  "bg-baseBlue1 text-white" : "" } w-[80%] md:w-[40%] aspect-square hover:bg-baseBlue1 hover:text-white md:text-2xl bg-white font-bold text-baseBlack p-4 flex items-center justify-center rounded-2xl` }
+            className={`${chLan === lan ?  "bg-baseBlue1 text-white" : "" } w-[80%] md:w-[30%] aspect-square hover:bg-baseBlue1 hover:text-white md:text-2xl bg-white font-bold text-baseBlack p-4 flex items-center justify-center rounded-2xl` }
               key={i}
               onClick={() => selectLan(lan.id)}
             >
