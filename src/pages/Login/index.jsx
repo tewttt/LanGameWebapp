@@ -13,7 +13,7 @@ import blue from "../../assets/shagai/bluelogin.svg"
 import red from "../../assets/shagai/redlogin.svg"
 import green from "../../assets/shagai/greenlogin.svg"
 import orange from '../../assets/shagai/orangelogin.svg'
-import backImage from "../../assets/logo/backgroundSmall.png"
+import pattern from "../../assets/logo/backgroundSmall.png"
 
 export default function Login() {
   const ctx = useContext(UserContext);
@@ -71,12 +71,11 @@ export default function Login() {
   }
 
   return (
-    <div className="flex bg-white text-baseBlack flex-col justify-center items-center w-screen h-screen relative ">
-      <div 
-        className="bg-cover absolute top-0 left-0 -z-10  opacity-90 w-screen h-screen"
-        style={{backgroundImage: `url(${backImage})`}}
-        >
-      </div>
+    <div className="flex bg-white text-baseBlack flex-col justify-center items-center w-screen h-screen relative "
+      style={{backgroundImage: `url(${pattern})`}}
+    >
+      
+      
 
       {ctx.state.logginIn && (
         <div className="absolute z-10"> 
@@ -161,6 +160,11 @@ export default function Login() {
           "
           onClick={signup}>
           Sign up
+        </button>
+        <button 
+          onClick={() => (history.push("/"))}
+          className="w-full py-2 text-sm font-300 text-gray-400 hover:text-gray-500 ">
+          Back 
         </button>
       </div>
 

@@ -7,7 +7,7 @@ import 'react-phone-input-2/lib/style.css'
 import Spinner from "../../components/General/Spinner";
 import Logo from "../../assets/logo/Typo Logo SVG Blue.svg"
 import { Colors } from "../../constants/Colors";
-import backImage from "../../assets/logo/backgroundSmall.png"
+import pattern from "../../assets/logo/backgroundSmall.png"
 
 const SignUp = () => {
     const ctx = useContext(UserContext);
@@ -113,12 +113,10 @@ const signupHandler = async() => {
 const login = () => {history.push("/")}
 
 return (
-    <div className="flex bg-white flex-col relative text-baseBlack justify-center items-center w-screen h-screen ">
-        <div 
-            className="bg-cover absolute top-0 left-0 -z-10 opacity-90 w-screen h-screen"
-            style={{backgroundImage: `url(${backImage})`}}>
-        </div>
-
+    <div 
+        style={{backgroundImage: `url(${pattern})`}}
+        className="flex bg-white flex-col relative text-baseBlack justify-center items-center w-screen h-screen ">
+        
         <img src={Logo} className="w-[300px] h-[100px] mb-10"/>
         {ctx.state.error && (
                 <div style={{color: "red"}}> {ctx.state.error}</div>

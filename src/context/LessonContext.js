@@ -176,7 +176,7 @@ export const LessonStore = (props) => {
         });
         return [...list];
       });
-    });
+    }); 
     return () => {
       unsubcribe();
     };
@@ -190,8 +190,8 @@ export const LessonStore = (props) => {
         price: state?.base?.price,
         status: state?.base?.status,
         text: state?.base.text,
-        video: state.video,
-        image: state.image,
+        // video: state.video,
+        // image: state.image,
       }
     );
     await updateDoc(
@@ -233,6 +233,17 @@ export const LessonStore = (props) => {
     alert("lesson enlish update")
 }
 
+const updateVideo = async (lan, level, number, video)=>{
+  console.log(lan, level, number, video)
+  await updateDoc(
+    doc(db,`lessons/${lan}/topics/${level}/lessons`,number),
+    {
+      video:video,
+    }
+  );
+  alert("update video")
+}
+
 const deleteDB = async (lan, level, number) => {
   // console.log(lan , level , number)
     const LessonDoc = doc(db,`lessons/${lan}/topics/${level}/lessons`, number);
@@ -259,6 +270,7 @@ const deleteDB = async (lan, level, number) => {
         deleteDB,
         getUserLessons,
         userLesson,
+        updateVideo
       }}
     >
       {props.children}

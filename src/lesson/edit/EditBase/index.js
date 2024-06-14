@@ -193,7 +193,8 @@ const EditBase = () => {
                 />
             </div>
             <div className="flex flex-col xl:flex-row">
-                <EditVideo video = {oneLesson?.video}/>
+                <EditVideo video = {oneLesson}/>
+                {/* <EditVideo video = {oneLesson?.video}/> */}
                 {/* <EditImage photo={oneLesson?.image}/> */}
             </div>
         </div>

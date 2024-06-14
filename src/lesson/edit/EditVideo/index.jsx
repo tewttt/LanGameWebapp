@@ -10,7 +10,7 @@ const VideoUpload = (props) => {
     const [prog, setProg] = useState("")
 
     useEffect(() => {
-        setVideo(props?.video)
+        setVideo(props?.video?.video)
     },[props?.video])
 
     const changeVideo = (e) => {
@@ -35,10 +35,14 @@ const VideoUpload = (props) => {
         getDownloadURL(uploadTask.snapshot.ref).then(downloadURL => {
             setVideo(downloadURL)
             // console.log(downloadURL)
-            ctx.saveVideo(downloadURL)
+            // ctx.saveVideo(downloadURL)
         })
         alert("video upload success") 
     })
+}
+
+const saveVideo = () =>{
+    ctx?.updateVideo(props?.video?.language, props?.video?.level, props?.video?.lessonNumber,video)
 }
  
 return (
@@ -61,6 +65,8 @@ return (
                 // hidden="hidden"
                 />
             <button className="w-[150px] h-[20px] bg-blue-500 flex text-[12px] justify-center items-center" onClick={uploadVideo}>Video upload</button>
+            <button className="w-[150px] h-[20px] bg-blue-500 flex text-[12px] justify-center items-center" 
+            onClick={saveVideo}>Save video</button>
         </div>
               
         <div style={{

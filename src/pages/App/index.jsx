@@ -32,7 +32,7 @@ import WordViewExam from "../../lesson/view/wordViewExam";
 import Settings from "../Settings";
 import ListenView from "../../lesson/view/listenView";
 import VerbView from "../../lesson/view/verbView";
-
+import Landing from "../Landing";
 
 const App = () => { 
      const [authId, setAuthId] = useState()
@@ -82,8 +82,9 @@ return (
      <Switch>
           <Route path="/signup" component={SignUp}/>
           <Route path="/forgot" component={Forgot}/>
+          <Route path="/login" component={Login}/>
           {/* <Route path="/verification" component={Verification}/> */}
-          <Route path="/" component={Login}/>
+          <Route path="/" component={Landing}/>
      </Switch>
      )}    
     

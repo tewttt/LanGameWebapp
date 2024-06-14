@@ -137,7 +137,12 @@ const ProfilePage = () => {
                     </div>
                     <div className="flex items-center w-full rounded-2xl py-2 pl-4 my-1 justify-between">
                         <div>Phone</div>
-                        <input className="w-3/4 p-2 text-baseBlack rounded-2xl" placeholder="утас" value={state.phone} onChange={changePhone}></input>
+                        <input className="w-3/4 p-2 text-baseBlack rounded-2xl" 
+                        placeholder="утас" 
+                        value={state.phone} 
+                        onChange={changePhone}>
+            
+                        </input>
                     </div>
                     
                     <div className="flex items-center w-full rounded-2xl py-2 pl-4 my-1 justify-between">

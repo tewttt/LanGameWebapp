@@ -21,7 +21,7 @@ export default function EditPost() {
         phone: "",
         email: "",
         video: "",
-        facebookLink:"",
+        facebookLink:"", 
         instagramLink:""
     })
     useEffect(() => {

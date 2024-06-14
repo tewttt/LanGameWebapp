@@ -228,7 +228,7 @@ export const UserStore = (props) => {
       await addDoc(oneRef , {
         createDate: serverTimestamp(),  
       })
-      history.push("/")
+      history.push("/login")
     } catch (error) {
       console.log(error);
       let message = error.message;
