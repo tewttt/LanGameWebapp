@@ -37,8 +37,8 @@ export default function Landing() {
 
         <section className="flex flex-col justify-center items-center lg:flex-row w-full mt-8 lg:mb-14 ">
             <div className="w-full lg:w-1/2 px-4">
-                <p className=" text-center lg:text-start text-[48px] sm:text-[72px] lg:text-[96px] font-bold text-baseBlue1">{ctx?.landing?.landing?.headTitle}</p>
-                <p className="my-2 px-10 sm:text-[24px] lg:text-[40px] lg:px-0">{ctx?.landing?.landing?.headText}</p>
+                <p className=" text-center lg:text-start text-[48px] sm:text-[72px] font-bold text-baseBlue1">{ctx?.landing?.landing?.headTitle}</p>
+                <p className="my-2 px-10 sm:text-[24px] lg:text-[30px] lg:px-0">{ctx?.landing?.landing?.headText}</p>
                 <button 
                     onClick={signup}
                     className="bg-baseBlue1 w-full lg:w-[200px] text-white py-4 px-8 mt-8 rounded-xl">
@@ -50,15 +50,15 @@ export default function Landing() {
 
         <section className="flex flex-col lg:flex-row w-full justify-between items-center my-20 text-white">
             <div className="w-[300px] h-[220px] p-4 lg:w-[450px] lg:h-[400px] flex flex-col justify-between lg:mr-4 my-2 lg:my-0 bg-baseBlue1 rounded-3xl lg:py-20 lg:px-8">
-                <p className="font-bold text-[22px] lg:text-[28px] text-center">{ctx?.landing?.landing?.question1Title}</p>
+                <p className="font-bold text-[22px] text-center">{ctx?.landing?.landing?.question1Title}</p>
                 <p className="my-3 text-center">{ctx?.landing?.landing?.question1Text}</p>
             </div>
             <div className="w-[300px] h-[220px] p-4 lg:w-[450px] lg:h-[400px] flex flex-col justify-between lg:mr-4 my-2 lg:my-0 bg-baseBlue1 rounded-3xl lg:py-20 lg:px-8">
-                <p className="font-bold text-[22px] lg:text-[28px] text-center">{ctx?.landing?.landing?.question2Title}</p>
+                <p className="font-bold text-[22px] text-center">{ctx?.landing?.landing?.question2Title}</p>
                 <p className="text-center my-3">{ctx?.landing?.landing?.question2Text}</p>
             </div>
             <div className="w-[300px] h-[220px] p-4 lg:w-[450px] lg:h-[400px] flex flex-col justify-between lg:mr-4 my-2 lg:my-0 bg-baseBlue1 rounded-3xl lg:py-20 lg:px-8">
-                <p className="font-bold text-[22px] lg:text-[28px] text-center">{ctx?.landing?.landing?.question3Title}</p>
+                <p className="font-bold text-[22px] text-center">{ctx?.landing?.landing?.question3Title}</p>
                 <p className="text-center my-3">{ctx?.landing?.landing?.question3Text}</p>
             </div>
         </section>
@@ -97,7 +97,7 @@ export default function Landing() {
             </div>
         </section>
         {/* game */}
-        <section className="flex flex-col mt-8 lg:mb-20 justify-center lg:mx-40">
+        <section className="flex flex-col mt-8 lg:mb-20 justify-center lg:mx-20">
             <p className="text-baseBlue1 text-center font-bold text-[30px] lg:text-[50px] mb-10">{ctx?.landing?.landing?.gameTitle}</p>
             <div className="flex flex-col lg:flex-row w-full">
                  <video 
@@ -105,14 +105,14 @@ export default function Landing() {
                     src={ctx?.gameVideo?.gameVideo}  
                     type="video/mp4" controls>
                 </video>
-                <div className="text-baseBlack flex flex-col justify-center lg:pl-36 lg:text-[24px] w-full lg:ml-6">
-                    <p className="font-bold text-[20px] lg:text-[48px] lg:mb-10 mt-6 lg:mt-0">{ctx?.landing?.landing?.gameHeadline}</p>
+                <div className="text-baseBlack flex flex-col justify-center lg:pl-20 lg:text-[24px] w-full lg:ml-6">
+                    <p className="font-bold text-[20px] lg:text-[36px] lg:mb-10 mt-6 lg:mt-0">{ctx?.landing?.landing?.gameHeadline}</p>
                     <p className="mt-2 lg:w-[550px] ">{ctx?.landing?.landing?.gameText}</p>
                 </div>
             </div>
         </section>
         {/* ads */}
-        <section className="flex flex-col mt-8 mb-20 justify-center lg:mx-40">
+        <section className="flex flex-col mt-8 mb-20 justify-center lg:mx-20">
             <p className="text-baseBlue1 text-center font-bold text-[30px] lg:text-[50px] mb-10">{ctx?.landing?.landing?.adsTitle}</p>
             <div className="flex flex-col lg:flex-row w-full">
                  <video 
@@ -120,14 +120,14 @@ export default function Landing() {
                     src={ctx?.adsVideo?.adsVideo} 
                     type="video/mp4" controls>
                 </video>
-                <div className="text-baseBlack flex flex-col justify-center lg:pl-36 lg:text-[24px] w-full lg:ml-6">
-                    <p className="font-bold text-[20px] lg:text-[48px] mt-6 lg:mb-10">{ctx?.landing?.landing?.adsHeadline}</p>
+                <div className="text-baseBlack flex flex-col justify-center lg:pl-20 lg:text-[24px] w-full lg:ml-6">
+                    <p className="font-bold text-[20px] lg:text-[36px] mt-6 lg:mb-10">{ctx?.landing?.landing?.adsHeadline}</p>
                     <p className="mt-2 lg:w-[550px">{ctx?.landing?.landing?.adsText}</p>
                 </div>
             </div>
         </section>
         {/* price */}
-        <section className="my-10 lg:mt-20 lg:mb-32 flex flex-col lg:flex-row lg:mx-40 justify-between">
+        <section className="my-10 lg:mt-20 lg:mb-32 flex flex-col lg:flex-row lg:mx-20 justify-between">
             <button 
                 onClick={signup}
                 className="bg-baseBlue1 text-[30px] w-full lg:w-[300px] text-white py-4 px-8 my-2 rounded-xl">
