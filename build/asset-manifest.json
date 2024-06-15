@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/static/css/main.1bfc3037.css",
-    "main.js": "/static/js/main.810dd1ae.js",
+    "main.css": "/static/css/main.d12e979d.css",
+    "main.js": "/static/js/main.1c745042.js",
     "static/js/787.a8f6fc5e.chunk.js": "/static/js/787.a8f6fc5e.chunk.js",
     "static/media/patternWhite.png": "/static/media/patternWhite.4bf48faf5308cf78b6c7.png",
     "static/media/backgroundSmall.png": "/static/media/backgroundSmall.9239a5f7bfca1d3c8e67.png",
@@ -28,12 +28,12 @@
     "static/media/orangelogin.svg": "/static/media/orangelogin.ad6ea06ec0facd295a014e53f427740f.svg",
     "static/media/redlogin.svg": "/static/media/redlogin.706494db565c457ea224041cbe42a2b2.svg",
     "index.html": "/index.html",
-    "main.1bfc3037.css.map": "/static/css/main.1bfc3037.css.map",
-    "main.810dd1ae.js.map": "/static/js/main.810dd1ae.js.map",
+    "main.d12e979d.css.map": "/static/css/main.d12e979d.css.map",
+    "main.1c745042.js.map": "/static/js/main.1c745042.js.map",
     "787.a8f6fc5e.chunk.js.map": "/static/js/787.a8f6fc5e.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.1bfc3037.css",
-    "static/js/main.810dd1ae.js"
+    "static/css/main.d12e979d.css",
+    "static/js/main.1c745042.js"
   ]
 }
