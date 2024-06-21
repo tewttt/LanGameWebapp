@@ -12,7 +12,8 @@ import {
   onSnapshot,
   query,
   increment,
-  where
+  where,
+  orderBy
 } from "firebase/firestore";
 import { db } from "../firebase.js";
 import { useHistory } from "react-router-dom";
@@ -38,7 +39,11 @@ export default function useLesson(languageId, topicId, lessonId) {
     const [grammar, setGrammar] = useState([]);
     const [verb, setVerb] = useState([]);
     const [lessonActiveUsers, setLessonActiveUsers] = useState([])
+    const [commentList, setCommentList] = useState([])
+    const [entry, setEntry] = useState()
 
+   
+    // console.log(entry)
     useEffect(() => {
         getLanguageId();
         
@@ -101,38 +106,40 @@ export default function useLesson(languageId, topicId, lessonId) {
         };
     };
 
+    
     const chGames = async (chLan, chLevel, chLesson) => {
-        const q = query(
-        collection(db, "game"),
-        where("language", "==", chLan),
-        where("level", "==", chLevel),
-        where("lesson", "==", chLesson)
-        );
-        // console.log(q)
-        unsubcribeGames = onSnapshot(q, (snapshot) => {
-        setGames(() => {
-            const list = snapshot.docs.map((doc) => {
-            return { ...doc.data(), id: doc.id };
-            });
-            list.map((e, i) => {
-            let players = [];
+      const q = query(
+      collection(db, "game"),
+      where("language", "==", chLan),
+      where("level", "==", chLevel),
+      where("lesson", "==", chLesson)
+      );
+      // console.log(q)
+      unsubcribeGames = onSnapshot(q, (snapshot) => {
+      setGames(() => {
+          const list = snapshot.docs.map((doc) => {
+          return { ...doc.data(), id: doc.id };
+          });
+          list.map((e, i) => {
+          let players = [];
 
-            const PlayersRef = collection(db, `game/${e.id}/players`);
-            // const unsubplayer = onSnapshot(PlayersRef, (snapshot) => {
-            onSnapshot(PlayersRef, (snapshot) => {
-                snapshot.docs.map((doc) =>
-                players.push({ ...doc.data(), id: doc.id })
-                );
-            });
+          const PlayersRef = collection(db, `game/${e.id}/players`);
+          // const unsubplayer = onSnapshot(PlayersRef, (snapshot) => {
+          onSnapshot(PlayersRef, (snapshot) => {
+              snapshot.docs.map((doc) =>
+              players.push({ ...doc.data(), id: doc.id })
+              );
+          });
 
-            list[i].players = players;
-            });
-            return [...list];
-        });
-        });
-    };
+          list[i].players = players;
+          });
+          return [...list];
+      });
+      });
+  };
 
     const join = async (state, game, chLan, chLevel, chLesson, entry, win , second) => {
+         
       // console.log("joim")
           await chGames(chLan, chLevel, chLesson)
           const id = game?.id; 
@@ -155,6 +162,7 @@ export default function useLesson(languageId, topicId, lessonId) {
               activatedGo: false,
               activatedBack: false,
               activatedShield : false,
+              paidEntry: false
           });
           const dataTnx = {
               coin: entry,
@@ -167,6 +175,7 @@ export default function useLesson(languageId, topicId, lessonId) {
               data: dataTnx,
               createDate: serverTimestamp(), 
           })
+          setEntry(entry)
 
           if (game?.count == 1) {
               updateDoc(PlayersRef, {
@@ -186,6 +195,7 @@ export default function useLesson(languageId, topicId, lessonId) {
     };
 
     const createGame = async (state, chLan, chLevel, chLesson , entry , authId, win , second) => {
+        
         const getExam = await examfunGame(chLan, chLevel, chLesson);
         const getWord = await wordfunGame(chLan, chLevel, chLesson);
         const add = getExam.concat(getWord)
@@ -204,81 +214,88 @@ export default function useLesson(languageId, topicId, lessonId) {
 
         await chGames(chLan, chLevel, chLesson)
         try {
-          const GameRef = collection(db, "game");
-          // Тоглооом үүсгэж байна
-          const game = await addDoc(GameRef, {
-              count: 0,
-              createDate: serverTimestamp(),
-              language: chLan,
-              level: chLevel,
-              lesson: chLesson,
-              questions,
-              endGame: false,
-              winCoin: win,
-              secondCoin: second,
-              entryCoin: entry,
-              waitPlayers: true,
-              showStartGame: false,
-              showQuestion: false,
-              showAnswer: false,
-              showPlayer: false,
-              logoutGame: false,
-              showDiceTime: false,
-              showTurn: false,
-              startTime: 5, 
-              questionTime: 15,
-              questionNumber: 0,
-              diceTime: 5,
-              turn: 0,
-              answeredPlayers: [],
-              activeDice: ""
-          });
+              setEntry(entry)
+              const GameRef = collection(db, "game");
+              // Тоглооом үүсгэж байна
+              const game = await addDoc(GameRef, {
+                  count: 0,
+                  createDate: serverTimestamp(),
+                  language: chLan,
+                  level: chLevel,
+                  lesson: chLesson,
+                  questions,
+                  endGame: false,
+                  winCoin: win,
+                  secondCoin: second,
+                  entryCoin: entry,
+                  waitPlayers: true,
+                  showStartGame: false,
+                  showQuestion: false,
+                  showAnswer: false,
+                  showPlayer: false,
+                  logoutGame: false,
+                  showDiceTime: false,
+                  showTurn: false,
+                  startTime: 5, 
+                  questionTime: 15,
+                  questionNumber: 0,
+                  diceTime: 5,
+                  turn: 0,
+                  answeredPlayers: [],
+                  activeDice: ""
+              });
 
-        // Тоглогчын мэдээллийг нэмж байна
-        const PlayersRef = doc(
-            db,
-            `game/${game.id}/players`,
-            auth.currentUser?.uid
-        );
-        await setDoc(PlayersRef, {
-            state,
-            point: 0,
-            color: "red",
-            shield: 0,
-            go: 0,
-            back: 0,
-            endGamePlayer: false,
-            endGamePlayerTime: "",
-            activatedGo: false,
-            activatedBack: false,
-            activatedShield : false,
-            logoutGame: false,
-        
-        });
+              // Тоглогчын мэдээллийг нэмж байна
+              const PlayersRef = doc(
+                  db,
+                  `game/${game.id}/players`,
+                  auth.currentUser?.uid
+              );
+              await setDoc(PlayersRef, {
+                  state,
+                  point: 0,
+                  color: "red",
+                  shield: 0,
+                  go: 0,
+                  back: 0,
+                  endGamePlayer: false,
+                  endGamePlayerTime: "",
+                  activatedGo: false,
+                  activatedBack: false,
+                  activatedShield : false,
+                  logoutGame: false,
+                  paidEntry: false
+              
+              });
+              history.push(`/newGame/${game.id}?lan=${chLan}&level=${chLevel}&lesson=${chLesson}`)
 
-        const data = {
-            coin: entry,
-            label: "play game",
-            labelType: "game",
-            type: "withdraw"
-        }
+              const data = {
+                  coin: entry,
+                  label: "play game",
+                  labelType: "game",
+                  type: "withdraw"
+              }
 
-        // Add tnx in user information
-        const oneRef = collection(db, `users/${authId}/transaction` );
-        await addDoc(oneRef , {
-            data,
-            createDate: serverTimestamp(),
-            } )
-            .then((res) => { 
-            history.push(`/newGame/${game.id}?lan=${chLan}&level=${chLevel}&lesson=${chLesson}`);
-            })
-            .catch((error) => {
-            console.log("error" + error);
-            });
-            } catch (err) {
+              // Add tnx in user information
+              const oneRef = collection(db, `users/${authId}/transaction`);
+              await addDoc(oneRef, {
+                  data,
+                  createDate: serverTimestamp(),
+                  } )
+                  .then((res) => { 
+                  history.push(`/newGame/${game.id}?lan=${chLan}&level=${chLevel}&lesson=${chLesson}`);
+                  })
+                  .catch((error) => {
+                  console.log("error" + error);
+                  });
+            } 
+                catch (err) {
             console.log(err); 
             }
+        
     };
+
+   
 
     const examfunGame = async (chLan, chLevel, chLesson) => {
         const examRef = collection(
@@ -297,7 +314,7 @@ export default function useLesson(languageId, topicId, lessonId) {
       const data = await getDocs(examRef);
       const docs = data.docs.map((o) => o.data());
       return docs[0].word;
-  };
+    };
 
   // filt Lessons
   const getLessons = (level, chLan) => {
@@ -437,9 +454,48 @@ export default function useLesson(languageId, topicId, lessonId) {
     const countRef = doc(db, `lessons/${languageId}/topics/${topicId}/lessons`, lessonId);
     await updateDoc(countRef, { clickExam: increment(1) });
   }
-    
+
+  const commentRef = collection(db, `lessons/${languageId}/topics/${topicId}/lessons/${lessonId}/comment`);
+  const postSend = async (comment, Id, profile, name) => {
+    await addDoc(commentRef,
+      {
+        Id,
+        profile,
+        name,
+        comment,
+        authId: auth?.currentUser?.uid,
+        createDate: serverTimestamp(),
+      }
+    );
+   alert("success post")
+  }
+  useEffect(() => {
+    const listRef = query(
+      collection(db, `lessons/${languageId}/topics/${topicId}/lessons/${lessonId}/comment`),
+      orderBy("createDate", "desc")
+    )
+    const unsubscribe = onSnapshot(listRef, (snapshot) => {
+      let list = [];
+      snapshot.docs.map((doc) => list.push({ ...doc.data(), id: doc.id }));
+      setCommentList(list);
+    });
+    return () => {
+      unsubscribe();
+    };
+  }, []);
+
+  const deleteComment =async (id) =>{
+    const comment = doc(db, `lessons/${languageId}/topics/${topicId}/lessons/${lessonId}/comment`, id)
+    await deleteDoc(comment) 
+  }
+
+
 
     return {
+     
+      deleteComment,
+      commentList,
+      postSend,
       getLessonUsers,
        lanId,
        levelId,

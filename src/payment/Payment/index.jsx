@@ -51,6 +51,7 @@ const chahngeExchange = () => {
     } else {
         setError(`Not enough:  ${from} `  )
     }
+    alert ("successful switched")
  }
    
     return (
@@ -85,11 +86,11 @@ const chahngeExchange = () => {
                         </div>
                         <div className="flex my-1 justify-between  ">
                             <p>Amount</p>
-                            <p className="font-bold">{ctx?.currentUser?.amount}₮</p>
+                            <p className="font-bold text-helpGreen">{ctx?.currentUser?.amount}₮</p>
                         </div>
                         <div className="flex my-1 justify-between  ">
                             <p>Coin</p>
-                            <p className="font-bold"> {ctx?.currentUser?.coins}</p>
+                            <p className="font-bold text-helpGreen"> {ctx?.currentUser?.coins} coin</p>
                         </div>
                         <div className="flex my-1 justify-between  ">
                             <p>Account ID</p>

@@ -47,7 +47,7 @@ return (
 
      {authId ? (
      <Switch>
-          <Route path="/lesson/:languageId/:topicId/:lessonId" component={LessonView}/>
+          <Route path="/lesson/:languageId/:topicId/:lessonId/:adsId" component={LessonView}/>
           <Route path="/lesson" component={LessonPage}/>
           <Route path="/translate/:languageId/:topicId/:lessonId/:adsId" component={TranslateView}/>
           <Route path="/exam/:languageId/:topicId/:lessonId/:adsId" component={ExamView}/>

@@ -74,8 +74,6 @@ export default function Login() {
     <div className="flex bg-white text-baseBlack flex-col justify-center items-center w-screen h-screen relative "
       style={{backgroundImage: `url(${pattern})`}}
     >
-      
-      
 
       {ctx.state.logginIn && (
         <div className="absolute z-10"> 

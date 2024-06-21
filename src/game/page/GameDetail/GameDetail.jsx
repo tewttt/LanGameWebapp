@@ -48,6 +48,7 @@ const GameDetail = () => {
   const currentUserId = ctx?.currentUser?.authId
   // console.log(ctx?.currentUser?.name)
   const { id } = useParams();
+  // console.log(id)
   const {addRightAnswers,  randomPower, queryPlayer, 
     sendEmoji, isGo, isShield, isBack, addAnswer, 
     game, players, addPoint, logoutPlayer , getEndGame,
@@ -71,7 +72,8 @@ const GameDetail = () => {
   const currentUser = players?.find((item) => item.id === currentUserId)
   const [showCoin  ,setShowCoin] = useState(false)
   const power = {[game?.go] : go , [game?.shield] : shield , [game?.back] : back}
- 
+
+
   // **  powers
   useEffect(() => {
     const generateUniqueRandomNumber = (exclude = []) => {

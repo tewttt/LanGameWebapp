@@ -11,7 +11,7 @@ import useAds from "../../../hook/useAds"
 const Lesson = (props) => {
   const { getLessonUsers ,  lessonActiveUsers} = useLesson(props.lessons.language, props.lessons.level, props.lessons.lessonNumber)
   const {payLesson } = usePayment()
- 
+  const { filterAds} = useAds()
   const userCtx = useContext(UserContext)
   const history = useHistory();
   const [showPay , setShowPay] = useState(false)
@@ -26,8 +26,8 @@ const Lesson = (props) => {
     getLessonUsers()
   } ,[])  
 
-  const view = () => {
-    history.push(`/lesson/${props.lessons.language}/${props.lessons.level}/${props.lessons.lessonNumber}`);
+  const view = (adsId) => {
+    history.push(`/lesson/${props.lessons.language}/${props.lessons.level}/${props.lessons.lessonNumber}/${adsId}`);
   };
 
   const payCoin = () => {
@@ -159,22 +159,41 @@ const Lesson = (props) => {
 
             <div className="flex flex-col p-1 items-center justify-around border border-blue-500 w-full aspect-square  rounded-[5px] ">
               
-              <div className="flex font-bold text-xl md:text-lg w-full justify-between px-1">
-                <p className=""> {props?.lessons?.language}</p>
-                <p className="mx-2">{props?.lessons?.level}</p>
-                <p className="mx-2 text-helpGreen text-2xl">№{props?.lessons?.lessonNumber}</p>
-              </div>
+                <div className="flex font-bold text-xl md:text-lg w-full justify-between px-1">
+                  <p className=""> {props?.lessons?.language}</p>
+                  <p className="mx-2">{props?.lessons?.level}</p>
+                  <p className="mx-2 text-helpGreen text-2xl">№{props?.lessons?.lessonNumber}</p>
+                </div>
               
                 <p className="text-center text-lg">{props?.lessons?.name}</p>
                 <p className="mt-1 text-xs md:sm text-center text-gray-400">{props?.lessons?.text}</p>
-            
-              <button
-                onClick={view}
-                className=" bg-baseBlue1 font-bold rounded-[5px] w-full flex justify-center items-center text-3xl px-6 py-4 hover:bg-baseBlue1/80"
-              >
-                Watch
-              </button>
+
+                {filterAds?.map((ads, index) => {
+                  return (
+                    <div key={index} className="flex flex-row w-full">
+                      {index === 0 && 
+                        <button
+                          onClick={() => view(ads?.id)}
+                          className=" bg-baseBlue1 font-bold rounded-[5px] w-full flex justify-center items-center text-3xl px-6 py-4 hover:bg-baseBlue1/80"
+                        >
+                          Watch
+                        </button>
+                            
+                        }
+                    </div>
+                  )
+                })}
+                {filterAds?.length === 0 && 
+                  <button
+                    onClick={() => view(0)}
+                    className=" bg-baseBlue1 font-bold rounded-[5px] w-full flex justify-center items-center text-3xl px-6 py-4 hover:bg-baseBlue1/80"
+                  >
+                  Watch
+                  </button>
+                }
+             
             </div>
+
             ) : (
             // Төлбөртэй
             <div className="flex flex-col p-1 justify-between items-center border border-blue-500 w-full aspect-square  rounded-[5px] ">

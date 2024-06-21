@@ -16,16 +16,49 @@ import { useHistory } from "react-router-dom";
 import { db } from "../firebase";
 import moment from "moment"
 import UserContext from "../context/UserContext";
+import {getAuth} from "firebase/auth";
 
+
+const auth = getAuth();
 export default function useGame(id ) {
   const userCtx = useContext(UserContext)
   const history = useHistory();
   const [game, setGame] = useState("");
   const [players, setPlayers] = useState([]);
+  const [onePlayer, setOnePlayer]= useState()
   const [queryPlayer , setQueryPlayer] = useState([])
+//  console.log("nnn")
+
+  // useEffect(() =>{
+  //   if(players) {
+  //     const data = players?.find(
+  //         item => item?.id === auth?.currentUser?.uid
+  //     );
+  //     setOnePlayer(data)
+  //   }
+  // },[players])
+
+  // useEffect (() =>{
+  //   try {
+  //     if(game?.showStartGame === true && onePlayer?.paidEntry === false ){
+  //       const oneRef = collection(db, `users/${auth?.currentUser?.uid}/transaction` );
+  //       addDoc(oneRef , {
+  //           data: dataTnx,
+  //           createDate: serverTimestamp(), 
+  //       })
+  //       alert("hhhh")
+  //       const playerRef = doc(db, `game/${id}/players`, auth?.currentUser?.uid);
+  //       updateDoc(playerRef, {paidEntry: true})
+  //     }
+  //   } catch(err) {
+  //     console.log(err)
+  //   }
+  // },[game?.showStartGame === true])
+  
 
   useEffect(() => {
     oneGame();
+    
   }, [id]);
 
   useEffect(() => {
@@ -48,6 +81,16 @@ export default function useGame(id ) {
     })
   },[players])
 
+   console.log(onePlayer?.paidEntry)
+   // show start game= true ved toglogchoos coin hasna 
+   const dataTnx = {
+    coin: game?.entryCoin,
+    label: "play game",
+    labelType: "game",
+    type: "withdraw"
+  }
+
+  
 
   // one game data, players data
   const oneGame = () => {
@@ -461,6 +504,7 @@ const getActiveDice=async(val)=>{
   
 
   return { 
+    
     game,
     players,
     addPoint,

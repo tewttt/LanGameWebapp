@@ -23,7 +23,7 @@ const GrammarView = () => {
   const [showAds, setShowAds] = useState(true)
   const [time, setTime] = useState(TIME) 
   const [showTime , setShowTime] = useState(false)
-  const {getAds, ads  , putTransaction , addCoinShow, clickFace, clickInstagram, clickSocial} = useAds(adsId)
+  const {getAds, ads, putTransaction, addCoinShow, clickFace, clickInstagram, clickSocial} = useAds(adsId)
   const { getPostAds , postDataAds} = usePost()
 
   useEffect (() => {

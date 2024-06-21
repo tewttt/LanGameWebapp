@@ -5,7 +5,6 @@ import useAds from "../../hook/useAds";
 import moment from "moment";
 import GameNavbar from "../components/GameNavbar";
 import pattern from "../../assets/logo/patternWhite.png"
-import { FaCoins } from "react-icons/fa";
 import UserContext from "../../context/UserContext";
 
 const GameHome = () => {
@@ -54,31 +53,9 @@ const GameHome = () => {
                 <div>
                     <p className="text-lg text-center text-helpGreen">Үзсэн хичээлээрээ бусад тоглогчтой тоглонгоо хэлээ давтаарай</p>
                 </div>
-              
-               
             </div>
         </div>
     )
 }
  
 export default GameHome;
-
-{/* <div >
-<p className="text-helpGreen font-bold my-1 text-xl">VIDEO үзээд COIN цуглуулаарай</p>
-<p>Total video {filterAds.length}</p>
-<div className="mt-4 flex flex-wrap gap-2 justify-center">
-    {filterAds?.map((ads, index) => {
-            return (
-                <div key={index} className="flex flex-row">
-                    <div className="">
-                        <button 
-                        onClick={()=> watch(ads?.id)} 
-                        className="w-[60px] h-[60px] m-auto rounded-[50%] text-[12px] bg-baseBlue1 hover:bg-baseBlue1/80 border">
-                        WATCH VIDEO
-                        </button> 
-                    </div>
-                </div>
-            )
-    })}
-</div>
-</div> */}
