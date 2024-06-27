@@ -33,6 +33,7 @@ import Settings from "../Settings";
 import ListenView from "../../lesson/view/listenView";
 import VerbView from "../../lesson/view/verbView";
 import Landing from "../Landing";
+import LessonLevel from "../../lesson/page/LessonLevel";
 
 const App = () => { 
      const [authId, setAuthId] = useState()
@@ -49,6 +50,7 @@ return (
      <Switch>
           <Route path="/lesson/:languageId/:topicId/:lessonId/:adsId" component={LessonView}/>
           <Route path="/lesson" component={LessonPage}/>
+          <Route path="/level/:languageId" component={LessonLevel}/>
           <Route path="/translate/:languageId/:topicId/:lessonId/:adsId" component={TranslateView}/>
           <Route path="/exam/:languageId/:topicId/:lessonId/:adsId" component={ExamView}/>
           <Route path="/word/:languageId/:topicId/:lessonId/:adsId" component={WordView}/>

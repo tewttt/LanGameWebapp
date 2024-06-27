@@ -104,9 +104,10 @@ export default function useAds(id) {
       collection(db, "ads"),
       where("doneAds", "==" , false ), 
       where("paymentStatus", "==" , "paid" ), 
+      orderBy("createDate", "desc"),
       // where("ageStart", ">=" , age ), 
       // where("ageEnd", "<=" , age ),  
-      limit(30)
+      limit(30) 
     )
    
     onSnapshot( oneRef, (snapshot) => {

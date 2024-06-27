@@ -1,44 +1,29 @@
-import React, { useState, useContext} from "react";
+import React, { useState, useContext, useEffect} from "react";
 import LessonContext from "../../../context/LessonContext";
 import Spinner from "../../../components/General/Spinner";
 import Lesson from "../Lesson";
 import useLesson from "../../../hook/useLesson";
 
-const Choice = () => {
+const Choice = ({languageId}) => {
   const ctx = useContext(LessonContext);
-  const { getLessons, lessons, lanId , levelId, getLessonId, getLevelId} = useLesson()
-  const [chLan, setChLan] = useState("");
   const [chLevel, setChLevel] = useState("");
+  const { getLessons, lessons, levelId, getLessonId, getLevelId} = useLesson()
 
-  const selectLan = (lan, i) => {
-    setChLan(lan);
-    getLevelId(lan)
-  };
 
-  const selectLevel = (level, i) => {
+  useEffect(() => {
+    getLevelId(languageId)
+  },[languageId])
+
+  const selectLevel = (level) => {
     setChLevel(level)
-    getLessonId(level, chLan)  
-    getLessons(level, chLan)
+    getLessonId(level, languageId)  
+    getLessons(level, languageId)
   };
-  
+
 
   return (
     <div className="flex text-white flex-col h-screen items-center p-2">
       {ctx.state.loading && <Spinner />}
-      
-      <div className="flex flex-wrap gap-2 place-content-center mb-2  w-full sm:w-[80%] xl:w-[60%]">
-        {lanId.map((lan, i) => {
-          return (
-            <div
-            className={`${chLan === lan ?  "bg-baseBlue1 text-white" : "" } w-[80%] md:w-[30%] aspect-square hover:bg-baseBlue1 hover:text-white md:text-2xl bg-white font-bold text-baseBlack p-4 flex items-center justify-center rounded-2xl` }
-              key={i}
-              onClick={() => selectLan(lan.id)}
-            >
-              <p className={`${chLan === lan && " text-white"} text-4xl`}>{lan.id}</p>
-            </div>
-          );
-        })}
-      </div>
 
       <div className="flex flex-wrap gap-2 place-content-center w-full sm:w-[80%] xl:w-[60%]">
         {levelId.map((e, i) => {

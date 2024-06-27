@@ -42,15 +42,9 @@ export default function useLesson(languageId, topicId, lessonId) {
     const [commentList, setCommentList] = useState([])
     const [entry, setEntry] = useState()
 
-   
-    // console.log(entry)
     useEffect(() => {
         getLanguageId();
-        
-        return () => {
-            unsubcribeGames && unsubcribeGames();
-        };
-    }, []);
+    }, [auth?.currentUser?.uid]);
 
     // Language ID
     const getLanguageId = (lan) => {
@@ -70,7 +64,7 @@ export default function useLesson(languageId, topicId, lessonId) {
 
     // Level ID
     const getLevelId = (chLan) => {
-       
+      //  console.log(chLan)
         const levelRef = collection(db, `lessons/${chLan}/topics`);
         const unsubcribe = onSnapshot(levelRef, (snapshot) => {
         setLevelId(() => {
@@ -87,6 +81,8 @@ export default function useLesson(languageId, topicId, lessonId) {
         unsubcribe();
         };
     };
+  
+
     // Lesson ID
     const getLessonId = (level , chLan) => {
         // console.log(level, chLan)

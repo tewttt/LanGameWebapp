@@ -28,8 +28,8 @@ const Navbar = (props) => {
                         Profile
                     </div>
                    <div onClick={()=> history.push("/teacher")} className={css.towch}>
-                            Teacher
-                        </div>
+                        Teacher
+                    </div>
                     <div onClick={()=> history.push("/ads")} className={css.towch}>
                        Advertise
                     </div>

@@ -19,22 +19,23 @@ import { IconButton } from "@mui/material";
 
 const auth = getAuth();
 const Teacher = () => {
-    const [chLan, setChLan] = useState("");
+    const [chLan, setChLan] = useState("English");
     const [photo, setPhoto] = useState("")
-    const [chLevel, setChLevel] = useState("");
-    const [chLessonId, setChLessonId] = useState("")
+    const [chLevel, setChLevel] = useState("A1");
+    const [chLessonId, setChLessonId] = useState("1")
     const [show, setShow] = useState(false)
     const [showInfo, setShowInfo] = useState(false)
     const [showDelete, setShowDelete] = useState(false)
+   
     const {lanId, levelId, getLevelId , getLessonId , getOneLesson} = useLesson(chLan, chLevel, chLessonId)
     const { addTeacher , cancelTeacher} = useTeacher()
+   
     const ctx = useContext(UserContext)
-    // console.log(ctx.currentUser.name === "")
     const LessonCtx = useContext(LessonContext)
     let arrLevel =  levelId;
     let arrLanguage = lanId;
     let userLesson =  LessonCtx.userLesson;
-   
+//    console.log(lanId, levelId)
 
     const selectLan = (lan, i) => {
         setChLan(lan);
@@ -106,7 +107,7 @@ const Teacher = () => {
     
     return (
         <div className="bg-baseBlack flex flex-col text-white   relative">
-             <div 
+            <div 
                 className="bg-cover bg-center opacity-10 absolute top-0 left-0 bg-repeat w-screen h-full"
                 style={{backgroundImage: `url(${pattern})`}}>
             </div>
@@ -115,10 +116,11 @@ const Teacher = () => {
             </div>
             
 
-            {/* add lesson */}
+           
             {ctx?.currentUser?.teacherStatus ? 
             (
             <div className="z-20 flex flex-col items-center pb-96 px-6 pt-10 md:pt-20  m-auto w-full">
+                
                 <button 
                     className="w-full md:w-1/2 bg-helpGreen hover:bg-blue-700 py-2 px-4 text-white rounded-2xl text-2xl font-bold "
                     onClick={() => history.push("/addlesson")}>

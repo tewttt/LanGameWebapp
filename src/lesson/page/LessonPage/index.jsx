@@ -1,20 +1,28 @@
-import React ,{useContext} from "react";
+import React ,{useContext, useState} from "react";
 import ToolSidebar from "../../../components/ToolSidebar";
 import pattern from "../../../assets/logo/patternWhite.png"
 import Choice from "../../component/Choice"
 import UserContext from "../../../context/UserContext";
 import {useHistory } from "react-router-dom";
+import useLesson from "../../../hook/useLesson";
 
 const LessonPage = () => {
     const ctx = useContext(UserContext)
+    const [chLan, setChLan] = useState("");
+    const {lanId, getLevelId} = useLesson();
+   
     const history = useHistory();
   
+    const selectLan = (lan, i) => {
+        if(lan != ""){
+            history.push(`/level/${lan}`)
+        }
+        setChLan(lan);
+        getLevelId(lan)
+    };
     return (
-        <div className="relative flex flex-col h-screen pt-10 px-6 md:p-0">
-            <div 
-                className="bg-cover bg-center opacity-10 absolute top-0 left-0 bg-repeat w-screen h-full"
-                style={{backgroundImage: `url(${pattern})`}}>
-            </div>
+        <div className="relative flex flex-col items-center h-screen pt-10 px-6 md:p-0">
+           
             <div className="z-30">
                 <ToolSidebar />
             </div>
@@ -24,14 +32,23 @@ const LessonPage = () => {
                 <p>{ctx?.currentUser?.amount}₮</p>
                 <p>{ctx?.currentUser?.coins}coin</p>
             </div>
-            {/* <button 
-                onClick={() => history.push("/gameHome")}
-                className="bg-baseBlue1 z-20 my-2 font-bold text-2xl text-white w-[300px] py-3 px-10 hover:bg-baseBlue1/80  m-auto rounded-xl">
-                    COLLECT COIN
-            </button> */}
-            {/* <p className="text-helpGreen  font-semibold md:text-2xl text-center my-2">Суралцах хэл, түвшингээ сонгоорой</p> */}
+          
+            <div className="flex flex-wrap gap-2 place-content-center mt-10 mb-2  w-full sm:w-[80%] xl:w-[60%]">
+                {lanId.map((lan, i) => {
+                return (
+                    <div
+                    className={`${chLan === lan ?  "bg-baseBlue1 text-white" : "" } w-[80%] md:w-[30%] aspect-square hover:bg-baseBlue1 hover:text-white md:text-2xl bg-white font-bold text-baseBlack p-4 flex items-center justify-center rounded-2xl` }
+                    key={i}
+                    onClick={() => selectLan(lan.id)}
+                    >
+                    <p className={`${chLan === lan && " text-white"} text-4xl`}>{lan.id}</p>
+                    </div>
+                );
+                })}
+            </div>
+
             <div className="z-20 h-full">
-                <Choice/>
+                {/* <Choice/> */}
             </div> 
         </div>      
 )}

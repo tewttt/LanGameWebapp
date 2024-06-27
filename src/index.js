@@ -8,7 +8,6 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { UserStore } from "./context/UserContext";
 import { LessonStore } from "./context/LessonContext";
-import { MemberStore } from "./context/MemberContext";
 import { LandingStore } from "./context/LandingContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
