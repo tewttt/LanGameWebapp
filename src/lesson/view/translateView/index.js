@@ -34,12 +34,28 @@ const TranslateView = () => {
     } ,[])
 
     useEffect(() => {
+        // if (translate?.translate && questions.current.length === 0  ) {
+        //   questions.current = translate?.translate
+        //   setQuestionNumber(1)
+        //   }
         if (translate?.translate && questions.current.length === 0  ) {
-          questions.current = translate?.translate
+          const shuffledQ =  shuffleArray(translate?.translate);
+          questions.current = shuffledQ
           setQuestionNumber(1)
           }
           
       },[translate?.translate])
+
+            // Асуултуудыг нийлүүлээд байрыг нь солих
+      function shuffleArray(questionsToShuffle) {
+        for (let i = questionsToShuffle.length - 1; i > 0; i--) {
+          let randomPosition = Math.floor(Math.random() * (i + 1));
+          let temp = questionsToShuffle[i];
+          questionsToShuffle[i] = questionsToShuffle[randomPosition];
+          questionsToShuffle[randomPosition] = temp;
+        }
+        return questionsToShuffle;
+      }
    
      
     const saveAnswer = () => {

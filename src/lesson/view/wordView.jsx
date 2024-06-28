@@ -24,18 +24,35 @@ const WordView = () => {
   const [showTime , setShowTime] = useState(false)
   const {getAds, ads  , putTransaction , addCoinShow, clickFace, clickInstagram, clickSocial} = useAds(adsId)
   const { getPostAds , postDataAds} = usePost()
+  console.log(questions.current.length)
 
   useEffect(() => {
     wordfun()
-    setQuestionNumber(0)
+    setQuestionNumber(1)
   } ,[])
 
   // асуултууд
   useEffect(() => {
+    // if (word?.word && questions.current.length === 0  ) {
+    //   questions.current = word?.word
+    //   }
     if (word?.word && questions.current.length === 0  ) {
-      questions.current = word?.word
+      const shuffledQ =  shuffleArray(word?.word);
+      questions.current = shuffledQ
+      setQuestionNumber(1)
       }
   },[word?.word])
+
+  // Асуултуудыг нийлүүлээд байрыг нь солих
+  function shuffleArray(questionsToShuffle) {
+    for (let i = questionsToShuffle.length - 1; i > 0; i--) {
+      let randomPosition = Math.floor(Math.random() * (i + 1));
+      let temp = questionsToShuffle[i];
+      questionsToShuffle[i] = questionsToShuffle[randomPosition];
+      questionsToShuffle[randomPosition] = temp;
+    }
+    return questionsToShuffle;
+  }
 
   const addQuestionnumber = () => {
     setQuestionNumber((prev) => {
@@ -113,9 +130,9 @@ useEffect (() => {
           <IoIosSettings size={20}/>
       </div>
       <p className=" font-bold my-1">Word</p>
+
       {showAds === true && 
         <ModalAds show={showAds}>
-           
           <div className="relative">
               
               {!showTime &&  <div className="text-black">second {time}</div>}<p className="absolute top-0 left-0 z-10">
@@ -189,11 +206,10 @@ useEffect (() => {
                   </div>
               </div>
           </div>
-         
         </ModalAds>
-    } 
+      } 
     
-      {questions.current.length === 0 ? 
+      {questions?.current?.length === 0 ? 
         (
           <div className="flex flex-col my-4 w-full sm:w-[90%] md:w-[70%] m-auto">
             <button onClick={ addQuestionnumber} className="bg-baseBlue1 my-2 w-full rounded-3xl p-2">Word start</button>
@@ -204,14 +220,14 @@ useEffect (() => {
         ) : 
         (
           <div className="m-auto flex flex-col w-full sm:w-[90%] md:w-[70%] justify-center items-center">
-            <img src={question?.image} className="border w-[50%] lg:w-[40%] aspect-square border-helpGray rounded-2xl"/>
+            <img src={question?.image} className="border w-[50%] lg:w-[30%] aspect-square border-helpGray rounded-2xl"/>
             <div className="flex flex-col sm:flex-row justify-start my-3 items-center">
               <HiMiniSpeakerWave onClick={playAudio} size={70} className="my-3 sm:my-0 mr-3 p-1 bg-baseBlue1 rounded-[50%]  text-white"/>
               <p className="text-3xl mx-3 uppercase text-helpGreen font-bold">{question?.word}</p>
               <p className="text-3xl mx-3 uppercase font-bold">{question?.trans}</p>
             </div>
             {question?.desc != "" && 
-             <p className="w-full border border-helpGray p-2 text-center rounded-3xl my-2">{question?.desc}</p>
+             <p className="w-full p-2 text-gray-400 text-center rounded-3xl">{question?.desc}</p>
             }
            
 
@@ -223,7 +239,7 @@ useEffect (() => {
                 </button>
               </div>
             ) : (
-              <button onClick={() => addQuestionnumber()} className="w-full bg-baseBlue1 rounded-3xl p-2">Next</button>
+              <button onClick={() => addQuestionnumber()} className="w-full mt-3 bg-baseBlue1 rounded-3xl p-2">Next</button>
             )}
 
           </div>

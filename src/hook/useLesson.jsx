@@ -333,7 +333,7 @@ export default function useLesson(languageId, topicId, lessonId) {
       unsubcribe();
     };
   };
-
+  
   const getLessonUsers = async() => {
     const lesUsRef = query(collection(db, "lessonActiveUser"),
     where("userId" , "==" , auth?.currentUser?.uid),

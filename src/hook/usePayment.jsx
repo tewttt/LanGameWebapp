@@ -59,7 +59,10 @@ export default function usePayment(id) {
       const lessonActiveUser =  doc(db, "lessonActiveUser", `${userId}${lesson.language}${lesson.level}${lesson.lessonNumber}` )
       await setDoc(lessonActiveUser, 
         {
-          userId , lan, level, number
+          userId , lan, level, number,
+          accountID: ctx?.currentUser?.userID,
+          name: ctx?.currentUser?.name,
+          phone: ctx?.currentUser?.phone
         } 
         )
     }catch (err) {

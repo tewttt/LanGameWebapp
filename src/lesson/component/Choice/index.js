@@ -6,20 +6,22 @@ import useLesson from "../../../hook/useLesson";
 
 const Choice = ({languageId}) => {
   const ctx = useContext(LessonContext);
-  const [chLevel, setChLevel] = useState("");
+  const [chLevel, setChLevel] = useState("A1");
   const { getLessons, lessons, levelId, getLessonId, getLevelId} = useLesson()
 
 
   useEffect(() => {
     getLevelId(languageId)
+    getLessons(chLevel, languageId)
   },[languageId])
 
+ 
   const selectLevel = (level) => {
     setChLevel(level)
-    getLessonId(level, languageId)  
+    // getLessonId(level, languageId)  
     getLessons(level, languageId)
+   
   };
-
 
   return (
     <div className="flex text-white flex-col h-screen items-center p-2">
@@ -29,11 +31,11 @@ const Choice = ({languageId}) => {
         {levelId.map((e, i) => {
           return (
             <div
-            className={`${chLevel === e ?"bg-baseBlue1 text-white" : ""  } h-[60px] aspect-square hover:bg-baseBlue1 hover:text-white bg-white font-bold text-baseBlack  flex items-center justify-center rounded-2xl`}
+            className={`${(chLevel === e?.id) ? "bg-green-600 text-white" : ""} h-[60px] aspect-square hover:bg-baseBlue1 hover:text-white bg-white font-bold text-baseBlack  flex items-center justify-center rounded-2xl`}
               key={i}
-              onClick={() => selectLevel(e.id, i)}
+              onClick={() => selectLevel(e?.id, i)}
             >
-             <p className="text-2xl">{e.id}</p> 
+             <p className="text-2xl">{e?.id}</p> 
             </div>
           );
         })}
